@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>會員註冊</title>
+
+    <!-- Icons font CSS-->
+    <link href="fonts/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="fonts/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="css/signup.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="css/notice.css">
+    <link rel="stylesheet" href="css/option.css">
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w960">
+            <div class="card card-3">
+                <div class="card-heading"></div>
+                <div class="card-body">
+                    <h2 class="title">會員註冊資訊</h2>
+                    <form method="POST">
+                        <div id="name" style="display: flex;">
+                            <div class="input-group" style="flex: 1; margin-right: 20px;">
+                                <div id="name">
+                                    <input id="username" class="input--style-3" type="text" placeholder="姓名"
+                                        name="name">
+                                </div>
+                                <span class="notice -on" style="height: 0; position: static;">name notice</span>
+                            </div>
+
+                            <div class="input-group" style="flex: 1;">
+                                <input id="nickname" class="input--style-3" type="text" placeholder="暱稱"
+                                    name="nickname">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select id="gender" name="gender">
+                                    <option disabled="disabled" selected="selected">性別</option>
+                                    <option>男性</option>
+                                    <option>女性</option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                            </div>
+                        </div>
+                        <span class="notice -on">gender notice</span>
+                        <div class="input-group">
+                            <input id="birthday" class="input--style-3 js-datepicker" type="text" placeholder="生日" name="birthday">
+                            <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                        </div>
+                        <span class="notice -on">birthday notice</span>
+                        <div class="input-group">
+                            <input id="email" class="input--style-3" type="email" placeholder="信箱" name="email">
+                        </div>
+                        <span class="notice -on">email notice</span>
+                        <div class="input-group">
+                            <input id="phone" class="input--style-3" type="phone" placeholder="電話" name="phone">
+                        </div>
+                        <span class="notice -on">phone notice</span>
+                        <div class="input-group">
+                            <input id="password" class="input--style-3" type="text" placeholder="密碼" name="password">
+                        </div>
+                        <span class="notice -on">password notice</span>
+                        <div id="address" style="display: flex; flex-wrap: wrap;">
+                            <div class="input-group" style="flex: 1;  min-width: 130px; margin-right: 25px;">
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select id="city" name="city">
+                                        <option disabled="disabled" selected="selected" value="">縣市</option>
+
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
+                            </div>
+                            <div class="input-group" style="flex: 1; margin-right: 25px;  min-width: 130px;">
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select id="area" name="area">
+                                        <option  disabled="disabled" selected="selected" value="">鄉鎮[市]區</option>
+
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
+                            </div>
+                            <div class="input-group" style="flex: 2; min-width: 200px;">
+                                <input id="address_input" class="input--style-3" type="text" placeholder="地址" name="road">
+                            </div>
+                        </div>
+                        <span class="notice -on">address notice</span>
+                        <div id="captcha" style="display: flex; justify-content: space-between;">
+                            <div style="margin-right: 20px; flex-grow: 1;">
+                                <div class="input-group">
+                                    <input id="chatcha_code" class="input--style-3" type="text" placeholder="認證碼" name="captcha">
+                                </div>
+                                <span class="notice -on">capcha notice</span>
+                            </div>
+                            <div style="min-width: 130px; flex-grow: -1;">
+                                <button id="chptcha_btn" type="button" class="btn btn--pill btn--green"
+                                    style="padding: 0 20px;" onclick="getCaptcha()">送出驗證碼</button>
+                            </div>
+                        </div>
+                        <div class="p-t-10">
+                            <input id="submit" type="button" class="btn btn--pill btn--green" onclick="submitForm()"
+                                value="提交資料">
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="../jquery/jquery.js"></script>
+    <!-- Vendor JS-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="vendor/datepicker/moment.min.js"></script>
+    <script src="vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="js/global.js"></script>
+    <script src="js/address.js"></script>
+    <script src="js/captchbtn.js"></script>
+    <script src="js/submitForm.js"></script>
+
+
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->
