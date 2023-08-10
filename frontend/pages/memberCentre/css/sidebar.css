@@ -1,0 +1,35 @@
+aside{
+    padding: 15px 10px;
+}
+aside ul{
+    list-style: none;
+    padding: 0;
+}
+ul{
+    color:rgb(111, 82, 66);
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom: 25px;
+}
+li.title{
+    margin-bottom: 3px;
+    margin-left: 5px;
+}
+aside#sidebar a{
+    font-weight: normal;
+    color: #555;
+    font-size: 16px;
+
+    
+}
+aside#sidebar #menu a{
+    margin: 10px 10px 10px 35px;
+}
+svg{
+    position: relative;
+    width: 30px;
+}
+svg path{
+    position: absolute;
+    left: 50%;
+}
