@@ -1,0 +1,47 @@
+{
+    "manager": {
+      "roleMenus": [
+        {
+          "role": "商城管理員",
+          "menu": [
+            {
+              "title": "商城聊天室管理",
+              "link": "ui-cards.html",
+              "icon": "feather-map",
+              "iconPath": "M..."
+            },
+            {
+              "title": "商品管理",
+              "link": "ui-typography.html",
+              "icon": "feather-map",
+              "iconPath": "M..."
+            }
+          ]
+        },
+        {
+          "role": "會員管理員",
+          "menu": [
+            {
+              "title": "會員管理",
+              "link": "membermanagerlist.html",
+              "icon": "feather-map",
+              "iconPath": "M..."
+            },
+            {
+              "title": "美容師個人管理",
+              "link": "beauticianmanagerlist.html",
+              "icon": "feather-map",
+              "iconPath": "M..."
+            },
+            {
+              "title": "首頁管理",
+              "link": "homepage.html",
+              "icon": "feather-map",
+              "iconPath": "M..."
+            }
+          ]
+        }
+      ]
+    }
+  }
+  
