@@ -547,48 +547,65 @@
 	<script src="js/app.js"></script>
 	<script src="js/sublist.js"></script>
 	<script>
-		import roleMenusData from './functions.json';
+		import domain from '../ipconfig.js'
+		import functionMenusData from './functions.json';
 		document.addEventListener("DOMContentLoaded", function () {
 			const token = localStorage.getItem("token");
 
 			if (token) {
-				axios.get("validate-token-endpoint", {
+				axios.get(`${domain.url}/manager/profile`, {
 					headers: {
-						"Authorization": "Bearer " + token
+						"Authorization_M": + token
 					}
 				})
 					.then(response => {
 						if (response.status !== 200) {
 							console.error("Token validation failed:", response.statusText);
-							window.location.href = "login-page.html";
+							window.location.href = "./pages/manageManager/login.html";
 						} else {
-							showName();
-							loadMenuAndContent();
+							axios.get(`${domain.url}/manager/authorities`)
+								.then(response => {
+									const managerAccount = response.data.message.managerAccount;
+									showName();
+
+									const managerAuthoritiesList = response.data.message.managerAuthoritiesList;
+									loadMenuAndContent();
+									aliveLink();
+
+									console.log(managerAuthoritiesList); // 或者你可以對這個數據進行其他處理
+								})
+								.catch(error => {
+									console.error('Error:', error);
+								});
 						}
 					})
 					.catch(error => {
 						console.error("Axios error:", error);
 					});
 			} else {
-				window.location.href = "login-page.html";
+				window.location.href = "./pages/manageManager/login.html";
 			}
 
 			function showName() {
-				// Your implementation here
+
 			}
 
 			function loadMenuAndContent() {
+				//取得管理員權限
+
+
+				//後台管理 & 會員管理
+
+
+				//其他
 				const menuList = document.getElementById("store");
-
-				const roleMenus = roleMenusData.roleMenus;
-
-				roleMenus.forEach(roleMenu => {
+				const functionMenusData = functionMenusData.functionMenus;
+				functionMenusData.forEach(roleMenu => {
 					const functionMenu = roleMenu.menu;
 
 					if (functionMenu.length > 0) {
 						const submenuUl = document.createElement("ul");
 
-						
 						functionMenu.forEach(menuItem => {
 							const li = document.createElement("li");
 							const a = document.createElement("a");
@@ -623,6 +640,11 @@
 						menuList.appendChild(submenuUl);
 					}
 				});
+			}
+
+			//根據當前網址 alive link
+			function aliveLink() {
+
 			}
 
 		});
