@@ -115,6 +115,10 @@
     color: var(--dark);
 }
 
+.dropdown-menu{
+    z-index: 99999;
+}
+
 @media (max-width: 991.98px) {
     .navbar .navbar-nav {
         margin-top: 10px;
