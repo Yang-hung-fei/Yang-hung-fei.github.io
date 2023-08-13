@@ -1,5 +1,3 @@
-let domain = {
-    url: "http://localhost:8080"
-}
-
-export default domain;
+export default {
+    url: 'http://localhost:8080'
+  };
