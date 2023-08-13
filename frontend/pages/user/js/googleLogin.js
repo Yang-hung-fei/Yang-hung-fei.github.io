@@ -1,4 +1,4 @@
-import domain from '../../../../ipconfig';
+// import domain from '../../../../ipconfig';
 function renderButton() {
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
