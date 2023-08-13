@@ -1,3 +1,4 @@
+import domain from '../../../../ipconfig';
 function renderButton() {
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
@@ -25,8 +26,7 @@ function fadeOut() {
     $("div.overlay").fadeOut();
 }
 function authenticate(code) {
-
-    return axios.post('http://localhost:8080/user/googleLogin', JSON.stringify({ code }), {
+    return axios.post(`${domain.url}/user/googleLogin`, JSON.stringify({ code }), {
         headers: {
             'Content-Type': 'application/json'
         }
