@@ -1,4 +1,5 @@
 import config from '../../../../ipconfig.js';
+import { backToRedirectUrl } from '../../../js/backToRedirectUrl.js';
 $(window).on("load", () => {
   $("#login").on("click", function () {
     $("div.overlay").fadeIn();
@@ -8,8 +9,6 @@ $(window).on("load", () => {
       password: $('#password').val()
     };
 
-    console.log(data);
-
     fetch(config.url + "/user/login", {
       method: 'POST',
       headers: {
@@ -17,39 +16,35 @@ $(window).on("load", () => {
       },
       body: JSON.stringify(data)
     })
-      .then(response => {
-        if (!response.ok) {
-          // 处理错误情况，例如 400 错误
-          console.log("Request error:", response.statusText);
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        // 处理成功响应数据
-        console.log(data);
+        switch (data.code) {
+          case 200:
+            const token = data.message;
+            // 处理成功响应数据
+            localStorage.setItem("token", token); //將 token 存入 local storage
+            console.log("Token:", token);
+            if (token) {
+              // 进行使用存储的 token 的操作
+              console.log("Stored Token:", token);
+              backToRedirectUrl();//跳回原頁
+            } else {
+              // 没有存储的 token，可能需要用户登录或其他处理
+              console.log("No stored token found.");
+            }
+            break;
+          case 400:
+            // 处理 code 为 400 的情况
+            console.log("Code 400 response:", data.message);
+            //顯示密碼錯誤，點選後關閉燈箱
+            break;
+          default:
+            console.log("Unknown response code:", data.code);
+        }
       })
       .catch(error => {
-        // 处理捕获的错误
+        // 处理捕获的错误，包括网络错误等
         console.error("Fetch error:", error);
       });
-
-
-    // const xhr = new XMLHttpRequest();
-    // xhr.post(config.url + "/user/login", true);
-    // xhr.setRequestHeader("Content-Type", "application/json");
-
-    // xhr.onreadystatechange = function() {
-    //   if (xhr.readyState === XMLHttpRequest.DONE) {
-    //     if (xhr.status === 200) {
-    //       const response = JSON.parse(xhr.responseText);
-    //       console.log(response.message); // 印出回傳的訊息或處理其他操作
-    //     } else {
-    //       console.log("登入失敗");
-    //     }
-    //     $("div.overlay").fadeOut(); // 登入處理完成後隱藏overlay
-    //   }
-    // };
-
-    // xhr.send(JSON.stringify(loginData));
   });
 });
