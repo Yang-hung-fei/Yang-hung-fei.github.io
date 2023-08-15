@@ -24,7 +24,7 @@ body {
 }
 
 main, #navbar, #searchbar{
-    width: calc(100vw - 70px - 100vw/4);
+    max-width: calc(100vw - 70px - 100vw/4);
 }
 
 main {
@@ -65,26 +65,12 @@ main {
 /* 導覽列的margin-top，預設值為100px */
 #navbar {
     margin-top: 25px;
-    height: 200px;
+    min-height: 200px;
     /* 將導覽列高度設為 200px */
     top: 0;
     transition: top 0.3s ease;
     /* 添加過渡效果 */
-}
-
-/* 在992px以下的螢幕寬度，將margin-top設為112px */
-@media (max-width: 991px) {
-    #main {
-        margin: 0;
-    }
-
-    #navbar {
-        margin-top: 112px;
-    }
-
-    main, #navbar, #searchbar{
-        width: calc(100vw - 40px - 100vw/4);
-    }
+    flex-wrap: wrap;
 }
 
 #searchbar {
