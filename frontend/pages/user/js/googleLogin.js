@@ -1,4 +1,5 @@
-// import domain from '../../../../ipconfig';
+import domain from '../../../../ipconfig';
+import { backToRedirectUrl } from '../../../js/backToRedirectUrl';
 function renderButton() {
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
@@ -34,8 +35,7 @@ function authenticate(code) {
         let token = res.data.message;
         console.log("token : " +token);
         localStorage.setItem('Authorization_U', token);
-        /**之後 跳轉頁 */
-        window.location.href = '#';
+        backToRedirectUrl(); //跳轉原頁
     });
 }
  

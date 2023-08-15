@@ -1,57 +1,57 @@
 #info {
-    display: flex;
-    padding: 20px 40px;
+  display: flex;
+  padding: 20px 40px;
 }
 
 #user {
-    flex: 2;
-    display: flex;
+  flex: 2;
+  display: flex;
 }
 
 #point {
-    flex: 1;
+  flex: 1;
 }
 
 #photo {
-    background-color: aquamarine;
-    height: 150px;
-    width: 150px;
-    border-radius: 100%;
-    flex-shrink: 0;
-    margin: 10px;
-    margin-top: 0;
+  background-color: aquamarine;
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  flex-shrink: 0;
+  margin: 10px;
+  margin-top: 0;
 }
 
 #names {
-    margin-left: 20px;
-    letter-spacing: 0.1em;
+  margin-left: 20px;
+  letter-spacing: 0.1em;
 }
 
 #truename {
-    font-size: 24px;
-    margin-bottom: 5px;
-    margin-top: 10px;
+  font-size: 24px;
+  margin-bottom: 5px;
+  margin-top: 10px;
 }
 
 #nickname {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 #pointnumber {
-    font-size: 80px;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    text-align: center;
-    line-height: 80px;
-    margin: 5px 20px;
+  font-size: 80px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-align: center;
+  line-height: 80px;
+  margin: 5px 20px;
 }
-#getpoint{
-    height: 30px;
-    margin: 15px;
+#getpoint {
+  height: 30px;
+  margin: 15px;
 }
 #game {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -64,11 +64,9 @@ main {
 
 /* 導覽列的margin-top，預設值為100px */
 #navbar {
-    color: #fff;
-    margin-top: 100px;
+    margin-top: 25px;
     height: 200px;
     /* 將導覽列高度設為 200px */
-    position: fixed;
     top: 0;
     transition: top 0.3s ease;
     /* 添加過渡效果 */
@@ -91,11 +89,12 @@ main {
 
 #searchbar {
     height: 50px;
-    position: fixed;
     top: 200px;
-    /* 搜尋欄的初始位置在導覽列下方 */
-    z-index: 9999;
     transition: top 0.3s ease;
     /* 添加過渡效果 */
 }
 
+#searchbar {
+    background-color: #fefcec;
+  }
+  
