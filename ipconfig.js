@@ -1,5 +1,6 @@
-let domain = {
-    url: "http://localhost:8080"
-}
+const config = {
+  url: 'http://localhost:8080' 
+};
 
-export default domain;
+
+export default config;

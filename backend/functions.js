@@ -1,7 +1,7 @@
-{
-    "functionMenus": [
+export default {
+    "roleMenus": [
         {
-            "function": "商城管理",
+            "role": "商城管理",
             "menu": [
                 {
                     "title": "商城聊天室管理",
@@ -24,7 +24,7 @@
             ]
         },
         {
-            "function": "美容師後台管理",
+            "role": "美容師後台管理",
             "menu": [
                 {
                     "title": "美容師管理",
@@ -53,7 +53,7 @@
             ]
         },
         {
-            "function": "美容師個人管理",
+            "role": "美容師個人管理",
             "menu": [
                 {
                     "title": "美容師預約聊天室",
@@ -94,8 +94,8 @@
             ]
         },
         {
-            "function":"社群管理",
-            "menu":[
+            "role": "社群管理",
+            "menu": [
                 {
                     "title": "活動聊天室",
                     "link": "homepage.html",
