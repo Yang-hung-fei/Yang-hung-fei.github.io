@@ -1,0 +1,5 @@
+.select2-selection__rendered[title="性別"],
+.select2-selection__rendered[title="縣市"],
+.select2-selection__rendered[title="鄉鎮[市]區"] {
+    color: #ccc !important;
+}
