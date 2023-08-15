@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
+
+    <title>商品管理</title>
+
+    <link href="css/sublist.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <link href="css/test.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav id="sidebar" class="sidebar js-sidebar"></nav>
+
+        <div class="main">
+            <nav id="navbar"></nav>
+            <main class="content">
+                <!-- 主要內容 -->
+                <nav id="productmanage" >
+                    <span class="nav-title">商品列表</span> |
+                    <span class="nav-title">編輯商品資訊</span> |
+                    <span class="nav-title">新增商品</span> <!--現在在這-->
+                </nav>
+
+                <section class="form-border">
+                    <form class="pm-form" action="#" method="post">
+
+                        
+                        <div class="pms">
+                        <div class="pm">
+                            <div class="pm_input" >
+                                商品名稱 :
+                                <input type="text">
+                            </div>
+
+                            <div class="pm_input" >
+                                商品價格 :
+                                <input type="text">
+                            </div>
+
+                            <div class="pm_input" >
+                                商品規格 :
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <div class="pm">
+                            <div class="pm_input">
+                                <label for="status">商品狀態 :</label>
+                                <select name="pd_status">
+                                    <option value="">下架</option>
+                                    <option value="">上架</option>
+                                </select>
+                            </div>
+
+                            <div class="pm_input">
+                                <label for="description">商品說明 :</label>
+                                <textarea cols="40" rows="5"></textarea>
+                                
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+
+            </main>
+            <footer id="footer"></footer>
+        </div>
+    </div>
+
+    <!-- 後台模板套版 -->
+    <script>
+        fetch("template/wrappersidebar.html")
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("sidebar").innerHTML = html;
+            });
+    </script>
+    <script>
+        fetch("template/mainnavbar.html")
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("navbar").innerHTML = html;
+            });
+    </script>
+    <script>
+        fetch("template/mainfooter.html")
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("footer").innerHTML = html;
+            });
+    </script>
+
+    <!-- 其他 JavaScript 和頁面主要內容 -->
+    <script src="js/sublist.js"></script>
+    <script src="js/app.js?t=2"></script>
+    <!-- JSP後端時，放置時戳，解決重新整理icon會消失的狀況 -->
+</body>
+
+</html>

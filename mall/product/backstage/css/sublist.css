@@ -1,0 +1,28 @@
+
+li.sidebar-item span.-plus{
+    position: absolute;
+    right: 0;
+    padding: 0 20px;
+    margin-right: 10px;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: bold;
+    opacity: 0.8;
+}
+div.sublist{
+    margin: .625rem 0 .625rem 3.825rem;
+}
+div.sublist{
+    display: block;
+}
+div.sublist a.subitem{
+    display: block;
+    font-size: 0.8em;
+    padding: 3px 0;
+    color: #e9ecef;
+    font-style: italic;
+}
+div.sublist a.subitem:hover{
+    text-decoration: none;
+    color: rgb(248, 249, 250);
+}
