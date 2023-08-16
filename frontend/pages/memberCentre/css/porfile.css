@@ -1,57 +1,146 @@
 #info {
-    display: flex;
-    padding: 20px 40px;
+  display: flex;
+  padding: 20px 40px;
+  flex-wrap: wrap;
 }
 
 #user {
-    flex: 2;
-    display: flex;
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 #point {
-    flex: 1;
+  flex: 1;
+  color: #f96623;
 }
 
+/* 照片 */
 #photo {
-    background-color: aquamarine;
-    height: 150px;
-    width: 150px;
-    border-radius: 100%;
-    flex-shrink: 0;
-    margin: 10px;
-    margin-top: 0;
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  flex-shrink: 0;
+  margin: 10px;
+  margin-top: 0;
+  background: url("https://cdn.discordapp.com/attachments/1116009887550423102/1140930827304304640/pets-white.png");
+  background-size: 85%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgb(111, 82, 66);
+  position: relative;
 }
 
+#userPicEdit svg {
+  color: #555;
+  width: 50%;
+  height: 50%;
+}
+
+#userPicEdit, #userPic {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size:cover;
+}
+
+/* 名稱 */
 #names {
-    margin-left: 20px;
-    letter-spacing: 0.1em;
+  margin-left: 20px;
+  min-width: 180px;
+  letter-spacing: 0.1em;
 }
 
 #truename {
-    font-size: 24px;
-    margin-bottom: 5px;
-    margin-top: 10px;
+  font-size: 24px;
+  margin-bottom: 5px;
+  margin-top: 10px;
 }
 
 #nickname {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 #pointnumber {
-    font-size: 80px;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    text-align: center;
-    line-height: 80px;
-    margin: 5px 20px;
+  font-size: 80px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-align: center;
+  line-height: 80px;
+  margin: 5px 20px;
 }
-#getpoint{
-    height: 30px;
-    margin: 15px;
+#getpoint {
+  height: 30px;
+  margin: 15px;
 }
 #game {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button.btnNameEdit,
+#userPicEdit {
+  background: none;
+  border: none;
+}
+
+button.btnNameEdit svg {
+  fill: rgb(165, 151, 141);
+}
+
+/* 會員資料 */
+main {
+  padding: 10px 20px;
+}
+
+main > div {
+  display: block;
+}
+
+main > div > div div {
+  margin: 20px 0 0 0;
+}
+
+main > div > div div input,
+main > div > div div select {
+  height: 30px;
+}
+main > div > div div input {
+  width: 150px;
+}
+main > div > div div select {
+  width: 100px;
+}
+
+#userAddressDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 10px;
+}
+
+main > div > div div:not(#userAddressDiv) input {
+  margin-left: 5px;
+}
+
+#userAddressDiv input {
+  flex-grow: 1;
+}
+
+#userAddressDiv > label{
+  min-width: 32px;
+}
+
+label {
+  line-height: 30px;
+}
+
+main > div > div div.notice{
+  margin: 0 44px;
+  color: #f55f1a;
 }
