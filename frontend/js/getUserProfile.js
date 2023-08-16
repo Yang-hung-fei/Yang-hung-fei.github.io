@@ -47,14 +47,30 @@ function revomeTokenThenLogin() {
 }
 
 function createProfileEditor(data) {
-  //TODO: 修改中文lable
-  //TODO: 顯示到指定標籤(名稱、暱稱、點數)
-  //TODO: 修改--帶入使用者修改的資料，存取所有資料重新送出api，再重新渲染
-  //TODO: 將 userPic的base64轉為圖片
-  //TODO: 燈箱：顯示修改成功
   var userInfoDiv = document.getElementById("user-info");
   var editInfoDiv = document.getElementById("edit-info");
   var userInfo = data;
+
+  //TODO: edit-info 顯示隱藏的資料欄位
+  //TODO: 檢查使用者資料的輸入格式
+  //TODO: 儲存按鈕，儲存user-info的資料到edit-info，並傳到api
+  //TODO: 燈箱：顯示修改成功
+
+  //名字
+  let userName_el = document.getElementById("userName");
+  userName_el.textContent = data.userName;
+  let userNickName_el = document.getElementById("userNickName");
+  userNickName_el.textContent = data.userNickName;
+  let userPic_base64 = data.userPic;
+  var blob = new Blob([userPic_base64], { type: "image/jpeg" });
+  var imageUrl = URL.createObjectURL(blob);
+  let userPic_el = document.getElementById("userPic");
+  userPic_el.src = imageUrl;
+
+  var imgElement = document.createElement("img");
+  imgElement.src = imageUrl;
+
+  document.body.appendChild(imgElement); // 将图片添加到页面中
 
   for (var key in userInfo) {
     var label = document.createElement("label");
@@ -73,6 +89,10 @@ function createProfileEditor(data) {
     editInfoDiv.appendChild(input);
     editInfoDiv.appendChild(document.createElement("br")); // Add <br> after each input
   }
+
+  //TODO: 名稱欄位，顯示和編輯交換顯示
+  //TODO: enter儲存，還有切換儲存按鈕svg
+  //TODO: 將 userPic的base64轉為圖片
 
   var editButton = document.getElementById("edit-button");
   var saveButton = document.getElementById("save-button");

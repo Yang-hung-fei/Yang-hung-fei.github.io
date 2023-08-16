@@ -35,7 +35,7 @@ function authenticate(code) {
         console.log("token : " +token);
         localStorage.setItem('Authorization_U', token);
         /**之後 跳轉頁 */
-        window.location.href = 'http://localhost:5500/frontend/pages/memberCentre/memberCentre.html';
+        window.location.href = '../../memberCentre/memberCentre.html';
     });
 }
  
