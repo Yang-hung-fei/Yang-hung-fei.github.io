@@ -22,21 +22,22 @@ $(window).on("load", () => {
           case 200:
             const token = data.message;
             // 处理成功响应数据
-            localStorage.setItem("token", token); //將 token 存入 local storage
-            console.log("Token:", token);
+            localStorage.setItem("Authorization_U", token); //將 token 存入 local storage
+            console.log("Authorization_U:", token);
             if (token) {
               // 进行使用存储的 token 的操作
-              console.log("Stored Token:", token);
+              console.log("Stored Authorization_U:", token);
               backToRedirectUrl();//跳回原頁
             } else {
               // 没有存储的 token，可能需要用户登录或其他处理
-              console.log("No stored token found.");
+              console.log("No stored Authorization_U found.");
+              //TODO: 顯示燈箱(登入錯誤，請聯繫客服信箱 & 跳回首頁按鈕)
             }
             break;
           case 400:
             // 处理 code 为 400 的情况
             console.log("Code 400 response:", data.message);
-            //顯示密碼錯誤，點選後關閉燈箱
+            //TODO: 顯示燈箱(密碼錯誤 & 忘記密碼按鈕)
             break;
           default:
             console.log("Unknown response code:", data.code);
