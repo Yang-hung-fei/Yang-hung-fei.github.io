@@ -1,0 +1,151 @@
+1. 前台會員新增單筆訂單
+method: POST
+path: /user/createOrders
+request:
+ {
+    "userId":1,
+    "ordStatus":0,
+    "ordPayStatus":0,
+    "ordPick":2,
+    "ordFee":60,
+    "totalAmount":999,
+    "orderAmount":939,
+    "recipient":"麵包超人",
+    "recipientAddress":"台北小巨蛋",
+    "recipientPh":"0987654321",
+    "userPoint":0
+ }
+response:
+ {
+    "code": 200,
+    "message": "新增成功"
+ }
+
+2. 前台會員查詢自己的所有訂單
+method: GET
+path: /user/getUserOrders/{userId}
+request:
+    Interger: 1
+response:
+ {
+    "code": 200,
+    "message":[
+        {"ordNo": 1, "userId": 1, "ordStatus": 1, "ordPayStatus": 1, "ordPick": 2,…},
+        {"ordNo": 2, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 0,…},
+        {"ordNo": 5, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 6, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 8, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 11, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 12, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…}
+    ]
+ }
+
+3. 前台會員查詢該筆訂單詳情
+method: GET
+path: /user/getOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":{
+        "ordNo": 13,
+        "userId": null,
+        "ordStatus": 0,
+        "ordPayStatus": 0,
+        "ordPick": 2,
+        "ordCreate": 1692374400000,
+        "ordFinish": -28800000,
+        "ordFee": 60,
+        "userPoint": 90,
+        "totalAmount": 1999,
+        "orderAmount": 1939,
+        "recipientName": "鳴人",
+        "recipientAddress": "牧野忍者村",
+        "recipientPh": "0987654321"
+    }
+ }
+
+4.前台會員取消該筆訂單
+method: PUT
+path: /user/putOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message": "修改成功"
+ }
+
+5.後台管理員查詢所有訂單
+method: GET
+path: /getAllOrders
+request:
+    null
+response:
+ {
+    "code": 200,
+    "message":[
+        {"ordNo": 1, "userId": 1, "ordStatus": 1, "ordPayStatus": 1, "ordPick": 2,…},
+        {"ordNo": 2, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 0,…},
+        {"ordNo": 3, "userId": 2, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 5, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 6, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 8, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 9, "userId": 3, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 11, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 12, "userId": 1, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…},
+        {"ordNo": 13, "userId": 4, "ordStatus": 0, "ordPayStatus": 0, "ordPick": 2,…}
+    ]
+ }
+
+6.後台管理員查詢該筆訂單詳情
+method: GET
+path: /getOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":{
+        "ordNo": 13,
+        "userId": null,
+        "ordStatus": 0,
+        "ordPayStatus": 0,
+        "ordPick": 2,
+        "ordCreate": 1692374400000,
+        "ordFinish": -28800000,
+        "ordFee": 60,
+        "userPoint": 90,
+        "totalAmount": 1999,
+        "orderAmount": 1939,
+        "recipientName": "鳴人",
+        "recipientAddress": "牧野忍者村",
+        "recipientPh": "0987654321"
+    }
+ }
+
+7.後台管理員刪除已取消的訂單
+method: Delete
+path: /deleteOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":"刪除成功"
+ }
+
+8.後台管理員修改該筆訂單
+method: PUT
+path: /putOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":"修改成功"
+ }
+
+
+// Data table 模糊查詢api尚未加入
