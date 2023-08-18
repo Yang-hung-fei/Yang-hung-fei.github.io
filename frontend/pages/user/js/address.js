@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch('https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             const citySelect = document.getElementById('city');
             for (const key in data) {
                 if (data.hasOwnProperty(key)) {

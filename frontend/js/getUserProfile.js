@@ -1,16 +1,11 @@
 import config from "../../ipconfig.js";
 $(window).on("load", () => {
-  // localStorage.setItem(
-  //   "Authorization_U",
-  //   "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiZXhwIjoxNjkyNDE0ODA4fQ.xgbQEGdz-bbT69kj0gpTXo_PVVs47NlApRdPqIsBUAs"
-  // );
   const token = localStorage.getItem("Authorization_U");
 
-  console.log("token: " + token);
   fetch(config.url + "/user/profile", {
     method: "GET",
     headers: {
-      Authorization_U: token,
+      "Authorization_U": token,
       "Content-Type": "application/json",
     },
   })
@@ -43,7 +38,7 @@ var responseActions = {
 
 function revomeTokenThenLogin() {
   localStorage.removeItem("Authorization_U");
-  window.location.href = config.url + "login.html";
+  window.location.href = "http://localhost:5500/frontend/pages/user/login.html";
 }
 
 function createProfileEditor(data) {
@@ -57,20 +52,43 @@ function createProfileEditor(data) {
   //TODO: 燈箱：顯示修改成功
 
   //名字
+  //TODO: 相機按鈕置換圖片
   let userName_el = document.getElementById("userName");
   userName_el.textContent = data.userName;
   let userNickName_el = document.getElementById("userNickName");
   userNickName_el.textContent = data.userNickName;
   let userPic_base64 = data.userPic;
-  var blob = new Blob([userPic_base64], { type: "image/jpeg" });
-  var imageUrl = URL.createObjectURL(blob);
   let userPic_el = document.getElementById("userPic");
-  userPic_el.src = imageUrl;
+  userPic_el.src = "data:image/png;base64," + userPic_base64;
+  let pointnumber_el = document.getElementById("pointnumber");
+  pointnumber_el.textContent = data.userPoint;
 
-  var imgElement = document.createElement("img");
-  imgElement.src = imageUrl;
+  //其他資料
+  let userGender_el = document.getElementById("userGender");
+  let userBirthday_el = document.getElementById("userBirthday");
+  let userPhone_el = document.getElementById("userPhone");
 
-  document.body.appendChild(imgElement); // 将图片添加到页面中
+  //地址
+  let userAddress = data.userAddress;
+  let citySelect = document.getElementById("city");
+  let areaSelect = document.getElementById("area");
+  let addressInput = document.getElementById("userAddress");
+  const match = userAddress.match(/^(.*?[縣市]|.*?[市區鎮鄉])+(.*)$/);
+  if (match) {
+    const cityText = match[1].trim();
+    const areaText = match[2].trim();
+    // 设置城市和区域下拉框的选项
+    citySelect.value = cityText;
+    areaSelect.value = areaText;
+    // 设置用户地址输入框的值
+    addressInput.value = userAddress
+      .replace(cityText, "")
+      .replace(areaText, "")
+      .trim();
+  } else {
+    // 无法匹配地址格式时的处理
+    console.error("无法匹配地址格式");
+  }
 
   for (var key in userInfo) {
     var label = document.createElement("label");
@@ -92,7 +110,6 @@ function createProfileEditor(data) {
 
   //TODO: 名稱欄位，顯示和編輯交換顯示
   //TODO: enter儲存，還有切換儲存按鈕svg
-  //TODO: 將 userPic的base64轉為圖片
 
   var editButton = document.getElementById("edit-button");
   var saveButton = document.getElementById("save-button");
