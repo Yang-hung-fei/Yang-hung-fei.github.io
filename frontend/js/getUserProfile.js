@@ -5,7 +5,7 @@ $(window).on("load", () => {
   fetch(config.url + "/user/profile", {
     method: "GET",
     headers: {
-      "Authorization_U": token,
+      Authorization_U: token,
       "Content-Type": "application/json",
     },
   })
@@ -68,27 +68,8 @@ function createProfileEditor(data) {
   let userBirthday_el = document.getElementById("userBirthday");
   let userPhone_el = document.getElementById("userPhone");
 
-  //地址
-  let userAddress = data.userAddress;
-  let citySelect = document.getElementById("city");
-  let areaSelect = document.getElementById("area");
-  let addressInput = document.getElementById("userAddress");
-  const match = userAddress.match(/^(.*?[縣市]|.*?[市區鎮鄉])+(.*)$/);
-  if (match) {
-    const cityText = match[1].trim();
-    const areaText = match[2].trim();
-    // 设置城市和区域下拉框的选项
-    citySelect.value = cityText;
-    areaSelect.value = areaText;
-    // 设置用户地址输入框的值
-    addressInput.value = userAddress
-      .replace(cityText, "")
-      .replace(areaText, "")
-      .trim();
-  } else {
-    // 无法匹配地址格式时的处理
-    console.error("无法匹配地址格式");
-  }
+  const userAddressData = data.userAddress;
+  addressShow(userAddressData);
 
   for (var key in userInfo) {
     var label = document.createElement("label");
@@ -155,3 +136,85 @@ function createProfileEditor(data) {
     editInfoDiv.style.display = "none";
   });
 }
+
+function addressShow(userAddress) {
+  const cityMatch = userAddress.match(/^.{1,3}/);
+  const areaMatch = userAddress.match(/^.{4,6}/);
+  const userAddressInput = userAddress.match(/^.{6}/, "");
+
+  console.log(areaMatch);
+
+  const city_el = document.getElementById("city");
+  const area_el = document.getElementById("area");
+  const inputAddress_el = document.getElementById("userAddress");
+  inputAddress_el.value = userAddressInput;
+
+  // 第一层選單
+  fetch(
+    "https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json"
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          const option = document.createElement("option");
+          option.value = key;
+          option.textContent = data[key].CityName;
+          city_el.appendChild(option);
+        }
+      }
+
+      // 遍历所有选项，设置目标选项为默认选中
+      for (const option of city_el.options) {
+        if (option.textContent === cityMatch[0]) {
+          option.selected = true;
+          break; // 停止遍历，因为已经找到目标选项
+        }
+      }
+
+      // 在第一层选择后，手动触发第二层选择的处理逻辑
+      areaSelectHandler();
+    })
+    .catch((error) => {
+      alert("获取城市数据失败");
+    });
+
+  // 第二層選擇
+  function areaSelectHandler() {
+    const cityvalue = city_el.value;
+    area_el.innerHTML = "";
+    area_el.style.display = "inline";
+
+    fetch(
+      "https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const eachval = data[cityvalue].AreaList; // 鄉鎮
+        for (const key in eachval) {
+          if (eachval.hasOwnProperty(key)) {
+            const option = document.createElement("option");
+            option.value = key;
+            option.textContent = eachval[key].AreaName;
+            area_el.appendChild(option);
+          }
+        }
+        // 遍历所有选项，设置目标选项为默认选中
+        for (const option of area_el.options) {
+          if (option.textContent === areaMatch[0]) {
+            option.selected = true;
+            break; // 停止遍历，因为已经找到目标选项
+          }
+        }
+      })
+      .catch((error) => {
+        alert("获取地区数据失败");
+      });
+  }
+
+  
+
+  // 在第一层选择发生改变时调用第二层选择的处理逻辑
+  city_el.addEventListener("change", areaSelectHandler);
+}
+
