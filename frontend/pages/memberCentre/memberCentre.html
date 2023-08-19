@@ -214,7 +214,7 @@
             <div id="info" style="background-color: #fff">
               <span id="user">
                 <div id="photo">
-                  <button id="userPicEdit">
+                  <button id="userPicEdit" style="z-index: 99999; display: none;">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
@@ -261,7 +261,7 @@
                 </div>
               </span>
               <span id="point">
-                <div id="pointnumber">20</div>
+                <div id="pointnumber"></div>
                 <div id="getpoint">
                   <button id="game">game</button>
                 </div>
@@ -426,5 +426,17 @@
     <script src="../../js/main.js"></script>
     <script type="module" src="../../js/getUserProfile.js"></script>
     <script src="../user/js/address.js"></script>
+    <script>
+      const photo_el = document.getElementById("photo");
+        const userPicEdit_btn = document.getElementById("userPicEdit");
+
+        photo_el.addEventListener("mouseout", () => {
+          userPicEdit_btn.style.display = "none";
+        });
+
+        photo_el.addEventListener("mouseover", () => {
+          userPicEdit_btn.style.display = "block";
+        });
+    </script>
   </body>
 </html>

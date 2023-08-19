@@ -26,6 +26,7 @@ function fadeOut() {
 }
 function authenticate(code) {
 
+    //TODO: 更改API網域
     return axios.post('http://localhost:8080/user/googleLogin', JSON.stringify({ code }), {
         headers: {
             'Content-Type': 'application/json'
@@ -35,7 +36,8 @@ function authenticate(code) {
         console.log("token : " +token);
         localStorage.setItem('Authorization_U', token);
         /**之後 跳轉頁 */
-        window.location.href = '../../memberCentre/memberCentre.html';
+        //TODO: API取userProfile，有空值就跳會員中心
+        window.location.href = '../../pages/memberCentre/memberCentre.html';
     });
 }
  
