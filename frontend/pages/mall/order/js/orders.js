@@ -1,11 +1,4 @@
-// console.log("測試");
-
-// let formData1 = new FormData(document.getElementById("form1"));
-// // formData.get('name'); // 取得目前 input 的值
-// // formData.get('file'); // 取得目前的檔案
-// console.log(formData1.get("recipient"));
-// console.log(formData1.get('recipientPh'));
-// console.log(formData1.get('recipientAddress'));
+import config from "../../../../../ipconfig.js";
 
 const app = Vue.createApp({
     data() {
@@ -28,7 +21,7 @@ const app = Vue.createApp({
             console.log("確認付款按鈕被點擊了！");
            
             // 使用 axios 發送 POST 請求至後端
-            axios.post('http://localhost:8080/customer/insertOrders', formData)
+            axios.post(config.url + "/customer/insertOrders", formData)
                 .then(response => {
                     console.log(response.data); // 處理後端回應
                     alert(response.data['message']);
@@ -43,3 +36,13 @@ const app = Vue.createApp({
 });
 
 const vm = app.mount('#app');
+
+
+// console.log("測試");
+
+// let formData1 = new FormData(document.getElementById("form1"));
+// // formData.get('name'); // 取得目前 input 的值
+// // formData.get('file'); // 取得目前的檔案
+// console.log(formData1.get("recipient"));
+// console.log(formData1.get('recipientPh'));
+// console.log(formData1.get('recipientAddress'));
