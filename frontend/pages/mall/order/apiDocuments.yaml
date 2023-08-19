@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: Order API
+  version: 1.0.0
+paths:
+  /user/createOrders:
+    post:
+      summary: 前台會員新增單筆訂單
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  description: 會員 ID
+                ordStatus:
+                  type: integer
+                  description: 訂單狀態
+                ordPayStatus:
+                  type: integer
+                  description: 付款狀態
+                ordPick:
+                  type: integer
+                  description: 取貨方式
+                ordFee:
+                  type: integer
+                  description: 運費
+                totalAmount:
+                  type: integer
+                  description: 總金額
+                orderAmount:
+                  type: integer
+                  description: 實際金額
+                recipient:
+                  type: string
+                  description: 收件人姓名
+                recipientAddress:
+                  type: string
+                  description: 收件人地址
+                recipientPh:
+                  type: string
+                  description: 收件人電話
+                userPoint:
+                  type: integer
+                  description: 使用點數
+        examples:
+          example-1:
+            value:
+              userId: 1
+              ordStatus: 0
+              ordPayStatus: 0
+              ordPick: 2
+              ordFee: 60
+              totalAmount: 999
+              orderAmount: 939
+              recipient: "麵包超人"
+              recipientAddress: "台北小巨蛋"
+              recipientPh: "0987654321"
+              userPoint: 0
+      responses:
+        '200':
+          description: 新增成功
+          content:
+            application/json:
+              example:
+                code: 200
+                message: 新增成功
