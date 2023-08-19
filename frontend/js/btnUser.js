@@ -1,6 +1,6 @@
 import config from "../../ipconfig.js";
 export function btnUser() {
-  localStorage.getItem("Authorization_U", token); //取得 local storage 中的 token
+  const token = localStorage.getItem("Authorization_U", token); //取得 local storage 中的 token
   console.log("Authorization_U:", token);
   if (token) {
     window.location.href = config.url + "../pages/memberCentre/memberCentre.html"; // 進入會員中心
