@@ -70,7 +70,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Order'
                     description: 回應訊息列表
-  /user/getOrders/{ordNo}:
+  /user/orders/{ordNo}:
     get:
       summary: 前台會員查詢該筆訂單詳情
       parameters:
@@ -95,7 +95,7 @@ paths:
                     example: 200
                   message:
                     $ref: '#/components/schemas/OrderDetailResponse'
-  /user/patchOrders/{ordNo}:
+
     patch:
       summary: 前台會員取消該筆訂單
       parameters:
