@@ -181,7 +181,13 @@ response:
             "recipientPh": "0912345678",
             "userPoint": 20
         }
-    ]
+    ],
+    "metadata": {
+    "currentPage": 1, // 當前頁數
+    "totalPage": 10, // 總頁數
+    "perPage": 10, // 每頁筆數
+  }
+
 }
 
 

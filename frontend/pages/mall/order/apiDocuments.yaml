@@ -3,7 +3,7 @@ info:
   title: 訂單管理系統
   version: 1.0.0
 paths:
-  /user/createOrders:
+  /user/orders:
     post:
       summary: 前台會員新增單筆訂單
       requestBody:
@@ -132,6 +132,21 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Order'
+                  metadata:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: integer
+                        description: 當前頁數
+                        example: 1
+                      totalPage:
+                        type: integer
+                        description: 總頁數
+                        example: 10
+                      perPage:
+                        type: integer
+                        description: 每頁筆數
+                        example: 10
   /getOrders/{ordNo}:
     get:
       summary: 後台管理員查詢該筆訂單詳情
