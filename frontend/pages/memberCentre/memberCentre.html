@@ -276,7 +276,11 @@
               <div id="user-info">
                 <div id="userGenderDiv">
                   <label for="userGender">性別</label>
-                  <input type="userGender" id="userGender" />
+                  <select name="userGender" id="userGender" >
+                    <option value="尚未設定">-</option>
+                    <option value="男性">男性</option>
+                    <option value="女性">女性</option>
+                  </select>
                 </div>
                 <div class="notice">test</div>
                 <div id="userBirthdayDiv">
@@ -424,6 +428,15 @@
 
     <!-- Template Javascript -->
     <script src="../../js/main.js"></script>
+    <script>
+      $(window).on("load", () =>{
+        const token = localStorage.getItem("Authorization_U");
+        if(!token){
+          window.location.href = "http://localhost:5500/frontend/pages/user/login.html";
+        }
+      })
+    </script>
+
     <script type="module" src="../../js/getUserProfile.js"></script>
     <script src="../user/js/address.js"></script>
     <script>
