@@ -46,13 +46,11 @@ function createProfileEditor(data) {
   var editInfoDiv = document.getElementById("edit-info");
   var userInfo = data;
 
-  //TODO: edit-info 顯示隱藏的資料欄位
   //TODO: 檢查使用者資料的輸入格式
   //TODO: 儲存按鈕，儲存user-info的資料到edit-info，並傳到api
   //TODO: 燈箱：顯示修改成功
 
   //名字
-  //TODO: 相機按鈕置換圖片
   let userName_el = document.getElementById("userName");
   userName_el.textContent = data.userName;
   let userNickName_el = document.getElementById("userNickName");
@@ -138,11 +136,12 @@ function createProfileEditor(data) {
 }
 
 function addressShow(userAddress) {
-  const cityMatch = userAddress.match(/^.{1,3}/);
-  const areaMatch = userAddress.match(/^.{4,6}/);
-  const userAddressInput = userAddress.match(/^.{6}/, "");
-
-  console.log(areaMatch);
+  var userAddressInput = ""; // 默认值为空字符串
+  if (userAddress) {
+    var cityMatch = userAddress.match(/^.{1,3}/);
+    var areaMatch = userAddress.match(/^.{4,6}/);
+    var userAddressInput = userAddress.substring(6);;
+  }
 
   const city_el = document.getElementById("city");
   const area_el = document.getElementById("area");
@@ -176,7 +175,7 @@ function addressShow(userAddress) {
       areaSelectHandler();
     })
     .catch((error) => {
-      alert("获取城市数据失败");
+      console.log("获取城市数据失败");
     });
 
   // 第二層選擇
@@ -212,9 +211,6 @@ function addressShow(userAddress) {
       });
   }
 
-  
-
   // 在第一层选择发生改变时调用第二层选择的处理逻辑
   city_el.addEventListener("change", areaSelectHandler);
 }
-

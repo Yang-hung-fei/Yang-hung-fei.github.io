@@ -1,9 +1,15 @@
 import config from "../../ipconfig.js";
+document.addEventListener("DOMContentLoaded", function () {
+  const userButton = document.getElementById("user");
+  userButton.addEventListener("click", btnUser);
+});
+
 export function btnUser() {
-  localStorage.getItem("Authorization_U", token); //取得 local storage 中的 token
+  const token = localStorage.getItem("Authorization_U"); //取得 local storage 中的 token
   console.log("Authorization_U:", token);
   if (token) {
-    window.location.href = config.url + "../pages/memberCentre/memberCentre.html"; // 進入會員中心
+    window.location.href =
+      "http://localhost:5500/frontend/pages/memberCentre/memberCentre.html"; // 進入會員中心
   } else {
     //預設跳轉網址
     const currentPageUrl = window.location.href; // 获取当前页面的 URL
