@@ -1,7 +1,9 @@
 import config from "../../../../ipconfig.js";
 import { backToRedirectUrl } from "../../../js/backToRedirectUrl.js";
 $(window).on("load", () => {
+  console.log("login1");
   $("#localLogin").on("click", () => {
+    console.log("login2");
     $("div.overlay").fadeIn();
 
     const data = {
@@ -19,33 +21,28 @@ $(window).on("load", () => {
       .then((response) => response.json())
       .then((responseData) => {
         var code = responseData.code;
-        var action = responseActions[code] || responseActions.default;
-        action(responseData);
+        console.log("login3");
+        // Inline responseActions
+        if (code === 200) {
+          var token = responseData.message;
+          localStorage.setItem("Authorization_U", token);
+          console.log("Authorization_U:", token);
+          if (token) {
+            backToRedirectUrl(); 
+          } else {
+            console.log("Code 200: No stored Authorization_U found.");
+            // TODO: 顯示燈箱(登入錯誤，請聯繫客服信箱 & 跳回首頁按鈕)
+          }
+        } else if (code === 400) {
+          console.log("Code 400 response:", data.message);
+          // TODO: 顯示燈箱(密碼錯誤 & 忘記密碼按鈕)
+        } else {
+          console.log("Unknown response code:", data.code);
+        }
       })
       .catch((error) => {
         console.error("Fetch error");
       });
   });
 });
-
-var responseActions = {
-  200: function (data) {
-    var token = data.message;
-    localStorage.setItem("Authorization_U", token);
-    console.log("Authorization_U:", token);
-    if (token) {
-      backToRedirectUrl(); 
-    } else {
-      console.log("Code 200: No stored Authorization_U found.");
-      //TODO: 顯示燈箱(登入錯誤，請聯繫客服信箱 & 跳回首頁按鈕)
-    }
-  },
-  400: function () {
-    console.log("Code 400 response:", data.message);
-    //TODO: 顯示燈箱(密碼錯誤 & 忘記密碼按鈕)
-  },
-  default: function (data) {
-    console.log("Unknown response code:", data.code);
-  },
-};
 
