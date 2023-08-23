@@ -44,16 +44,24 @@ window.addEventListener("load", () => {
 
                 // 美容師選擇事件
                 pgNameSelect.addEventListener('change', function () {
+                    timeValueInput.value = '000000000000000000000000';
                     pgPic.style.display = 'inline';
                     const selectedGroomer = groomers.find(groomer => groomer.pgId == this.value);
                     pgNameShow.textContent = selectedGroomer.pgName;
                     pgPic.src = '';
 
                     if (selectedGroomer) {
+                        const buttons = document.querySelectorAll('.time-slot-button');
+                                buttons.forEach(button => {
+                                    button.classList.remove('time-slot-button-selected');
+                                    
+                                });
                         pgGender.textContent = selectedGroomer.pgGender;
                         pgPic.src = 'data:image/png;base64,' + selectedGroomer.pgPic;
                         fetchScheduleForDate(selectedGroomer.pgId);
                     }
+                    // 重置 flatpickr 為尚未選擇的狀態
+                    dateInput._flatpickr.clear();
                 });
 
                 // 直接選擇第一個選項並觸發 change 事件
@@ -97,6 +105,7 @@ window.addEventListener("load", () => {
                             // 找到選中日期的班表資料
                             const selectedSchedule = data.message.find(schedule => schedule.pgsDate === formattedDate);
                             if (selectedSchedule) {
+                                timeValueInput.value = '000000000000000000000000';
                                 pgsIdLabel.textContent = selectedSchedule.pgsId;
                                 //pgsIdLabel.style.display = "block";
                                 generateTimeSlots(selectedSchedule.pgsState);
@@ -108,21 +117,19 @@ window.addEventListener("load", () => {
                 }
             });
     }
-
+    // 獲取 timeValue 元素
+    const timeValueInput = document.getElementById('timeValue');
     //生成時段選項
     // 生成時段選項函式
     function generateTimeSlots(pgsState) {
         timeSlotsContainer.innerHTML = '';
-    
-        // 獲取 timeValue 元素
-        const timeValueInput = document.getElementById('timeValue');
-    
+
         let selectedButton = null; // 用於跟踪當前選中的按鈕
-    
+
         for (let i = 0; i < 24; i++) {
             const label = document.createElement('label');
             label.classList.add('radio'); // 添加 "radio" 樣式類，來應用您提供的樣式
-    
+
             // 創建按鈕元素並設置樣式
             const button = document.createElement('button');
             button.classList.add('time-slot-button'); // 添加按鈕樣式類，您可以在 CSS 中定義它
@@ -132,26 +139,26 @@ window.addEventListener("load", () => {
             if (pgsState[i] === '1' || pgsState[i] === '2') {
                 button.classList.add('disabled');
             }
-    
+
             timeSlotsContainer.appendChild(label);
-    
+
             // 為每個按鈕添加點擊事件處理器
             const handler = function () {
                 if (pgsState[i] === '0' || pgsState[i] === '1' || pgsState[i] === '2') {
                     if (selectedButton) {
                         selectedButton.classList.remove('time-slot-button-selected');
                     }
-    
+
                     const newValue = timeValueInput.value.split('');
                     newValue.fill('0'); // 全部設為0
                     newValue[i] = '1'; // 設定當前選中的為1
                     timeValueInput.value = newValue.join('');
-    
+
                     selectedButton = button; // 更新當前選中的按鈕
                     selectedButton.classList.add('time-slot-button-selected');
                 }
             };
-    
+
             button.addEventListener('click', handler);
         }
     }

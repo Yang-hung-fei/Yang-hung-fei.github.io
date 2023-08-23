@@ -44,8 +44,9 @@
         <h3>參考價目表</h3>
         <img src="./img/price.JPG" style="max-width: 100%; height: auto;">
     </div>
-
+    
     <div class="container">
+        <hr class="line"> <!-- Horizontal line -->
         <h4 style="margin-top: 25px;">請選擇方案</h4>
     </div>
 
@@ -117,7 +118,7 @@
         </div>
     </div>
     <!-- -->
-    <div class="container" style="margin-top: 55px; max-height: 1200px;">
+    <div class="container" style="margin-top: 55px; max-height: 1300px;">
         <div class="row d-flex justify-content-center">
             <h4 style="margin-top: 25px; margin-bottom: 25px;">請選擇美容師</h4>
             <div class="col-md-6">
@@ -141,12 +142,17 @@
                 <h4>請輸入聯絡訊息</h4>
                 <div class="mb-3">
                     <label for="userName" class="form-label">預約姓名</label>
-                    <input type="text" id="userName" name="userName" class="form-control">
+                    <input type="text" id="userName" name="userName" class="form-control" readonly>
                 </div>
 
                 <div class="mb-3">
                     <label for="userPh" class="form-label">預約電話</label>
                     <input type="text" id="userPh" name="userPh" class="form-control">
+                </div>
+
+                <div>
+                    <label for="pgaNotes" class="form-label">預約備註 (如有額外注意事項都可填寫)</label>
+                    <textarea name="pgaNotes" id="pgaNotes" rows="10" style="min-width: 550px; max-width: 550px; resize: none; overflow: auto;" maxlength="500"></textarea>
                 </div>
             </div>
             <div class="col-md-2">
@@ -156,11 +162,14 @@
                 <label class="">性別：</label>
                 <p id="pgGender" name="pgGender"></p>
             </div>
-            <div class="col-md-4 d-flex align-items-start justify-content-start">
-                <img id="pgPic" src="" alt="" style="display: none; width: 400px; height: 400px;">
+            <div class="col-md-4 d-flex align-items-start justify-content-start " style="position: relative">
+                <img id="pgPic" src="" alt="" class="img-fluid img-thumbnail" style="display: none; width: 400px; height: 400px;">
+                    <button id="commit" class="btn" style="position: absolute; bottom: 0; right: 0px; font-family: 'cwTeXYen'; font-size: 3rem; width: 400px; height: fit-content;">預約</button>
             </div>
+            
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="module" src="./js/appointment.js"></script>

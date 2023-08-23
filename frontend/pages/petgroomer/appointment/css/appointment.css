@@ -71,3 +71,15 @@ img[class^="img-"] {
     background-color: #997b66;
     color: #fff;
 }
+
+hr.line {
+    border: none;
+    border-top: 2px solid #997b66; /* 设置为虚线 */
+    margin: 20px; /* 调整上下边距 */
+    margin-top: 40px;
+}
+
+button#commit{
+    background-color: #997b66;
+    color: #fff;
+}
