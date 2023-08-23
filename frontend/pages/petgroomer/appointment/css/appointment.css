@@ -83,3 +83,11 @@ button#commit{
     background-color: #997b66;
     color: #fff;
 }
+button#commit:hover{
+    background-color: #E4B074;
+    color: #fff;
+}
+button#commit:active{
+    background-color: #D08C60;
+    color: black;
+}

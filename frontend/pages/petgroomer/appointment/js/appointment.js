@@ -19,9 +19,10 @@ window.addEventListener("load", () => {
     const token = localStorage.getItem("Authorization_U");
     // 時段選項容器
     const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+    
+    const pgIdInput = document.getElementById('pgId');
 
-
-    //撈使用者/美容師資料
+    //撈使用者/美容師資料(token要改)
     fetch(config.url + "/user/appointmentPage", {
         method: "GET",
         headers: {
@@ -52,13 +53,15 @@ window.addEventListener("load", () => {
 
                     if (selectedGroomer) {
                         const buttons = document.querySelectorAll('.time-slot-button');
-                                buttons.forEach(button => {
-                                    button.classList.remove('time-slot-button-selected');
-                                    
-                                });
+                        buttons.forEach(button => {
+                            button.classList.remove('time-slot-button-selected');
+
+                        });
                         pgGender.textContent = selectedGroomer.pgGender;
                         pgPic.src = 'data:image/png;base64,' + selectedGroomer.pgPic;
+                        pgIdInput.value=selectedGroomer.pgId;
                         fetchScheduleForDate(selectedGroomer.pgId);
+                        
                     }
                     // 重置 flatpickr 為尚未選擇的狀態
                     dateInput._flatpickr.clear();
@@ -76,13 +79,13 @@ window.addEventListener("load", () => {
             }
         });
 
-    // 請求 /user/pgScheduleForA API
+    // 請求 /user/pgScheduleForA API (token要改)
 
     function fetchScheduleForDate(pgId) {
         fetch(config.url + `/user/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs", // 替換成您的授權令牌
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
                 "Content-Type": "application/json"
             }
         })
@@ -171,5 +174,99 @@ window.addEventListener("load", () => {
     }
 
 
+    //送出預約單:
+    const commitButton = document.getElementById("commit");
+    const pgaOptions = document.querySelectorAll('.form-check-input[name="pgaOption"]');
+    const pgaNotesTextarea = document.getElementById("pgaNotes");
+    commitButton.addEventListener("click", function () {
+        if (!validateOptions()) {
+            return;
+        }
+
+        if (!validateDate()) {
+            return;
+        }
+
+        if (!validateTime()) {
+            return;
+        }
+
+        if (!validatePhoneNumber()) {
+            return;
+        }
+        let selectedOptionValue = null;
+
+        pgaOptions.forEach(option => {
+            if (option.checked) {
+                selectedOptionValue = option.value;
+            }
+        });
+        const appointmentData = {
+            pgId: pgIdInput.value,//美容師編號 (Foreign Key)
+            pgaDate: dateInput.value,// yyyy-mm-dd sql.Date 預約日期
+            pgaTime: timeValueInput.value,// Varchar(24)  預約時段 (0:無預約 / 1:預約時段, 預設: 0)
+            pgaOption: selectedOptionValue,// 預約選項
+            pgaNotes: pgaNotesTextarea.value, // 預約文字
+            pgaPhone: userPhInput.value,// 預約電話 (Not Null)
+            pgaState:0// 預約單狀態 (0:未完成 / 1:完成訂單 / 2:取消, 預設: 0)
+        }; 
+        insertNewAppointment(appointmentData);
+
+    });
+    //預約請求送出(token要改)
+    function insertNewAppointment(appointmentData) {
+        fetch(config.url + `/user/newAppointment`, {
+            method: "POST",
+            headers: {
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(appointmentData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            });
+    }
+
+    function validateOptions() {
+        const checkedOptions = document.querySelectorAll('input[name="pgaOption"]:checked');
+        if (checkedOptions.length === 0) {
+            alert("請至少選擇一種方案！");
+            return false;
+        }
+        return true;
+    }
+
+    function validateDate() {
+        if (dateInput.value === "") {
+            alert("請選擇預約日期！");
+            return false;
+        }
+        return true;
+    }
+
+    function validateTime() {
+        const timeValue = timeValueInput.value;
+        const numberOfOnes = timeValue.split("1").length - 1;
+        if (numberOfOnes !== 1) {
+            alert("請選擇時段！");
+            return false;
+        }
+        return true;
+    }
+
+    function validatePhoneNumber() {
+        const phoneNumber = userPhInput.value;
+        if (!/^09[0-9]{8}$/.test(phoneNumber)) {
+            alert("請输入有效的手機號碼！");
+            return false;
+        }
+        return true;
+    }
 
 });

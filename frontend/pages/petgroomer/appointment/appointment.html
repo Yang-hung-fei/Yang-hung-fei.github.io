@@ -125,11 +125,12 @@
                 <h2 style="color: #ffb20d; font-family: 'cwTeXYen';">Appointment</h2>
                 <label for="pgNameLabel" class="form-label">美容師</label>
                 <select id="pgName" name="pgName" class="form-select"></select><br>
+                <input id="pgId" name="pgId" value=""></input>
 
                 <h4 style="margin-top: 25px; margin-bottom: 25px;margin-top: 25px;">請選擇預約日期</h4>
                 <input type="text" id="dateInput" name="dateInput" class="form-control" style="margin-bottom: 25px;"
                     placeholder="請點擊選擇預約日期">
-                    <!-- 發送預約請求抓pgId值-->
+                    <!-- 發送預約請求抓pgsId值-->
                 <p id="pgsIdLabel" style="display: none;"></p>
 
                 <h4>請選擇預約時段</h4>
@@ -164,7 +165,7 @@
             </div>
             <div class="col-md-4 d-flex align-items-start justify-content-start " style="position: relative">
                 <img id="pgPic" src="" alt="" class="img-fluid img-thumbnail" style="display: none; width: 400px; height: 400px;">
-                    <button id="commit" class="btn" style="position: absolute; bottom: 0; right: 0px; font-family: 'cwTeXYen'; font-size: 3rem; width: 400px; height: fit-content;">預約</button>
+                    <button id="commit" class="btn" style="position: absolute; bottom: 0; right: 0px; font-family: 'cwTeXYen'; font-size: 3rem; width: 500px; height: fit-content;">預約</button>
             </div>
             
         </div>
