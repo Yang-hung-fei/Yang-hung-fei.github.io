@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Foody - Organic Food Website Template</title>
+    <title>All Dog Cat - A paradise for your pets</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -19,97 +19,174 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../../lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/frontend/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../../css/frontendBootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/css/frontendBootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../../../css/main.css" rel="stylesheet">
+    <link href="/frontend/css/main.css" rel="stylesheet">
+    <!-- appointment Stylesheet -->
+    <link href="/frontend/pages/petgroomer/appointment/css/appointment.css" rel="stylesheet">
+
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body>
-    <!-- Spinner Start -->
-    <div id="spinner"
-        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" role="status"></div>
+    <iframe id="header" src="/frontend/header.html" frameborder="0" width="100%" height="auto"></iframe>
+
+    <div class="slick-track" style="opacity: 1; width: 99%; transform: translate3d(0px, 0px, 0px);">
+        <img src="./img/appointment_top.png" class="top_appointment_img">
     </div>
-    <!-- Spinner End -->
+    <div class="container" style="margin-top: 25px;">
+        <h3>參考價目表</h3>
+        <img src="./img/price.JPG" style="max-width: 100%; height: auto;">
+    </div>
+    
+    <div class="container">
+        <hr class="line"> <!-- Horizontal line -->
+        <h4 style="margin-top: 25px;">請選擇方案</h4>
+    </div>
 
-
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s"
-        style="background-color: #FEFCEC;">
-        <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
-            <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png"
-                alt="LOGO" style="width: 300px;">
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About Us</a>
-                <a href="product.html" class="nav-item nav-link">Products</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                        <a href="feature.html" class="dropdown-item">Our Features</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="404.html" class="dropdown-item">404 Page</a>
+    <div class="container" style="margin-top: 25px;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/0_PG.jpg" class="img-1" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>狗狗洗澡</h4>
+                    <p>狗狗洗澡服務內容包含 剪+磨指甲、拔耳毛、耳朵清潔、剃腳底毛 / 腹部毛 / 肛門毛
+                        、擠肛門腺、梳毛吹整、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 ) 、眼周圍毛小修、腳圍毛小修。<br>
+                        ※以上服務實際依照毛孩狀況評估作業!</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio0" value="0" checked>
+                        <label class="form-check-label" for="radio0">選擇</label>
                     </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
             </div>
-            <div class="d-none d-lg-flex ms-2">
-                <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
-                    <small class="fa fa-search text-body"></small>
-                </a>
-                <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
-                    <small class="fa fa-user text-body"></small>
-                </a>
-                <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
-                    <small class="fa fa-shopping-bag text-body"></small>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Navbar End -->
-
-    <div class="page-banner salon-banner">
-        <ul class="salon-banner-slick slick-initialized slick-slider slick-dotted">
-            <div class="slick-list draggable">
-                <div class="slick-track" style="opacity: 1; width: 347px; transform: translate3d(0px, 0px, 0px);">
-                    <li class="slick-item slick-slide slick-current slick-active"
-                        style="background-image: url(); width: 347px;"
-                        data-slick-index="0" aria-hidden="false" tabindex="0" role="tabpanel" id="slick-slide10"
-                        aria-describedby="slick-slide-control10"></li>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/1_PG.png" class="img-2" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>狗狗半手剪 (洗澡+剃毛)</h4>
+                    <p>狗狗半手剪服務內容包含： 包含洗澡、基本美容、使用電剪身體剃毛(2,3,6mm)、手剪頭尾造型。<br>
+                        ※以上服務實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio1" value="1">
+                        <label class="form-check-label" for="radio1">選擇</label>
+                    </div>
                 </div>
             </div>
-            <ul class="slick-dots" role="tablist">
-                <li class="slick-active" role="presentation"><button type="button" role="tab" id="slick-slide-control10"
-                        aria-controls="slick-slide10" aria-label="1 of 1" tabindex="0" aria-selected="true">1</button>
-                </li>
-            </ul>asd
-        </ul>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/2_PG.png" class="img-3" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>全手剪(洗澡+全身手剪造型)</h4>
+                    <p>狗狗全手剪服務內容包含 洗澡、基本美容、全程使用剪刀手修，留毛的長度可依照需求客製。<br>
+                        ※適合長毛狗狗 (ex:博美、貴賓、瑪爾、狐狸...等)<br>
+                        ※此服務須久站，幼犬及年邁老犬不建議<br>
+                        ※實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio2" value="2">
+                        <label class="form-check-label" for="radio2">選擇</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/3_PG.jpg" class="img-4" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>貓咪洗澡</h4>
+                    <p>貓貓洗澡-包含剪指甲、耳朵清潔、剃腳底毛、擠肛門腺、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 )梳毛吹整、腳圍毛小修。 <br>
+                        ※實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio3" value="3">
+                        <label class="form-check-label" for="radio3">選擇</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/4_PG.jpg" class="img-5" style="width:100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>貓咪大美容</h4>
+                    <p>貓貓大美容服務-包含洗澡、電剪身體剃毛(2mm)、手剪圓頭造型、獅子尾造型、腳靴。<br>
+                        ※實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio4" value="4">
+                        <label class="form-check-label" for="radio4">選擇</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- -->
+    <div class="container" style="margin-top: 55px; max-height: 1300px;">
+        <div class="row d-flex justify-content-center">
+            <h4 style="margin-top: 25px; margin-bottom: 25px;">請選擇美容師</h4>
+            <div class="col-md-6">
+                <h2 style="color: #ffb20d; font-family: 'cwTeXYen';">Appointment</h2>
+                <label for="pgNameLabel" class="form-label">美容師</label>
+                <select id="pgName" name="pgName" class="form-select"></select><br>
+                <input id="pgId" name="pgId" value=""></input>
+
+                <h4 style="margin-top: 25px; margin-bottom: 25px;margin-top: 25px;">請選擇預約日期</h4>
+                <input type="text" id="dateInput" name="dateInput" class="form-control" style="margin-bottom: 25px;"
+                    placeholder="請點擊選擇預約日期">
+                    <!-- 發送預約請求抓pgsId值-->
+                <p id="pgsIdLabel" style="display: none;"></p>
+
+                <h4>請選擇預約時段</h4>
+                <input id="timeValue" name="timeValue" value="000000000000000000000000"></input>
+                <div id="timeSlotsContainer">
+
+                </div>
+                
+
+                <h4>請輸入聯絡訊息</h4>
+                <div class="mb-3">
+                    <label for="userName" class="form-label">預約姓名</label>
+                    <input type="text" id="userName" name="userName" class="form-control" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="userPh" class="form-label">預約電話</label>
+                    <input type="text" id="userPh" name="userPh" class="form-control">
+                </div>
+
+                <div>
+                    <label for="pgaNotes" class="form-label">預約備註 (如有額外注意事項都可填寫)</label>
+                    <textarea name="pgaNotes" id="pgaNotes" rows="10" style="min-width: 550px; max-width: 550px; resize: none; overflow: auto;" maxlength="500"></textarea>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <h2 style="color: #ffb20d; font-family: 'cwTeXYen'; width: 100%; flex-wrap: wrap;">Groomer</h2>
+                <label id="ShowNameLabel" for="ShowNameLabel">美容師姓名</label>
+                <p class="" id="pgNameShow" name="pgNameShow"></p>
+                <label class="">性別：</label>
+                <p id="pgGender" name="pgGender"></p>
+            </div>
+            <div class="col-md-4 d-flex align-items-start justify-content-start " style="position: relative">
+                <img id="pgPic" src="" alt="" class="img-fluid img-thumbnail" style="display: none; width: 400px; height: 400px;">
+                    <button id="commit" class="btn" style="position: absolute; bottom: 0; right: 0px; font-family: 'cwTeXYen'; font-size: 3rem; width: 500px; height: fit-content;">預約</button>
+            </div>
+            
+        </div>
     </div>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script type="module" src="./js/appointment.js"></script>
 
-    <!-- Footer Start -->
-    <footer class="container-fluid footer mt-0 pt-5 wow fadeIn" data-wow-delay="0.1s"
+
+    <!-- footer -->
+    <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s"
         style="background-color: #6F5242;">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
                         alt="LOGO" style="width: 180px;">
-                    <p>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed
-                        stet lorem sit clita</p>
+                    <p>A paradise for shopping </p>
+                    <p>Plenty of groups for interaction</p>
+                    <p>A comfortable space for grooming</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
                                 class="fab fa-twitter"></i></a>
@@ -123,9 +200,9 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Address</h4>
-                    <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <p><i class="fa fa-map-marker-alt me-3"></i>330 桃園市中壢區復興路123號45樓</p>
+                    <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
+                    <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Quick Links</h4>
@@ -151,7 +228,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                        &copy; <a href="#">All Dog Cat</a>, All Right Reserved.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
@@ -171,13 +248,13 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../lib/wow/wow.min.js"></script>
-    <script src="../../../lib/easing/easing.min.js"></script>
-    <script src="../../../lib/waypoints/waypoints.min.js"></script>
-    <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../../js/main.js"></script>
+    <script src="/frontend/js/main.js"></script>
     <!-- JSP後端時，放置時戳，解決重新整理icon會消失的狀況 -->
 </body>
 
