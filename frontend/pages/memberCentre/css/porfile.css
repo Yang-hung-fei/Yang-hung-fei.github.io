@@ -109,7 +109,7 @@ main > div > div div input,
 main > div > div div select {
   height: 30px;
 }
-main > div > div div input {
+main > div > div div input, #userGender {
   width: 150px;
 }
 main > div > div div select {
@@ -124,7 +124,7 @@ main > div > div div select {
   gap: 10px;
 }
 
-main > div > div div:not(#userAddressDiv) input {
+main > div > div div:not(#userAddressDiv) input, #userGender {
   margin-left: 5px;
 }
 

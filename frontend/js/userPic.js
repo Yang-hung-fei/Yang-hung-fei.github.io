@@ -14,11 +14,19 @@ $(window).on("load", () => {
       var code = responseData.code;
       if (code === 200) {
         let userPic_base64 = responseData.message.userPic;
-        console.log(responseData);
-        console.log(userPic_base64);
-        let user_el = document.getElementById("user");
-        user_el.style.background =
-          "url('data:image/png;base64," + userPic_base64 + "') !important";
+        if (userPic_base64) {
+          console.dir(responseData);
+          let user_el = document.getElementById("user");
+          var userPic_el = document.createElement("img");
+          userPic_el.src = "data:image/png;base64," + userPic_base64;
+          userPic_el.style.width = "100%";
+          userPic_el.style.height = "100%";
+          userPic_el.style.borderRadius = "100%";
+          user_el.appendChild(userPic_el);
+
+          let userIcon_el = document.getElementById("userIcon");
+          userIcon_el.style.display = "none";
+        }
       }
     })
     .catch((error) => {

@@ -63,41 +63,41 @@ function createProfileEditor(data) {
 
   //其他資料
   let userGender_el = document.getElementById("userGender");
+  let genderText = data.userGender;
+  if (!genderText) {
+    // 没有数据，将默认选项设置为"-"
+    userGender_el.selectedIndex = 0; // 设置为"-"选项的索引
+    userGender_el.disabled = true; // 禁用下拉框
+  } else {
+    // 有数据，根据数据设置选中的选项
+    for (var i = 0; i < userGender_el.options.length; i++) {
+      if (userGender_el.options[i].textContent === genderText) {
+        userGender_el.selectedIndex = i;
+        break; // 找到匹配选项后退出循环
+      }
+    }
+  }
   let userBirthday_el = document.getElementById("userBirthday");
+  var userBirthdayText = new Date(data.userBirthday);
+  var options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  var dateString = userBirthdayText.toLocaleString("zh-TW", options);
+  var parts = dateString.split("/");
+  var formattedDate = parts[0] + "-" + parts[1] + "-" + parts[2];
+  userBirthday_el.value = formattedDate;
   let userPhone_el = document.getElementById("userPhone");
+  userPhone_el.value = data.userPhone;
 
+  //地址
   const userAddressData = data.userAddress;
   addressShow(userAddressData);
-
-  for (var key in userInfo) {
-    var label = document.createElement("label");
-    label.textContent = key + ": ";
-    var span = document.createElement("span");
-    span.textContent = userInfo[key];
-    var br = document.createElement("br");
-
-    userInfoDiv.appendChild(label);
-    userInfoDiv.appendChild(span);
-    userInfoDiv.appendChild(br);
-
-    var input = document.createElement("input");
-    input.type = "text";
-    input.value = userInfo[key];
-    editInfoDiv.appendChild(input);
-    editInfoDiv.appendChild(document.createElement("br")); // Add <br> after each input
-  }
 
   //TODO: 名稱欄位，顯示和編輯交換顯示
   //TODO: enter儲存，還有切換儲存按鈕svg
 
   var editButton = document.getElementById("edit-button");
-  var saveButton = document.getElementById("save-button");
-  var cancelButton = document.getElementById("cancel-button");
 
   editButton.addEventListener("click", function () {
     editButton.style.display = "none";
-    saveButton.style.display = "inline";
-    cancelButton.style.display = "inline";
 
     userInfoDiv.style.display = "none";
     editInfoDiv.style.display = "block";
@@ -140,7 +140,7 @@ function addressShow(userAddress) {
   if (userAddress) {
     var cityMatch = userAddress.match(/^.{1,3}/);
     var areaMatch = userAddress.match(/^.{4,6}/);
-    var userAddressInput = userAddress.substring(6);;
+    var userAddressInput = userAddress.substring(6);
   }
 
   const city_el = document.getElementById("city");

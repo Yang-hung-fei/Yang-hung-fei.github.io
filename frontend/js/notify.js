@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("notifyButton 被點擊");
   const notificationDiv = document.querySelector("#notifyMenu.dropdown-menu");
   const notifyButton = document.getElementById("notify");
 
