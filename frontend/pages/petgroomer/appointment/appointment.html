@@ -30,13 +30,23 @@
     <!-- appointment Stylesheet -->
     <link href="/frontend/pages/petgroomer/appointment/css/appointment.css" rel="stylesheet">
 
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body>
     <iframe id="header" src="/frontend/header.html" frameborder="0" width="100%" height="auto"></iframe>
 
-    <div class="slick-track" style="opacity: 1; width: 100%; transform: translate3d(0px, 0px, 0px);">
+    <div class="slick-track" style="opacity: 1; width: 99%; transform: translate3d(0px, 0px, 0px);">
         <img src="./img/appointment_top.png" class="top_appointment_img">
+    </div>
+    <div class="container" style="margin-top: 25px;">
+        <h3>參考價目表</h3>
+        <img src="./img/price.JPG" style="max-width: 100%; height: auto;">
+    </div>
+
+    <div class="container">
+        <h4 style="margin-top: 25px;">請選擇方案</h4>
     </div>
 
     <div class="container" style="margin-top: 25px;">
@@ -48,10 +58,10 @@
                     <p>狗狗洗澡服務內容包含 剪+磨指甲、拔耳毛、耳朵清潔、剃腳底毛 / 腹部毛 / 肛門毛
                         、擠肛門腺、梳毛吹整、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 ) 、眼周圍毛小修、腳圍毛小修。<br>
                         ※以上服務實際依照毛孩狀況評估作業!</p>
-                        <div class="form-check position-absolute bottom-0 end-0">
-                            <input type="radio" class="form-check-input" name="pgaOption" id="radio0" value="0">
-                            <label class="form-check-label" for="radio0">選擇</label>
-                        </div>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio0" value="0" checked>
+                        <label class="form-check-label" for="radio0">選擇</label>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -60,10 +70,10 @@
                     <h4>狗狗半手剪 (洗澡+剃毛)</h4>
                     <p>狗狗半手剪服務內容包含： 包含洗澡、基本美容、使用電剪身體剃毛(2,3,6mm)、手剪頭尾造型。<br>
                         ※以上服務實際依照毛孩狀況評估作業</p>
-                        <div class="form-check position-absolute bottom-0 end-0">
-                            <input type="radio" class="form-check-input" name="pgaOption" id="radio1" value="1">
-                            <label class="form-check-label" for="radio1">選擇</label>
-                        </div>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio1" value="1">
+                        <label class="form-check-label" for="radio1">選擇</label>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -74,10 +84,10 @@
                         ※適合長毛狗狗 (ex:博美、貴賓、瑪爾、狐狸...等)<br>
                         ※此服務須久站，幼犬及年邁老犬不建議<br>
                         ※實際依照毛孩狀況評估作業</p>
-                        <div class="form-check position-absolute bottom-0 end-0">
-                            <input type="radio" class="form-check-input" name="pgaOption" id="radio2" value="2">
-                            <label class="form-check-label" for="radio2">選擇</label>
-                        </div>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio2" value="2">
+                        <label class="form-check-label" for="radio2">選擇</label>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -86,11 +96,11 @@
                     <h4>貓咪洗澡</h4>
                     <p>貓貓洗澡-包含剪指甲、耳朵清潔、剃腳底毛、擠肛門腺、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 )梳毛吹整、腳圍毛小修。 <br>
                         ※實際依照毛孩狀況評估作業</p>
-                        <div class="form-check position-absolute bottom-0 end-0">
-                            <input type="radio" class="form-check-input" name="pgaOption" id="radio3" value="3">
-                            <label class="form-check-label" for="radio3">選擇</label>
-                        </div>
-                </div>  
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio3" value="3">
+                        <label class="form-check-label" for="radio3">選擇</label>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
@@ -98,31 +108,65 @@
                     <h4>貓咪大美容</h4>
                     <p>貓貓大美容服務-包含洗澡、電剪身體剃毛(2mm)、手剪圓頭造型、獅子尾造型、腳靴。<br>
                         ※實際依照毛孩狀況評估作業</p>
-                        <div class="form-check position-absolute bottom-0 end-0">
-                            <input type="radio" class="form-check-input" name="pgaOption" id="radio4" value="4">
-                            <label class="form-check-label" for="radio4">選擇</label>
-                        </div>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio4" value="4">
+                        <label class="form-check-label" for="radio4">選擇</label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- -->
-    <label for="pgNameLabel">請選擇要預約之美容師:</label>
-    <select id="pgName" name="pgName"></select>
+    <div class="container" style="margin-top: 55px; max-height: 1200px;">
+        <div class="row d-flex justify-content-center">
+            <h4 style="margin-top: 25px; margin-bottom: 25px;">請選擇美容師</h4>
+            <div class="col-md-6">
+                <h2 style="color: #ffb20d; font-family: 'cwTeXYen';">Appointment</h2>
+                <label for="pgNameLabel" class="form-label">美容師</label>
+                <select id="pgName" name="pgName" class="form-select"></select><br>
 
-    <div>
-        <div>
-            <label>性別:</label>
-            <p id="pgGender"name="pgGender"></p>
-            <img id="pgPic" src="" alt="Groomer Picture">
+                <h4 style="margin-top: 25px; margin-bottom: 25px;margin-top: 25px;">請選擇預約日期</h4>
+                <input type="text" id="dateInput" name="dateInput" class="form-control" style="margin-bottom: 25px;"
+                    placeholder="請點擊選擇預約日期">
+                    <!-- 發送預約請求抓pgId值-->
+                <p id="pgsIdLabel" style="display: none;"></p>
+
+                <h4>請選擇預約時段</h4>
+                <input id="timeValue" name="timeValue" value="000000000000000000000000"></input>
+                <div id="timeSlotsContainer">
+
+                </div>
+                
+
+                <h4>請輸入聯絡訊息</h4>
+                <div class="mb-3">
+                    <label for="userName" class="form-label">預約姓名</label>
+                    <input type="text" id="userName" name="userName" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="userPh" class="form-label">預約電話</label>
+                    <input type="text" id="userPh" name="userPh" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <h2 style="color: #ffb20d; font-family: 'cwTeXYen'; width: 100%; flex-wrap: wrap;">Groomer</h2>
+                <label id="ShowNameLabel" for="ShowNameLabel">美容師姓名</label>
+                <p class="" id="pgNameShow" name="pgNameShow"></p>
+                <label class="">性別：</label>
+                <p id="pgGender" name="pgGender"></p>
+            </div>
+            <div class="col-md-4 d-flex align-items-start justify-content-start">
+                <img id="pgPic" src="" alt="" style="display: none; width: 400px; height: 400px;">
+            </div>
         </div>
     </div>
-    <input type="text" id="userName" name="userName" >
-    <input type="text" id="userPh" name="userPh">
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="module" src="./js/appointment.js"></script>
-<!-- footer -->
+
+
+    <!-- footer -->
     <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s"
         style="background-color: #6F5242;">
         <div class="container py-5">
@@ -202,6 +246,6 @@
     <!-- Template Javascript -->
     <script src="/frontend/js/main.js"></script>
     <!-- JSP後端時，放置時戳，解決重新整理icon會消失的狀況 -->
-    </body>
+</body>
 
 </html>

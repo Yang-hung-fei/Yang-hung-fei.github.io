@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'cwTeXYen';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot);
+    src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'),
+         url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype');
+  }
 .top_appointment_img {
     width: 100%;
     height: 600px;
@@ -27,4 +37,37 @@ img[class^="img-"] {
 /* 调整卡片底部间距 */
 .row .col-md-4:last-child {
     margin-bottom: 20px; /* 调整底部间距 */
+}
+
+#ShowNameLabel{
+    display: block;
+}
+/* 按鈕 */
+.time-slot-button {
+    background-color: #f8d488;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    width: 140px; /* 設定按鈕的寬度 */
+    text-align: center; /* 讓文字置中 */
+}
+/* 按鈕樣式 */
+.time-slot-button:hover {
+    background-color: #997b66;
+    color: #fff;
+}
+/* 按鈕樣式 */
+.time-slot-button.disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+    color: #888;
+}
+
+/* 用於選中的按鈕 */
+.time-slot-button-selected {
+    background-color: #997b66;
+    color: #fff;
 }
