@@ -127,7 +127,8 @@
                 <h2 style="color: #ffb20d; font-family: 'cwTeXYen';">Appointment</h2>
                 <label for="pgNameLabel" class="form-label">美容師</label>
                 <select id="pgName" name="pgName" class="form-select"></select><br>
-                <input id="pgId" name="pgId" value=""></input>
+                <!-- 發送預約請求抓pgId值-->
+                <input id="pgId" name="pgId" value="" hidden></input>
 
                 <h4 style="margin-top: 25px; margin-bottom: 25px;margin-top: 25px;">請選擇預約日期</h4>
                 <input type="text" id="dateInput" name="dateInput" class="form-control" style="margin-bottom: 25px;"
@@ -136,7 +137,7 @@
                 <p id="pgsIdLabel" style="display: none;"></p>
 
                 <h4>請選擇預約時段</h4>
-                <input id="timeValue" name="timeValue" value="000000000000000000000000"></input>
+                <input id="timeValue" name="timeValue" value="000000000000000000000000" hidden></input>
                 <div id="timeSlotsContainer">
 
                 </div>
