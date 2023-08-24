@@ -52,10 +52,10 @@ window.addEventListener("load", () => {
                 <td class="text-center">${appointment.pgaPhone}</td>
                 <td class="text-center">${appointment.pgaState}</td>
                 <td class="text-center">
-                    <button class="complete-btn">完成</button>
+                    <button class="btn slot-button">完成</button>
                 </td>
                 <td class="text-center">
-                    <button class="cancel-btn">取消</button>
+                    <button class="btn slot-button">取消</button>
                 </td>
             `;
 

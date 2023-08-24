@@ -27,11 +27,15 @@
 
     <!-- Template Stylesheet -->
     <link href="/frontend/css/main.css" rel="stylesheet">
-
+    <!-- sweetalert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <!--CSS-->
+    <link rel="stylesheet" href="./css/appointmentRecord.css">
+    <!--nav bar-->
     <link rel="stylesheet" href="./css/mainnav.css">
     <link rel="stylesheet" href="./css/sidebar.css">
     <link rel="stylesheet" href="./css/porfile.css">
-    <link rel="stylesheet" href="./css/appointmentRecord.css">
+    
 </head>
 
 <body>
@@ -116,13 +120,13 @@
         <!--內容-->
         <div style="min-height: 1000px; min-width: 1000px;">
             <div class="table-title">
-                <h3>預約紀錄</h3>
+                <h2 style="font-family: Roboto; font-size: 40px; color: #a29363;">預約紀錄</h2>
             </div>
             <table class="table-fill">
                 <thead>
                     <tr>
                         <th class="text-center" hidden>預約單編號</th>
-                        <th class="text-center">美容師姓名</th>
+                        <th class="text-center" style="border-top-left-radius: 5px;">美容師姓名</th>
                         <th class="text-center">美容師照片</th>
                         <th class="text-center">預約日期</th>
                         <th class="text-center">預約時段</th>
@@ -132,7 +136,7 @@
                         <th class="text-center">預約電話</th>
                         <th class="text-center">預約單狀態</th>
                         <th class="text-center">完成預約</th>
-                        <th class="text-center">取消預約</th>
+                        <th class="text-center" style="border-top-right-radius: 5px;">取消預約</th>
                     </tr>
                 </thead>
                 <tbody class="table-hover">
@@ -144,7 +148,8 @@
 
     <!--JS-->
     <script type="module" src="./js/appointmentRecord.js"></script>
-
+    <!--sweetalert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     <!-- footer -->
     <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s"

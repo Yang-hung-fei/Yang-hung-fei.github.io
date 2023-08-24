@@ -42,10 +42,10 @@ div.table-title {
 }
  
 th {
-  color:#D5DDE5;;
-  background:#1b1e24;
-  border-bottom:4px solid #9ea7af;
-  border-right: 1px solid #343a45;
+  color:#fefeff;;
+  background:#818072;
+  border-bottom:2px solid #ffffff;
+  border-right: 2px solid #ffffff;
   font-size:18px;
   font-weight: 100;
   padding:5px;
@@ -65,18 +65,18 @@ th:last-child {
 }
   
 tr {
-  border-top: 1px solid #C1C3D1;
-  border-bottom: 1px solid #C1C3D1;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
   color:#666B85;
   font-size:16px;
   font-weight:normal;
-  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
 }
  
 tr:hover td {
-  background:#4E5066;
-  color:#FFFFFF;
-  border-top: 1px solid #22262e;
+  background:#d08c60;
+  color:#ffffff;
+  border-top: 2px solid #ffffff;
 }
  
 tr:first-child {
@@ -92,7 +92,7 @@ tr:nth-child(odd) td {
 }
  
 tr:nth-child(odd):hover td {
-  background:#4E5066;
+  background:#d9ae94;
 }
 
 tr:last-child td:first-child {
@@ -111,7 +111,7 @@ td {
   font-weight:300; 
   font-size:13px;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-  border-right: 1px solid #C1C3D1;
+  border-right: 1px solid #ffffff;
   
 }
 
@@ -151,4 +151,32 @@ td.text-right {
     object-fit: cover;
     object-position: center;
     border: 2px solid #fff;
+}
+/* 按鈕 */
+.slot-button {
+    background-color: #997b66;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center; /* 讓文字置中 */
+}
+
+.slot-button:hover {
+    background-color: #f8d488;
+    color: #fff;
+}
+/* 按鈕樣式 */
+.slot-button.disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+    color: #888;
+}
+
+/* 用於選中的按鈕 */
+.slot-button-selected {
+    background-color: #f8d488;
+    color: #fff;
 }
