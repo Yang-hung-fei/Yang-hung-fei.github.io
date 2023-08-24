@@ -22,7 +22,10 @@ window.addEventListener("load", () => {
     
     const pgIdInput = document.getElementById('pgId');
 
+    fetchGroomer();
+
     //撈使用者/美容師資料(token要改)
+    function fetchGroomer(){
     fetch(config.url + "/user/appointmentPage", {
         method: "GET",
         headers: {
@@ -78,7 +81,7 @@ window.addEventListener("load", () => {
                 userPhInput.value = data.message.userPh;
             }
         });
-
+    }
     // 請求 /user/pgScheduleForA API (token要改)
 
     function fetchScheduleForDate(pgId) {
@@ -201,6 +204,7 @@ window.addEventListener("load", () => {
                 selectedOptionValue = option.value;
             }
         });
+
         const appointmentData = {
             pgId: pgIdInput.value,//美容師編號 (Foreign Key)
             pgaDate: dateInput.value,// yyyy-mm-dd sql.Date 預約日期
@@ -210,6 +214,7 @@ window.addEventListener("load", () => {
             pgaPhone: userPhInput.value,// 預約電話 (Not Null)
             pgaState:0// 預約單狀態 (0:未完成 / 1:完成訂單 / 2:取消, 預設: 0)
         }; 
+
         insertNewAppointment(appointmentData);
 
     });
@@ -226,9 +231,19 @@ window.addEventListener("load", () => {
             .then(response => response.json())
             .then(data => {
                 if (data.code === 200) {
-                    alert(data.message);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '預約成功!',
+                        text: `${data.message}`,
+                      })
+                    fetchGroomer();
                 } else {
-                    alert(data.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '預約失敗!',
+                        text: `${data.message}`,
+                      })
+                    fetchGroomer();
                 }
             });
     }
@@ -236,7 +251,11 @@ window.addEventListener("load", () => {
     function validateOptions() {
         const checkedOptions = document.querySelectorAll('input[name="pgaOption"]:checked');
         if (checkedOptions.length === 0) {
-            alert("請至少選擇一種方案！");
+            Swal.fire({
+                icon: 'error',
+                title: '請至少選擇一種方案！',
+                text: '方案尚未選擇',
+              })
             return false;
         }
         return true;
@@ -244,7 +263,11 @@ window.addEventListener("load", () => {
 
     function validateDate() {
         if (dateInput.value === "") {
-            alert("請選擇預約日期！");
+            Swal.fire({
+                icon: 'error',
+                title: '請選擇日期！',
+                text: '預約日期尚未選擇',
+              })
             return false;
         }
         return true;
@@ -254,7 +277,11 @@ window.addEventListener("load", () => {
         const timeValue = timeValueInput.value;
         const numberOfOnes = timeValue.split("1").length - 1;
         if (numberOfOnes !== 1) {
-            alert("請選擇時段！");
+            Swal.fire({
+                icon: 'error',
+                title: '請選擇時段！',
+                text: '預約時段尚未選擇',
+              })
             return false;
         }
         return true;
@@ -263,7 +290,11 @@ window.addEventListener("load", () => {
     function validatePhoneNumber() {
         const phoneNumber = userPhInput.value;
         if (!/^09[0-9]{8}$/.test(phoneNumber)) {
-            alert("請输入有效的手機號碼！");
+            Swal.fire({
+                icon: 'error',
+                title: '請輸入有效的手機號碼！',
+                text: '手機號碼格式有誤',
+              })
             return false;
         }
         return true;
