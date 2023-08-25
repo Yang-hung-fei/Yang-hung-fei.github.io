@@ -65,7 +65,7 @@ window.addEventListener("load", () => {
 
             row.innerHTML = `
                 <td class="text-center" hidden name="pgId">${appointment.pgId}</td>
-                <td class="text-center" hidden name="pgaNo">${appointment.pgaNo}</td>
+                <td class="text-center" hidden name="pgaNo" value="${appointment.pgaNo}">${appointment.pgaNo}</td>
                 <td class="text-center" name="pgName">${appointment.pgName}</td>
                 <td class="text-center">
                 <img src="data:image/png;base64,${appointment.pgPic}" alt="美容師照片" class="pg-pic">
@@ -82,35 +82,44 @@ window.addEventListener("load", () => {
                     <button class="btn slot-button modify">修改</button>
                 </td>
                 <td class="text-center">
-                    <button class="btn slot-button finish">完成</button>
+                    <button class="btn slot-button finish" id="finishBtn">完成</button>
                 </td>
                 <td class="text-center">
-                    <button class="btn slot-button cancel">取消</button>
+                    <button class="btn slot-button cancel" id="cancelBtn">取消</button>
                 </td>
             `;
             tableBody.appendChild(row);
             if (appointment.pgaState === "已完成") {
-                const stateElement =row.querySelectorAll(".state");
-                stateElement.forEach(stateElement => {
-                    stateElement.style.color = 'green'
-                });
-            }
-            if (appointment.pgaState === "已取消") {
-                const stateElement2 =row.querySelectorAll(".state");
-                stateElement2.forEach(stateElement2 => {
-                    stateElement2.style.color = 'red'
-                });
-            }
-
-            if (appointment.pgaState === "已取消" || appointment.pgaState === "已完成") {
+                const stateElement = row.querySelectorAll(".state");
                 const finishButton = row.querySelectorAll(".finish");
                 const cancelButton = row.querySelectorAll(".cancel");
                 const editButton = row.querySelectorAll(".modify");
-                
+                stateElement.forEach(stateElement => {
+                    stateElement.style.color = 'green'
+                });
                 finishButton.forEach(finishButton => {
                     finishButton.disabled = true;
                 });
-                
+
+                cancelButton.forEach(cancelButton => {
+                    cancelButton.disabled = true;
+                });
+                editButton.forEach(editButton => {
+                    editButton.disabled = true;
+                });
+            }
+            if (appointment.pgaState === "已取消") {
+                const stateElement2 = row.querySelectorAll(".state");
+                const finishButton = row.querySelectorAll(".finish");
+                const cancelButton = row.querySelectorAll(".cancel");
+                const editButton = row.querySelectorAll(".modify");
+                stateElement2.forEach(stateElement2 => {
+                    stateElement2.style.color = 'red'
+                });
+                finishButton.forEach(finishButton => {
+                    finishButton.disabled = true;
+                });
+
                 cancelButton.forEach(cancelButton => {
                     cancelButton.disabled = true;
                 });
@@ -129,26 +138,70 @@ window.addEventListener("load", () => {
             });
             const finishButtons = tableBody.querySelectorAll("tr > td > .finish");
 
-            finishButtons.forEach((finishButtons) => {
+            finishButtons.forEach((finishButton) => {
 
-                finishButtons.addEventListener("click", () => {
-                    
-                });
+                finishButton.addEventListener("click", () => {
+                    CancelOrfinishButtonClick(finishButton);
+                }); 
             });
             const cancelButtons = tableBody.querySelectorAll("tr > td > .cancel");
 
-            cancelButtons.forEach((cancelButtons) => {
+            cancelButtons.forEach((cancelButton) => {
 
-                cancelButtons.addEventListener("click", () => {
-                    
+                cancelButton.addEventListener("click", () => {
+                    CancelOrfinishButtonClick(cancelButton);
                 });
             });
 
 
         });
+
+    }
+    //修改狀態
+    function CancelOrfinishButtonClick(editButton) {
+        const row = editButton.closest("tr");
+        const pgaNo = row.querySelector("[name=pgaNo]").textContent;
         
+        let value;
+        if (editButton.id === 'finishBtn') {
+            value = 1;
+        } else if (editButton.id === 'cancelBtn') {
+            value = 2;
+        }
+
+        const requestBody = {
+            pgaNo: parseInt(pgaNo),
+            pgaState: parseInt(value)
+        };
+        //TOKEN要修改
+        fetch(config.url + "/user/CompleteOrCancel", {
+            method: "POST",
+            headers: {
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "訂單狀態已修改",
+                        text: data.message
+                    });
+                    fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "修改失敗",
+                        text: data.message
+                    });
+                }
+            });
     }
 
+    //更新分頁
     function updatePaginationButtons(totalAppointments) {
         const paginationButtonsContainer = document.getElementById("pagination-buttons");
         paginationButtonsContainer.innerHTML = "";
@@ -292,7 +345,7 @@ window.addEventListener("load", () => {
                     <div class="col-md-6">
                     <span  style="font-size: 14px; color:#ddd; font-family: cwTeXYen" >不修改的內容請留空</span><br>
                         <input id="pgId" name="pgId" value="${pgId}" hidden readonly></input>
-                        <input id="pgaNo" name="pgaNo" value="${pgaNo}" hidden readonly></input>
+                        <input id="pgaNo" name="pgaNo2" value="${pgaNo}" hidden readonly></input>
                         <label for="dateInput" style="font-size: 18px;">修改日期</label>
                         <input type="text" id="dateInput" name="dateInput" placeholder="請點擊選擇預約日期"><br>
                         
@@ -345,7 +398,7 @@ window.addEventListener("load", () => {
             if (result.isConfirmed) {
                 // 送出修改，TOKEN要改
                 const editedData = result.value;
-        
+
                 fetch(config.url + "/user/modifyAppointment", {
                     method: "POST",
                     headers: {
@@ -354,23 +407,23 @@ window.addEventListener("load", () => {
                     },
                     body: JSON.stringify(editedData)
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.code === 200) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "預約修改成功",
-                            text: data.message
-                        });
-                        fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "預約修改失敗",
-                            text: data.message
-                        });
-                    }
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code === 200) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "預約修改成功",
+                                text: data.message
+                            });
+                            fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "預約修改失敗",
+                                text: data.message
+                            });
+                        }
+                    });
             }
 
         });
