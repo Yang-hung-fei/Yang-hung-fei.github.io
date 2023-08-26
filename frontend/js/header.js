@@ -34,18 +34,17 @@ $(window).on("load", () => {
         break;
     }
 
-    imgBase64 = notifyMsg.image;
-
-
-
+    imgBase64 ="data:image/jpeg;base64,"+notifyMsg.image; 
+    console.log(imgBase64);
+    
     const newContent = `
         <a href="`+ redirectUrl + `" class="list-group-item">
           <div class="row g-0 align-items-center">
             <div class="col-2">
               <i class="text-warning" data-feather="bell"></i>
             </div>
-            <div class="col-10 d-flex align-items-center"> 
-            <img src =`+ imgBase64 + ` class="mr-1" style="max-width: 100px; max-height: 100px;"/>
+            <div class="col-12 d-flex align-items-left"> 
+            <img src =`+ imgBase64 + ` class="mr-3" style="max-width: 70px; max-height: 70px; "/>
               <div class="text-muted small mt-1">`+ notifyMsg.msg + `
               </div> 
             </div>
