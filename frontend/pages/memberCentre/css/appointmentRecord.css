@@ -1,0 +1,198 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+@font-face {
+  font-family: 'cwTeXYen';
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot);
+  src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype');
+}
+body {
+  font-family: "Roboto", helvetica, arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+}
+
+div.table-title {
+  display: block;
+  margin: auto;
+  max-width: 1000px;
+  padding:5px;
+  width: 100%;
+  
+}
+
+.table-title h3 {
+   color: #1b1e24;
+   font-size: 30px;
+   font-weight: 400;
+   font-style:normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
+}
+
+
+/*** Table Styles **/
+
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: auto;
+  max-width: 1000px;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+th {
+  color:#fefeff;;
+  background:#818072;
+  border-bottom:2px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  font-size:18px;
+  font-weight: 100;
+  padding:5px;
+  text-align:center;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+  white-space: nowrap;
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+  
+tr {
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+ 
+tr:hover td {
+  background:#d9ae94;
+  color:#ffffff;
+  border-top: 1px solid #ffffff;
+}
+ 
+tr:first-child {
+  border-top:none;
+}
+
+tr:last-child {
+  border-bottom:none;
+}
+ 
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+tr:nth-child(odd):hover td {
+  background:#d9ae94;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding:20px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300; 
+  font-size:13px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #ffffff;
+  
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+  padding: 0;
+}
+
+td.text-center {
+  text-align: center;
+  padding: 0;
+}
+
+td.text-right {
+  text-align: right;
+}
+/*照片*/
+.pg-pic{
+    width: 100px;
+    height: 120px;
+    object-fit: cover;
+    object-position: center;
+    border: 2px solid #fff;
+}
+/* 按鈕 */
+.slot-button {
+    background-color: #997b66;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center; /* 讓文字置中 */
+}
+
+.slot-button:hover {
+    background-color: #f8d488;
+    color: #fff;
+}
+.slot-button:active {
+  background-color: #f8d488;
+  color: #fff;
+}
+
+/* 狀態改變按鈕樣式 */
+.slot-button.disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+    color: #888;
+}
+
+/* 狀態改變用於選中的按鈕 */
+.slot-button-selected {
+    background-color: #f8d488;
+    color: #fff;
+}
+
