@@ -423,8 +423,8 @@
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src=""
-													class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
+												<img src="" class="avatar img-fluid rounded-circle"
+													alt="Vanessa Tucker">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">Vanessa Tucker</div>
@@ -437,8 +437,8 @@
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src=""
-													class="avatar img-fluid rounded-circle" alt="William Harris">
+												<img src="" class="avatar img-fluid rounded-circle"
+													alt="William Harris">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">William Harris</div>
@@ -451,8 +451,8 @@
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src=""
-													class="avatar img-fluid rounded-circle" alt="Christina Mason">
+												<img src="" class="avatar img-fluid rounded-circle"
+													alt="Christina Mason">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">Christina Mason</div>
@@ -465,8 +465,8 @@
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src=""
-													class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
+												<img src="" class="avatar img-fluid rounded-circle"
+													alt="Sharon Lessman">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">Sharon Lessman</div>
@@ -519,24 +519,27 @@
 						</div>
 						<div style="display: flex; justify-content: space-between; ">
 							<div style="display: flex; justify-content: flex-start;">
-								<label for="search" style="padding-right: 10px; font-size: 18px;">搜尋</label>
+								<label for="search"
+									style="padding-right: 10px; font-size: 18px; width: 70px;">搜尋</label>
 								<input type="text" class="form-control" id="search"
-									style="width: 50px; height: 25px; border-radius: 3px;"  value=""/>
-								<label for="limit" style="font-size: 18px;">最大筆數</label>
-								<select name="limit" id="limit" style="font-size: 15px;">
+									style="width: 50px; height: 25px; border-radius: 3px; width: 200px; margin-right: 20px;" value="" placeholder="請輸入ID/姓名/日期" />
+								<label for="limit" style="font-size: 18px; width: 80px;">最大筆數</label>
+								<select name="limit" id="limit" style="font-size: 15px; margin-bottom: 20px;">
 									<option value="10" disabled selected>請選擇</option>
 									<option value="5" style="text-align: center;">5</option>
 									<option value="10" style="text-align: center;">10</option>
 									<option value="15" style="text-align: center;">15</option>
 									<option value="20" style="text-align: center;">20</option>
 								</select>
-								<select name="sort" id="sort"
-											style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"
-											class="form-control">
-											<option value="desc" disabled selected>排序</option>
-											<option value="asc">升序</option>
-											<option value="desc">降序</option>
-										</select>
+								<div style="width: 200px;">
+									<select name="sort" id="sort"
+										style="appearance: none; padding: 0;text-align: center; max-width: 80px; height: 29px; margin-bottom: 20px; margin-left: 30px; border: 1px solid gray;"
+										class="form-control">
+										<option value="desc" disabled selected >排序</option>
+										<option value="asc">升序</option>
+										<option value="desc">降序</option>
+									</select>
+								</div>
 							</div>
 							<div style="display: flex; justify-content: flex-end;">
 								<label for="maxCount" style="padding-right: 10px; font-size: 18px;">總筆數</label>
@@ -550,54 +553,67 @@
 								<tr>
 									<th class="text-center" style="border-top-left-radius: 5px;">預約單編號
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_NO">排序
-											<input value="PGA_NO" checked type="radio" id="orderBy_PGA_NO" name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_PGA_NO">▲▼
+												<input value="PGA_NO" checked type="radio" id="orderBy_PGA_NO"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">美容師編號
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PG_ID">排序
-											<input value="PG_ID" type="radio" id="orderBy_PG_ID" name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_PG_ID">▲▼
+												<input value="PG_ID" type="radio" id="orderBy_PG_ID" name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
-									
-									<th class="text-center" >美容師姓名
+
+									<th class="text-center">美容師姓名
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PG_NAME">排序
-											<input value="PG_NAME" type="radio" id="orderBy_PG_NAME"  name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_PG_NAME">▲▼
+												<input value="PG_NAME" type="radio" id="orderBy_PG_NAME" name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">預約日期
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_DATE">排序
-											<input value="PGA_DATE" type="radio" id="orderBy_PGA_DATE"  name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_PGA_DATE">▲▼
+												<input value="PGA_DATE" type="radio" id="orderBy_PGA_DATE"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">預約時段</th>
 									<th class="text-center">預約選項
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_OPTION">排序
-											<input value="PGA_OPTION" type="radio" id="orderBy_PGA_OPTION"  name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_PGA_OPTION">▲▼
+												<input value="PGA_OPTION" type="radio" id="orderBy_PGA_OPTION"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">備註</th>
 									<th class="text-center">會員編號
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_USER_ID">排序
-											<input value="USER_ID" type="radio" id="orderBy_USER_ID"  name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_USER_ID">▲▼
+												<input value="USER_ID" type="radio" id="orderBy_USER_ID" name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">預約姓名
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_USER_NAME">排序
-											<input value="USER_NAME" type="radio" id="orderBy_USER_NAME"  name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_USER_NAME">▲▼
+												<input value="USER_NAME" type="radio" id="orderBy_USER_NAME"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">預約電話</th>
 									<th class="text-center">預約單狀態
 										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_STATE">排序
-											<input value="PGA_STATE" type="radio" id="orderBy_PGA_STATE"  name="orderBy" style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+											<label class="orderBy_label" for="orderBy_PGA_STATE">▲▼
+												<input value="PGA_STATE" type="radio" id="orderBy_PGA_STATE"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">修改預約</th>

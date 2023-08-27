@@ -171,15 +171,24 @@ div.table-title {
       background-color: #8f88f8;
       color: #fff;
   }
-  .orderBy_label input:checked{
+
+input:checked + .orderBy_label{
     background-color: #8f88f8 !important;
+    
 }
-  .orderBy_label{
-    background-color: rgba(1, 111, 190, 0.79);
+.orderBy_label {
+  font-size: 10px;
+  border-radius: 20px;
+}
+.orderBy_label:active {
+  background-color: #8f88f8 !important;
+  color: #fff !important;
+}
+.orderBy_label:hover {
+  background-color: #8f88f8 !important;
+}
+.radio{
+  width: 20px;
+  display: flex;
+}
 
-  }
-
-  .orderBy_label:hover{
-    background-color: #8f88f8;
-
-  }
