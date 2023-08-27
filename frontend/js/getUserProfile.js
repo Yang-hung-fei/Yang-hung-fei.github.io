@@ -25,7 +25,7 @@ var responseActions = {
   200: function (data) {
     var userInfo = data.message;
     console.log(userInfo);
-    createProfileEditor(userInfo);
+    createProfile(userInfo);
   },
   401: function () {
     console.log("code 401: Unauthorized.");
@@ -38,10 +38,10 @@ var responseActions = {
 
 function revomeTokenThenLogin() {
   localStorage.removeItem("Authorization_U");
-  window.location.href = "http://localhost:5500/frontend/pages/user/login.html";
+  window.location.href = "/frontend/pages/user/login.html";
 }
 
-function createProfileEditor(data) {
+function createProfile(data) {
   var userInfoDiv = document.getElementById("user-info");
   var editInfoDiv = document.getElementById("edit-info");
   var userInfo = data;
@@ -93,46 +93,6 @@ function createProfileEditor(data) {
 
   //TODO: 名稱欄位，顯示和編輯交換顯示
   //TODO: enter儲存，還有切換儲存按鈕svg
-
-  var editButton = document.getElementById("edit-button");
-
-  editButton.addEventListener("click", function () {
-    editButton.style.display = "none";
-
-    userInfoDiv.style.display = "none";
-    editInfoDiv.style.display = "block";
-  });
-
-  saveButton.addEventListener("click", function () {
-    var inputFields = editInfoDiv.querySelectorAll("input");
-    for (var i = 0; i < inputFields.length; i++) {
-      var key = Object.keys(userInfo)[i];
-      var inputValue = inputFields[i].value;
-      userInfo[key] = inputValue;
-    }
-
-    editButton.style.display = "inline";
-    saveButton.style.display = "none";
-    cancelButton.style.display = "none";
-
-    userInfoDiv.style.display = "block";
-    editInfoDiv.style.display = "none";
-
-    // 更新顯示資訊
-    for (var key in userInfo) {
-      var span = userInfoDiv.querySelector("span");
-      span.textContent = userInfo[key];
-    }
-  });
-
-  cancelButton.addEventListener("click", function () {
-    editButton.style.display = "inline";
-    saveButton.style.display = "none";
-    cancelButton.style.display = "none";
-
-    userInfoDiv.style.display = "block";
-    editInfoDiv.style.display = "none";
-  });
 }
 
 function addressShow(userAddress) {
@@ -174,9 +134,7 @@ function addressShow(userAddress) {
       // 在第一层选择后，手动触发第二层选择的处理逻辑
       areaSelectHandler();
     })
-    .catch((error) => {
-      console.log("获取城市数据失败");
-    });
+    .catch((error) => {console.error("Error:", error)});
 
   // 第二層選擇
   function areaSelectHandler() {
@@ -206,11 +164,46 @@ function addressShow(userAddress) {
           }
         }
       })
-      .catch((error) => {
-        alert("获取地区数据失败");
-      });
+      .catch((error) => {console.error("Error:", error)});
   }
 
   // 在第一层选择发生改变时调用第二层选择的处理逻辑
   city_el.addEventListener("change", areaSelectHandler);
+}
+
+function edit() {
+  var editButton = document.getElementById("edit-button");
+
+  editButton.addEventListener("click", function () {
+    editButton.style.display = "none";
+    saveButton.style.display = "block";
+  });
+
+  editButton.addEventListener("click", function () {
+    var inputFields = editInfoDiv.querySelectorAll("input");
+    for (var i = 0; i < inputFields.length; i++) {
+      var key = Object.keys(userInfo)[i];
+      var inputValue = inputFields[i].value;
+      userInfo[key] = inputValue;
+    }
+
+    editButton.style.display = "inline";
+    saveButton.style.display = "none";
+    cancelButton.style.display = "none";
+
+    // 更新顯示資訊
+    for (var key in userInfo) {
+      var span = userInfoDiv.querySelector("span");
+      span.textContent = userInfo[key];
+    }
+  });
+
+  cancelButton.addEventListener("click", function () {
+    editButton.style.display = "inline";
+    saveButton.style.display = "none";
+    cancelButton.style.display = "none";
+
+    userInfoDiv.style.display = "block";
+    editInfoDiv.style.display = "none";
+  });
 }

@@ -1,32 +1,38 @@
 import config from "../../../../ipconfig.js";
 import { backToRedirectUrl } from "../../../js/backToRedirectUrl.js";
 
-$("#localLogin").on("click", (event) => {
-  event.preventDefault(); // 阻止表單的預設行為
+$(window).on("load", () => {
+  const token = localStorage.getItem("Authorization_U");
 
-  var emailText = $("#email").val();
-  var password = $("#password").val();
+  if (token) {
+    window.location.href = "/frontend/pages/memberCentre/memberCentre.html";
+  } else {
+    $("#localLogin").on("click", (event) => {
+      event.preventDefault(); // 阻止表單的預設行為
+      var emailText = $("#email").val();
+      var password = $("#password").val();
 
-  if (emailText === "" || password === "") {
-    //TODO: 沒有填入資料的話，就提示輸入資料
-    return;
+      if (emailText === "" || password === "") {
+        swal("請輸入信箱及密碼。");
+        return;
+      }
+
+      var emailError = checkEmail(emailText);
+      var passwordError = checkPassword(password);
+
+      if (emailError) {
+        alert(emailError);
+        return;
+      }
+
+      if (passwordError) {
+        alert(passwordError);
+        return;
+      }
+
+      localLogin(emailText, password);
+    });
   }
-
-  var emailError = checkEmail(emailText);
-  var passwordError = checkPassword(password);
-
-  if (emailError) {
-    alert(emailError);
-    return;
-  }
-
-  if (passwordError) {
-    alert(passwordError);
-    return;
-  }
-
-  // 資料正確，才顯示燈箱
-  localLogin(emailText, password);
 });
 
 export function checkEmail(emailText) {
@@ -35,14 +41,14 @@ export function checkEmail(emailText) {
     /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
 
   if (!emailText.match(emailRegex)) {
-    return "Invalid email format";
+    swal("請輸入信箱格式。");
   }
   return null; // No error
 }
 
 function checkPassword(password) {
   if (password.length < 6) {
-    return "Password should be at least 6 characters long";
+    swal("請確認密碼，須至少6個英文或數字。");
   }
   return null; // No error
 }
@@ -72,18 +78,28 @@ function localLogin(email, password) {
         if (token) {
           backToRedirectUrl();
         } else {
-          console.log("Code 200: No stored Authorization_U found.");
-          // TODO: 顯示燈箱(登入錯誤，請聯繫客服信箱 & 跳回首頁按鈕)
+          swal({
+            text: "登入錯誤，請聯繫客服信箱。",
+            onAfterClose: () => {
+              console.log("afterclose");
+              $("div.overlay").fadeOut(); // 在swal关闭后关闭燈箱
+              setTimeout(function () {
+                window.location.href = "/frontend/index.html";
+              }, 1000);
+            },
+          });
         }
       } else if (code === 400) {
         console.log("Code 400 response:", data.message);
-        // TODO: 顯示燈箱(密碼錯誤 & 忘記密碼按鈕)
+        swal("密碼錯誤");
+        $("div.overlay").fadeOut();
       } else {
         console.log("Unknown response code:", data.code);
       }
     })
     .catch((error) => {
       console.error("Fetch error:", error);
-      // TODO: 顯示燈箱(網路錯誤，請稍後再試)
+      swal("網路錯誤，請稍後再試。");
+      $("div.overlay").fadeOut();
     });
 }
