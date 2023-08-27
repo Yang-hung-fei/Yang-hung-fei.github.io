@@ -1,5 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
-
+@font-face {
+  font-family: 'cwTeXYen';
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot);
+  src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype');
+}
 body {
   font-family: "Roboto", helvetica, arial, sans-serif;
   font-size: 16px;
@@ -13,6 +22,7 @@ div.table-title {
   max-width: 1000px;
   padding:5px;
   width: 100%;
+  
 }
 
 .table-title h3 {
@@ -45,7 +55,7 @@ th {
   color:#fefeff;;
   background:#818072;
   border-bottom:2px solid #ffffff;
-  border-right: 2px solid #ffffff;
+  border-right: 1px solid #ffffff;
   font-size:18px;
   font-weight: 100;
   padding:5px;
@@ -74,9 +84,9 @@ tr {
 }
  
 tr:hover td {
-  background:#d08c60;
+  background:#d9ae94;
   color:#ffffff;
-  border-top: 2px solid #ffffff;
+  border-top: 1px solid #ffffff;
 }
  
 tr:first-child {
@@ -147,7 +157,7 @@ td.text-right {
 /*照片*/
 .pg-pic{
     width: 100px;
-    height: 150px;
+    height: 120px;
     object-fit: cover;
     object-position: center;
     border: 2px solid #fff;
@@ -168,15 +178,21 @@ td.text-right {
     background-color: #f8d488;
     color: #fff;
 }
-/* 按鈕樣式 */
+.slot-button:active {
+  background-color: #f8d488;
+  color: #fff;
+}
+
+/* 狀態改變按鈕樣式 */
 .slot-button.disabled {
     background-color: #ddd;
     cursor: not-allowed;
     color: #888;
 }
 
-/* 用於選中的按鈕 */
+/* 狀態改變用於選中的按鈕 */
 .slot-button-selected {
     background-color: #f8d488;
     color: #fff;
 }
+
