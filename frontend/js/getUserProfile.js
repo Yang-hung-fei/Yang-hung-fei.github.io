@@ -134,7 +134,9 @@ function addressShow(userAddress) {
       // 在第一层选择后，手动触发第二层选择的处理逻辑
       areaSelectHandler();
     })
-    .catch((error) => {console.error("Error:", error)});
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 
   // 第二層選擇
   function areaSelectHandler() {
@@ -164,7 +166,9 @@ function addressShow(userAddress) {
           }
         }
       })
-      .catch((error) => {console.error("Error:", error)});
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   // 在第一层选择发生改变时调用第二层选择的处理逻辑

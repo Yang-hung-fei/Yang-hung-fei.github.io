@@ -2,9 +2,9 @@
 const userIcon = document.getElementById("userIcon");
 const logoutButton = document.getElementById("logoutButton");
 
-logoutButton.addEventListener("click", ()=>{
+logoutButton.addEventListener("click", () => {
   localStorage.removeItem("Authorization_U");
-})
+});
 
 let timeoutId; // To store the timeout ID
 

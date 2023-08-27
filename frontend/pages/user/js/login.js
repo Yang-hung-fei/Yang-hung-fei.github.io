@@ -27,7 +27,7 @@ $(window).on("load", () => {
 
       // 顯示 fetch 前的燈箱
       $("div.overlay").fadeIn();
-      
+
       try {
         await localLogin(emailText, password);
 
