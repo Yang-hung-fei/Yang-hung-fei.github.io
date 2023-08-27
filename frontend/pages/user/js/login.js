@@ -1,5 +1,6 @@
 import config from "../../../../ipconfig.js";
 import { backToRedirectUrl } from "../../../js/backToRedirectUrl.js";
+
 $("#localLogin").on("click", (event) => {
   event.preventDefault(); // 阻止表單的預設行為
 
@@ -28,7 +29,7 @@ $("#localLogin").on("click", (event) => {
   localLogin(emailText, password);
 });
 
-function checkEmail(emailText) {
+export function checkEmail(emailText) {
   // Check email format
   var emailRegex =
     /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
