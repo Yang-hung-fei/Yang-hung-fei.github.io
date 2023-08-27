@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/appointmentList?limit=${itemsPerPage}&sort=${sort}&offset=${offset}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
                 "Content-Type": "application/json"
             }
         })
@@ -68,7 +68,7 @@ window.addEventListener("load", () => {
                 <td class="text-center" hidden name="pgaNo" value="${appointment.pgaNo}">${appointment.pgaNo}</td>
                 <td class="text-center" name="pgName">${appointment.pgName}</td>
                 <td class="text-center">
-                <img src="data:image/png;base64,${appointment.pgPic}" alt="美容師照片" class="pg-pic">
+                <img src="data:image/png;base64,${appointment.pgPic}" alt="此美容師無照片" class="pg-pic">
                 </td>
                 <td class="text-center" name="sourcePgaDate">${appointment.pgaDate}</td>
                 <td class="text-center" name="sourcePgaTime">${appointment.pgaTime}</td>
@@ -177,7 +177,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/user/CompleteOrCancel", {
             method: "POST",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestBody)
@@ -252,7 +252,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
                 "Content-Type": "application/json"
             }
         })
@@ -402,7 +402,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/user/modifyAppointment", {
                     method: "POST",
                     headers: {
-                        Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                        Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(editedData)
