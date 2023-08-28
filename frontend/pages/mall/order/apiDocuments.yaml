@@ -1,0 +1,419 @@
+openapi: 3.0.0
+info:
+  title: 訂單管理系統
+  version: 1.0.0
+paths:
+  /user/orders:
+    post:
+      summary: 前台會員新增單筆訂單
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+            examples:
+              example-1:
+                summary: 新增訂單範例
+                value:
+                  userId: 1
+                  ordStatus: 0
+                  ordPayStatus: 0
+                  ordPick: 2
+                  ordFee: 60
+                  totalAmount: 999
+                  orderAmount: 939
+                  recipientName: 麵包超人
+                  recipientAddress: 台北小巨蛋
+                  recipientPh: 0987654321
+                  userPoint: 0
+                  detailList:
+                    - proNo: 1
+                      orderListQty: 3
+                      orderListPrice: 666
+                    - proNo: 2
+                      orderListQty: 1
+                      orderListPrice: 333
+      responses:
+        '200':
+          description: 新增成功
+          content:
+            application/json:
+              example:
+                code: 200
+                message: 新增成功
+  /user/getUserOrders/{userId}:
+    get:
+      summary: 前台會員查詢自己的所有訂單
+      parameters:
+        - name: userId
+          in: path
+          description: 使用者編號
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: 成功取得訂單列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: 回應代碼
+                    example: 200
+                  message:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+                    description: 回應訊息列表
+  /user/orders/{ordNo}:
+    get:
+      summary: 前台會員查詢該筆訂單詳情
+      parameters:
+        - in: path
+          name: ordNo
+          schema:
+            type: integer
+            format: int32
+          required: true
+          description: 訂單編號
+      responses:
+        '200':
+          description: 成功取得訂單詳情
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: 回應代碼
+                    example: 200
+                  message:
+                    $ref: '#/components/schemas/OrderDetailResponse'
+
+    patch:
+      summary: 前台會員取消該筆訂單
+      parameters:
+        - name: ordNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 訂單編號
+      responses:
+        '200':
+          description: 修改成功
+          content:
+            application/json:
+              example:
+                code: 200
+                message: 修改成功
+  /getAllOrders:
+    get:
+      summary: 後台管理員查詢所有訂單
+      responses:
+        '200':
+          description: 成功取得所有訂單
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: 回應代碼
+                    example: 200
+                  message:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+                  metadata:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: integer
+                        description: 當前頁數
+                        example: 1
+                      totalPage:
+                        type: integer
+                        description: 總頁數
+                        example: 10
+                      perPage:
+                        type: integer
+                        description: 每頁筆數
+                        example: 10
+  /getOrders/{ordNo}:
+    get:
+      summary: 後台管理員查詢該筆訂單詳情
+      parameters:
+        - name: ordNo
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+          description: 訂單編號
+      responses:
+        '200':
+          description: 成功取得該筆訂單詳情
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: 回應代碼
+                    example: 200
+                  message:
+                    $ref: '#/components/schemas/OrderDetailResponse'
+  /deleteOrders/{ordNo}:
+    delete:
+      summary: 後台管理員刪除已取消的訂單
+      parameters:
+        - name: ordNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 訂單編號
+      responses:
+        '200':
+          description: 刪除成功
+          content:
+            application/json:
+              example:
+                code: 200
+                message: 刪除成功
+  /patchOrders/{ordNo}:
+    patch:
+      summary: 後台管理員修改該筆訂單
+      parameters:
+        - name: ordNo
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 訂單編號
+      responses:
+        '200':
+          description: 修改成功
+          content:
+            application/json:
+              example:
+                code: 200
+                message: 修改成功
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        ordNo:
+          type: integer
+          format: int32
+          description: 訂單編號
+          readOnly: true
+        userId:
+          type: integer
+          description: 使用者編號
+        ordStatus:
+          type: integer
+          description: 訂單狀態 (0:未出貨, 1:已出貨, 2:已到貨, 3:退貨申請, 4:退貨成功, 5:訂單完成, 6:訂單取消)
+        ordPayStatus:
+          type: integer
+          description: 付款狀態 (0:未付款, 1:已付款)
+        ordPick:
+          type: integer
+          description: 取貨方式 (0:店面取貨, 1:超商取貨, 2:宅配)
+        ordCreate:
+          type: string
+          format: date-time
+          description: 訂單創建時間
+        ordFinish:
+          type: string
+          format: date-time
+          description: 訂單完成時間
+        ordFee:
+          type: integer
+          description: 運費
+        totalAmount:
+          type: integer
+          description: 總金額
+        orderAmount:
+          type: integer
+          description: 實際金額
+        recipient:
+          type: string
+          description: 收件人姓名
+        recipientAddress:
+          type: string
+          description: 收件人地址
+        recipientPh:
+          type: string
+          description: 收件人電話
+        userPoint:
+          type: integer
+          description: 使用點數
+
+    Product:
+      type: object
+      properties:
+        pdNo:
+          type: integer
+          format: int32
+          description: 商品編號
+          readOnly: true
+        pdName:
+          type: string
+          description: 商品名稱
+        pdPrice:
+          type: integer
+          description: 商品價錢
+        pdFormat:
+          type: string
+          description: 商品規格
+        pdDescription:
+          type: string
+          description: 商品說明
+        pdUpdate:
+          type: string
+          format: date-time
+          description: 近期更新時間
+        pdStatus:
+          type: integer
+          description: 商品上架狀態 (0:上架中, 1:已下架)
+        pdTotalReview:
+          type: integer
+          description: 評價總人數
+        pdScore:
+          type: integer
+          description: 評價分數
+
+    OrderDetail:
+      type: object
+      properties:
+        ordNo:
+          type: integer
+          format: int32
+          description: 訂單編號
+        pdNo:
+          type: integer
+          format: int32
+          description: 商品編號
+        qty:
+          type: integer
+          description: 訂購數量
+        price:
+          type: integer
+          description: 訂購單價
+        proName:
+          type: string
+          description: 商品名稱
+
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: 會員編號
+        userName:
+          type: string
+          description: 姓名
+        userNickname:
+          type: string
+          description: 暱稱
+        userGender:
+          type: integer
+          enum: [0, 1, 2]
+          description: 性別 (0:女 / 1:男 / 2:尚未設定)
+        userEmail:
+          type: string
+          format: email
+          description: 信箱
+        userPassword:
+          type: string
+          description: 密碼
+        userPhone:
+          type: string
+          description: 電話
+        userAddress:
+          type: string
+          description: 地址
+        userBirthday:
+          type: string
+          format: date
+          description: 生日
+        userPoint:
+          type: integer
+          description: 點數
+        userPic:
+          type: string
+          format: binary
+          description: 照片
+        userProvider:
+          type: string
+          description: 身分提供者
+        userCreated:
+          type: string
+          format: date-time
+          description: 創建時間
+    OrderDetailResponse:
+      type: object
+      properties:
+        ordNo:
+          type: integer
+          format: int32
+          description: 訂單編號
+        userId:
+          type: integer
+          description: 使用者編號
+        ordStatus:
+          type: integer
+          description: 訂單狀態 (0:未出貨, 1:已出貨, 2:已到貨, 3:退貨申請, 4:退貨成功, 5:訂單完成, 6:訂單取消)
+        ordPayStatus:
+          type: integer
+          description: 付款狀態 (0:未付款, 1:已付款)
+        ordPick:
+          type: integer
+          description: 取貨方式 (0:店面取貨, 1:超商取貨, 2:宅配)
+        ordCreate:
+          type: string
+          format: date-time
+          description: 訂單創建時間
+        ordFinish:
+          type: string
+          format: date-time
+          description: 訂單完成時間
+        ordFee:
+          type: integer
+          description: 運費
+        userPoint:
+          type: integer
+          description: 使用點數
+        totalAmount:
+          type: integer
+          description: 總金額
+        orderAmount:
+          type: integer
+          description: 實際金額
+        recipientName:
+          type: string
+          description: 收件人姓名
+        recipientAddress:
+          type: string
+          description: 收件人地址
+        recipientPh:
+          type: string
+          description: 收件人電話
+        detailList:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDetail'
+    
+
+

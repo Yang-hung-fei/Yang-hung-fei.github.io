@@ -1,4 +1,3 @@
-// import domain from '../../../../ipconfig';
 function renderButton() {
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
@@ -26,7 +25,9 @@ function fadeOut() {
     $("div.overlay").fadeOut();
 }
 function authenticate(code) {
-    return axios.post(`${domain.url}/user/googleLogin`, JSON.stringify({ code }), {
+
+    //TODO: 更改API網域
+    return axios.post('http://localhost:8080/user/googleLogin', JSON.stringify({ code }), {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -35,7 +36,8 @@ function authenticate(code) {
         console.log("token : " +token);
         localStorage.setItem('Authorization_U', token);
         /**之後 跳轉頁 */
-        window.location.href = '#';
+        //TODO: API取userProfile，有空值就跳會員中心
+        window.location.href = '../../pages/memberCentre/memberCentre.html';
     });
 }
  
@@ -49,7 +51,3 @@ function onClickSignIn() {
         .catch(onFailure);
 }
  
-
-
-
-

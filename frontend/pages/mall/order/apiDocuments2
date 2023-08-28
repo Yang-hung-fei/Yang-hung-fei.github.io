@@ -1,0 +1,250 @@
+1. 前台會員新增單筆訂單
+method: POST
+path: /user/createOrders
+requestParam:
+    Integer ordNo:訂單編號
+    Integer userId:使用者編號
+    Byte ordStatus:0:未出貨 1:已出貨 2:已到貨 3:退貨申請 4:退貨成功 5:訂單完成 6: 訂單取消 此為訂單狀態
+    Byte ordPayStatus:0:未付款 1:已付款 此為付款狀態
+    Byte ordPick:0:店面取貨 1:超商取貨 2:宅配 此為訂單狀態取貨方式
+    Date ordCreate:訂單創建時間
+    Date ordFinish:訂單完成時間
+    Integer ordFee:運費
+    Integer totalAmount:總金額
+    Integer orderAmount:實際金額
+    String recipientName:收件人姓名
+    String recipientAddress:收件人地址
+    String recipientPh:收件人電話
+    Integer userPoint:使用點數
+requestExample:
+ {
+    "userId":1, 
+    "ordStatus":0,
+    "ordPayStatus":0,
+    "ordPick":2,
+    "ordFee":60,
+    "totalAmount":999,
+    "orderAmount":939,
+    "recipientName":"麵包超人",
+    "recipientAddress":"台北小巨蛋",
+    "recipientPh":"0987654321",
+    "userPoint":0,
+    detailList:[
+        {
+            "proNo":1,
+            "orderListQty":3,
+            "orderListPrice":666
+        },
+        {
+            "proNo":2,
+            "orderListQty":1,
+            "orderListPrice":333
+        }
+    ] 
+ }
+responseExample:
+ {
+    "code": 200,
+    "message": "新增成功"
+ }
+
+
+2. 前台會員查詢自己的所有訂單
+method: GET
+path: /user/getUserOrders/{userId}
+requestParam:
+    Interger userId:使用者編號
+requestExample:
+ userId:1
+response:
+ {
+    "code": 200,
+    "message": [
+        {
+            "ordNo": 1,
+            "userId": 1,
+            "ordStatus": 1,
+            "ordPayStatus": 1,
+            "ordPick": 2,
+            "ordCreate": 1691164800000,
+            "ordFinish": -28800000,
+            "ordFee": 100,
+            "totalAmount": 500,
+            "orderAmount": 450,
+            "recipientName": "John Doe",
+            "recipientAddress": "123 Main St, City",
+            "recipientPh": "123-456-7890",
+            "userPoint": 50
+        },
+        {
+            "ordNo": 2,
+            "userId": 1,
+            "ordStatus": 0,
+            "ordPayStatus": 0,
+            "ordPick": 0,
+            "ordCreate": 1691164800000,
+            "ordFinish": -28800000,
+            "ordFee": 80,
+            "totalAmount": 800,
+            "orderAmount": 750,
+            "recipientName": "細菌人",
+            "recipientAddress": "桃園市中壢區平鎮里",
+            "recipientPh": "0912345678",
+            "userPoint": 20
+        }
+    ]
+}
+
+
+3. 前台會員查詢該筆訂單詳情
+method: GET
+path: /user/getOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":{
+        "ordNo": 13,
+        "userId": null,
+        "ordStatus": 0,
+        "ordPayStatus": 0,
+        "ordPick": 2,
+        "ordCreate": 1692374400000,
+        "ordFinish": -28800000,
+        "ordFee": 60,
+        "userPoint": 90,
+        "totalAmount": 1999,
+        "orderAmount": 1939,
+        "recipientName": "鳴人",
+        "recipientAddress": "牧野忍者村",
+        "recipientPh": "0987654321",
+        detailList:[
+            {
+                "proNo":1,
+                "proName":"貓跳台",
+                "orderListQty":3
+            }
+        ]
+    }
+ }
+
+4.前台會員取消該筆訂單
+method: PATCH
+path: /user/patchOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message": "修改成功"
+ }
+
+5.後台管理員查詢所有訂單
+method: GET
+path: /getAllOrders
+request:
+    null
+response:
+ {
+    "code": 200,
+    "message": [
+        {
+            "ordNo": 1,
+            "userId": 1,
+            "ordStatus": 1,
+            "ordPayStatus": 1,
+            "ordPick": 2,
+            "ordCreate": 1691164800000,
+            "ordFinish": -28800000,
+            "ordFee": 100,
+            "totalAmount": 500,
+            "orderAmount": 450,
+            "recipientName": "John Doe",
+            "recipientAddress": "123 Main St, City",
+            "recipientPh": "123-456-7890",
+            "userPoint": 50
+        },
+        {
+            "ordNo": 2,
+            "userId": 1,
+            "ordStatus": 0,
+            "ordPayStatus": 0,
+            "ordPick": 0,
+            "ordCreate": 1691164800000,
+            "ordFinish": -28800000,
+            "ordFee": 80,
+            "totalAmount": 800,
+            "orderAmount": 750,
+            "recipientName": "細菌人",
+            "recipientAddress": "桃園市中壢區平鎮里",
+            "recipientPh": "0912345678",
+            "userPoint": 20
+        }
+    ],
+    "metadata": {
+    "currentPage": 1, // 當前頁數
+    "totalPage": 10, // 總頁數
+    "perPage": 10, // 每頁筆數
+  }
+
+}
+
+
+6.後台管理員查詢該筆訂單詳情
+method: GET
+path: /getOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":{
+        "ordNo": 13,
+        "userId": null,
+        "ordStatus": 0,
+        "ordPayStatus": 0,
+        "ordPick": 2,
+        "ordCreate": 1692374400000,
+        "ordFinish": -28800000,
+        "ordFee": 60,
+        "userPoint": 90,
+        "totalAmount": 1999,
+        "orderAmount": 1939,
+        "recipientName": "鳴人",
+        "recipientAddress": "牧野忍者村",
+        "recipientPh": "0987654321",
+        detailList:[
+            {
+                "proNo":1,
+                "proName":"貓跳台",
+                "orderListQty":3
+            }
+        ]
+    }
+ }
+
+7.後台管理員刪除已取消的訂單
+method: Delete
+path: /deleteOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":"刪除成功"
+ }
+
+8.後台管理員修改該筆訂單
+method: PATCH
+path: /patchOrders/{ordNo}
+request:
+    Interger: 13
+response:
+ {
+    "code": 200,
+    "message":"修改成功"
+ }
+
+
+// Data table 模糊查詢api尚未加入
