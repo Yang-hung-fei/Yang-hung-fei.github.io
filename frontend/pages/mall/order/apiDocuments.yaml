@@ -3,7 +3,7 @@ info:
   title: 訂單管理系統
   version: 1.0.0
 paths:
-  /user/orders:
+  /user/order:
     post:
       summary: 前台會員新增單筆訂單
       requestBody:
@@ -70,7 +70,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Order'
                     description: 回應訊息列表
-  /user/orders/{ordNo}:
+  /user/order/{ordNo}:
     get:
       summary: 前台會員查詢該筆訂單詳情
       parameters:
@@ -95,16 +95,15 @@ paths:
                     example: 200
                   message:
                     $ref: '#/components/schemas/OrderDetailResponse'
-
+  /user/updateUserOrders:
     patch:
       summary: 前台會員取消該筆訂單
-      parameters:
-        - name: ordNo
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: 訂單編號
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeOrderStatusDTO'
       responses:
         '200':
           description: 修改成功
@@ -414,6 +413,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderDetail'
+    ChangeOrderStatusDTO:
+      type: object
+      properties:
+        ordNo:
+          type: integer
+          description: 訂單編號
+        ordStatus:
+          type: integer
+          minimum: 0
+          maximum: 6
+          description: 訂單狀態
+      required:
+        - ordNo
     
 
 
