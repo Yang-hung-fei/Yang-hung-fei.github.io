@@ -41,4 +41,4 @@
 
 <h1>My Skills</h1>
 
-[![My Skills](https://skillicons.dev/icons?i=java,spring,css,html,redis,mysql,maven,hibernate,bootstrap,jquery,js,&theme=light)]
+[![My Skills](https://skillicons.dev/icons?i=java,spring,css,html,redis,mysql,maven,hibernate,bootstrap,jquery,js&theme=light)]
