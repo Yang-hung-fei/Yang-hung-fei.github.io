@@ -95,7 +95,7 @@ window.addEventListener("load", () => {
                 const cancelButton = row.querySelectorAll(".cancel");
                 const editButton = row.querySelectorAll(".modify");
                 stateElement.forEach(stateElement => {
-                    stateElement.style.color = 'green'
+                    stateElement.style.color = 'green';
                 });
                 finishButton.forEach(finishButton => {
                     finishButton.disabled = true;
@@ -114,7 +114,7 @@ window.addEventListener("load", () => {
                 const cancelButton = row.querySelectorAll(".cancel");
                 const editButton = row.querySelectorAll(".modify");
                 stateElement2.forEach(stateElement2 => {
-                    stateElement2.style.color = 'red'
+                    stateElement2.style.color = 'red';
                 });
                 finishButton.forEach(finishButton => {
                     finishButton.disabled = true;

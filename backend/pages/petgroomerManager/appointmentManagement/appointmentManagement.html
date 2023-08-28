@@ -24,7 +24,7 @@
 	<!-- sweetalert2 -->
 	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 	<!-- Flatpickr -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<!--CSS-->
 	<link rel="stylesheet" href="./css/appointmentManagement.css">
 
@@ -515,6 +515,7 @@
 					<!--主要內容 起始-->
 					<div style="min-height: 1000px; min-width: 1030px;">
 						<div class="table-title">
+							<div id="error"></div>
 							<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">預約管理</h2>
 						</div>
 						<div style="display: flex; justify-content: space-between; ">
@@ -551,73 +552,73 @@
 						<table class="table-fill" style="min-width: 1030px;">
 							<thead>
 								<tr>
-									<th class="text-center" style="border-top-left-radius: 5px;">預約單編號
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_NO">▲▼
+									<th class="text-align:top" style="border-top-left-radius: 5px; position: relative; height: 50px;">預約單編號
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_NO" >▼
 												<input value="PGA_NO" checked type="radio" id="orderBy_PGA_NO"
 													name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
-									<th class="text-center">美容師編號
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PG_ID">▲▼
+									<th class="text-center"  style="position: relative;">美容師編號
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PG_ID">▼
 												<input value="PG_ID" type="radio" id="orderBy_PG_ID" name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 
-									<th class="text-center">美容師姓名
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PG_NAME">▲▼
+									<th class="text-center" style="position: relative;">美容師姓名
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PG_NAME">▼
 												<input value="PG_NAME" type="radio" id="orderBy_PG_NAME" name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
-									<th class="text-center">預約日期
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_DATE">▲▼
+									<th class="text-center" style="position: relative;">預約日期
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_DATE">▼
 												<input value="PGA_DATE" type="radio" id="orderBy_PGA_DATE"
 													name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">預約時段</th>
-									<th class="text-center">預約選項
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_OPTION">▲▼
+									<th class="text-center" style="position: relative;">預約選項
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_OPTION">▼
 												<input value="PGA_OPTION" type="radio" id="orderBy_PGA_OPTION"
 													name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">備註</th>
-									<th class="text-center">會員編號
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_USER_ID">▲▼
+									<th class="text-center" style="position: relative;">會員編號
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_USER_ID">▼
 												<input value="USER_ID" type="radio" id="orderBy_USER_ID" name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
-									<th class="text-center">預約姓名
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_USER_NAME">▲▼
+									<th class="text-center" style="position: relative;">預約姓名
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_USER_NAME">▼
 												<input value="USER_NAME" type="radio" id="orderBy_USER_NAME"
 													name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
 									<th class="text-center">預約電話</th>
-									<th class="text-center">預約單狀態
-										<div class="radio">
-											<label class="orderBy_label" for="orderBy_PGA_STATE">▲▼
+									<th class="text-center" style="position: relative;">預約單狀態
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_STATE">▼
 												<input value="PGA_STATE" type="radio" id="orderBy_PGA_STATE"
 													name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
 									</th>
-									<th class="text-center">修改預約</th>
-									<th class="text-center">完成預約</th>
+									<th class="text-center" >修改預約</th>
+									<th class="text-center" >完成預約</th>
 									<th class="text-center" style="border-top-right-radius: 5px;">取消預約</th>
 								</tr>
 							</thead>
@@ -663,14 +664,14 @@
 			</footer>
 		</div>
 	</div>
-
+ㄋ
 
 	<!--JS-->
 	<script type="module" src="./js/appointmentManagement.js"></script>
 	<!--sweetalert2-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 	<!-- Flatpickr -->
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 	<script src="../../../../jquery/jquery-3.2.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
