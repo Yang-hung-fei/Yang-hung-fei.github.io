@@ -31,7 +31,7 @@
             <nav id="navbar"></nav>
             <main class="content">
                 <!-- 主要內容 -->
-                <nav id="productmanage" >
+                <nav id="productmanage">
                     <span class="nav-title">商品列表</span> |
                     <span class="nav-title">編輯商品資訊</span> |
                     <span class="nav-title">新增商品</span> <!--現在在這-->
@@ -40,40 +40,58 @@
                 <section class="form-border">
                     <form class="pm-form" action="#" method="post">
 
-                        
-                        <div class="pms">
-                        <div class="pm">
-                            <div class="pm_input" >
-                                商品名稱 :
-                                <input type="text">
+                        <div>
+                            <div class="pms">
+                                <div class="pm">
+                                    <div class="pm_input">
+                                        商品名稱 :
+                                        <input type="text">
+                                    </div>
+
+                                    <div class="pm_input">
+                                        商品價格 :
+                                        <input type="text">
+                                    </div>
+
+                                    <div class="pm_input">
+                                        商品規格 :
+                                        <input type="text">
+                                    </div>
+
+                                    <div class="pm_input">
+                                        <label for="status">商品狀態 :</label>
+                                        <select name="pd_status">
+                                            <option value="">下架</option>
+                                            <option value="">上架</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="pm"> //變成手機時要在狀態下面
+
+                                    <div class="pm_input">
+                                        <label for="description">商品說明 :</label>
+                                        <textarea cols="35" rows="5"></textarea>
+
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="pm_input" >
-                                商品價格 :
-                                <input type="text">
+                            <div class="pm-pic">
+
+                                <div class="pm_input">
+                                <label for="pictures">商品圖片 :</label>
+                                <!-- <textarea cols="40" rows="5"></textarea> -->
+                                <p>a</p>
+                                <p>a</p>
+                                <p>a</p>
+                                <p>a</p>
+                                <p>a</p> 
+                                <p>a</p>
+
+                                </div>
                             </div>
 
-                            <div class="pm_input" >
-                                商品規格 :
-                                <input type="text">
-                            </div>
-                        </div>
-
-                        <div class="pm">
-                            <div class="pm_input">
-                                <label for="status">商品狀態 :</label>
-                                <select name="pd_status">
-                                    <option value="">下架</option>
-                                    <option value="">上架</option>
-                                </select>
-                            </div>
-
-                            <div class="pm_input">
-                                <label for="description">商品說明 :</label>
-                                <textarea cols="40" rows="5"></textarea>
-                                
-                            </div>
-                        </div>
                     </form>
                 </section>
 
