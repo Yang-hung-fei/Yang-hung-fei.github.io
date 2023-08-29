@@ -9,7 +9,6 @@ $("#chptcha_btn").on("click", () => {
     swal("信箱格式錯誤。");
     return;
   }
-
   const formData = new URLSearchParams();
   formData.append("email", emailText);
 
@@ -27,7 +26,7 @@ function checkAccountAndRequestCaptcha(baseUrl, formData) {
     .then((response) => response.json())
     .then((responseData) => {
       var code = responseData.code;
-      if (code === 0) {
+      if (code === 200) {
         sendCaptchaRequest(baseUrl, formData);
       } else {
         swal("此信箱已註冊，請檢查信箱地址。");
@@ -46,6 +45,7 @@ function sendCaptchaRequest(baseUrl, formData) {
   })
     .then((response) => response.json())
     .then((responseData) => {
+      console.log("Response Data:", responseData); // Add this line
       var code = responseData.code;
       if (code === 200) {
         const btn_getchptcha = document.getElementById("chptcha_btn");
@@ -65,8 +65,8 @@ function sendCaptchaRequest(baseUrl, formData) {
             btn_getchptcha.disabled = false;
           }
         }, 1000); // 1秒
-      } else {
-        // 处理其他响应状态
+      } else if (code === 400) {
+        swal(responseData.message);
       }
     })
     .catch((error) => console.error("Error:", error));

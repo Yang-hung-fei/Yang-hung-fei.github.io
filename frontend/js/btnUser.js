@@ -1,4 +1,3 @@
-import config from "../../ipconfig.js";
 document.addEventListener("DOMContentLoaded", function () {
   const userButton = document.getElementById("user");
   userButton.addEventListener("click", btnUser);
@@ -9,7 +8,7 @@ export function btnUser() {
   console.log("Authorization_U:", token);
   if (token) {
     window.location.href =
-      "http://localhost:5500/frontend/pages/memberCentre/memberCentre.html"; // 進入會員中心
+      "/frontend/pages/memberCentre/memberCentre.html"; // 進入會員中心
   } else {
     //預設跳轉網址
     const currentPageUrl = window.location.href; // 获取当前页面的 URL

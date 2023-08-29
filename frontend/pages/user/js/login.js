@@ -8,7 +8,7 @@ $(window).on("load", () => {
     window.location.href = "/frontend/pages/memberCentre/memberCentre.html";
   } else {
     $("#localLogin").on("click", async (event) => {
-      event.preventDefault(); // 阻止表單的預設行為123
+      event.preventDefault(); // 阻止表單的預設行為
       var emailText = $("#email").val();
       var password = $("#password").val();
 
