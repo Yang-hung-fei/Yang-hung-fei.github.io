@@ -1,4 +1,5 @@
 import config from "../../ipconfig.js";
+
 $(window).on("load", () => {
   const token = localStorage.getItem("Authorization_U");
 
@@ -25,7 +26,7 @@ var responseActions = {
   200: function (data) {
     var userInfo = data.message;
     console.log(userInfo);
-    createProfile(userInfo);
+    showDBuserProfile(userInfo);
   },
   401: function () {
     console.log("code 401: Unauthorized.");
@@ -41,53 +42,67 @@ function revomeTokenThenLogin() {
   window.location.href = "/frontend/pages/user/login.html";
 }
 
-function createProfile(data) {
-  var userInfoDiv = document.getElementById("user-info");
-  var editInfoDiv = document.getElementById("edit-info");
-  var userInfo = data;
+export function profile_els() {
+  const elements = {
+    userName: document.getElementById("userName"),
+    userNickName: document.getElementById("userNickName"),
+    userPic: document.getElementById("userPic"),
+    pointnumber: document.getElementById("pointnumber"),
+    userGender: document.getElementById("userGender"),
+    userBirthday: document.getElementById("userBirthday"),
+    userPhone: document.getElementById("userPhone"),
+    city: document.getElementById("city"),
+    area: document.getElementById("area"),
+    userAddress: document.getElementById("userAddress"),
+    // ... 可以添加其他需要的元素
+  };
 
-  //TODO: 檢查使用者資料的輸入格式
+  return elements;
+}
 
-  //名字
-  let userName_el = document.getElementById("userName");
-  userName_el.textContent = data.userName;
-  let userNickName_el = document.getElementById("userNickName");
-  userNickName_el.textContent = data.userNickName;
+// 在showDBuserProfile函数中使用profile_els函数来获取元素
+function showDBuserProfile(data) {
+
+  var elements = profile_els(); // 获取所有元素
+
+  // 设置元素内容
+  elements.userName.textContent = data.userName;
+  elements.userNickName.textContent = data.userNickName;
   let userPic_base64 = data.userPic;
-  let userPic_el = document.getElementById("userPic");
-  userPic_el.src = "data:image/png;base64," + userPic_base64;
-  let pointnumber_el = document.getElementById("pointnumber");
-  pointnumber_el.textContent = data.userPoint;
+  elements.userPic.src = "data:image/png;base64," + userPic_base64;
+  elements.pointnumber.textContent = data.userPoint;
+  // ... 其他设置元素内容的操作
 
-  //其他資料
-  let userGender_el = document.getElementById("userGender");
+  // 其他操作，如设置下拉框选项等
   let genderText = data.userGender;
   if (!genderText) {
     // 没有数据，将默认选项设置为"-"
-    userGender_el.selectedIndex = 0; // 设置为"-"选项的索引
-    userGender_el.disabled = true; // 禁用下拉框
+    elements.userGender.selectedIndex = 0; // 设置为"-"选项的索引
+    elements.userGender.disabled = true; // 禁用下拉框
   } else {
     // 有数据，根据数据设置选中的选项
-    for (var i = 0; i < userGender_el.options.length; i++) {
-      if (userGender_el.options[i].textContent === genderText) {
-        userGender_el.selectedIndex = i;
+    for (var i = 0; i < elements.userGender.options.length; i++) {
+      if (elements.userGender.options[i].textContent === genderText) {
+        elements.userGender.selectedIndex = i;
         break; // 找到匹配选项后退出循环
       }
     }
   }
-  let userBirthday_el = document.getElementById("userBirthday");
+
   var userBirthdayText = new Date(data.userBirthday);
   var options = { year: "numeric", month: "2-digit", day: "2-digit" };
   var dateString = userBirthdayText.toLocaleString("zh-TW", options);
   var parts = dateString.split("/");
   var formattedDate = parts[0] + "-" + parts[1] + "-" + parts[2];
-  userBirthday_el.value = formattedDate;
-  let userPhone_el = document.getElementById("userPhone");
-  userPhone_el.value = data.userPhone;
+  elements.userBirthday.value = formattedDate;
+  elements.userPhone.value = data.userPhone;
 
-  //地址
+  // 地址
   const userAddressData = data.userAddress;
-  addressShow(userAddressData);
+  addressShow(userAddressData, elements);
+
+  // TODO: 名稱欄位，顯示和編輯交換顯示
+  // TODO: enter儲存，還有切換儲存按鈕svg
 }
 
 function addressShow(userAddress) {
