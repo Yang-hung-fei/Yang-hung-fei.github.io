@@ -101,7 +101,7 @@ main > div {
   display: block;
 }
 
-main > div > div div {
+main > div > div div:not('#userPasswordDiv') {
   margin: 20px 0 0 0;
 }
 
