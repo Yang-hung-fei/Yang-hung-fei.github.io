@@ -4,9 +4,9 @@ function editUserName() {
   const userNameElement = profile_els().userName;
   const btnNameEdit_el = document.getElementById("editNameButton");
   const btnNickNameEdit_el = document.getElementById("editNickNameButton");
-  const editeNameContain_el = document.getElementById("showNameContain");
-  const editeNameContanin_el = document.getElementById("editNameContanin");
-  const editeNickNameContain_el = document.getElementById(
+  const editNameContain_el = document.getElementById("showNameContain");
+  const editNameContanin_el = document.getElementById("editNameContanin");
+  const editNickNameContain_el = document.getElementById(
     "showNickNameContain"
   );
   const editNickNameContanin_el = document.getElementById(
