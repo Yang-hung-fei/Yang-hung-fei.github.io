@@ -29,7 +29,7 @@ window.addEventListener("load", () => {
     fetch(config.url + "/user/appointmentPage", {
         method: "GET",
         headers: {
-            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+            Authorization_U: token,
             "Content-Type": "application/json"
         }
     })
@@ -88,7 +88,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                Authorization_U: token,
                 "Content-Type": "application/json"
             }
         })
@@ -223,7 +223,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/newAppointment`, {
             method: "POST",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzMTMwNjQyfQ.65VWBEyaA6_Wq8LB8zkO1xT1TxlRsbyJHI-uwNKhWqs",
+                Authorization_U: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(appointmentData)

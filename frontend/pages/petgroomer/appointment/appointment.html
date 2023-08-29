@@ -27,6 +27,11 @@
 
     <!-- Template Stylesheet -->
     <link href="/frontend/css/main.css" rel="stylesheet">
+    <link href="./css/all.css" rel="stylesheet">
+    <link href="./css/custom.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+    
     <!-- appointment Stylesheet -->
     <link href="/frontend/pages/petgroomer/appointment/css/appointment.css" rel="stylesheet">
 
@@ -39,6 +44,7 @@
 <body>
     <iframe id="header" src="/frontend/header.html" frameborder="0" width="100%" height="auto"></iframe>
 
+    <!--主要內容 開始-->
     <div class="slick-track" style="opacity: 1; width: 99%; transform: translate3d(0px, 0px, 0px);">
         <img src="./img/appointment_top.png" class="top_appointment_img">
     </div>
@@ -56,7 +62,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
-                    <img src="./img/0_PG.jpg" class="img-1" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <img src="./img/0_PG.jpg" class="img-1" style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
                     <h4>狗狗洗澡</h4>
                     <p>狗狗洗澡服務內容包含 剪+磨指甲、拔耳毛、耳朵清潔、剃腳底毛 / 腹部毛 / 肛門毛
                         、擠肛門腺、梳毛吹整、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 ) 、眼周圍毛小修、腳圍毛小修。<br>
@@ -69,7 +75,7 @@
             </div>
             <div class="col-md-4">
                 <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
-                    <img src="./img/1_PG.png" class="img-2" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <img src="./img/1_PG.png" class="img-2" style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
                     <h4>狗狗半手剪 (洗澡+剃毛)</h4>
                     <p>狗狗半手剪服務內容包含： 包含洗澡、基本美容、使用電剪身體剃毛(2,3,6mm)、手剪頭尾造型。<br>
                         ※以上服務實際依照毛孩狀況評估作業</p>
@@ -81,7 +87,7 @@
             </div>
             <div class="col-md-4">
                 <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
-                    <img src="./img/2_PG.png" class="img-3" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <img src="./img/2_PG.png" class="img-3" style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
                     <h4>全手剪(洗澡+全身手剪造型)</h4>
                     <p>狗狗全手剪服務內容包含 洗澡、基本美容、全程使用剪刀手修，留毛的長度可依照需求客製。<br>
                         ※適合長毛狗狗 (ex:博美、貴賓、瑪爾、狐狸...等)<br>
@@ -95,7 +101,7 @@
             </div>
             <div class="col-md-4">
                 <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
-                    <img src="./img/3_PG.jpg" class="img-4" style="width: 100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <img src="./img/3_PG.jpg" class="img-4" style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
                     <h4>貓咪洗澡</h4>
                     <p>貓貓洗澡-包含剪指甲、耳朵清潔、剃腳底毛、擠肛門腺、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 )梳毛吹整、腳圍毛小修。 <br>
                         ※實際依照毛孩狀況評估作業</p>
@@ -107,7 +113,7 @@
             </div>
             <div class="col-md-4">
                 <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
-                    <img src="./img/4_PG.jpg" class="img-5" style="width:100%;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <img src="./img/4_PG.jpg" class="img-5" style="width:100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
                     <h4>貓咪大美容</h4>
                     <p>貓貓大美容服務-包含洗澡、電剪身體剃毛(2mm)、手剪圓頭造型、獅子尾造型、腳靴。<br>
                         ※實際依照毛孩狀況評估作業</p>
@@ -125,7 +131,7 @@
             <h4 style="margin-top: 25px; margin-bottom: 25px;">請選擇美容師</h4>
             <div class="col-md-6">
                 <h2 style="color: #ffb20d; font-family: 'cwTeXYen';">Appointment</h2>
-                <label for="pgNameLabel" class="form-label">美容師</label>
+                <label for="pgName" class="form-label">美容師</label>
                 <select id="pgName" name="pgName" class="form-select"></select><br>
                 <!-- 發送預約請求抓pgId值-->
                 <input id="pgId" name="pgId" value="" hidden></input>
@@ -162,7 +168,7 @@
             </div>
             <div class="col-md-2">
                 <h2 style="color: #ffb20d; font-family: 'cwTeXYen'; width: 100%; flex-wrap: wrap;">Groomer</h2>
-                <label id="ShowNameLabel" for="ShowNameLabel">美容師姓名</label>
+                <label id="ShowNameLabel" for="pgNameShow">美容師姓名</label>
                 <p class="" id="pgNameShow" name="pgNameShow"></p>
                 <label class="">性別：</label>
                 <p id="pgGender" name="pgGender"></p>
@@ -183,7 +189,9 @@
     <script type="module" src="./js/appointment.js"></script>
     <!--sweetalert2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
+    
+    <!--主要內容 結束-->
+    
     <!-- footer -->
     <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s"
         style="background-color: #6F5242;">
@@ -263,6 +271,8 @@
 
     <!-- Template Javascript -->
     <script src="/frontend/js/main.js"></script>
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- JSP後端時，放置時戳，解決重新整理icon會消失的狀況 -->
 </body>
 

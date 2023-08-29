@@ -1,93 +1,132 @@
-import config from "../../../../ipconfig.js";
+import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    const token = localStorage.getItem("Authorization_U");
-
+    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const searchInput = document.getElementById("search");
     const limitSelect = document.querySelector("#limit");
     const sortSelect = document.querySelector("#sort");
+    const orderByRadios = document.querySelectorAll("[name=orderBy]"); // 新的Order By radios
     let currentPage = 1;
     let itemsPerPage = parseInt(limitSelect.value);
+    let searchString = searchInput.value;
+    //錯誤顯示用
+    const errorDiv = document.getElementById("error");
 
-    //純顯示用
+    // 純顯示筆數用
     const maxCount = document.querySelector("#maxCount");
 
-    //一進入頁面呼叫
-    fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
+    // 一進入頁面呼叫
+    fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
 
-    //當最大筆數不同
+    //搜尋
+    searchInput.addEventListener("change", () => {
+        let searchString = searchInput.value;
+        fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
+    });
+
+    // 當最大筆數不同
     limitSelect.addEventListener("change", () => {
         itemsPerPage = parseInt(limitSelect.value);
         currentPage = 1;
-        fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
+        let searchString = searchInput.value;
+        fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
     });
-    //當排序選擇
+
+    // 當排序選擇
     sortSelect.addEventListener("change", () => {
-        fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
+        let searchString = searchInput.value;
+        fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
     });
 
+    // 監聽Order By選項
+    orderByRadios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+            let searchString = searchInput.value;
+            fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
+        });
+    });
 
-    //撈該使用者的預約單(token要改)
-    function fetchAndBuildTable(itemsPerPage, sort, page) {
+    // 撈所有預約單 for Manager
+    function fetchAndBuildTable(itemsPerPage, sort, page, searchString) {
         const offset = (page - 1) * itemsPerPage;
-        fetch(config.url + `/user/appointmentList?limit=${itemsPerPage}&sort=${sort}&offset=${offset}`, {
+        const orderBy = getOrderValue(); // 取得選中的Order By值
+        fetch(config.url + `/manager/allAppointmentSearch?limit=${itemsPerPage}&sort=${sort}&offset=${offset}&orderBy=${orderBy}&search=${searchString}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c", // 使用Manager Token
                 "Content-Type": "application/json"
             }
         })
             .then(response => response.json())
             .then(data => {
                 if (data.code === 200) {
+                    errorDiv.innerHTML = "";
                     const appointments = data.message.rs;
                     const totalAppointments = data.message.total;
                     maxCount.value = totalAppointments;
                     buildTable(appointments);
                     updatePaginationButtons(totalAppointments);
+                } else if (data.code === 401) {
+                    let errorLabel = document.createElement("label");
+                    errorLabel.innerHTML = `身分${data.message}`;
+                    errorLabel.style.color = "red";
+                    errorLabel.style.font = "16px Arial, sans-serif";
+                    errorDiv.appendChild(errorLabel);
+                    maxCount.value = 0;
                 } else {
-                    console.error(data.message);
+                    let errorLabel = document.createElement("label");
+                    errorLabel.innerHTML = `${data.message}`;
+                    errorLabel.style.color = "red";
+                    errorLabel.style.font = "16px Arial, sans-serif";
+                    errorDiv.appendChild(errorLabel);
                     maxCount.value = 0;
                 }
             });
     }
 
-    const tableBody = document.querySelector(".table-hover");
+    // 獲取選中的Order By值
+    function getOrderValue() {
+        let orderValue = "";
+        orderByRadios.forEach((radio) => {
+            if (radio.checked) {
+                orderValue = radio.value;
+            }
+        });
+        return orderValue;
+    }
 
+    const tableBody = document.querySelector(".table-hover");
     //建構表格
     function buildTable(data) {
         tableBody.innerHTML = ""; // 清空表格内容
 
         data.forEach(appointment => {
             const row = document.createElement("tr");
-
             if (appointment.pgaNotes === null) {
                 appointment.pgaNotes = "無"
             }
-
             row.innerHTML = `
-                <td class="text-center" hidden name="pgId">${appointment.pgId}</td>
-                <td class="text-center" hidden name="pgaNo" value="${appointment.pgaNo}">${appointment.pgaNo}</td>
-                <td class="text-center" name="pgName">${appointment.pgName}</td>
-                <td class="text-center">
-                <img src="data:image/png;base64,${appointment.pgPic}" alt="此美容師無照片" class="pg-pic">
-                </td>
-                <td class="text-center" name="sourcePgaDate">${appointment.pgaDate}</td>
-                <td class="text-center" name="sourcePgaTime">${appointment.pgaTime}</td>
-                <td class="text-center" name="pgaOption">${appointment.pgaOption}</td>
-                <td class="text-center" name="pgaNotes" style="max-width: 80px;white-space:pre-line;
-                word-wrap: break-word;">${appointment.pgaNotes}</td>
-                <td class="text-center">${appointment.userName}</td>
-                <td class="text-center" name="pgaPhone">${appointment.pgaPhone}</td>
-                <td class="text-center state" name="pgaState" style="font-size:15px;">${appointment.pgaState}</td>
-                <td class="text-center disable-edit">
-                    <button class="btn slot-button modify">修改</button>
-                </td>
-                <td class="text-center">
-                    <button class="btn slot-button finish" id="finishBtn">完成</button>
-                </td>
-                <td class="text-center">
-                    <button class="btn slot-button cancel" id="cancelBtn">取消</button>
-                </td>
-            `;
+            <td class="text-center" name="pgaNo" value="${appointment.pgaNo}">${appointment.pgaNo}</td>
+            <td class="text-center" name="pgId">${appointment.pgId}</td>
+            <td class="text-center" name="pgName">${appointment.pgName}</td>
+            <td class="text-center" name="sourcePgaDate">${appointment.pgaDate}</td>
+            <td class="text-center" name="sourcePgaTime">${appointment.pgaTime}</td>
+            <td class="text-center" name="pgaOption">${appointment.pgaOption}</td>
+            <td class="text-center" name="pgaNotes" style="max-width: 80px;white-space:pre-line;
+            word-wrap: break-word;">${appointment.pgaNotes}</td>
+            <td class="text-center">${appointment.userId}</td>
+            <td class="text-center">${appointment.userName}</td>
+            <td class="text-center" name="pgaPhone">${appointment.pgaPhone}</td>
+            <td class="text-center state" name="pgaState" style="font-size:15px;  font-weight=bold;">${appointment.pgaState}</td>
+            <td class="text-center disable-edit">
+                <button class="btn slot-button modify">修改</button>
+            </td>
+            <td class="text-center">
+                <button class="btn slot-button finish" id="finishBtn">完成</button>
+            </td>
+            <td class="text-center">
+                <button class="btn slot-button cancel" id="cancelBtn">取消</button>
+            </td>
+        `;
             tableBody.appendChild(row);
             if (appointment.pgaState === "已完成") {
                 const stateElement = row.querySelectorAll(".state");
@@ -142,7 +181,7 @@ window.addEventListener("load", () => {
 
                 finishButton.addEventListener("click", () => {
                     CancelOrfinishButtonClick(finishButton);
-                }); 
+                });
             });
             const cancelButtons = tableBody.querySelectorAll("tr > td > .cancel");
 
@@ -155,53 +194,8 @@ window.addEventListener("load", () => {
 
 
         });
-
     }
-    //修改狀態
-    function CancelOrfinishButtonClick(editButton) {
-        const row = editButton.closest("tr");
-        const pgaNo = row.querySelector("[name=pgaNo]").textContent;
-        
-        let value;
-        if (editButton.id === 'finishBtn') {
-            value = 1;
-        } else if (editButton.id === 'cancelBtn') {
-            value = 2;
-        }
-
-        const requestBody = {
-            pgaNo: parseInt(pgaNo),
-            pgaState: parseInt(value)
-        };
-        //TOKEN要修改
-        fetch(config.url + "/user/CompleteOrCancel", {
-            method: "POST",
-            headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(requestBody)
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.code === 200) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "訂單狀態已修改",
-                        text: data.message
-                    });
-                    fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "修改失敗",
-                        text: data.message
-                    });
-                }
-            });
-    }
-
-    //更新分頁
+    // 更新分頁
     function updatePaginationButtons(totalAppointments) {
         const paginationButtonsContainer = document.getElementById("pagination-buttons");
         paginationButtonsContainer.innerHTML = "";
@@ -219,40 +213,20 @@ window.addEventListener("load", () => {
             }
             button.addEventListener("click", () => {
                 currentPage = i;
-                fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
-                scrollToTopFromCurrentPosition(170);
+                let searchString = searchInput.value;
+                fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
+                //SC
             });
             paginationButtonsContainer.appendChild(button);
         }
     }
-    //滾動至最頂 參數可設置豪秒
-    function scrollToTopFromCurrentPosition(duration) {
-        const startScrollY = window.pageYOffset;
-        const startTime = 'now' in window.performance ? performance.now() : new Date().getTime();
-
-        function scroll(timestamp) {
-            const currentTime = 'now' in window.performance ? performance.now() : new Date().getTime();
-            const timeElapsed = currentTime - startTime;
-
-            const easeInOutCubic = t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-            const scrollY = Math.max(startScrollY - startScrollY * easeInOutCubic(timeElapsed / duration), 0);
-
-            window.scrollTo(0, scrollY);
-
-            if (timeElapsed < duration) {
-                requestAnimationFrame(scroll);
-            }
-        }
-
-        requestAnimationFrame(scroll);
-    }
 
     //查詢班表(token要改)
     function fetchScheduleForDate(pgId, dateInput, timeSlotsContainer) {
-        fetch(config.url + `/user/pgScheduleForA?pgId=${pgId}`, {
+        fetch(config.url + `/manager/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
                 "Content-Type": "application/json"
             }
         })
@@ -278,13 +252,20 @@ window.addEventListener("load", () => {
                                 //pgsIdLabel.style.display = "block";
                                 generateTimeSlots(selectedSchedule.pgsState, timeSlotsContainer);
                             } else {
-                                //pgsIdLabel.style.display = "none";
+
                             }
                         },
+                    });
+                } else if (data.code === 404) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "無班表可修改",
+                        text: data.message
                     });
                 }
             });
     }
+
     //抓對應時間
     function generateTimeSlots(pgsState, timeSlotsContainer) {
         timeSlotsContainer.innerHTML = '';
@@ -311,7 +292,6 @@ window.addEventListener("load", () => {
         const day = String(date.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
     }
-
     //修改:
     function handleModifyButtonClick(editButton) {
 
@@ -377,9 +357,9 @@ window.addEventListener("load", () => {
             },
             showCancelButton: true,
             confirmButtonText: '確認',
-            confirmButtonColor: '#e4b074',
+            confirmButtonColor: '#8f88f8',
             cancelButtonText: '取消',
-            background: '#997b66',
+            background: 'rgba(0, 50, 129, 0.79)',
             preConfirm: () => {
                 const editedData = {
                     pgaNo: document.getElementById("pgaNo").value,//notnull
@@ -399,10 +379,10 @@ window.addEventListener("load", () => {
                 // 送出修改，TOKEN要改
                 const editedData = result.value;
 
-                fetch(config.url + "/user/modifyAppointment", {
+                fetch(config.url + "/manager/modifyAppointment", {
                     method: "POST",
                     headers: {
-                        Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
+                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(editedData)
@@ -415,7 +395,8 @@ window.addEventListener("load", () => {
                                 title: "預約修改成功",
                                 text: data.message
                             });
-                            fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
+                            let searchString = searchInput.value;
+                            fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
                         } else {
                             Swal.fire({
                                 icon: "error",
@@ -427,6 +408,50 @@ window.addEventListener("load", () => {
             }
 
         });
+    }
+    //修改狀態
+    function CancelOrfinishButtonClick(editButton) {
+        const row = editButton.closest("tr");
+        const pgaNo = row.querySelector("[name=pgaNo]").textContent;
+
+        let value;
+        if (editButton.id === 'finishBtn') {
+            value = 1;
+        } else if (editButton.id === 'cancelBtn') {
+            value = 2;
+        }
+
+        const requestBody = {
+            pgaNo: parseInt(pgaNo),
+            pgaState: parseInt(value)
+        };
+        //TOKEN要修改
+        fetch(config.url + "/manager/CompleteOrCancel", {
+            method: "POST",
+            headers: {
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "訂單狀態已修改",
+                        text: data.message
+                    });
+                    let searchString = searchInput.value;
+                    fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "修改失敗",
+                        text: data.message
+                    });
+                }
+            });
     }
 
 });
