@@ -47,8 +47,6 @@ function createProfile(data) {
   var userInfo = data;
 
   //TODO: 檢查使用者資料的輸入格式
-  //TODO: 儲存按鈕，儲存user-info的資料到edit-info，並傳到api
-  //TODO: 燈箱：顯示修改成功
 
   //名字
   let userName_el = document.getElementById("userName");
@@ -90,9 +88,6 @@ function createProfile(data) {
   //地址
   const userAddressData = data.userAddress;
   addressShow(userAddressData);
-
-  //TODO: 名稱欄位，顯示和編輯交換顯示
-  //TODO: enter儲存，還有切換儲存按鈕svg
 }
 
 function addressShow(userAddress) {

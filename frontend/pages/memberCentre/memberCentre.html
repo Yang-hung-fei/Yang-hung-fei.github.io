@@ -214,7 +214,10 @@
             <div id="info" style="background-color: #fff">
               <span id="user">
                 <div id="photo">
-                  <button id="userPicEdit" style="z-index: 99999; display: none;">
+                  <button
+                    id="userPicEdit"
+                    style="z-index: 99999; display: none"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
@@ -262,9 +265,10 @@
               </span>
               <span id="point">
                 <div id="pointnumber"></div>
-                <div id="getpoint">
+                <p style="text-align: center; font-weight: bold;" class="m-3">Point</p>
+                <!-- <div id="getpoint">
                   <button id="game">game</button>
-                </div>
+                </div> -->
               </span>
             </div>
           </header>
@@ -276,7 +280,7 @@
               <div id="user-info">
                 <div id="userGenderDiv">
                   <label for="userGender">性別</label>
-                  <select name="userGender" id="userGender" >
+                  <select name="userGender" id="userGender">
                     <option value="尚未設定">-</option>
                     <option value="男性">男性</option>
                     <option value="女性">女性</option>
@@ -309,10 +313,8 @@
                 </div>
                 <div class="notice">test</div>
               </div>
-              <div id="edit-info" style="display: none"></div>
-              <button id="edit-button">Edit</button>
-              <button id="save-button" style="display: none">Save</button>
-              <button id="cancel-button" style="display: none">Cancel</button>
+              <div id="edit-info"></div>
+              <button id="edit-button"  type="button" class="btn btn-primary">Edit</button>
             </div>
           </main>
         </header>
@@ -427,29 +429,29 @@
     <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../../js/main.js"></script>
+
     <script>
-      $(window).on("load", () =>{
+      $(window).on("load", () => {
         const token = localStorage.getItem("Authorization_U");
-        if(!token){
+        if (!token) {
           window.location.href = "/frontend/pages/user/login.html";
         }
-      })
+      });
     </script>
-
+    <script src="../../js/main.js"></script>
     <script type="module" src="../../js/getUserProfile.js"></script>
     <script src="../user/js/address.js"></script>
     <script>
       const photo_el = document.getElementById("photo");
-        const userPicEdit_btn = document.getElementById("userPicEdit");
+      const userPicEdit_btn = document.getElementById("userPicEdit");
 
-        photo_el.addEventListener("mouseout", () => {
-          userPicEdit_btn.style.display = "none";
-        });
+      photo_el.addEventListener("mouseout", () => {
+        userPicEdit_btn.style.display = "none";
+      });
 
-        photo_el.addEventListener("mouseover", () => {
-          userPicEdit_btn.style.display = "block";
-        });
+      photo_el.addEventListener("mouseover", () => {
+        userPicEdit_btn.style.display = "block";
+      });
     </script>
   </body>
 </html>
