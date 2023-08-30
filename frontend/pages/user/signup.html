@@ -28,6 +28,7 @@
     <link href="css/signup.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="css/notice.css">
     <link rel="stylesheet" href="css/option.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -64,11 +65,11 @@
                             </div>
                         </div>
                         <span class="notice -on">gender notice</span>
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                             <input id="birthday" class="input--style-3 js-datepicker" type="text" placeholder="生日" name="birthday">
                             <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                        </div>
-                        <span class="notice -on">birthday notice</span>
+                        </div> -->
+                        <!-- <span class="notice -on">birthday notice</span> -->
                         <div class="input-group">
                             <input id="email" class="input--style-3" type="email" placeholder="信箱" name="email">
                         </div>
@@ -114,11 +115,11 @@
                             </div>
                             <div style="min-width: 130px; flex-grow: -1;">
                                 <button id="chptcha_btn" type="button" class="btn btn--pill btn--green"
-                                    style="padding: 0 20px;" onclick="getCaptcha()">送出驗證碼</button>
+                                    style="padding: 0 20px;">送出驗證碼</button>
                             </div>
                         </div>
                         <div class="p-t-10">
-                            <input id="submit" type="button" class="btn btn--pill btn--green" onclick="submitForm()"
+                            <input id="submit" type="button" class="btn btn--pill btn--green" 
                                 value="提交資料">
                         </div>
 
@@ -138,8 +139,8 @@
     <!-- Main JS-->
     <script src="js/global.js"></script>
     <script src="js/address.js"></script>
-    <script src="js/captchbtn.js"></script>
-    <script src="js/signupSubmit.js"></script>
+    <script type="module" src="js/captchbtn.js"></script>
+    <script type="module" src="js/signupSubmit.js"></script>
 
 
 

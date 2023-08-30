@@ -1,6 +1,6 @@
 {
 <<<<<<< HEAD
-    "liveServer.settings.port": 5502
+    "liveServer.settings.port": 5500
 =======
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
