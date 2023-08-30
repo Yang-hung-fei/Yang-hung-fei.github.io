@@ -1,6 +1,10 @@
 import config from "../../ipconfig.js";
 
 $(window).on("load", () => {
+  getUserProfile();
+});
+
+export function getUserProfile() {
   const token = localStorage.getItem("Authorization_U");
 
   fetch(config.url + "/user/profile", {
@@ -20,7 +24,7 @@ $(window).on("load", () => {
       // 处理捕获的错误，包括网络错误等
       console.error("Fetch error:", error);
     });
-});
+}
 
 var responseActions = {
   200: function (data) {
@@ -62,7 +66,6 @@ export function profile_els() {
 
 // 在showDBuserProfile函数中使用profile_els函数来获取元素
 function showDBuserProfile(data) {
-
   var elements = profile_els(); // 获取所有元素
 
   // 设置元素内容
@@ -144,7 +147,9 @@ function addressShow(userAddress) {
       // 在第一层选择后，手动触发第二层选择的处理逻辑
       areaSelectHandler();
     })
-    .catch((error) => {console.error("Error:", error)});
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 
   // 第二層選擇
   function areaSelectHandler() {
@@ -174,46 +179,11 @@ function addressShow(userAddress) {
           }
         }
       })
-      .catch((error) => {console.error("Error:", error)});
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   // 在第一层选择发生改变时调用第二层选择的处理逻辑
   city_el.addEventListener("change", areaSelectHandler);
-}
-
-function edit() {
-  var editButton = document.getElementById("edit-button");
-
-  editButton.addEventListener("click", function () {
-    editButton.style.display = "none";
-    saveButton.style.display = "block";
-  });
-
-  editButton.addEventListener("click", function () {
-    var inputFields = editInfoDiv.querySelectorAll("input");
-    for (var i = 0; i < inputFields.length; i++) {
-      var key = Object.keys(userInfo)[i];
-      var inputValue = inputFields[i].value;
-      userInfo[key] = inputValue;
-    }
-
-    editButton.style.display = "inline";
-    saveButton.style.display = "none";
-    cancelButton.style.display = "none";
-
-    // 更新顯示資訊
-    for (var key in userInfo) {
-      var span = userInfoDiv.querySelector("span");
-      span.textContent = userInfo[key];
-    }
-  });
-
-  cancelButton.addEventListener("click", function () {
-    editButton.style.display = "inline";
-    saveButton.style.display = "none";
-    cancelButton.style.display = "none";
-
-    userInfoDiv.style.display = "block";
-    editInfoDiv.style.display = "none";
-  });
 }

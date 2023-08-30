@@ -1,5 +1,5 @@
-import config from "../../../../ipconfig.js";
-import { backToRedirectUrl } from "../../../js/backToRedirectUrl.js";
+import config from "/ipconfig.js";
+import { backToRedirectUrl } from "/frontend/js/backToRedirectUrl.js";
 
 $(window).on("load", () => {
   const token = localStorage.getItem("Authorization_U");
