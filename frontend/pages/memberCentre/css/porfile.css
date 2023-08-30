@@ -105,6 +105,14 @@ main > div > div div {
   margin: 20px 0 0 0;
 }
 
+#DBPasseord, #resetPassword {
+  margin: 0;
+}
+
+#resetPassword input {
+  margin-bottom: 10px;
+}
+
 main > div > div div input,
 main > div > div div select {
   height: 30px;
