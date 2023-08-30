@@ -111,3 +111,19 @@ async function swalThenFadeOut(message) {
     },
   });
 }
+
+
+const passwordInput = document.getElementById('password');
+const showPasswordToggle = document.getElementById('showPasswordToggle');
+
+showPasswordToggle.addEventListener('click', () => {  
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text'; 
+        showPasswordToggle.classList.remove('fa-eye-slash');
+        showPasswordToggle.classList.add('fa-eye');
+    } else {
+        passwordInput.type = 'password'; 
+        showPasswordToggle.classList.remove('fa-eye');
+        showPasswordToggle.classList.add('fa-eye-slash');
+    }
+});
