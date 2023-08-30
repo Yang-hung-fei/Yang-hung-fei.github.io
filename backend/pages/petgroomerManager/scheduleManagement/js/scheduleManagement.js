@@ -1,32 +1,63 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
+    // 表格元素
+    const calendarTable = document.getElementById('calendar');
 
+    //存放資訊
     const pgNameSelect = document.getElementById('pgName');
     const pgPic = document.getElementById('pgPic');
     const pgIdInput = document.getElementById('pgId');
-
+    //年份 / 月份
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear(); // 獲取年份
     const currentMonth = currentDate.getMonth() + 1; // 獲取月份（0-based）
+    //月份按鈕
+    const prevMonthBtn = document.getElementById('prevMonthBtn');
+    const nextMonthBtn = document.getElementById('nextMonthBtn');
+    // 當點擊上個月按鈕時
+    prevMonthBtn.addEventListener('click', () => {
+        const currentMonth = parseInt(monthInput.value);
+        const newMonth = currentMonth - 1 > 0 ? currentMonth - 1 : 12;
+        const newYear = currentMonth - 1 > 0 ? parseInt(yearSelect.value) : parseInt(yearSelect.value) - 1;
+        yearSelect.value = newYear;
+        monthInput.value = newMonth;
+        fetchGroomerSchedule(pgIdInput.value, newYear, newMonth);
+    });
 
-    const yearInput = document.getElementById('year');
+    // 當點擊下個月按鈕時
+    nextMonthBtn.addEventListener('click', () => {
+        const currentMonth = parseInt(monthInput.value);
+        const newMonth = currentMonth + 1 <= 12 ? currentMonth + 1 : 1;
+        const newYear = currentMonth + 1 <= 12 ? parseInt(yearSelect.value) : parseInt(yearSelect.value) + 1;
+        yearSelect.value = newYear;
+        monthInput.value = newMonth;
+        fetchGroomerSchedule(pgIdInput.value, newYear, newMonth);
+    });
 
+    // const yearSelect = document.getElementById('year');
+    const yearSelect = document.getElementById('yearSelect');
+    for (let year = 2020; year <= 2120; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    }
     const monthInput = document.getElementById('month');
 
-    yearInput.value = parseInt(currentYear);// 將年分設置到Input框中
+    yearSelect.value = parseInt(currentYear);// 將年分設置到Input框中
     monthInput.value = parseInt(currentMonth); // 將月分設置道Input框中
 
-    yearInput.addEventListener('change', function () {
-        
-        fetchGroomerSchedule(pgIdInput.value, parseInt(yearInput.value), parseInt(monthInput.value));
-        
+    yearSelect.addEventListener('change', function () {
+
+        fetchGroomerSchedule(pgIdInput.value, parseInt(yearSelect.value), parseInt(monthInput.value));
+
     });
     monthInput.addEventListener('change', function () {
-        fetchGroomerSchedule(pgIdInput.value, parseInt(yearInput.value), parseInt(monthInput.value));
+        fetchGroomerSchedule(pgIdInput.value, parseInt(yearSelect.value), parseInt(monthInput.value));
     });
     fetchGroomer();
 
-    //撈使用者/美容師資料(token要改)
+    //撈使用者美容師資料(token要改)
     function fetchGroomer() {
         fetch(config.url + "/manager/schedulePageGroomer", {
             method: "GET",
@@ -59,7 +90,7 @@ window.addEventListener("load", () => {
                             pgPic.src = 'data:image/png;base64,' + selectedGroomer.pgPic;
                             pgIdInput.value = selectedGroomer.pgId;
                         }
-                        fetchGroomerSchedule(pgIdInput.value, yearInput.value, monthInput.value);
+                        fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
                     });
 
                     // 直接選擇第一個選項並觸發 change 事件
@@ -130,7 +161,7 @@ window.addEventListener("load", () => {
             return dayTextArray;
         }
     }
-
+    //建構班表
     function fetchGroomerSchedule(pgId, yearParam, monthParam) {
         fetch(config.url + `/manager/schedule?pgId=${pgId}&year=${yearParam}&month=${monthParam}`, {
             method: "GET",
@@ -144,8 +175,8 @@ window.addEventListener("load", () => {
                 if (data.code === 200) {
                     const pgs = data.message;
 
-                    // 将API返回的数据按日期进行分组
-                    const scheduleData = {}; // 使用日期作为键，值为对应日期的排班数据数组
+                    // 將API返回的數據按日期進行分組
+                    const scheduleData = {}; // 使用日期作為鍵，值為對應日期的排班數據數組
                     pgs.forEach(item => {
                         const date = item.pgsDate;
                         if (!scheduleData[date]) {
@@ -154,12 +185,12 @@ window.addEventListener("load", () => {
                         scheduleData[date].push(item);
                     });
 
-                    // 获取当前年月
+                    // 獲取當前年月
                     const currentDate = new Date();
                     const currentYear = currentDate.getFullYear();
-                    const currentMonth = currentDate.getMonth() + 1; // 月份从0开始
+                    const currentMonth = currentDate.getMonth() + 1; // 月份從0開始
 
-                    // 根据日历数据和当前年月生成日历表格
+                    // 根據日曆數據和當前年月生成日曆表格
                     function generateCalendar(year, month) {
                         const calendar = new Calendar(year, month);
                         const calendarBody = document.getElementById('calendar-body');
@@ -167,7 +198,7 @@ window.addEventListener("load", () => {
 
                         const daysOfMonth = calendar.getDaysOfMonth();
 
-                        // 创建表格的第一行，包含日期信息
+                        // 創建表格的第一行，包含日期信息
                         const dateRow = document.createElement('tr');
                         const thEmpty = document.createElement('th');
                         dateRow.appendChild(thEmpty);
@@ -194,7 +225,7 @@ window.addEventListener("load", () => {
                                 if (hour === 0) {
                                 } else {
                                     const cell = document.createElement('td');
-                                    cell.classList.add('calendar-cell'); // 添加 CSS 类
+                                    cell.classList.add('calendar-cell'); // 添加 CSS class
 
                                     const date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
                                     const scheduleDataForDate = scheduleData[date] || [];
@@ -204,14 +235,16 @@ window.addEventListener("load", () => {
                                         const input = document.createElement('input');
                                         input.name = 'pgsId';
                                         input.type = 'hidden';
-                                        input.value = scheduleItem.pgsId; // 设置 input 的值为pgsId
+                                        input.value = scheduleItem.pgsId; // 設置 input 的值為pgsId
+                                        input.readOnly = true;
                                         cell.appendChild(input);
 
-                                        const pgsDateInput = document.createElement('input'); // 创建隐藏的 input 元素
-                                        pgsDateInput.type = 'hidden'; // 设置 input 元素类型为隐藏
-                                        pgsDateInput.value = scheduleItem.pgsDate; // 设置 input 的值为日期
-                                        pgsDateInput.name = 'pgsDate'; // 设置 input 的 name 属性
-                                        cell.appendChild(pgsDateInput); // 将 input 放置到 cell 元素内
+                                        const pgsDateInput = document.createElement('input'); // 創建隱藏的 input 元素
+                                        pgsDateInput.type = 'hidden'; // 設置 input 元素類型為隱藏
+                                        pgsDateInput.value = scheduleItem.pgsDate; // 設置 input 的值為日期
+                                        pgsDateInput.name = 'pgsDate'; // 設置 input 的 name 屬性
+                                        pgsDateInput.readOnly = true; // 設定為只讀
+                                        cell.appendChild(pgsDateInput); // 將 input 放置到 cell 元素內
 
                                         const button = document.createElement('button');
                                         button.name = 'state';
@@ -257,11 +290,11 @@ window.addEventListener("load", () => {
                                 return '';
                         }
                     }
-                    // 初始化生成当前年月的日历
+                    // 初始化生成當前年月日歷
                     generateCalendar(yearParam, monthParam);
                 } else {
                     const calendarBody = document.getElementById('calendar-body');
-                        calendarBody.innerHTML = ''; // 清空表格内容
+                    calendarBody.innerHTML = ''; // 清空表格内容
                     Swal.fire({
                         icon: "error",
                         title: data.message,
@@ -269,4 +302,59 @@ window.addEventListener("load", () => {
                 }
             });
     }
+    //修改請求
+    calendarTable.addEventListener('click', (event) => {
+        const clickedElement = event.target;
+
+        // 確保點擊的是按鈕元素
+        if (clickedElement.tagName === 'BUTTON') {
+            const tdElement = clickedElement.parentElement; // 取得包含按鈕的 td 元素
+            const columnIndex = tdElement.cellIndex; // 取得所在列的索引（不包含表頭行）
+            const tableBody = calendarTable.querySelector('tbody'); // 表格的tbody元素
+            const tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有td
+
+            let pgsState = '';
+
+            tdElements.forEach(td => {
+                const button = td.querySelector('button');
+                pgsState += button.value; // 將每個td內的按鈕值組成字串
+            });
+            console.log(pgsState);
+
+            const pgsId = tdElements[0].querySelector('[name="pgsId"]').value; // 取得第一個td的相鄰的前一個兄弟元素的值
+            const pgId = pgIdInput.value; // 從 hidden input 中取得 pgId
+            const pgsDate = tdElements[0].querySelector('[name="pgsDate"]').value; // 取得第一個td內的 name="pgsDate" 隱藏 input 的值
+
+            // 构建請求的數據
+            const requestData = {
+                pgsId: parseInt(pgsId),
+                pgId: parseInt(pgId),
+                pgsDate,
+                pgsState
+            };
+
+            // 執行fetch請求
+            fetch(config.url + "/manager/modifySchedule", {
+                method: "POST",
+                headers: {
+                    Authorization_M: "your-auth-token",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        // 成功處理的操作
+                        console.log("Request successful:", data.message);
+                    } else {
+                        // 處理錯誤的操作
+                        console.error("Request failed:", data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("An error occurred:", error);
+                });
+        }
+    });
 });
