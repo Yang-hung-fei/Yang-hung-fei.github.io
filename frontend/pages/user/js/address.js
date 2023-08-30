@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
         .catch(error => {
-            alert("fail");
+            // alert("fail");
         });
 
 
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             })
             .catch(error => {
-                alert("fail");
+                // alert("fail");
             });
     });
 

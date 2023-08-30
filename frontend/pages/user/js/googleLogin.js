@@ -24,6 +24,9 @@ function onSuccess(result) {
 function fadeOut() {
     $("div.overlay").fadeOut();
 }
+function fadeIn() {
+    $("div.overlay").fadeIn();
+}
 function authenticate(code) {
 
     //TODO: 更改API網域
@@ -46,6 +49,7 @@ function onFailure(error) {
     console.log(error);
 }
 function onClickSignIn() {
+    fadeIn();
     auth2.grantOfflineAccess()
         .then(onSuccess)
         .catch(onFailure);

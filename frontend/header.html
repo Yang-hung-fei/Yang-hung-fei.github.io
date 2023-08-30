@@ -33,6 +33,7 @@
     <!-- Template Stylesheet -->
     <link href="css/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/notify.css" />
+    <link rel="stylesheet" href="css/headerLogoutBtn.css" />
   </head>
 
   <body style="margin: 0; padding: 0; overflow: hidden">
@@ -101,25 +102,33 @@
           <a href="contact.html" class="nav-item nav-link">聯絡我們</a>
         </div>
         <div class="d-none d-lg-flex ms-2">
-          <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
-            <small class="fa fa-inbox text-body"></small>
+          <div id="notifyContain">
+            <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
+              <small class="fa fa-inbox text-body"></small>
+            </div>
+            <div
+              class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+              aria-labelledby="alertsDropdown"
+              id="notifyMenu"
+              style="min-height: 50px"
+            >
+              <div class="list-group">
+                <!--這裡放通知-->
+              </div>
+            </div>
           </div>
-          <div
-            class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-            aria-labelledby="alertsDropdown"
-            id="notifyMenu"
-            style="min-height: 50px;"
-          > 
-            <div class="list-group">
-              <!--這裡放通知-->
-            </div> 
-          </div>
-          <div id="user" class="btn-sm-square bg-white rounded-circle ms-3">
-            <small
-              id="userIcon"
-              class="fa fa-user text-body"
-              style="position: absolute"
-            ></small>
+          <div id="userContain">
+            <div id="user" class="btn-sm-square bg-white rounded-circle ms-3">
+              <small
+                id="userIcon"
+                class="fa fa-user text-body"
+                style="position: absolute"
+              ></small>
+            </div>
+            <!-- Logout Button - Initially Hidden -->
+            <div id="logoutButton" class="floating-logout-button">
+              <button class="btn btn-link btn-sm">登出</button>
+            </div>
           </div>
           <a
             id="shoppingCart"
@@ -150,5 +159,6 @@
     <!-- <script type="module" src="js/userPic.js"></script> -->
     <script src="js/notify.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="module" src="js/headerLogoutBtn.js"></script>
   </body>
 </html>

@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
+    "liveServer.settings.port": 5500
+=======
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
     ]
+>>>>>>> 5773ee019d744774fec4c2371bdb01ecd04d0a32
 }
