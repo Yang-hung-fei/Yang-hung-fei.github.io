@@ -514,50 +514,47 @@
 				<div class="container-fluid p-0" id="mainContent">
 
 					<!--主要內容 起始-->
-					<div style="min-height: 1000px; min-width: 1030px;">
+					<div style="min-height: 1200px; min-width: 1030px;">
 						<div class="table-title">
+							<div id="error"></div>
 							<div class="row" style="margin-bottom: 20px;">
 								<div class="col-md-12">
 									<div id="error"></div>
 									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">排班管理
 									</h2>
 								</div>
-								<div class="col-md-2" >
-									
-										<label for="pgName" class="form-label"
-										style="margin-left: 0px;">選擇美容師</label><br>
+								<div class="col-md-2">
+
+									<label for="pgName" class="form-label" style="margin-left: 0px;">選擇美容師</label><br>
 									<select id="pgName" name="pgName" class="form-select"
 										style="max-width: 120px; margin-left: 0px;"></select>
 									<!-- 發送預約請求抓pgId值-->
 									<div style="display: flex; align-items: center;">
-										<input id="pgId" name="pgId" value="" class="form-control" readonly hidden style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
+										<input id="pgId" name="pgId" value="" class="form-control" readonly hidden
+											style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
 									</div>
 								</div>
 								<div class="col-md-5  d-flex" style="position: relative">
 									<img id="pgPic" src="" alt="該美容師未有照片" class="img-fluid img-thumbnail"
 										style="display: none; width: 200px; height: 200px;">
-									
-
 								</div>
-
+								<div class="col-md-2">
+									<input id="year" name="year" value="" class="form-control"
+										style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
+									<input id="month" name="month" value="" class="form-control"
+										style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
+								</div>
 							</div>
-							<div class="container">
-
+							<div style="overflow-x: auto;overflow-y: auto;">
+								<table id="calendar" class="table-fill" style="min-width: 1030px;">
+									<tbody id="calendar-body">
+									</tbody>
+								</table>
 							</div>
-
-							<div style="display: flex; justify-content: space-between; ">
-
-
-							</div>
-							<table id="calendar" class="table-fill" style="min-width: 1030px;">
-								<tbody id="calendar-body">
-								</tbody>
-							</table>
-
-							<!--主要內容 結束-->
-
-
 						</div>
+					</div>
+					<!--主要內容 結束-->
+				</div>
 			</main>
 
 			<footer class="footer">
@@ -590,7 +587,7 @@
 			</footer>
 		</div>
 	</div>
-	ㄋ
+
 
 	<!--JS-->
 	<script type="module" src="./js/scheduleManagement.js"></script>
