@@ -1,0 +1,43 @@
+
+#productmanage{   /*商品列表 | 編輯商品資訊 | 新增商品*/
+    /* border: 2px solid rgb(48, 149, 78); */
+    margin: 5px 0;
+    font-size: large;
+    font-weight: bold;
+    
+}
+
+.nav-title{
+    margin: 0 20px;
+}
+
+.form-border{
+    border: 2px solid rgb(109, 108, 108); 
+    margin: 10px 0; 
+    border-radius: 20px;
+    display: flex;
+}
+
+.pms {
+    display: flex;
+    justify-content: space-between; 
+    /* border: 1px solid tomato; */
+}
+
+.pm {
+    width: 50%;
+    /* border: 1px solid tomato; */
+    margin: 20px 5px 0 5px;   
+    /* text-align: center; */
+  }
+
+.pm-pic {
+    /* border: 1px solid rgb(82, 18, 6); */
+    margin: 0 5px;  
+}
+
+.pm_input{
+    /* border: 1px solid rgb(51, 0, 255); */
+    margin: 20px 50px;
+    font-size: medium;
+}
