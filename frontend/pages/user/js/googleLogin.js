@@ -1,3 +1,4 @@
+let auth2;
 function renderButton() {
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
@@ -50,6 +51,14 @@ function onFailure(error) {
 }
 function onClickSignIn() {
     fadeIn();
+    if(auth2 ==null){
+        auth2 = gapi.auth2.init({
+            client_id: '12649271170-0risrvfckuf08oe89uk0jfgltlm5t168.apps.googleusercontent.com',
+            scope: 'profile email',
+            redirect_uri: "http://localhost:5050",
+            plugin_name: "This is Google oAuth login "
+        });
+    }
     auth2.grantOfflineAccess()
         .then(onSuccess)
         .catch(onFailure);
