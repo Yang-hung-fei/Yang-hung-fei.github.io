@@ -30,6 +30,11 @@ var responseActions = {
   200: function (data) {
     var userInfo = data.message;
     console.log(userInfo);
+    if(userInfo.identityProvider === 'Local'){
+      $('#userPasswordDiv').css('display', 'flex');
+    }else{
+      $('#userPasswordDiv').css('display', 'none');
+    }
     showDBuserProfile(userInfo);
   },
   401: function () {

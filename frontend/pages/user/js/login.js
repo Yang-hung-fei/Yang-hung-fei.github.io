@@ -52,7 +52,7 @@ export function checkEmail(emailText) {
   return null; // No error
 }
 
-function checkPassword(password) {
+export function checkPassword(password) {
   if (password.length < 6) {
     return "密碼長度不足。";
   }
@@ -93,7 +93,7 @@ async function localLogin(email, password) {
   }
 }
 
-async function swalThenFadeOut(message) {
+export async function swalThenFadeOut(message) {
   await swal({
     text: message,
     onAfterClose: () => {
