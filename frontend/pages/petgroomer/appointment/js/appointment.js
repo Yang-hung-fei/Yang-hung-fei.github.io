@@ -120,6 +120,11 @@ window.addEventListener("load", () => {
                             }
                         },
                     });
+                }else{
+                    Swal.fire({
+                        icon: "error",
+                        title: data.message
+                    });
                 }
             });
     }
