@@ -1502,7 +1502,7 @@
 }
 /*------------------------------------------------------------------ All Pages -------------------------------------------------------------------*/
  .all-title-box{
-     background: url("../images/shopCartBanner.jpg") no-repeat;
+     background: url("../images/shopCartBanner.png") no-repeat ;
      -webkit-background-size: cover;
      -moz-background-size: cover;
      -ms-background-size: cover;
