@@ -1,9 +1,12 @@
+import {backToRedirectUrl} from '/frontend/js/backToRedirectUrl.js';
+
 // Get the user and logout button elements
 const userIcon = document.getElementById("userIcon");
 const logoutButton = document.getElementById("logoutButton");
 
 logoutButton.addEventListener("click", () => {
   localStorage.removeItem("Authorization_U");
+  backToRedirectUrl();
 });
 
 let timeoutId; // To store the timeout ID
