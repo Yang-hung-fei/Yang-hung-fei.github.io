@@ -101,8 +101,16 @@ main > div {
   display: block;
 }
 
-main > div > div div:not('#userPasswordDiv') {
+main > div > div div {
   margin: 20px 0 0 0;
+}
+
+#DBPasseord, #resetPassword {
+  margin: 0;
+}
+
+#resetPassword input {
+  margin-bottom: 10px;
 }
 
 main > div > div div input,
