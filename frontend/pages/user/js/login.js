@@ -25,6 +25,17 @@ $(window).on("load", () => {
         return; // 如果有錯誤，中斷程式碼執行
       }
 
+      //機器人驗證
+      // 取得 reCAPTCHA 驗證的回應 token
+      var response = grecaptcha.getResponse();
+
+      // 檢查回應是否為空，表示未通過驗證
+      if (response.length === 0){
+        swal("失敗", "請通過機器人驗證", "error");
+        return;
+      }
+        
+
       // 顯示 fetch 前的燈箱
       $("div.overlay").fadeIn();
 
