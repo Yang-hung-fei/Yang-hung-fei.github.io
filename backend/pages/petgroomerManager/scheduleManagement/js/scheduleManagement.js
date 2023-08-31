@@ -325,20 +325,20 @@ window.addEventListener("load", () => {
                             });
                         });
 
-                        // 为每个送出按钮添加点击事件
+                        // 為每個送出按鈕添加點擊事件
                         sendButtons.forEach((sendButton, index) => {
                             sendButton.addEventListener("click", () => {
 
-                                // 隐藏送出和取消按钮
+                                // 隱藏送出和取消按鈕
                                 sendButtons[index].hidden = true;
                                 cancelButtons[index].hidden = true;
 
-                                // 显示所有列的修改按钮
+                                // 顯示所有列的修改按鈕
                                 modifyButtons.forEach((btn) => {
                                     btn.hidden = false;
                                 });
 
-                                // 将该列的所有 status-button 按钮的 disabled 属性改为 true
+                                // 將該列的所有 status-button 按鈕的 disabled 屬性改為 true
                                 tdElements.forEach(td => {
                                     const button = td.querySelector('.status-button');
                                     button.disabled = true;
@@ -374,7 +374,7 @@ window.addEventListener("load", () => {
                                 sendButtons[index].hidden = true;
                                 cancelButtons[index].hidden = true;
 
-                                // 显示所有列的修改按钮
+                                // 顯示所有列的修改按鈕
                                 modifyButtons.forEach((btn) => {
                                     btn.hidden = false;
                                 });
