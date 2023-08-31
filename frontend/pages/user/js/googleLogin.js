@@ -1,3 +1,12 @@
+$(window).on("load",event=>{
+    $("#googlelogin").on("click",event=>{ 
+        onClickSignIn();
+    })
+
+});
+
+let auth2;
+import config from "../../../../ipconfig.js";
 function renderButton() {
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
@@ -30,7 +39,7 @@ function fadeIn() {
 function authenticate(code) {
 
     //TODO: 更改API網域
-    return axios.post('http://localhost:8080/user/googleLogin', JSON.stringify({ code }), {
+    return axios.post(config.url+'/user/googleLogin', JSON.stringify({ code }), {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -50,6 +59,14 @@ function onFailure(error) {
 }
 function onClickSignIn() {
     fadeIn();
+    if(auth2 ==null){
+        auth2 = gapi.auth2.init({
+            client_id: '12649271170-0risrvfckuf08oe89uk0jfgltlm5t168.apps.googleusercontent.com',
+            scope: 'profile email',
+            redirect_uri: "http://localhost:5050",
+            plugin_name: "This is Google oAuth login "
+        });
+    }
     auth2.grantOfflineAccess()
         .then(onSuccess)
         .catch(onFailure);
