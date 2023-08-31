@@ -127,3 +127,35 @@ showPasswordToggle.addEventListener('click', () => {
         showPasswordToggle.classList.add('fa-eye-slash');
     }
 });
+$("#email").on("change",(event)=>{ 
+  validateEmail();
+})
+$("#password").on("change",(event)=>{ 
+  checkPasswordLength();
+})
+
+function validateEmail() {
+  const emailInput = document.getElementById('email');
+  const emailError = document.getElementById('emailError');
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  if (!emailPattern.test(emailInput.value)) {
+      emailError.textContent = '輸入的信箱無效';
+  } else {
+      emailError.textContent = '';
+  }
+}
+
+function checkPasswordLength() {
+  var passwordInput = document.getElementById('password');
+  var passwordError = document.getElementById('passwordError');
+  var password = passwordInput.value;
+
+  if (password.length >= 6) {
+    // 清除錯誤訊息，如果之前有顯示的話
+    passwordError.textContent = '';
+  } else {
+    // 顯示錯誤訊息
+    passwordError.textContent = '密碼長度至少需 6 個字';
+  }
+}
