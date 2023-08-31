@@ -1,0 +1,53 @@
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom-right-radius: 0px;
+}
+
+/* 關鍵字搜尋 */
+.search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(158, 151, 151, 0.1);
+
+}
+
+.search input {
+
+    height: 60px;
+    text-indent: 25px;
+    border: 2px solid #d6d4d4;
+}
+
+.search input:focus {
+    box-shadow: none;
+    border: 2px solid blue;
+}
+
+.search .fa-search {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+}
+
+.search button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 50px;
+    background: blue;
+}
+
+/* 活動標題 */
+
+.activity_title {
+    margin: 64px 0 32px 0;
+    border: solid 1px #D9D9D9;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.activity_title .title_box {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
