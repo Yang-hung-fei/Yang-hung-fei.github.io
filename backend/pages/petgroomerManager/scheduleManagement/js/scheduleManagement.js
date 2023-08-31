@@ -255,7 +255,7 @@ window.addEventListener("load", () => {
                                         button.textContent = getButtonText(scheduleItem.pgsState.charAt(hour - 1));
                                         button.classList.add('status-button');
                                         button.classList.add(getButtonClass(scheduleItem.pgsState.charAt(hour - 1)));
-                                        button.classList.add('btn'); // 添加 "btn" 类
+                                        button.classList.add('btn'); // 添加 "btn" 類
                                         button.disabled = true;
                                         cell.appendChild(button);
                                     } else {
@@ -272,10 +272,10 @@ window.addEventListener("load", () => {
                         const tableHeaderRow = document.querySelector("#calendar-body tr:first-child");
                         const thElements = tableHeaderRow.querySelectorAll("th");
 
-                        // 遍历每个表头单元格
+                       // 遍歷每個表頭單元格
                         thElements.forEach((th, index) => {
-                            if (index > 0) { // 跳过第一个表头单元格
-                                // 创建按钮元素
+                            if (index > 0) { // 跳過第一個表頭單元格
+                                // 創建按鈕元素
                                 const modifyButton = document.createElement("button");
                                 modifyButton.id = "modify";
                                 modifyButton.name = "modify";
@@ -299,7 +299,7 @@ window.addEventListener("load", () => {
                                 cancelButton.textContent = "取消";
                                 cancelButton.hidden = true;
 
-                                // 添加按钮到表头单元格
+                                // 添加按鈕到表頭單元格
                                 th.appendChild(modifyButton);
                                 th.appendChild(sendButton);
                                 th.appendChild(cancelButton);
@@ -310,7 +310,7 @@ window.addEventListener("load", () => {
                         const sendButtons = document.querySelectorAll(".send-button");
                         const cancelButtons = document.querySelectorAll(".cancel-button");
 
-                        // 为每个修改按钮添加点击事件
+                        // 為每個修改按鈕添加點擊事件
                         modifyButtons.forEach((modifyButton, index) => {
                             modifyButton.addEventListener("click", () => {
 
@@ -319,7 +319,7 @@ window.addEventListener("load", () => {
                                     btn.hidden = true;
                                 });
 
-                                // 显示对应列的送出和取消按钮
+                                // 顯示對應列的送出和取消按鈕
                                 sendButtons[index].hidden = false;
                                 cancelButtons[index].hidden = false;
                             });
@@ -328,21 +328,6 @@ window.addEventListener("load", () => {
                         // 為每個送出按鈕添加點擊事件
                         sendButtons.forEach((sendButton, index) => {
                             sendButton.addEventListener("click", () => {
-
-                                // 隱藏送出和取消按鈕
-                                sendButtons[index].hidden = true;
-                                cancelButtons[index].hidden = true;
-
-                                // 顯示所有列的修改按鈕
-                                modifyButtons.forEach((btn) => {
-                                    btn.hidden = false;
-                                });
-
-                                // 將該列的所有 status-button 按鈕的 disabled 屬性改為 true
-                                tdElements.forEach(td => {
-                                    const button = td.querySelector('.status-button');
-                                    button.disabled = true;
-                                });
 
                                 const thElement = sendButton.parentElement; // 取得包含按鈕的 th 元素
                                 const columnIndex = thElement.cellIndex; // 取得所在列的索引（不包含表頭行）
@@ -362,6 +347,22 @@ window.addEventListener("load", () => {
                                 });
 
                                 fetchModifySchedule(pgsId, pgId, pgsDate, pgsState);
+
+                                 // 隱藏送出和取消按鈕
+                                 sendButtons[index].hidden = true;
+                                 cancelButtons[index].hidden = true;
+ 
+                                 // 顯示所有列的修改按鈕
+                                 modifyButtons.forEach((btn) => {
+                                     btn.hidden = false;
+                                 });
+ 
+                                 // 將該列的所有 status-button 按鈕的 disabled 屬性改為 true
+                                 tdElements.forEach(td => {
+                                     const button = td.querySelector('.status-button');
+                                     button.disabled = true;
+                                 });
+ 
                             });
 
                         });
@@ -472,7 +473,7 @@ window.addEventListener("load", () => {
 
     //修改請求
     function fetchModifySchedule(pgsId, pgId, pgsDate, pgsState) {
-        // 构建请求的数据
+        // 構建請求的數據
         const requestData = {
             pgsId: parseInt(pgsId),
             pgId: parseInt(pgId),
@@ -480,7 +481,7 @@ window.addEventListener("load", () => {
             pgsState
         };
 
-        // 执行fetch请求
+        // fetch
         fetch(config.url + "/manager/modifySchedule", {
             method: "POST",
             headers: {
