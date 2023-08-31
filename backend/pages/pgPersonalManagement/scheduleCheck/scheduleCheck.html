@@ -26,7 +26,7 @@
 	<!-- Flatpickr -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<!--CSS-->
-	<link rel="stylesheet" href="./css/scheduleManagement.css">
+	<link rel="stylesheet" href="./css/scheduleCheck.css">
 
 </head>
 
@@ -520,25 +520,11 @@
 							<div class="row" style="margin-bottom: 20px;">
 								<div class="col-md-12">
 									<div id="error"></div>
-									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">排班管理
+									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">查詢排班
 									</h2>
 								</div>
+								
 								<div class="col-md-2">
-
-									<label for="pgName" class="form-label" style="margin-left: 0px;">選擇美容師</label><br>
-									<select id="pgName" name="pgName" class="form-select"
-										style="max-width: 120px; margin-left: 0px;"></select>
-									<!-- 發送預約請求抓pgId值-->
-									<div style="display: flex; align-items: center;">
-										<input id="pgId" name="pgId" value="" class="form-control" readonly hidden
-											style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
-									</div>
-								</div>
-								<div class="col-md-3  d-flex" style="position: relative">
-									<img id="pgPic" src="" alt="該美容師未有照片" class="img-fluid img-thumbnail"
-										style="display: none; width: 200px; height: 200px;">
-								</div>
-								<div class="col-md-2" style="padding-right: 0;">
 									<label for="yearSelect" class="form-label" style="margin-left: 0px;">年</label>
 									<select id="yearSelect" class="form-select"
 										style="max-width: 120px; margin-right: 0px;"></select>
@@ -552,16 +538,20 @@
 									<button id="nextMonthBtn" class="btn btn-secondary"
 										style="margin-left: 5px;">&gt;</button>
 								</div>
-								<div class="col-md-4" style="border-left: 3px solid gray;">
-									<h3>新增班表</h3>
-									<p>請勾選上班時間段</p>
-									<input type="text" id="dateInput" name="dateInput" class="form-control"
-										style="margin-bottom: 25px;" placeholder="請點擊選擇新增日期">
-									<div id="timeSlots" class="d-flex flex-wrap gap-3">
-										<!-- 時間槽將會在 JavaScript 中動態生成 -->
+								<div class="col-md-2">
+
+									<label for="pgName" class="form-label" style="margin-left: 0px;">請選擇美容師確認班表</label><br>
+									<select id="pgName" name="pgName" class="form-select"
+										style="max-width: 120px; margin-left: 0px;"></select>
+									<!-- 發送預約請求抓pgId值-->
+									<div style="display: flex; align-items: center;">
+										<input id="pgId" name="pgId" value="" class="form-control" readonly hidden
+											style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
 									</div>
-									<button id="addNewScBtn" class="btn btn-secondary"
-										style="margin-left: 0px;">新增</button>
+								</div>
+								<div class="col-md-3  d-flex" style="position: relative">
+									<img id="pgPic" src="" alt="該美容師未有照片" class="img-fluid img-thumbnail"
+										style="display: none; width: 200px; height: 200px;">
 								</div>
 							</div>
 							<div style="overflow-x: auto;overflow-y: auto;">
@@ -609,7 +599,7 @@
 
 
 	<!--JS-->
-	<script type="module" src="./js/scheduleManagement.js"></script>
+	<script type="module" src="./js/scheduleCheck.js"></script>
 	<!--sweetalert2-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 	<!-- Flatpickr -->

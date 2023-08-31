@@ -24,9 +24,9 @@
 	<!-- sweetalert2 -->
 	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 	<!-- Flatpickr -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<!--CSS-->
-	<link rel="stylesheet" href="./css/scheduleManagement.css">
+	<link rel="stylesheet" href="./css/petGrommerCheckAppointment.css">
 
 </head>
 
@@ -514,65 +514,122 @@
 				<div class="container-fluid p-0" id="mainContent">
 
 					<!--主要內容 起始-->
-					<div style="min-height: 1200px; min-width: 1030px;">
+					<div style="min-height: 1000px; min-width: 1030px;">
 						<div class="table-title">
 							<div id="error"></div>
-							<div class="row" style="margin-bottom: 20px;">
-								<div class="col-md-12">
-									<div id="error"></div>
-									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">排班管理
-									</h2>
-								</div>
-								<div class="col-md-2">
-
-									<label for="pgName" class="form-label" style="margin-left: 0px;">選擇美容師</label><br>
-									<select id="pgName" name="pgName" class="form-select"
-										style="max-width: 120px; margin-left: 0px;"></select>
-									<!-- 發送預約請求抓pgId值-->
-									<div style="display: flex; align-items: center;">
-										<input id="pgId" name="pgId" value="" class="form-control" readonly hidden
-											style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
-									</div>
-								</div>
-								<div class="col-md-3  d-flex" style="position: relative">
-									<img id="pgPic" src="" alt="該美容師未有照片" class="img-fluid img-thumbnail"
-										style="display: none; width: 200px; height: 200px;">
-								</div>
-								<div class="col-md-2" style="padding-right: 0;">
-									<label for="yearSelect" class="form-label" style="margin-left: 0px;">年</label>
-									<select id="yearSelect" class="form-select"
-										style="max-width: 120px; margin-right: 0px;"></select>
-
-									<label for="month" class="form-label" style="margin-left: 0px;">月</label>
-									<input id="month" name="month" type="number" min="1" max="12" class="form-control"
-										style="max-width: 120px; margin-left: 5px; margin: 0;">
-
-									<button id="prevMonthBtn" class="btn btn-secondary"
-										style="margin-right: 5px;">&lt;</button>
-									<button id="nextMonthBtn" class="btn btn-secondary"
-										style="margin-left: 5px;">&gt;</button>
-								</div>
-								<div class="col-md-4" style="border-left: 3px solid gray;">
-									<h3>新增班表</h3>
-									<p>請勾選上班時間段</p>
-									<input type="text" id="dateInput" name="dateInput" class="form-control"
-										style="margin-bottom: 25px;" placeholder="請點擊選擇新增日期">
-									<div id="timeSlots" class="d-flex flex-wrap gap-3">
-										<!-- 時間槽將會在 JavaScript 中動態生成 -->
-									</div>
-									<button id="addNewScBtn" class="btn btn-secondary"
-										style="margin-left: 0px;">新增</button>
+							<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">查詢預約</h2>
+						</div>
+						<div style="display: flex; justify-content: space-between; ">
+							<div style="display: flex; justify-content: flex-start;">
+								<label for="search"
+									style="padding-right: 10px; font-size: 18px; width: 70px;">搜尋</label>
+								<input type="text" class="form-control" id="search"
+									style="width: 50px; height: 25px; border-radius: 3px; width: 200px; margin-right: 20px;" value="" placeholder="請輸入ID/姓名/日期" />
+								<label for="limit" style="font-size: 18px; width: 80px;">最大筆數</label>
+								<select name="limit" id="limit" style="font-size: 15px; margin-bottom: 20px;">
+									<option value="10" disabled selected>請選擇</option>
+									<option value="5" style="text-align: center;">5</option>
+									<option value="10" style="text-align: center;">10</option>
+									<option value="15" style="text-align: center;">15</option>
+									<option value="20" style="text-align: center;">20</option>
+								</select>
+								<div style="width: 200px;">
+									<select name="sort" id="sort"
+										style="appearance: none; padding: 0;text-align: center; max-width: 80px; height: 29px; margin-bottom: 20px; margin-left: 30px; border: 1px solid gray;"
+										class="form-control">
+										<option value="desc" disabled selected >排序</option>
+										<option value="asc">升序</option>
+										<option value="desc">降序</option>
+									</select>
 								</div>
 							</div>
-							<div style="overflow-x: auto;overflow-y: auto;">
-								<table id="calendar" class="table-fill" style="min-width: 1030px;">
-									<tbody id="calendar-body">
-									</tbody>
-								</table>
+							<div style="display: flex; justify-content: flex-end;">
+								<label for="maxCount" style="padding-right: 10px; font-size: 18px;">總筆數</label>
+								<input type="text" class="form-control" id="maxCount"
+									style="width: 50px; height: 25px; border-radius: 3px;" readonly />
 							</div>
 						</div>
+
+						<table class="table-fill" style="min-width: 1030px;">
+							<thead>
+								<tr>
+									<th class="text-align:top" style="border-top-left-radius: 5px; position: relative; height: 50px;">預約單編號
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_NO" >▼
+												<input value="PGA_NO" checked type="radio" id="orderBy_PGA_NO"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+									<th class="text-center"  style="position: relative;">美容師編號
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PG_ID">▼
+												<input value="PG_ID" type="radio" id="orderBy_PG_ID" name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+
+									<th class="text-center" style="position: relative;">美容師姓名
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PG_NAME">▼
+												<input value="PG_NAME" type="radio" id="orderBy_PG_NAME" name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+									<th class="text-center" style="position: relative;">預約日期
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_DATE">▼
+												<input value="PGA_DATE" type="radio" id="orderBy_PGA_DATE"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+									<th class="text-center">預約時段</th>
+									<th class="text-center" style="position: relative;">預約選項
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_OPTION">▼
+												<input value="PGA_OPTION" type="radio" id="orderBy_PGA_OPTION"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+									<th class="text-center">備註</th>
+									<th class="text-center" style="position: relative;">會員編號
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_USER_ID">▼
+												<input value="USER_ID" type="radio" id="orderBy_USER_ID" name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+									<th class="text-center" style="position: relative;">預約姓名
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_USER_NAME">▼
+												<input value="USER_NAME" type="radio" id="orderBy_USER_NAME"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+									<th class="text-center">預約電話</th>
+									<th class="text-center" style="position: relative;">預約單狀態
+										<div class="radio" style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
+											<label class="orderBy_label" for="orderBy_PGA_STATE">▼
+												<input value="PGA_STATE" type="radio" id="orderBy_PGA_STATE"
+													name="orderBy"
+													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="table-hover">
+
+							</tbody>
+						</table>
+						<div class="btn-group" role="group" aria-label="First group" id="pagination-buttons">
+						</div>
+						<!--主要內容 結束-->
+                        
 					</div>
-					<!--主要內容 結束-->
+
 				</div>
 			</main>
 
@@ -607,13 +664,12 @@
 		</div>
 	</div>
 
-
 	<!--JS-->
-	<script type="module" src="./js/scheduleManagement.js"></script>
+	<script type="module" src="./js/petGrommerCheckAppointment.js"></script>
 	<!--sweetalert2-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 	<!-- Flatpickr -->
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 	<script src="../../../../jquery/jquery-3.2.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
