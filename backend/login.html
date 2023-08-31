@@ -32,6 +32,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </head>
 
   <body>
@@ -60,6 +61,7 @@
                           class="form-control form-control-lg"
                           type="text"
                           name="email"
+						  id="account"
                           placeholder="Enter your account"
                         />
                       </div>
@@ -70,7 +72,7 @@
                           type="password"
                           name="password"
                           placeholder="Enter your password"
-						  id="account"
+						  id="password"
                         />
                         <small>
                           <a href="index.html">Forgot password?</a>
@@ -83,7 +85,6 @@
                             type="checkbox"
                             value="remember-me"
                             name="remember-me"
-							id="password"
                             checked
                           />
                           <span class="form-check-label">
