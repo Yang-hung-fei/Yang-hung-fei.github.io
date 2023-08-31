@@ -39,7 +39,7 @@ function fadeIn() {
 function authenticate(code) {
 
     //TODO: 更改API網域
-    return axios.post('http://localhost:8080/user/googleLogin', JSON.stringify({ code }), {
+    return axios.post(config.url+'/user/googleLogin', JSON.stringify({ code }), {
         headers: {
             'Content-Type': 'application/json'
         }

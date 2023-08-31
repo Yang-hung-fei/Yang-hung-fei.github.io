@@ -4,6 +4,6 @@ export function backToRedirectUrl() {
     localStorage.removeItem("redirectUrl"); // 從 localStorage 刪除已使用的 redirectUrl
     window.location.href = redirectUrl; // 如果有重定向 URL，使用它进行导航，否则导航回默认页面
   } else {
-    window.location.href = "/frontend/index.html"; // 替换为默认页面 URL
+    window.location.href = "/frontend/pages/memberCentre/memberCentre.html"; // 替换为默认页面 URL
   }
 }
