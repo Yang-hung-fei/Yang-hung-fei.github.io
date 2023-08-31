@@ -6,7 +6,15 @@ div.table-title {
   width: 100%;
 
 }
-
+.calendar-cell{
+  padding: 4px;
+}
+.status-button {
+  width: 80%; /* 設置寬度為父元素的寬度 */
+  height: 100%; /* 設置高度為父元素的高度 */
+  padding: 0%;
+  margin: 0;
+}
 .table-title>h2 {
   color: #4e555c;
   font-size: 30px;
@@ -221,13 +229,4 @@ input:checked+.orderBy_label {
 }
 .time-label {
   width: 40px; /* 调整宽度为合适的值 */
-}
-.status-button {
-  width: 80%; /* 設置寬度為父元素的寬度 */
-  height: 100%; /* 設置高度為父元素的高度 */
-  padding: 0%;
-  margin: 0;
-}
-.calendar-cell{
-  padding: 4px;
 }

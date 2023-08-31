@@ -170,11 +170,11 @@
                   </button>
                   <img id="userPic" />
                 </div>
-                <div id="names">
+                <div id="names" style="width: 250px">
                   <div>
                     <div id="editNameContain" style="display: none">
                       <input type="text" id="inputNameEdit" />
-                      <button class="btnNameEdit save">
+                      <button class="btnNameEdit save" id="saveNameButton">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           height="1em"
@@ -188,7 +188,7 @@
                       </button>
                     </div>
                     <div id="showNameContain">
-                      <span id="userName"></span>
+                      <span id="userName">User's Name</span>
                       <button class="btnNameEdit" id="editNameButton">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +206,7 @@
                   <div>
                     <div class="editNickNameContanin" style="display: none">
                       <input type="text" id="inputNickNameEdit" />
-                      <button class="btnNameEdit save">
+                      <button class="btnNameEdit save" id="saveNickNameButton">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           height="1em"
@@ -220,7 +220,7 @@
                       </button>
                     </div>
                     <div id="showNickNameContain">
-                      <span id="userNickName"></span>
+                      <span id="userNickName">User's Nickname</span>
                       <button class="btnNameEdit" id="editNickNameButton">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -267,10 +267,10 @@
                         修改密碼
                       </button>
                     </div>
-                    <div id="resetPassword" style="display: none;">
+                    <div id="resetPassword" style="display: none">
                       <input type="password" id="firstPassword" />
                       <br />
-                      <input type="password" id="secondPassword"/>
+                      <input type="password" id="secondPassword" />
                       <button
                         id="resetPasswordBtn"
                         class="btn btn-primary"
@@ -431,6 +431,7 @@
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../lib/wow/wow.min.js"></script>
     <script src="../../lib/easing/easing.min.js"></script>
@@ -447,9 +448,50 @@
         }
       });
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("editNameButton")
+          .addEventListener("click", function () {
+            document.getElementById("showNameContain").style.display = "none";
+            document.getElementById("editNameContain").style.display = "block";
+          });
+
+        document
+          .getElementById("saveNameButton")
+          .addEventListener("click", function () {
+            // 在這裡添加儲存名稱的程式碼
+            document.getElementById("editNameContain").style.display = "none";
+            document.getElementById("showNameContain").style.display = "block";
+
+            // 在這裡添加fetch名稱的程式碼
+          });
+
+        document
+          .getElementById("editNickNameButton")
+          .addEventListener("click", function () {
+            document.getElementById("showNickNameContain").style.display =
+              "none";
+            document.querySelector(".editNickNameContanin").style.display =
+              "block";
+          });
+
+        document
+          .getElementById("saveNickNameButton")
+          .addEventListener("click", function () {
+            // 在這裡添加儲存暱稱的程式碼
+            document.querySelector(".editNickNameContanin").style.display =
+              "none";
+            document.getElementById("showNickNameContain").style.display =
+              "block";
+
+            // 在這裡添加fetch暱稱的程式碼
+          });
+      });
+    </script>
     <script src="../../js/main.js"></script>
     <script type="module" src="../../js/getUserProfile.js"></script>
-    <script type="module" src="../memberCentre/js/editUserProfile.js"></script>
+    <script type="module" src="./js/editUserProfile.js"></script>
     <script src="../user/js/address.js"></script>
     <script
       type="module"
