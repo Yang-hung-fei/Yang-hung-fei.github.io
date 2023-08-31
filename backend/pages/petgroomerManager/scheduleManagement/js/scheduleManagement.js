@@ -1,4 +1,5 @@
 import config from "../../../../../ipconfig.js";
+let tdElements = [];
 window.addEventListener("load", () => {
     // 表格元素
     const calendarTable = document.getElementById('calendar');
@@ -206,6 +207,8 @@ window.addEventListener("load", () => {
                         for (let day = 1; day <= daysOfMonth; day++) {
                             const th = document.createElement('th');
                             th.textContent = `${day}號`; // Display day of the month
+
+
                             dateRow.appendChild(th);
                         }
 
@@ -253,6 +256,7 @@ window.addEventListener("load", () => {
                                         button.classList.add('status-button');
                                         button.classList.add(getButtonClass(scheduleItem.pgsState.charAt(hour - 1)));
                                         button.classList.add('btn'); // 添加 "btn" 类
+                                        button.disabled = true;
                                         cell.appendChild(button);
                                     } else {
                                         cell.textContent = '-';
@@ -264,6 +268,169 @@ window.addEventListener("load", () => {
 
                             calendarBody.appendChild(row);
                         }
+                        // 找到表头的容器元素
+                        const tableHeaderRow = document.querySelector("#calendar-body tr:first-child");
+                        const thElements = tableHeaderRow.querySelectorAll("th");
+
+                        // 遍历每个表头单元格
+                        thElements.forEach((th, index) => {
+                            if (index > 0) { // 跳过第一个表头单元格
+                                // 创建按钮元素
+                                const modifyButton = document.createElement("button");
+                                modifyButton.id = "modify";
+                                modifyButton.name = "modify";
+                                modifyButton.classList.add("form-control", "modify-button");
+                                modifyButton.style = " margin: 0;";
+                                modifyButton.textContent = "修改";
+
+                                const sendButton = document.createElement("button");
+                                sendButton.id = "send";
+                                sendButton.name = "send";
+                                sendButton.classList.add("form-control", "send-button");
+                                sendButton.style = " margin: 0;";
+                                sendButton.textContent = "送出";
+                                sendButton.hidden = true;
+
+                                const cancelButton = document.createElement("button");
+                                cancelButton.id = "cancel";
+                                cancelButton.name = "cancel";
+                                cancelButton.classList.add("form-control", "cancel-button");
+                                cancelButton.style = " margin: 0;";
+                                cancelButton.textContent = "取消";
+                                cancelButton.hidden = true;
+
+                                // 添加按钮到表头单元格
+                                th.appendChild(modifyButton);
+                                th.appendChild(sendButton);
+                                th.appendChild(cancelButton);
+                            }
+                        });
+                        // 获取所有的修改、送出和取消按钮
+                        const modifyButtons = document.querySelectorAll(".modify-button");
+                        const sendButtons = document.querySelectorAll(".send-button");
+                        const cancelButtons = document.querySelectorAll(".cancel-button");
+
+                        // 为每个修改按钮添加点击事件
+                        modifyButtons.forEach((modifyButton, index) => {
+                            modifyButton.addEventListener("click", () => {
+
+                                // 隐藏所有列的修改按钮
+                                modifyButtons.forEach((btn) => {
+                                    btn.hidden = true;
+                                });
+
+                                // 显示对应列的送出和取消按钮
+                                sendButtons[index].hidden = false;
+                                cancelButtons[index].hidden = false;
+                            });
+                        });
+
+                        // 为每个送出按钮添加点击事件
+                        sendButtons.forEach((sendButton, index) => {
+                            sendButton.addEventListener("click", () => {
+
+                                // 隐藏送出和取消按钮
+                                sendButtons[index].hidden = true;
+                                cancelButtons[index].hidden = true;
+
+                                // 显示所有列的修改按钮
+                                modifyButtons.forEach((btn) => {
+                                    btn.hidden = false;
+                                });
+
+                                // 将该列的所有 status-button 按钮的 disabled 属性改为 true
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    button.disabled = true;
+                                });
+
+                                const thElement = sendButton.parentElement; // 取得包含按鈕的 th 元素
+                                const columnIndex = thElement.cellIndex; // 取得所在列的索引（不包含表頭行）
+                                const tableBody = calendarTable.querySelector('tbody'); // 表格的 tbody 元素
+                                tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有 td
+
+                                const firstTd = tdElements[0]; // 取得該列的第一個 td 元素
+                                const pgsId = firstTd.querySelector('[name="pgsId"]').value;
+                                const pgsDate = firstTd.querySelector('[name="pgsDate"]').value;
+
+                                const pgId = pgIdInput.value;
+                                // 獲取對應列中的所有 status-button 按鈕的值，組成字串
+                                let pgsState = "";
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    pgsState += button.value;
+                                });
+
+                                fetchModifySchedule(pgsId, pgId, pgsDate, pgsState);
+                            });
+
+                        });
+
+                        // 取消按鈕監聽
+                        cancelButtons.forEach((cancelButton, index) => {
+                            cancelButton.addEventListener("click", () => {
+
+                                // 隐藏送出和取消按钮
+                                sendButtons[index].hidden = true;
+                                cancelButtons[index].hidden = true;
+
+                                // 显示所有列的修改按钮
+                                modifyButtons.forEach((btn) => {
+                                    btn.hidden = false;
+                                });
+
+                                // 將該列的所有 status-button 按鈕的 disabled 屬性改回 true
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    button.disabled = true;
+                                });
+                                fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+
+                            });
+                        });
+
+                        calendarTable.addEventListener('click', (event) => {
+                            const clickedElement = event.target;
+
+                            // 確保點擊的是「修改」按鈕元素
+                            if (clickedElement.id === 'modify') {
+                                const thElement = clickedElement.parentElement; // 取得包含按鈕的 th 元素
+                                const columnIndex = thElement.cellIndex; // 取得所在列的索引（不包含表頭行）
+                                const tableBody = calendarTable.querySelector('tbody'); // 表格的 tbody 元素
+                                tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有 td
+
+                                // 將該列的所有 status-button 按鈕的 disabled 屬性改為 false
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    button.disabled = false;
+                                });
+                            }
+                        });
+
+                        // 監聽 status-button 按鈕的點擊事件
+                        calendarTable.addEventListener('click', (event) => {
+                            const clickedElement = event.target;
+
+                            // 確保點擊的是 status-button 按鈕元素
+                            if (clickedElement.classList.contains('status-button')) {
+                                const currentValue = clickedElement.value;
+
+                                // 循環改變 value 值
+                                if (currentValue === '0') {
+                                    clickedElement.value = '1';
+                                } else if (currentValue === '1') {
+                                    clickedElement.value = '0';
+                                }else if(currentValue === '2'){
+                                    clickedElement.value = '1';
+                                }
+
+                                // 更新按鈕的文字和樣式
+                                clickedElement.textContent = getButtonText(clickedElement.value);
+                                clickedElement.classList.remove('green-button', 'gray-button', 'yellow-button');
+                                clickedElement.classList.add(getButtonClass(clickedElement.value));
+                            }
+                        });
+
                     }
                     function getButtonText(state) {
                         switch (state) {
@@ -302,59 +469,43 @@ window.addEventListener("load", () => {
                 }
             });
     }
+
     //修改請求
-    calendarTable.addEventListener('click', (event) => {
-        const clickedElement = event.target;
+    function fetchModifySchedule(pgsId, pgId, pgsDate, pgsState) {
+        // 构建请求的数据
+        const requestData = {
+            pgsId: parseInt(pgsId),
+            pgId: parseInt(pgId),
+            pgsDate,
+            pgsState
+        };
 
-        // 確保點擊的是按鈕元素
-        if (clickedElement.tagName === 'BUTTON') {
-            const tdElement = clickedElement.parentElement; // 取得包含按鈕的 td 元素
-            const columnIndex = tdElement.cellIndex; // 取得所在列的索引（不包含表頭行）
-            const tableBody = calendarTable.querySelector('tbody'); // 表格的tbody元素
-            const tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有td
-
-            let pgsState = '';
-
-            tdElements.forEach(td => {
-                const button = td.querySelector('button');
-                pgsState += button.value; // 將每個td內的按鈕值組成字串
+        // 执行fetch请求
+        fetch(config.url + "/manager/modifySchedule", {
+            method: "POST",
+            headers: {
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "修改班表成功",
+                        text: data.message
+                    });
+                    fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value); // Refresh schedule after modification
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        title: "修改班表失敗",
+                        text: data.message
+                    });
+                    fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value); // Refresh schedule after modification
+                }
             });
-            console.log(pgsState);
-
-            const pgsId = tdElements[0].querySelector('[name="pgsId"]').value; // 取得第一個td的相鄰的前一個兄弟元素的值
-            const pgId = pgIdInput.value; // 從 hidden input 中取得 pgId
-            const pgsDate = tdElements[0].querySelector('[name="pgsDate"]').value; // 取得第一個td內的 name="pgsDate" 隱藏 input 的值
-
-            // 构建請求的數據
-            const requestData = {
-                pgsId: parseInt(pgsId),
-                pgId: parseInt(pgId),
-                pgsDate,
-                pgsState
-            };
-
-            // 執行fetch請求
-            fetch(config.url + "/manager/modifySchedule", {
-                method: "POST",
-                headers: {
-                    Authorization_M: "your-auth-token",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(requestData)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.code === 200) {
-                        // 成功處理的操作
-                        console.log("Request successful:", data.message);
-                    } else {
-                        // 處理錯誤的操作
-                        console.error("Request failed:", data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("An error occurred:", error);
-                });
-        }
-    });
+    }
 });
