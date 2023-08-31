@@ -1,4 +1,12 @@
+$(window).on("load",event=>{
+    $("#googlelogin").on("click",event=>{ 
+        onClickSignIn();
+    })
+
+});
+
 let auth2;
+import config from "../../../../ipconfig.js";
 function renderButton() {
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
