@@ -1,9 +1,9 @@
 export function creatSidebarListMenu(roleMenu) {
     console.log(roleMenu);
-    const menuList = document.getElementById("sidebar-nav");
+    const menuList = document.getElementById("authorities");
     functions.forEach(roleMenu => {
         const functionMenu = roleMenu.roleMenu.menu;
-
+        
         const submenuUl = document.createElement("ul");
 
         functionMenu.forEach(menuItem => {
