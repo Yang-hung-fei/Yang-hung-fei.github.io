@@ -1,7 +1,7 @@
 import config from "../../ipconfig.js";
 import { creatSidebarListMenu } from "/backend/js/sidebarMenu.js";
 import { showHomepageBoard } from "../pages/manageManager/js/showHomepageBoard.js";
-import { searchManagerAuthorities } from "../pages/manageManager/js/searchManager.js";
+import { getManagerAuthority } from "../pages/manageManager/js/getManager.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   let token = localStorage.getItem("Authorization_M");
@@ -42,7 +42,7 @@ async function fetchManagerData(token) {
 }
 
 function showSidebarListMenu(token) {
-  searchManagerAuthorities(token);
+  getManagerAuthority(token);
 
   // 先從 roles.json 中獲取會員擁有的角色
   fetch("/backend/json/roles.json")

@@ -1,22 +1,45 @@
 import config from "/ipconfig.js";
 
-export function searchManageraccount() {}
-
-export function searchManagerAuthorities(token) {
-  fetch(config.url + "/manager/authorities", {
+export function searchManagerAccount() {
+  fetch(config.url + "/manager/manageManager", {
     method: "GET",
     headers: {
-      Authorization_M: token, // 在標頭中帶入 Token
-      "Content-Type": "application/x-www-form-urlencoded", // 如果需要，指定內容類型
+      Authorization_U: token,
+      "Content-Type": "application/x-www-form-urlencoded",
     },
+    body: formData.toString(), // Encode the parameters as a string
   })
     .then((response) => response.json())
-    .then((res) => {
-      console.log(res);
-      if (res.code === 200) return res.message.managerAuthoritiesList;
+    .then((responseData) => {
+      var code = responseData.code;
+      if (code === 200) {
+        swal("查詢成功", "", "success");
+      }
     })
     .catch((error) => {
-      console.error("Error fetching form:", error);
+      // 处理捕获的错误，包括网络错误等
+      console.error("Fetch error:", error);
     });
-  return false;
+}
+
+export function searchManagerAuthority(){
+  fetch(config.url + "/manager/manageManager/authorities", {
+    method: "GET",
+    headers: {
+      Authorization_U: token,
+      "Content-Type": "application/json",
+    },
+    body: formData.toString(), // Encode the parameters as a string
+  })
+    .then((response) => response.json())
+    .then((responseData) => {
+      var code = responseData.code;
+      if (code === 200) {
+        swal("查詢成功", "", "success");
+      }
+    })
+    .catch((error) => {
+      // 处理捕获的错误，包括网络错误等
+      console.error("Fetch error:", error);
+    });
 }
