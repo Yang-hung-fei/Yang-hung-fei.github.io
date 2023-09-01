@@ -26,13 +26,17 @@
 </head>
 
 <body  style="background-color: transparent;">
+    <button onclick="sweetAlert()">Try me!</button>
 	<h1 class="h3 mb-3">管理員管理</h1>
     
                         <div class="row">
                             <div class="col-12">
                                 <div class="card px-3 py-2" style="margin-bottom: 0;">
                                     <div class="card-header" style="background-color: transparent; border-bottom: none;">
-                                        <h5 class="card-title mb-0">管理員查詢</h5>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <h5 class="card-title mb-0">管理員查詢</h5>
+                                        <button class="btn btn-outline-dark btn-sm">新增管理員</button>
+                                        </div>
                                     </div>
                                     
                                     <div class="card-body">
@@ -52,36 +56,48 @@
                                                 </a>
                                               </li>
                                             </ul>
-                                          </nav>
-                                          <table class="table-fill mb-4">
-                                            <thead>
-                                              <tr>
-                                                <th class="text-left">Month</th>
-                                                <th class="text-left">Sales</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody class="table-hover">
-                                              <tr>
-                                                <td class="text-left">January</td>
-                                                <td class="text-left">$ 50,000.00</td>
-                                              </tr>
-                                              <tr>
-                                                <td class="text-left">February</td>
-                                                <td class="text-left">$ 10,000.00</td>
-                                              </tr>
-                                              <tr>
-                                                <td class="text-left">March</td>
-                                                <td class="text-left">$ 85,000.00</td>
-                                              </tr>
-                                              <tr>
-                                                <td class="text-left">April</td>
-                                                <td class="text-left">$ 56,000.00</td>
-                                              </tr>
-                                              <tr>
-                                                <td class="text-left">May</td>
-                                                <td class="text-left">$ 98,000.00</td>
-                                              </tr>
-                                            </tbody>
+                                        </nav>
+                                        <table class="table-fill mb-4">
+                                        <thead>
+                                            <tr>
+                                            <th class="text-left">管理員帳號</th>
+                                            <th class="text-left">創建時間</th>
+                                            <th class="text-left">啟用狀態</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-hover">
+                                            <tr>
+                                            <td class="text-left">January</td>
+                                            <td class="text-left">$ 50,000.00</td>
+                                            <td class="text-left">
+                                                <label class="close" for="flexSwitchCheckDefault">關閉</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">開啟</label>
+                                                </div>
+                                            </td>
+                                            </tr>
+                                            <tr>
+                                            <td class="text-left">February</td>
+                                            <td class="text-left">$ 10,000.00</td>
+                                            <td class="text-left">$ 10,000.00</td>
+                                            </tr>
+                                            <tr>
+                                            <td class="text-left">March</td>
+                                            <td class="text-left">$ 85,000.00</td>
+                                            <td class="text-left">$ 85,000.00</td>
+                                            </tr>
+                                            <tr>
+                                            <td class="text-left">April</td>
+                                            <td class="text-left">$ 56,000.00</td>
+                                            <td class="text-left">$ 56,000.00</td>
+                                            </tr>
+                                            <tr>
+                                            <td class="text-left">May</td>
+                                            <td class="text-left">$ 98,000.00</td>
+                                            <td class="text-left">$ 98,000.00</td>
+                                            </tr>
+                                        </tbody>
                                           </table>
                                           <nav aria-label="Page navigation example">
                                             <ul class="pagination">
@@ -104,11 +120,44 @@
                                 </div>
                             </div>
                         </div>
-	
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
+
+
+                        
 	<script src="/jquery/jquery-3.2.1.min.js"></script>
 	<script src="/backend/js/app.js"></script>
 	<script type="module" src="/backend/js/sidebar.js"></script>
 	<script src="/backend/js/sublistArrow.js"></script>
+	<script type="module" src="/backend/pages/manageManager/js/addManager.js"></script>
+    <script>
+        function sweetAlert(){
+  (async () => {
+
+  const { value: formValues } = await Swal.fire({
+    title: 'Multiple inputs',
+    html:
+      '<input id="swal-input1" class="swal2-input">' +
+      '<input id="swal-input2" class="swal2-input">',
+    focusConfirm: false,
+    preConfirm: () => {
+      return [
+        {
+            "managerAccount": document.getElementById('swal-input1').value,
+            "managerPassword": document.getElementById('swal-input2').value
+        }
+      ]
+    }
+  })
+
+  if (formValues) {
+    Swal.fire(JSON.stringify(formValues))
+    const test = JSON.stringify(formValues);
+    console.log(test);
+  }
+
+  })()
+}
+    </script>
 
 </body>
 

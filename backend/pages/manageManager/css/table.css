@@ -45,7 +45,7 @@ th {
   background:#1b1e24;
   border-bottom:4px solid #9ea7af;
   border-right: 1px solid #343a45;
-  font-size:23px;
+  font-size:20px;
   font-weight: 100;
   padding:10px 20px;
   text-align:left;
@@ -140,3 +140,13 @@ td.text-right {
   text-align: right;
 }
 
+.close{
+  padding-right: 10px;
+}
+
+tr td:nth-child(3){
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  align-content: center;
+} 

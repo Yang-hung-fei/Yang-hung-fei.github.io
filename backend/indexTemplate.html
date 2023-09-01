@@ -22,7 +22,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
-<body onload="resize();">
+<body>
 	<div class="wrapper">
 		<nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
@@ -307,18 +307,6 @@
 
 					<div id="sidebar-margin" style="height: 50px;"></div>
 				</ul>
-
-				<!-- <div class="sidebar-cta">
-                    <div class="sidebar-cta-content">
-                        <strong class="d-inline-block mb-2">Upgrade to Pro</strong>
-                        <div class="mb-3 text-sm">
-                            Are you looking for more components? Check out our premium version.
-                        </div>
-                        <div class="d-grid">
-                            <a href="upgrade-to-pro.html" class="btn btn-primary">Upgrade to Pro</a>
-                        </div>
-                    </div>
-                </div> -->
 			</div>
 		</nav>
 		<div class="main">
@@ -341,8 +329,13 @@
 			</nav>
 
 			<main class="content">
-				<iframe src="/backend/pages/manageManager/manageManager.html" name="mainframe" id="mainframe"
-				width="100%" marginwidth="0" marginheight="0" scrolling="No" frameborder="0"></iframe>
+				<div class="container-fluid p-0" id="mainContent">
+
+
+					<!-- iframe -->
+
+
+				</div>
 			</main>
 
 			<footer class="footer">
@@ -380,12 +373,6 @@
 	<script src="/backend/js/app.js"></script>
 	<script type="module" src="/backend/js/sidebar.js"></script>
 	<script src="/backend/js/sublistArrow.js"></script>
-	<script>
-        function resize() {
-        parent.document.getElementById("mainframe").height = document.body.scrollHeight; //將子頁面高度傳到父頁面框架
-    }
-    </script>
-
 </body>
 
 </html>
