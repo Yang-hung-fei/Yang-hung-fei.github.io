@@ -1,36 +1,22 @@
 import { profile_els } from "../../../js/getUserProfile";
+import { getUserProfile } from '../../../js/getUserProfile'
 
-function editUserName() {
-  const userNameElement = profile_els().userName;
-  const btnNameEdit_el = document.getElementById("editNameButton");
-  const btnNickNameEdit_el = document.getElementById("editNickNameButton");
-  const editNameContain_el = document.getElementById("showNameContain");
-  const editNameContanin_el = document.getElementById("editNameContanin");
-  const editNickNameContain_el = document.getElementById(
-    "showNickNameContain"
-  );
-  const editNickNameContanin_el = document.getElementById(
-    "editNickNameContanin"
-  );
 
-  //TODO: 編輯按鈕點擊後，顯示輸入欄位 & 隱藏顯示欄位。
 
-  //TODO: 儲存按鈕點擊後，隱藏輸入欄位 & 顯示顯示欄位，並且fetch。
 
-  const saveButtons = document.querySelectorAll(".save");
-  saveButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      sentEditedData(); // 调用发送 API 请求的函数
-    });
+const saveButtons = document.querySelectorAll(".save");
+saveButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    sentEditedData(); // 调用发送 API 请求的函数
   });
+});
 
-  userNameElement.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      // 在这里触发保存操作
-    }
-  });
-}
+userNameElement.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    // 在这里触发保存操作
+  }
+});
 
 function editUserNickName() {
   const userNickNameElement = profile_els().userNickName;

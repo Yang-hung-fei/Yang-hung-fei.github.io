@@ -1,32 +1,64 @@
 import config from "../../../../../ipconfig.js";
+let tdElements = [];
 window.addEventListener("load", () => {
+    // 表格元素
+    const calendarTable = document.getElementById('calendar');
 
+    //存放資訊
     const pgNameSelect = document.getElementById('pgName');
     const pgPic = document.getElementById('pgPic');
     const pgIdInput = document.getElementById('pgId');
-
+    //年份 / 月份
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear(); // 獲取年份
     const currentMonth = currentDate.getMonth() + 1; // 獲取月份（0-based）
+    //月份按鈕
+    const prevMonthBtn = document.getElementById('prevMonthBtn');
+    const nextMonthBtn = document.getElementById('nextMonthBtn');
+    // 當點擊上個月按鈕時
+    prevMonthBtn.addEventListener('click', () => {
+        const currentMonth = parseInt(monthInput.value);
+        const newMonth = currentMonth - 1 > 0 ? currentMonth - 1 : 12;
+        const newYear = currentMonth - 1 > 0 ? parseInt(yearSelect.value) : parseInt(yearSelect.value) - 1;
+        yearSelect.value = newYear;
+        monthInput.value = newMonth;
+        fetchGroomerSchedule(pgIdInput.value, newYear, newMonth);
+    });
 
-    const yearInput = document.getElementById('year');
+    // 當點擊下個月按鈕時
+    nextMonthBtn.addEventListener('click', () => {
+        const currentMonth = parseInt(monthInput.value);
+        const newMonth = currentMonth + 1 <= 12 ? currentMonth + 1 : 1;
+        const newYear = currentMonth + 1 <= 12 ? parseInt(yearSelect.value) : parseInt(yearSelect.value) + 1;
+        yearSelect.value = newYear;
+        monthInput.value = newMonth;
+        fetchGroomerSchedule(pgIdInput.value, newYear, newMonth);
+    });
 
+    // const yearSelect = document.getElementById('year');
+    const yearSelect = document.getElementById('yearSelect');
+    for (let year = 2020; year <= 2120; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    }
     const monthInput = document.getElementById('month');
 
-    yearInput.value = parseInt(currentYear);// 將年分設置到Input框中
+    yearSelect.value = parseInt(currentYear);// 將年分設置到Input框中
     monthInput.value = parseInt(currentMonth); // 將月分設置道Input框中
 
-    yearInput.addEventListener('change', function () {
-        
-        fetchGroomerSchedule(pgIdInput.value, parseInt(yearInput.value), parseInt(monthInput.value));
-        
+    yearSelect.addEventListener('change', function () {
+
+        fetchGroomerSchedule(pgIdInput.value, parseInt(yearSelect.value), parseInt(monthInput.value));
+
     });
     monthInput.addEventListener('change', function () {
-        fetchGroomerSchedule(pgIdInput.value, parseInt(yearInput.value), parseInt(monthInput.value));
+        fetchGroomerSchedule(pgIdInput.value, parseInt(yearSelect.value), parseInt(monthInput.value));
     });
     fetchGroomer();
 
-    //撈使用者/美容師資料(token要改)
+    //撈使用者美容師資料(token要改)
     function fetchGroomer() {
         fetch(config.url + "/manager/schedulePageGroomer", {
             method: "GET",
@@ -59,7 +91,7 @@ window.addEventListener("load", () => {
                             pgPic.src = 'data:image/png;base64,' + selectedGroomer.pgPic;
                             pgIdInput.value = selectedGroomer.pgId;
                         }
-                        fetchGroomerSchedule(pgIdInput.value, yearInput.value, monthInput.value);
+                        fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
                     });
 
                     // 直接選擇第一個選項並觸發 change 事件
@@ -130,7 +162,7 @@ window.addEventListener("load", () => {
             return dayTextArray;
         }
     }
-
+    //建構班表
     function fetchGroomerSchedule(pgId, yearParam, monthParam) {
         fetch(config.url + `/manager/schedule?pgId=${pgId}&year=${yearParam}&month=${monthParam}`, {
             method: "GET",
@@ -144,8 +176,8 @@ window.addEventListener("load", () => {
                 if (data.code === 200) {
                     const pgs = data.message;
 
-                    // 将API返回的数据按日期进行分组
-                    const scheduleData = {}; // 使用日期作为键，值为对应日期的排班数据数组
+                    // 將API返回的數據按日期進行分組
+                    const scheduleData = {}; // 使用日期作為鍵，值為對應日期的排班數據數組
                     pgs.forEach(item => {
                         const date = item.pgsDate;
                         if (!scheduleData[date]) {
@@ -154,12 +186,12 @@ window.addEventListener("load", () => {
                         scheduleData[date].push(item);
                     });
 
-                    // 获取当前年月
+                    // 獲取當前年月
                     const currentDate = new Date();
                     const currentYear = currentDate.getFullYear();
-                    const currentMonth = currentDate.getMonth() + 1; // 月份从0开始
+                    const currentMonth = currentDate.getMonth() + 1; // 月份從0開始
 
-                    // 根据日历数据和当前年月生成日历表格
+                    // 根據日曆數據和當前年月生成日曆表格
                     function generateCalendar(year, month) {
                         const calendar = new Calendar(year, month);
                         const calendarBody = document.getElementById('calendar-body');
@@ -167,7 +199,7 @@ window.addEventListener("load", () => {
 
                         const daysOfMonth = calendar.getDaysOfMonth();
 
-                        // 创建表格的第一行，包含日期信息
+                        // 創建表格的第一行，包含日期信息
                         const dateRow = document.createElement('tr');
                         const thEmpty = document.createElement('th');
                         dateRow.appendChild(thEmpty);
@@ -175,12 +207,14 @@ window.addEventListener("load", () => {
                         for (let day = 1; day <= daysOfMonth; day++) {
                             const th = document.createElement('th');
                             th.textContent = `${day}號`; // Display day of the month
+
+
                             dateRow.appendChild(th);
                         }
 
                         calendarBody.appendChild(dateRow);
 
-                        // 创建每小时的行
+                        // 創建每小時的行
                         for (let hour = 0; hour < 25; hour++) {
                             const row = document.createElement('tr');
 
@@ -194,7 +228,7 @@ window.addEventListener("load", () => {
                                 if (hour === 0) {
                                 } else {
                                     const cell = document.createElement('td');
-                                    cell.classList.add('calendar-cell'); // 添加 CSS 类
+                                    cell.classList.add('calendar-cell'); // 添加 CSS class
 
                                     const date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
                                     const scheduleDataForDate = scheduleData[date] || [];
@@ -204,14 +238,16 @@ window.addEventListener("load", () => {
                                         const input = document.createElement('input');
                                         input.name = 'pgsId';
                                         input.type = 'hidden';
-                                        input.value = scheduleItem.pgsId; // 设置 input 的值为pgsId
+                                        input.value = scheduleItem.pgsId; // 設置 input 的值為pgsId
+                                        input.readOnly = true;
                                         cell.appendChild(input);
 
-                                        const pgsDateInput = document.createElement('input'); // 创建隐藏的 input 元素
-                                        pgsDateInput.type = 'hidden'; // 设置 input 元素类型为隐藏
-                                        pgsDateInput.value = scheduleItem.pgsDate; // 设置 input 的值为日期
-                                        pgsDateInput.name = 'pgsDate'; // 设置 input 的 name 属性
-                                        cell.appendChild(pgsDateInput); // 将 input 放置到 cell 元素内
+                                        const pgsDateInput = document.createElement('input'); // 創建隱藏的 input 元素
+                                        pgsDateInput.type = 'hidden'; // 設置 input 元素類型為隱藏
+                                        pgsDateInput.value = scheduleItem.pgsDate; // 設置 input 的值為日期
+                                        pgsDateInput.name = 'pgsDate'; // 設置 input 的 name 屬性
+                                        pgsDateInput.readOnly = true; // 設定為只讀
+                                        cell.appendChild(pgsDateInput); // 將 input 放置到 cell 元素內
 
                                         const button = document.createElement('button');
                                         button.name = 'state';
@@ -219,7 +255,8 @@ window.addEventListener("load", () => {
                                         button.textContent = getButtonText(scheduleItem.pgsState.charAt(hour - 1));
                                         button.classList.add('status-button');
                                         button.classList.add(getButtonClass(scheduleItem.pgsState.charAt(hour - 1)));
-                                        button.classList.add('btn'); // 添加 "btn" 类
+                                        button.classList.add('btn'); // 添加 "btn" 類
+                                        button.disabled = true;
                                         cell.appendChild(button);
                                     } else {
                                         cell.textContent = '-';
@@ -231,13 +268,172 @@ window.addEventListener("load", () => {
 
                             calendarBody.appendChild(row);
                         }
+                        // 找到表頭的容器元素
+                        const tableHeaderRow = document.querySelector("#calendar-body tr:first-child");
+                        const thElements = tableHeaderRow.querySelectorAll("th");
+
+                        // 遍歷每個表頭單元格
+                        thElements.forEach((th, index) => {
+                            if (index > 0) { // 跳過第一個表頭單元格
+                                // 創建按鈕元素
+                                const modifyButton = document.createElement("button");
+                                modifyButton.id = "modify";
+                                modifyButton.name = "modify";
+                                modifyButton.classList.add("form-control", "modify-button");
+                                modifyButton.style = " margin: 0;";
+                                modifyButton.textContent = "修改";
+
+                                const sendButton = document.createElement("button");
+                                sendButton.id = "send";
+                                sendButton.name = "send";
+                                sendButton.classList.add("form-control", "send-button");
+                                sendButton.style = " margin: 0;";
+                                sendButton.textContent = "送出";
+                                sendButton.hidden = true;
+
+                                const cancelButton = document.createElement("button");
+                                cancelButton.id = "cancel";
+                                cancelButton.name = "cancel";
+                                cancelButton.classList.add("form-control", "cancel-button");
+                                cancelButton.style = " margin: 0;";
+                                cancelButton.textContent = "取消";
+                                cancelButton.hidden = true;
+
+                                // 添加按鈕到表頭單元格
+                                th.appendChild(modifyButton);
+                                th.appendChild(sendButton);
+                                th.appendChild(cancelButton);
+                            }
+                        });
+                        // 獲取所有的修改、送出和取消按钮
+                        const modifyButtons = document.querySelectorAll(".modify-button");
+                        const sendButtons = document.querySelectorAll(".send-button");
+                        const cancelButtons = document.querySelectorAll(".cancel-button");
+
+                        // 為每個修改按鈕添加點擊事件
+                        modifyButtons.forEach((modifyButton, index) => {
+                            modifyButton.addEventListener("click", () => {
+
+                                // 隐藏所有列的修改按钮
+                                modifyButtons.forEach((btn) => {
+                                    btn.hidden = true;
+                                });
+
+                                // 顯示對應列的送出和取消按鈕
+                                sendButtons[index].hidden = false;
+                                cancelButtons[index].hidden = false;
+                            });
+                        });
+
+                        // 為每個送出按鈕添加點擊事件
+                        sendButtons.forEach((sendButton, index) => {
+                            sendButton.addEventListener("click", () => {
+
+                                const thElement = sendButton.parentElement; // 取得包含按鈕的 th 元素
+                                const columnIndex = thElement.cellIndex; // 取得所在列的索引（不包含表頭行）
+                                const tableBody = calendarTable.querySelector('tbody'); // 表格的 tbody 元素
+                                tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有 td
+
+                                const firstTd = tdElements[0]; // 取得該列的第一個 td 元素
+                                const pgsId = firstTd.querySelector('[name="pgsId"]').value;
+                                const pgsDate = firstTd.querySelector('[name="pgsDate"]').value;
+
+                                const pgId = pgIdInput.value;
+                                // 獲取對應列中的所有 status-button 按鈕的值，組成字串
+                                let pgsState = "";
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    pgsState += button.value;
+                                });
+
+                                fetchModifySchedule(pgsId, pgId, pgsDate, pgsState);
+
+                                // 隱藏送出和取消按鈕
+                                sendButtons[index].hidden = true;
+                                cancelButtons[index].hidden = true;
+
+                                // 顯示所有列的修改按鈕
+                                modifyButtons.forEach((btn) => {
+                                    btn.hidden = false;
+                                });
+
+                                // 將該列的所有 status-button 按鈕的 disabled 屬性改為 true
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    button.disabled = true;
+                                });
+
+                            });
+
+                        });
+
+                        // 取消按鈕監聽
+                        cancelButtons.forEach((cancelButton, index) => {
+                            cancelButton.addEventListener("click", () => {
+
+                                // 隐藏送出和取消按钮
+                                sendButtons[index].hidden = true;
+                                cancelButtons[index].hidden = true;
+
+                                // 顯示所有列的修改按鈕
+                                modifyButtons.forEach((btn) => {
+                                    btn.hidden = false;
+                                });
+
+                                // 將該列的所有 status-button 按鈕的 disabled 屬性改回 true
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    button.disabled = true;
+                                });
+                                fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+
+                            });
+                        });
+                        
+                        calendarTable.addEventListener('click', (event) => {
+                            const clickedElement = event.target;
+                            console.log('1');
+                            // 確保點擊的是「修改」按鈕元素
+                            if (clickedElement.id === 'modify') {
+                                const thElement = clickedElement.parentElement; // 取得包含按鈕的 th 元素
+                                const columnIndex = thElement.cellIndex; // 取得所在列的索引（不包含表頭行）
+                                const tableBody = calendarTable.querySelector('tbody'); // 表格的 tbody 元素
+                                tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有 td
+
+                                // 將該列的所有 status-button 按鈕的 disabled 屬性改為 false
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    button.disabled = false;
+                                });
+                            }
+
+                            // 確保點擊的是 status-button 按鈕元素
+                            if (clickedElement.classList.contains('status-button')) {
+                                const currentValue = clickedElement.value;
+
+                                // 循環改變 value 值
+                                if (currentValue === '0') {
+                                    clickedElement.value = '1';
+                                } else if (currentValue === '1') {
+                                    clickedElement.value = '0';
+                                } else if (currentValue === '2') {
+                                    clickedElement.value = '1';
+                                }
+
+                                // 更新按鈕的文字和樣式
+                                clickedElement.textContent = getButtonText(clickedElement.value);
+                                clickedElement.classList.remove('green-button', 'gray-button', 'yellow-button');
+                                clickedElement.classList.add(getButtonClass(clickedElement.value));
+                            }
+                        });
+                        
                     }
                     function getButtonText(state) {
                         switch (state) {
                             case '0':
                                 return '出勤';
                             case '1':
-                                return '-';
+                                return '休';
                             case '2':
                                 return '被預約';
                             default:
@@ -257,11 +453,11 @@ window.addEventListener("load", () => {
                                 return '';
                         }
                     }
-                    // 初始化生成当前年月的日历
+                    // 初始化生成當前年月日歷
                     generateCalendar(yearParam, monthParam);
                 } else {
                     const calendarBody = document.getElementById('calendar-body');
-                        calendarBody.innerHTML = ''; // 清空表格内容
+                    calendarBody.innerHTML = ''; // 清空表格内容
                     Swal.fire({
                         icon: "error",
                         title: data.message,
@@ -269,4 +465,145 @@ window.addEventListener("load", () => {
                 }
             });
     }
+
+    //修改請求
+    function fetchModifySchedule(pgsId, pgId, pgsDate, pgsState) {
+        // 構建請求的數據
+        const requestData = {
+            pgsId: parseInt(pgsId),
+            pgId: parseInt(pgId),
+            pgsDate,
+            pgsState
+        };
+
+        // fetch
+        fetch(config.url + "/manager/modifySchedule", {
+            method: "POST",
+            headers: {
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "修改班表成功",
+                        text: data.message
+                    });
+                    fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value); // Refresh schedule after modification
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        title: "修改班表失敗",
+                        text: data.message
+                    });
+                    fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value); // Refresh schedule after modification
+                }
+            });
+    }
+
+    const dateInput = document.getElementById('dateInput');
+
+
+    flatpickr(dateInput, {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+        onChange: function (selectedDates, dateStr, instance) {
+            const selectedDate = selectedDates[0];
+            const formattedDate = formatDate(selectedDate);
+            dateInput.value = formattedDate;
+            generateTimeSlots(); // 在選擇日期後生成時間槽
+            addCheckboxListeners();
+        }
+    });
+
+    // 格式化 yyyy-mm-dd
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+    function generateTimeSlots() {
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        timeSlotsContainer.innerHTML = ''; // 清空容器內容
+
+        for (let hour = 0; hour < 24; hour++) {
+            const timeSlot = document.createElement('div');
+            timeSlot.classList.add('time-slot');
+
+            const checkboxId = `checkbox-${hour}`;
+
+            const timeLabel = document.createElement('label');
+            timeLabel.classList.add('time-label', 'text-center');
+            timeLabel.textContent = `${hour}點`;
+            timeLabel.setAttribute('for', checkboxId);
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = '1';
+            checkbox.id = checkboxId;
+            checkbox.classList.add('form-check-input');
+
+            timeSlot.appendChild(timeLabel);
+            timeSlot.appendChild(checkbox);
+
+            timeSlotsContainer.appendChild(timeSlot);
+        }
+    }
+    function addCheckboxListeners() {
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                this.value = this.checked ? '0' : '1';
+            });
+        });
+    }
+    const addNewScBtn = document.getElementById('addNewScBtn');
+    addNewScBtn.addEventListener('click', function () {
+        const selectedDate = dateInput.value;
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        let pgsState = '';
+        checkboxes.forEach(checkbox => {
+            pgsState += checkbox.value;
+        });
+        const requestData = {
+            pgId: parseInt(pgIdInput.value),
+            pgsDate: selectedDate,
+            pgsState: pgsState
+        };
+        // 发送 POST 请求到服务器
+        fetch(config.url + "/manager/insertNewSchedule", {
+            method: 'POST',
+            headers: {
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "新增班表成功",
+                        text: data.message
+                    });
+                    fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "新增班表失敗",
+                        text: data.message
+                    });
+                    fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
 });

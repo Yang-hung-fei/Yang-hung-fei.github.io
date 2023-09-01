@@ -9,6 +9,17 @@ $(".login100-form-btn").on("click", (event) => {
         submitButton.removeClass("disabled-button");
         return;
     }
+    //機器人驗證
+    // 取得 reCAPTCHA 驗證的回應 token
+    var response = grecaptcha.getResponse();
+
+    // 檢查回應是否為空，表示未通過驗證
+    if (response.length === 0) {
+        swal("失敗", "請通過機器人驗證", "error");
+        submitButton.removeClass("disabled-button");
+        return;
+    }
+
     const formData = new FormData();
     formData.append('userEmail', email);
     fetch(config.url + "/user/forgetPassword", {
@@ -25,7 +36,7 @@ $(".login100-form-btn").on("click", (event) => {
                 }, 60000); // 60000 毫秒 = 60 秒
                 countdown(submitButton, 60); // 開始倒數計時 60 秒
                 swal("送出認證碼", "請檢察信箱並於十分鐘內修改密碼", "success");
-            } 
+            }
             else {
                 swal("失敗", res.message, "error");
                 submitButton.removeClass("disabled-button");

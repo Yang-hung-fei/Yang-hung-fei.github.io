@@ -534,15 +534,34 @@
 											style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
 									</div>
 								</div>
-								<div class="col-md-5  d-flex" style="position: relative">
+								<div class="col-md-3  d-flex" style="position: relative">
 									<img id="pgPic" src="" alt="該美容師未有照片" class="img-fluid img-thumbnail"
 										style="display: none; width: 200px; height: 200px;">
 								</div>
-								<div class="col-md-2">
-									<input id="year" name="year" value="" class="form-control"
-										style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
-									<input id="month" name="month" value="" class="form-control"
-										style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
+								<div class="col-md-2" style="padding-right: 0;">
+									<label for="yearSelect" class="form-label" style="margin-left: 0px;">年</label>
+									<select id="yearSelect" class="form-select"
+										style="max-width: 120px; margin-right: 0px;"></select>
+
+									<label for="month" class="form-label" style="margin-left: 0px;">月</label>
+									<input id="month" name="month" type="number" min="1" max="12" class="form-control"
+										style="max-width: 120px; margin-left: 5px; margin: 0;">
+
+									<button id="prevMonthBtn" class="btn btn-secondary"
+										style="margin-right: 5px;">&lt;</button>
+									<button id="nextMonthBtn" class="btn btn-secondary"
+										style="margin-left: 5px;">&gt;</button>
+								</div>
+								<div class="col-md-4" style="border-left: 3px solid gray;">
+									<h3>新增班表</h3>
+									<p>請勾選上班時間段</p>
+									<input type="text" id="dateInput" name="dateInput" class="form-control"
+										style="margin-bottom: 25px;" placeholder="請點擊選擇新增日期">
+									<div id="timeSlots" class="d-flex flex-wrap gap-3">
+										<!-- 時間槽將會在 JavaScript 中動態生成 -->
+									</div>
+									<button id="addNewScBtn" class="btn btn-secondary"
+										style="margin-left: 0px;">新增</button>
 								</div>
 							</div>
 							<div style="overflow-x: auto;overflow-y: auto;">

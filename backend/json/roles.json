@@ -1,0 +1,19 @@
+[
+    {
+      "role": "商城管理",
+      "file": "role_menus_mall.json"
+    },
+    {
+      "role": "美容師後台管理",
+      "file": "role_menus_petgroomerManage.json"
+    },
+    {
+      "role": "美容師個人管理",
+      "file": "role_menus_petgroomerPersonalManage.json"
+    },
+    {
+      "role": "社群管理",
+      "file": "role_menus_socailManage.json"
+    }
+  ]
+  

@@ -105,7 +105,7 @@ div.table-title {
     font-size:13px;
     text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
     border-right: 1px solid #ffffff;
-    
+    width: 20px;
   }
   
   td:last-child {
