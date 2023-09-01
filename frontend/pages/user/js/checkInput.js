@@ -10,8 +10,15 @@ export function checkEmail(emailText) {
   }
   
   export function checkPassword(password) {
-    if (password.length < 6) {
-      return "密碼長度不足。";
-    }
-    return null; // No error
+    console.log("Password:", password); // Debugging statement
+  
+  if (!password) {
+    return "密碼未提供。";
+  }
+  
+  if (password.length < 6) {
+    return "密碼長度不足。";
+  }
+  
+  return null; // No error
   }

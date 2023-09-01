@@ -19,7 +19,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link
       rel="canonical"
       href="https://demo-basic.adminkit.io/pages-sign-in.html"
@@ -32,7 +32,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-  </head>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <span style="font-size:14px;"><script src='https://www.google.com/recaptcha/api.js'></script></span>  
+</head>
 
   <body>
     <main class="d-flex w-100">
@@ -60,6 +62,7 @@
                           class="form-control form-control-lg"
                           type="text"
                           name="email"
+						  id="account"
                           placeholder="Enter your account"
                         />
                       </div>
@@ -70,11 +73,10 @@
                           type="password"
                           name="password"
                           placeholder="Enter your password"
-						  id="account"
+						  id="password"
                         />
-                        <small>
-                          <a href="index.html">Forgot password?</a>
-                        </small>
+                      </br> 
+                        <div class="g-recaptcha" data-sitekey="6LdhMuonAAAAAE8pjrUZt8O-hdA_cCIU4bW8eQ0n"></div>
                       </div>
                       <div>
                         <label class="form-check">
@@ -83,7 +85,6 @@
                             type="checkbox"
                             value="remember-me"
                             name="remember-me"
-							id="password"
                             checked
                           />
                           <span class="form-check-label">
