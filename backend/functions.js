@@ -1,4 +1,4 @@
-export default {
+const functions = {
     "roleMenus": [
         {
             "role": "商城管理",
@@ -124,3 +124,5 @@ export default {
         }
     ]
 }
+
+export default functions;
