@@ -1,12 +1,13 @@
-export function creatSidebarListMenu(roleMenu) {
+export function creatSidebarListMenu(roles, roleMenu) {
     console.log(roleMenu);
     const menuList = document.getElementById("authorities");
-    functions.forEach(roleMenu => {
-        const functionMenu = roleMenu.roleMenu.menu;
+    roleMenu.forEach(roleMenu => {
+        const functionMenu = roleItem.menuItems; // Assuming your role item has a property called "menuItems"
+        functionMenu.id = roles.divId;
         
         const submenuUl = document.createElement("ul");
 
-        functionMenu.forEach(menuItem => {
+        roleMenu.forEach(menuItem => {
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.className = "sidebar-link function-link";
