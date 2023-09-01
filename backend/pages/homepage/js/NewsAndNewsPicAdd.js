@@ -79,6 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     }
                     alert('最新消息文字存檔成功!');
+
+                    console.log(pic != null);
                                     
                     if (pic != null) {
 
