@@ -78,15 +78,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("Code 200???");
 
                     }
-                 //   alert('最新消息文字存檔成功!');
+                    alert('最新消息文字存檔成功!');
 
-                    
+                    console.log(pic);
                                     
                     if (pic != null) {
 
                         var addNewsAndNewsPic = document.getElementById("addNewsAndNewsPic");
-                        console.log(addNewsAndNewsPic);
-                  //      alert(config.url + "/manager/homepageManage/addNewsPic");
+                        alert(config.url + "/manager/homepageManage/addNewsPic");
                         addNewsAndNewsPic.addEventListener("submit", function (event) {
                console.log("aaa");
                             event.preventDefault(); // 阻止表單的預設提交行為
