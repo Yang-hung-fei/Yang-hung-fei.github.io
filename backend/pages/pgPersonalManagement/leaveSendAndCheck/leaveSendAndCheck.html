@@ -517,8 +517,30 @@
 					<!--主要內容 起始-->
 					<div style="min-height: 1000px; min-width: 1030px;">
 						<div class="table-title">
-							<div id="error"></div>
-							<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">假單確認與申請</h2>
+							<div class="row">
+								<div class="col-md-5">
+									<div id="error"></div>
+									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">
+										假單確認
+									</h2>
+								</div>
+							
+
+
+							<div class="col-md-6" style="border-left:4px solid gray ;padding-right: 0;">
+								<h5 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">申請假單
+								</h5>	
+								<p style="color: red;">注意! 此為改變當天班表整個時段，請務必確認勾選是否正確! </p>
+								<p>請選擇日期並勾選上班時間段，如當日整天請假則不勾選送出。</p>
+									<input type="text" id="dateInput" name="dateInput" class="form-control"
+										style="margin-bottom: 25px;" placeholder="請點擊選擇新增日期">
+									<div id="timeSlots" class="d-flex flex-wrap gap-3">
+										<!-- 時間槽將會在 JavaScript 中動態生成 -->
+									</div>
+									<button id="addNewScBtn" class="btn btn-secondary btn-success"
+										style="margin-left: 0px; margin-top:25px ;" hidden>送出假單</button>
+							</div>
+						</div>
 						</div>
 						<div class="table-container">
 							<table class="table-fill" style="min-width: 1030px; ">
@@ -594,7 +616,6 @@
 
 	<!--Other-->
 	<script src="../../../js/app.js"></script>
-	<script src="../../../js/sublist.js"></script>
 </body>
 
 </html>

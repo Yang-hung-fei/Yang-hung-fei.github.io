@@ -80,9 +80,9 @@ window.addEventListener("load", () => {
             info: true,
             language: {
                 url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
-            },createdRow: function (row, data, dataIndex) {
+            }, createdRow: function (row, data, dataIndex) {
                 const leaveState = data.leaveState;
-    
+
                 if (leaveState === '未審核') {
                     $('td', row).eq(6).css('color', 'blue'); // Set blue color for the 7th column (leaveState)
                 } else if (leaveState === '審核通過') {
@@ -93,33 +93,124 @@ window.addEventListener("load", () => {
             }
         });
         $('.table-container').css('overflow-x', 'auto');
-        
-        
+
+
     }
 
 
+    const dateInput = document.getElementById('dateInput');
+    const addNewScBtn = document.getElementById('addNewScBtn');
 
-    //審核假單
-    function changeLeave(leaveNo, leaveState) {
-        const requestBody = {
-            leaveNo: parseInt(leaveNo),
-            leaveState: parseInt(leaveState)
+    flatpickr(dateInput, {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+        onChange: function (selectedDates, dateStr, instance) {
+            const selectedDate = selectedDates[0];
+            const formattedDate = formatDate(selectedDate);
+            dateInput.value = formattedDate;
+            addNewScBtn.hidden = false;
+            generateTimeSlots(); // 在選擇日期後生成時間槽
+            addCheckboxListeners();
+        }
+    });
+
+    // 格式化 yyyy-mm-dd
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+    function generateTimeSlots() {
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        timeSlotsContainer.innerHTML = ''; // Clear the container content
+
+        const row = document.createElement('div');
+        row.classList.add('row'); // Add Bootstrap row class
+
+        for (let hour = 0; hour < 24; hour++) {
+            const column = document.createElement('div');
+            column.classList.add('col-2'); // Add Bootstrap column class for 5 columns
+
+            const timeSlot = document.createElement('button');
+            timeSlot.classList.add('time-button', 'btn', 'btn-secondary', 'w-100'); // Add Bootstrap classes
+            timeSlot.textContent = `${hour}點`;
+            timeSlot.value = '1'; // Set the default value to '1'
+
+            column.appendChild(timeSlot);
+            row.appendChild(column);
+
+            // Add event listener to toggle button value and style
+            timeSlot.addEventListener('click', function () {
+                if (this.value === '1') {
+                    this.value = '0';
+                    this.classList.add('green-button', 'btn-success');
+                    this.classList.remove('gray-button');
+                } else if (this.value === '0') {
+                    this.value = '1';
+                    this.classList.add('gray-button');
+                    this.classList.remove('btn-success', 'green-button');
+                }
+            });
+        }
+
+        timeSlotsContainer.appendChild(row);
+    }
+    function addCheckboxListeners() {
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                this.value = this.checked ? '0' : '1';
+            });
+        });
+    }
+
+    addNewScBtn.addEventListener('click', function () {
+        const selectedDate = dateInput.value;
+        const buttons = document.querySelectorAll('.time-button');
+        let pgLeaveTimeState = '';
+ 
+        buttons.forEach(button => {
+            pgLeaveTimeState += button.value;
+        });
+        const reqData = {
+            leaveDate: selectedDate,
+            leaveTime: pgLeaveTimeState
         };
-        //TOKEN要修改
-        fetch(config.url + "/manager/changeLeave", {
-            method: "POST",
+
+        Swal.fire({
+            title: '確定送出假單嗎?',
+            text: "請務必再次確認!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '確定!',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetchAddleave(reqData);
+            }
+        })
+
+
+
+    });
+    function fetchAddleave(requestData) {
+        fetch(config.url + "/manager/commitLeave", {
+            method: 'POST',
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify(requestData)
         })
             .then(response => response.json())
             .then(data => {
                 if (data.code === 200) {
                     Swal.fire({
                         icon: "success",
-                        title: "假單審核成功",
+                        title: "送出假單成功",
                         text: data.message
                     });
                     if (dataTableInstance) {
@@ -129,11 +220,17 @@ window.addEventListener("load", () => {
                 } else {
                     Swal.fire({
                         icon: "error",
-                        title: "假單審核失敗",
+                        title: "送出假單失敗",
                         text: data.message
                     });
+                    if (dataTableInstance) {
+                        dataTableInstance.destroy();
+                    }
+                    fetchAndBuildTable();
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
     }
-
 });
