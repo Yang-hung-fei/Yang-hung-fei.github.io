@@ -1,4 +1,5 @@
 import config from "../../../../../ipconfig.js";
+import { updateDiscountAmount } from './discount.js';
 
 $("#contactForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
@@ -59,12 +60,12 @@ const tbody = document.querySelector("#shopCartTBody"); //監聽toby
 const updateButton = document.querySelector('.update-box input[type="submit"]'); //監聽更新購物車按鈕
 const getPointButton = document.getElementById("getPointButton"); //監聽取得點數按鈕
 const pointInput = document.getElementById("pointInput"); //監聽顯示點數欄位
-const userPoint = document.querySelector('#coupon-discount');
+const userPoint = document.querySelector('#discount-amount');
 
 document.addEventListener("DOMContentLoaded", ()=>{   
     updateCart();
     updateTotalAmount();
-
+    getUserPointAndUpdateUI();
 
     tbody.addEventListener('input', event => {
         const target = event.target;
@@ -112,10 +113,27 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     // 設置折扣點數輸入框的預設值為0
     pointInput.value = 0;
-    //更新折扣點數後的總額
+    //更新折扣點數後的總額,監聽輸入變化
     pointInput.addEventListener('input', () => {
-    updateTotalAmount();
-});
+        // 確保只能輸入數字
+        pointInput.value = pointInput.value.replace(/\D/g, '');
+
+
+        const userPoint = parseFloat(pointInput.value);
+        const maxUserPoint = parseFloat(pointInput.getAttribute('max')); // 從HTML中取得最大值
+
+        // 如果使用者輸入的點數超過了最大值，則設置輸入框值為最大值
+        if (userPoint > maxUserPoint) {
+            pointInput.value = maxUserPoint;
+        }
+
+        // 更新顯示點數的 <output> 元素
+        const displayNumber = document.getElementById('displayNumber');
+        displayNumber.value = userPoint;
+
+        // 更新總金額
+        updateTotalAmount();
+    });
 });
 
 updateButton.addEventListener('click', () => {
@@ -226,12 +244,13 @@ function updateTotalAmount() {
         }
     });
 
-    // 獲取折抵點數輸入框的值
+    // 在購物車頁面，當使用者輸入折扣金額時，呼叫以下函式
     const couponDiscountInput = document.getElementById('pointInput');
     const couponDiscount = parseFloat(couponDiscountInput.value);
+  
     
     // 更新折抵點數的顯示
-    const couponDiscountElement = document.getElementById('coupon-discount');
+    const couponDiscountElement = document.getElementById('discount-amount');
     couponDiscountElement.textContent = `$ ${couponDiscount.toFixed(2)}`;
 
     // 計算新的總金額（扣除折扣點數）
@@ -252,21 +271,7 @@ function handleQuantityChange(event) {
     const pdNo = event.target.getAttribute('data-pdNo');
     const newQuantity = event.target.value;
 
-    // 調用後端 API 以更新購物車中商品數量
-    // Swal.fire({
-    //     title: '確定修改商品數量?',
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Yes!'
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-           
-         
-    //     }
-    //   })
-      updateCartItemQuantity(pdNo, newQuantity);
+    updateCartItemQuantity(pdNo, newQuantity);
 }
 
 
@@ -319,10 +324,13 @@ function updateRowTotal(pdNo, quantity) {
     }
 }
 
-//發送請求取得點數, 記得更新token 
-getPointButton.addEventListener("click", () => {
 
-    // Fetch user 個人資訊
+getPointButton.addEventListener("click", () => {
+    getUserPointAndUpdateUI()
+});
+
+//發送請求取得點數, 記得更新token 
+function getUserPointAndUpdateUI() {
     fetch(config.url + "/user/profile", {
         method: "GET",
         headers: {
@@ -335,6 +343,9 @@ getPointButton.addEventListener("click", () => {
         if (data.code === 200) {
             const userPoint = data.message.userPoint;
             pointInput.value = userPoint;
+            
+            // 設置最大值屬性
+            pointInput.setAttribute('max', userPoint);
 
             // 更新顯示點數的 <output> 元素
             const displayNumber = document.getElementById('displayNumber');
@@ -349,13 +360,19 @@ getPointButton.addEventListener("click", () => {
     .catch(error => {
         console.error("Error fetching user profile:", error);
     });
-});
-
+}
 
 // 綁定前往結帳按鈕點擊事件
 const checkoutButton = document.querySelector('.shopping-box a');
 checkoutButton.addEventListener('click', function () {
-    window.location.href = "orders.html";
+    if (pointInput.value === '') {
+        pointInput.value = '0';
+    }
+    const couponDiscount = parseFloat(pointInput.value);
+    
+    // 將折扣金額存儲到sessionStorage中
+    sessionStorage.setItem('couponDiscount', couponDiscount.toString());
+    window.location.href = "./orders.html";
 });
 
 
