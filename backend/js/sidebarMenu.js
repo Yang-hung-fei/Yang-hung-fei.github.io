@@ -1,4 +1,4 @@
-function loadMenuAndContent(functionMenusData) {
+export function showSidebarListMenu(functionMenusData) {
     const menuList = document.getElementById("sidebar-nav");
     functionMenusData.forEach(roleMenu => {
         const functionMenu = roleMenu.roleMenu.menu;
