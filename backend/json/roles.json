@@ -1,6 +1,6 @@
 [
     {
-      "role": "商城管理",
+      "role": "商品管理",
       "file": "role_menus_mall.json",
       "divId": "mallMenuDiv"
     },

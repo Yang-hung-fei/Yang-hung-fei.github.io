@@ -1,4 +1,4 @@
-import config from "../../../../ipconfig";
+import config from "/ipconfig.js";
 
 export function addManager() {
   getNewManagerProfile();

@@ -1,20 +1,25 @@
 import config from "/ipconfig.js";
 
-export function getManagerAuthority(token) {
-    fetch(config.url + "/manager/authorities", {
+export async function getManagerAuthority(token) {
+  try {
+    const response = await fetch(config.url + "/manager/authorities", {
       method: "GET",
       headers: {
-        Authorization_M: token, // 在標頭中帶入 Token
-        "Content-Type": "application/x-www-form-urlencoded", // 如果需要，指定內容類型
+        Authorization_M: token,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-    })
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.code === 200) return res.message.managerAuthoritiesList;
-      })
-      .catch((error) => {
-        console.error("Error fetching form:", error);
-      });
-    return false;
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } else {
+      console.error("Error fetching form:", response.statusText);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching form:", error);
+    return null;
   }
+}
