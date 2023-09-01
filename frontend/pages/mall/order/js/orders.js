@@ -227,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(response => response.json())
                             .then(data => {
                                 console.log(data.message); // 可以根據需要進行處理
+                                Swal.fire("表單新增成功前往付款!");
                             })
                             .catch(error => {
                                 console.error('Error deleting shopping cart:', error);
@@ -241,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // 使用者按下取消按鈕，不執行請求
                     console.log('使用者取消了訂單提交。');
                 }
-                console.log("表單驗證通過，執行提交操作。");
+                // console.log("表單驗證通過，執行提交操作。");
             }
             
         });
