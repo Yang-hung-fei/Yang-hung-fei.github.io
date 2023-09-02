@@ -57,24 +57,27 @@ async function showSidebarListMenu(manager) {
       let roles = await rolesResponse.json();
 
       // 循环处理每个角色
-      roles.forEach((role) => {
+      for (const role of roles) {
         // 检查当前角色是否在用户的权限列表中
         console.log("test");
         if (managerAuthories.includes(role.role)) {
-          // 加载对应角色的菜单文件
-          fetch("/backend/json/" + role.file)
-            .then((response) => response.json())
-            .then((roleMenus) => {
-              // 根据菜单数据生成链接
-              createSidebarListMenu(roleMenus);              
-            })
-            .catch((error) => {
-              console.error("Error fetching role menu:", error);
-            });
+          try {
+            // 加载对应角色的菜单文件
+            const response = await fetch("/backend/json/" + role.file);
+            const roleMenus = await response.json();
+            
+            // 根据菜单数据生成链接
+            createSidebarListMenu(roleMenus);
+          } catch (error) {
+            console.error("Error fetching role menu:", error);
+          }
         }
-      });
+      }
     }
   } catch (error) {
     console.error("Error:", error);
   }
+
+  $("#sidebarLinks").append('<div id="sidebar-margin" style="height: 50px;"></div>');
 }
+
