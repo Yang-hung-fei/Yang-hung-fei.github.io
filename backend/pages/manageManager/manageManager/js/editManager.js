@@ -25,11 +25,11 @@ export function editManagerData() {
 }
 
 function getEditedManagerData() {
-    const managerAccount;
-    const managerId;
-    const managerPassword;
-    const managerState;
-    const orgManagerAccount;
+    const managerAccount ="";
+    const managerId ="";
+    const managerPassword ="";
+    const managerState ="";
+    const orgManagerAccount ="";
 
     let setedManagerProfil;
 }
@@ -59,8 +59,8 @@ export function editManagerAuthorities() {
 }
 
 function geteEitManagerAuthoriies(){
-    const account;
-    const authories;
+    const account ="";
+    const authories ="";
 
     let setedManagerAuthoriies;
 

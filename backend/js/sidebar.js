@@ -1,7 +1,7 @@
 import config from "/ipconfig.js";
 import { createSidebarListMenu } from "/backend/js/sidebarMenu.js";
-import { showHomepageBoard } from "../pages/manageManager/js/showHomepageBoard.js";
-import { getManagerAuthority } from "../pages/manageManager/js/getManagerAuthority.js";
+import { showHomepageBoard } from "/backend/pages/manageManager/manageManager/js/showHomepageBoard.js";
+import { getManagerAuthority } from "/backend/pages/manageManager/manageManager/js/getManagerAuthority.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   let token = localStorage.getItem("Authorization_M");
