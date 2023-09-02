@@ -3,6 +3,8 @@ let tdElements = [];
 window.addEventListener("load", () => {
     // 表格元素
     const calendarTable = document.getElementById('calendar');
+    //error
+    const errorDiv = document.getElementById("error");
 
     //存放資訊
     const pgNameSelect = document.getElementById('pgName');
@@ -99,6 +101,18 @@ window.addEventListener("load", () => {
                         firstOption.selected = true;
                         pgNameSelect.dispatchEvent(new Event('change'));
                     }
+                } else if (data.code === 401) {
+                    let errorLabel = document.createElement("label");
+                    errorLabel.innerHTML = `身分${data.message}`;
+                    errorLabel.style.color = "red";
+                    errorLabel.style.font = "16px Arial, sans-serif";
+                    errorDiv.appendChild(errorLabel);
+                } else {
+                    let errorLabel = document.createElement("label");
+                    errorLabel.innerHTML = `${data.message}`;
+                    errorLabel.style.color = "red";
+                    errorLabel.style.font = "16px Arial, sans-serif";
+                    errorDiv.appendChild(errorLabel);
                 }
             });
     }

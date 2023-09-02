@@ -44,7 +44,11 @@ window.addEventListener("load", () => {
                     buildTable(appointments);
                     updatePaginationButtons(totalAppointments);
                 } else {
-                    console.error(data.message);
+                    Swal.fire({
+                        icon: "error",
+                        title: "您沒有權限",
+                        text: data.message
+                    });
                     maxCount.value = 0;
                 }
             });

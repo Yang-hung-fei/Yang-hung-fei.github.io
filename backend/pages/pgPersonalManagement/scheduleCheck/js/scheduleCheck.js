@@ -2,6 +2,9 @@ import config from "../../../../../ipconfig.js";
 let tdElements = [];
 window.addEventListener("load", () => {
 
+    //error
+    const errorDiv = document.getElementById("error");
+
     //存放資訊
     const pgNameSelect = document.getElementById('pgName');
     const pgPic = document.getElementById('pgPic');
@@ -97,6 +100,20 @@ window.addEventListener("load", () => {
                         firstOption.selected = true;
                         pgNameSelect.dispatchEvent(new Event('change'));
                     }
+                } else if (data.code === 401) {
+                    let errorLabel = document.createElement("label");
+                    errorLabel.innerHTML = `身分${data.message}`;
+                    errorLabel.style.color = "red";
+                    errorLabel.style.font = "16px Arial, sans-serif";
+                    errorDiv.appendChild(errorLabel);
+                    maxCount.value = 0;
+                } else {
+                    let errorLabel = document.createElement("label");
+                    errorLabel.innerHTML = `${data.message}`;
+                    errorLabel.style.color = "red";
+                    errorLabel.style.font = "16px Arial, sans-serif";
+                    errorDiv.appendChild(errorLabel);
+                    maxCount.value = 0;
                 }
             });
     }

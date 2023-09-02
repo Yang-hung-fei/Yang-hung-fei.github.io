@@ -333,7 +333,7 @@ window.addEventListener("load", () => {
                         <select id="timeSlotsContainer" name="pgaNewTime"></select><br>
                         
                         <label for="pgaOption" style="font-size: 18px;">修改選項</label>
-                        <select id="pgaOption">
+                        <select id="pgaOption" style="font-size: 14px; height:30px;">
                             <option value="" disabled selected>如需要請選擇</option>
                             <option value="狗狗洗澡" >狗狗洗澡</option>
                             <option value="狗狗半手剪 (洗澡+剃毛)" >狗狗半手剪 (洗澡+剃毛)</option>
