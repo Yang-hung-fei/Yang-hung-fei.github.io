@@ -18,18 +18,19 @@
     />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link rel="shortcut icon" href="/backend/img/icons/icon-48x48.png" />
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
     <title>AllDogCat Manager</title>
 
-    <link href="css/sublist.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
+    <link href="/backend/css/sublist.css" rel="stylesheet" />
+    <link href="/backend/css/app.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+ 
   </head>
 
   <body onload="resize();">
@@ -50,7 +51,6 @@
 
           <ul id="sidebarLinks" class="sidebar-nav">
             <!-- menu -->
-
           </ul>
         </div>
       </nav>
@@ -151,18 +151,29 @@
       </div>
     </div>
 
-    <script src="../jquery/jquery-3.2.1.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/backend/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="module" src="js/sidebar.js"></script>
+    <script type="module" src="/backend/js/sidebar.js"></script>
     <script src="/backend/js/sublistArrow.js"></script>
     <script>
+      $(document).ready(function () {
+        // 使用事件委托处理通过 JavaScript 生成的链接
+        $("#sidebarLinks").on("click", ".function-link", function (e) {
+          e.preventDefault(); // 阻止默认链接行为
+          var newSrc = $(this).attr("href"); // 获取链接的 href 属性
+          $("#mainframe").attr("src", newSrc); // 设置 iframe 的 src 属性
+          resize();
+        });
+      });
+      //body 根據 iframe 內容調整高度
       function resize() {
         parent.document.getElementById("mainframe").height =
           document.body.scrollHeight; //將子頁面高度傳到父頁面框架
       }
     </script>
     <script>
+      //登出按鈕
       $("#logout").on("click", () => {
         const token = localStorage.removeItem("Authorization_M");
         window.location.href = "/backend/login.html";
