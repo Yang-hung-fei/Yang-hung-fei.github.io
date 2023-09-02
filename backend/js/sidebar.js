@@ -5,6 +5,11 @@ import { getManagerAuthority } from "../pages/manageManager/js/getManagerAuthori
 
 document.addEventListener("DOMContentLoaded", async function () {
   let token = localStorage.getItem("Authorization_M");
+  let manager = await getManagerAuthority(token);
+
+  //backend index.html show managerAccount name
+  const managerAccount = manager.message.managerAccount;
+  $("#accountShow").html(managerAccount);
 
   try {
     if (token) {
@@ -27,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     window.location.href = "/backend/login.html";
   }
 
-  showSidebarListMenu(token);
+  showSidebarListMenu(manager);
   showHomepageBoard(token);
 });
 
@@ -38,44 +43,36 @@ async function fetchManagerData(token) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
-  // showSidebarListMenu();
 }
 
-async function showSidebarListMenu(token) {
+async function showSidebarListMenu(manager) {
   try {
-    const manager = await getManagerAuthority(token);
-    
     if (manager) {
-      const managerAccount = manager.message.managerAccount;
-      const managerAuthories = manager.message.managerAuthoritiesList;
-      console.log(managerAccount, managerAuthories, manager);
-      
-      // 先從 roles.json 中獲取會員擁有的角色
-      fetch("/backend/json/roles.json")
-        .then((response) => response.json())
-        .then((roles) => {
-          console.log(roles);
-          // 循環處理每個角色
-          roles.forEach((role) => {
-            if (true) {
-              // TODO: 管理員管理、會員管理、首頁管理
-            } else {
-              const roleMenuFilePath = role.file;
+      let managerAuthories = manager.message.managerAuthoritiesList;
+      let sidebarLinks = [];
+      console.log(managerAuthories);
 
-              // 使用該文件路徑 fetch 對應的菜單資料
-              fetch("/backend/json/" + roleMenuFilePath)
-                .then((response) => response.json())
-                .then((roleMenus) => {
-                  // 根據菜單資料創建連結或其他操作
-                  console.log(roleMenus);
-                })
-                .catch((error) => {
-                  console.error("Error fetching role menu:", error);
-                });
-            }
-          });
-        })
-        .catch((error) => console.error("Error fetching roles:", error));
+      // 加载roles.json文件
+      let rolesResponse = await fetch("/backend/json/roles.json");
+      let roles = await rolesResponse.json();
+
+      // 循环处理每个角色
+      roles.forEach((role) => {
+        // 检查当前角色是否在用户的权限列表中
+        console.log("test");
+        if (managerAuthories.includes(role.role)) {
+          // 加载对应角色的菜单文件
+          fetch("/backend/json/" + role.file)
+            .then((response) => response.json())
+            .then((roleMenus) => {
+              // 根据菜单数据生成链接
+              createSidebarListMenu(roleMenus);              
+            })
+            .catch((error) => {
+              console.error("Error fetching role menu:", error);
+            });
+        }
+      });
     }
   } catch (error) {
     console.error("Error:", error);
