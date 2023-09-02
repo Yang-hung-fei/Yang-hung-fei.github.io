@@ -59,13 +59,12 @@ async function showSidebarListMenu(manager) {
       // 循环处理每个角色
       for (const role of roles) {
         // 检查当前角色是否在用户的权限列表中
-        console.log("test");
         if (managerAuthories.includes(role.role)) {
           try {
             // 加载对应角色的菜单文件
             const response = await fetch("/backend/json/" + role.file);
             const roleMenus = await response.json();
-            
+            console.log(roleMenus);
             // 根据菜单数据生成链接
             createSidebarListMenu(roleMenus);
           } catch (error) {

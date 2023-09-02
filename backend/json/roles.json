@@ -1,5 +1,20 @@
 [
   {
+    "role": "首頁管理",
+    "file": "role_menus_homepageManage.json",
+    "divId": "mallMenuDiv"
+  },
+  {
+    "role": "管理員管理",
+    "file": "role_menus_mall.json",
+    "divId": "mallMenuDiv"
+  },
+  {
+    "role": "會員管理",
+    "file": "role_menus_mall.json",
+    "divId": "mallMenuDiv"
+  },
+  {
     "role": "商品管理",
     "file": "role_menus_mall.json",
     "divId": "mallMenuDiv"
