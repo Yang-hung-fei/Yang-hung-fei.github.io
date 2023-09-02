@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/appointmentList?limit=${itemsPerPage}&sort=${sort}&offset=${offset}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
                 "Content-Type": "application/json"
             }
         })
@@ -181,7 +181,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/user/CompleteOrCancel", {
             method: "POST",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestBody)
@@ -256,7 +256,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
+                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
                 "Content-Type": "application/json"
             }
         })
@@ -336,28 +336,28 @@ window.addEventListener("load", () => {
                 <div class="row d-flex justify-content-center" style="color: #fff; font-family: cwTeXYen" >
                     <div class="col-md-6" style="margin-top:25px;">
                         <label for="sourcePgaDate" style="font-size: 18px;">原預約日期</label>
-                        <input type="text" id="sourcePgaDate"  value="${sourcePgaDate}" readonly><br>
+                        <input type="text" id="sourcePgaDate" class="form-control" value="${sourcePgaDate}" readonly><br>
                         <label for="sourcePgaTime" style="font-size: 18px;">原預約時間</label>               
-                        <input type="text" id="sourcePgaTime"  value="${sourcePgaTime}" readonly><br>
+                        <input type="text" id="sourcePgaTime" class="form-control" value="${sourcePgaTime}" readonly><br>
                         <label for="editPgaOption" style="font-size: 18px;">原預約選項</label>  
-                        <input type="text" id="editPgaOption"  value="${pgaOption}" readonly><br>
+                        <input type="text" id="editPgaOption" class="form-control" value="${pgaOption}" readonly><br>
                         <label for="editPgaNotes" style="font-size: 18px;">原預約備註</label>
-                        <input type="text" id="editPgaNotes"  value="${pgaNotes}" readonly style="max-height:100px; min-height:100px;"><br>
+                        <input type="text" id="editPgaNotes" class="form-control" value="${pgaNotes}" readonly style="max-height:100px; min-height:100px;"><br>
                         <label for="editPgaPhone" style="font-size: 18px;">原手機號碼</label>
-                        <input type="text" id="editPgaPhone"  value="${pgaPhone}" readonly>
+                        <input type="text" id="editPgaPhone" class="form-control" value="${pgaPhone}" readonly>
                     </div>
                     <div class="col-md-6">
                     <span  style="font-size: 14px; color:#ddd; font-family: cwTeXYen" >不修改的內容請留空</span><br>
                         <input id="pgId" name="pgId" value="${pgId}" hidden readonly></input>
                         <input id="pgaNo" name="pgaNo2" value="${pgaNo}" hidden readonly></input>
                         <label for="dateInput" style="font-size: 18px;">修改日期</label>
-                        <input type="text" id="dateInput" name="dateInput" placeholder="請點擊選擇預約日期"><br>
+                        <input type="text" id="dateInput" name="dateInput" class="form-control" placeholder="請點擊選擇預約日期"><br>
                         
                         <label for="timeSlotsContainer" style="font-size: 18px;">修改時間</label><br>              
-                        <select id="timeSlotsContainer" name="pgaNewTime"></select><br>
+                        <select id="timeSlotsContainer" class="form-control" name="pgaNewTime"></select><br>
                         
                         <label for="pgaOption" style="font-size: 18px;">修改選項</label>
-                        <select id="pgaOption">
+                        <select id="pgaOption" class="form-control">
                             <option value="" disabled selected>如需要請選擇</option>
                             <option value="狗狗洗澡" >狗狗洗澡</option>
                             <option value="狗狗半手剪 (洗澡+剃毛)" >狗狗半手剪 (洗澡+剃毛)</option>
@@ -366,11 +366,11 @@ window.addEventListener("load", () => {
                             <option value="貓咪大美容" >貓咪大美容</option>
                         </select><br>
                         <label for="pgaNotes" style="font-size: 18px;">修改備註</label>
-                        <textarea name="pgaNotes" id="pgaNotes" rows="10"
-                        style="min-width: 200; max-width: 200px; max-height:100px; resize: none; overflow: auto;"
+                        <textarea name="pgaNotes" id="pgaNotes" rows="10" class="form-control"
+                        style="min-width: 215px; max-width: 200px; max-height:100px; resize: none; overflow: auto;"
                         maxlength="500"></textarea><br>
                         <label for="pgaPhone" style="font-size: 18px;">修改手機號碼</label>
-                        <input type="text" id="pgaPhone">
+                        <input type="text" id="pgaPhone" class="form-control">
                     </div>
                  </div>
                  `,
@@ -406,7 +406,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/user/modifyAppointment", {
                     method: "POST",
                     headers: {
-                        Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjkzNDcxNDY4fQ.qcTRJiL7gQrRR8FPYoKUM8t4qUjR9FN_XBISlupLFAs",
+                        Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(editedData)
