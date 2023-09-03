@@ -227,7 +227,7 @@ window.addEventListener("load", () => {
     function handleModifyButtonClick(editButton) {
 
         const row = editButton.closest("tr");
-
+        const manId = row.querySelector("[name=manId]").textContent;
         const pgId = row.querySelector("[name=pgId]").textContent;
         const pgName = row.querySelector("[name=pgName]").textContent;
         const pgGender = row.querySelector("[name=pgGender]").textContent;
@@ -240,52 +240,103 @@ window.addEventListener("load", () => {
 
 
         Swal.fire({
-            title: `修改PG ID為${pgId} - ${pgName}的資訊`,
+            title: `修改 ${pgId} - ${pgName}的資訊`,
             html:
                 `
                 <div class="row d-flex justify-content-center" style="color: #fff; font-family: cwTeXYen" >
+                    
                     <div class="col-md-6">
-                        <label for="pgId" style="font-size: 18px;">美容師ID:${pgId}</label><br>
+                    
+                        <form>
+                        <span for="pgId" style="font-size: 18px;">美容師ID:${pgId}</span><br><br>
+                        <span  style="font-size: 14px; color:#ddd; font-family: cwTeXYen" padding-bottom: 20px;>不修改的內容請留空</span><br><br>
                         <label for="newPgName" style="font-size: 18px;">美容師姓名</label>               
                         <input type="text" id="newPgName" class="form-control" value="${pgName}"  /><br>
                         <label for="newPgGender" style="font-size: 18px;">美容師性別</label>  
-                        <input type="text" id="newPgGender" class="form-control" value="${pgGender}" /><br>
-
+                        <select id="newPgGender" class="form-control">
+                            <option value="1" ${pgGender === '男' ? 'selected' : ''}>男</option>
+                            <option value="2" ${pgGender === '女' ? 'selected' : ''}>女</option>
+                        </select>
                         <label for="newPgEmail" style="font-size: 18px;">Email</label>
-                        <input type="text" id="newPgEmail" class="form-control" value="${pgEmail}" ><br>
+                        <label id="emailCheck" for="emailCheck" style="color:red; font-size: 12px;"></label>
+                        <input type="email" id="newPgEmail" class="form-control" value="${pgEmail}" ><br>
                         <label for="newPgPh" style="font-size: 18px;">手機號碼</label>
-                        <input type="text" id="newPgPh" class="form-control" value="${pgPh}"><br>
+                        <label id="phCheck"  for="phCheck" style="color:red; font-size: 12px;"></label>
+                        <input type="tel" pattern="[0-9]{10}" title="請輸入有效的手機號碼（10位數字）" id="newPgPh" class="form-control" value="${pgPh}"><br>
                         <label for="newPgAddress" style="font-size: 18px;">地址</label>
                         <input type="text" id="newPgAddress" class="form-control" value="${pgAddress}"><br>
                         <label for="newPgBirthday" style="font-size: 18px;">生日</label>   
-                        <input type="text" id="dateInput" name="dateInput" placeholder="請點擊選擇預約日期"><br>
-                    </div>    
+                        <input type="text" id="dateInput" name="dateInput" placeholder="請點擊選擇日期" style="min-width:271.76px;" ><br>
+                        <label for="newPgPic" style="font-size: 18px;">上傳圖片</label>
+                            <input
+                                type="file"
+                                id="newPgPic"
+                                accept="image/*"
+                                class="form-control"
+                            />
+                        <form> 
+                        </div>    
                     <div class="col-md-6">
-                        <label for="modifyPic" style="font-size: 18px;">美容師照片</label>
-                        <img src="${pgPicSrc}" alt="此美容師無照片" class="modifyPic"><br>
-                    </div>    
+                        <label for="previewImage" style="font-size: 18px;">美容師照片</label>
+                        <img id="previewImage" src="${pgPicSrc}" alt="此美容師無照片" class="modifyPic"><br>
+                    </div> 
                  </div>
                  `,
             didRender: function () {
                 const dateInput = document.getElementById("dateInput");
+                // 設置預設日期
+                dateInput.value = `${pgBirthday}`;
                 dateInput.flatpickr({
-                    minDate: minDate,
-                    maxDate: maxDate,
                     dateFormat: "Y-m-d",
                     onChange: function (selectedDates, dateStr, instance) {
                         const selectedDate = selectedDates[0];
                         const formattedDate = formatDate(selectedDate);
                         dateInput.value = formattedDate;
-
-                        // 找到選中日期的班表資料
-                        const selectedSchedule = data.message.find(schedule => schedule.pgsDate === formattedDate);
-                        if (selectedSchedule) {
-                            //pgsIdLabel.style.display = "block";
-                            generateTimeSlots(selectedSchedule.pgsState, timeSlotsContainer);
-                        } else {
-
-                        }
                     },
+                });
+                const newPgPh = document.getElementById("newPgPh");
+                const newPgEmail = document.getElementById("newPgEmail");
+
+                newPgPh.addEventListener("blur", function () {
+                    // 手機號碼格式驗證
+                    const phoneNumber = newPgPh.value;
+                    const phoneNumberPattern = /^[0-9]{10}$/; // 台灣10碼
+                    if (!phoneNumberPattern.test(phoneNumber)) {
+                        const phCheck = document.getElementById("phCheck");
+                        phCheck.innerText = '手機號碼格式錯誤 請輸入有效的手機號碼（10位數字）';
+                    } else {
+                        const phCheck = document.getElementById("phCheck");
+                        phCheck.innerText = '';
+                    }
+                });
+
+                newPgEmail.addEventListener("blur", function () {
+                    // Email格式驗證
+                    const email = newPgEmail.value;
+                    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                    if (!emailPattern.test(email)) {
+                        const emailCheck = document.getElementById("emailCheck");
+                        emailCheck.innerText = 'Email格式錯誤 請輸入有效的Email地址';
+                    } else {
+                        const emailCheck = document.getElementById("emailCheck");
+                        emailCheck.innerText = '';
+                    }
+                });
+
+                const newPgPic = document.getElementById("newPgPic");
+                const previewImage = document.getElementById("previewImage");
+
+                newPgPic.addEventListener("change", function () {
+                    // 當選擇了新圖片時觸發事件
+                    const file = newPgPic.files[0];
+                    if (file) {
+                        // 讀取選擇的圖片並顯示預覽
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            previewImage.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
                 });
                 
             },
@@ -294,40 +345,77 @@ window.addEventListener("load", () => {
             confirmButtonColor: '#8f88f8',
             cancelButtonText: '取消',
             background: 'rgba(0, 50, 129, 0.79)',
-            width:'700px',
+            width: '700px',
             preConfirm: () => {
-                const editedData = {
-                    pgaNo: document.getElementById("pgaNo").value,//notnull
-                    pgId: document.getElementById("pgId").value,//notnull
-                    sourcePgaDate: document.getElementById("sourcePgaDate").value,
-                    pgaNewDate: document.getElementById("dateInput").value,
-                    sourcePgaTime: document.getElementById("sourcePgaTime").value,
-                    pgaNewTime: document.getElementById("timeSlotsContainer").value,
-                    pgaOption: document.getElementById("pgaOption").value,
-                    pgaNotes: document.getElementById("pgaNotes").value,
-                    pgaPhone: document.getElementById("pgaPhone").value,
-                };
-                return editedData;
+                // 創建FormData對象，用於包裝要上傳的文件
+                const formData = new FormData();
+                const newPgPic = document.getElementById("newPgPic");
+                const selectedFile = newPgPic.files[0];
+                if (selectedFile === undefined || selectedFile === "" || selectedFile === null) {
+                    formData.append("pgPic", null);
+                } else {
+                    formData.append("pgPic", selectedFile);
+                }
+
+                const newPgName = document.getElementById("newPgName");
+                const newPgGender = document.getElementById("newPgGender");
+                const newPgEmail = document.getElementById("newPgEmail");
+                const newPgPh = document.getElementById("newPgPh");
+                const newPgAddress = document.getElementById("newPgAddress");
+                const dateInput = document.getElementById("dateInput");
+
+                // 將空值替換為null
+                const sanitizedNewPgEmail = newPgEmail || null;
+                const sanitizedNewPgPh = newPgPh || null;
+                const sanitizedNewPgAddress = newPgAddress || null;
+                const sanitizedDateInput = dateInput || null;
+
+                // 添加其他表單數據到FormData對象
+                console.log(manId);
+                console.log(newPgName.value);
+                console.log(newPgGender.value);
+                console.log(sanitizedNewPgEmail.value);
+                console.log(sanitizedNewPgPh.value);
+                console.log(sanitizedNewPgAddress.value);
+                console.log(sanitizedDateInput.value);
+                console.log(formData.get('pgPic'));
+
+                formData.append("pgId", pgId); // manId值
+                formData.append("manId", manId); // manId值
+                formData.append("pgName", newPgName.value); //美容師姓名
+                formData.append("pgGender", newPgGender.value); // 性別值
+                formData.append("pgEmail", sanitizedNewPgEmail.value); // Email值
+                formData.append("pgPh", sanitizedNewPgPh.value); // 手機號碼值
+                formData.append("pgAddress", sanitizedNewPgAddress.value); // 地址值
+                formData.append("pgBirthday", sanitizedDateInput.value); // 生日值
+
+                return formData;
             },
+            didClose: () => {
+                // 當 Swal 關閉時，手動清除驗證訊息
+                Swal.update({
+                    didRender: () => {
+                        Swal.hideValidationMessage(); // 清除驗證訊息
+                    }
+                });
+            }
         }).then((result) => {
             if (result.isConfirmed) {
+                const formData = result.value;
                 // 送出修改，TOKEN要改
-                const editedData = result.value;
-
-                fetch(config.url + "/manager/modifyAppointment", {
+                fetch(config.url + "/manager/updateGroomerByPgId", {
                     method: "POST",
                     headers: {
-                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
-                        "Content-Type": "application/json"
+                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks"
                     },
-                    body: JSON.stringify(editedData)
+                    body: formData,
                 })
                     .then(response => response.json())
                     .then(data => {
                         if (data.code === 200) {
                             Swal.fire({
                                 icon: "success",
-                                title: "預約修改成功",
+                                title: "修改資訊成功",
                                 text: data.message
                             });
                             let searchString = searchInput.value;
@@ -335,7 +423,7 @@ window.addEventListener("load", () => {
                         } else {
                             Swal.fire({
                                 icon: "error",
-                                title: "預約修改失敗",
+                                title: "修改資訊失敗",
                                 text: data.message
                             });
                         }

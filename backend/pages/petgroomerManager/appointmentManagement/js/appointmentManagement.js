@@ -226,7 +226,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks",
                 "Content-Type": "application/json"
             }
         })
@@ -382,7 +382,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/manager/modifyAppointment", {
                     method: "POST",
                     headers: {
-                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(editedData)
