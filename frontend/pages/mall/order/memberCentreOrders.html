@@ -37,10 +37,27 @@
 
     <!-- Template Stylesheet -->
     <link href="../../../css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href=".././css/mainnav.css" />
+    <link rel="stylesheet" href="../../memberCentre/css/mainnav.css" />
     <link rel="stylesheet" href="../../memberCentre/css/porfile.css" />
     <link rel="stylesheet" href="../../memberCentre/css/sidebar.css" />
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="./css/item.css" rel="stylesheet" />
+   
+    <style>
+      .current-page {
+        background-color: #D0D0D0; /* 藍色背景，你可以根據需要自定義顏色 */
+        color: #fff; /* 白色文本 */
+        font-weight: bold; /* 粗體字體 */
+      }
+       /* 在这里添加排序箭头图标的自定义样式 */
+       #OrdersTable thead th {
+          text-align: center;
+      }
+    </style>
   </head>
 
   <body>
@@ -52,7 +69,7 @@
     ></iframe>
 
     <div id="main">
-      <div>
+      <div style="margin-right: -10px;">
         <aside id="sidebar" style="background-color: #fff">
           <ul id="chatroom">
             <li id="stornchat">
@@ -124,7 +141,7 @@
               <li id="storn" class="title">寵物商城</li>
               <div class="menu">
                 <li><a href="#">購物車</a></li>
-                <li><a href="#">商品訂單</a></li>
+                <li><a href="#" class="current-page">商品訂單</a></li>
                 <li><a href="#">商品收藏</a></li>
               </div>
             </ul>
@@ -147,186 +164,48 @@
       </div>
 
       <div id="content">
-        <!-- /* 預留 fixed 欄位空間，不需要就刪除 margin-top */ -->
+          <!-- /* 預留 fixed 欄位空間，不需要就刪除 margin-top */ -->
 
-        <header id="mainnav">
-          <header id="navbar">
-            <div id="info" style="background-color: #fff">
-              <span id="user">
-                <div id="photo">
-                  <button
-                    id="userPicEdit"
-                    style="z-index: 99999; display: none"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"
-                    >
-                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                      <path
-                        d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"
-                      />
-                    </svg>
-                  </button>
-                  <img id="userPic" />
+             
+          
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">會員訂單管理</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">商品訂單</li>
+                </ol>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <!-- <i class="fas fa-table me-1"></i> -->
+                        所有訂單資訊
+                    </div>
+                    <div class="card-body">
+                        <table id="OrdersTable" class="table table-striped table-bordered dt-responsive compact hover order-column"
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <!-- data-priority="1" 為縮框時優先順序 -->
+                                    <th data-priority="4">訂單編號</th>
+                                    <th data-priority="5" >訂單創立時間</th>
+                                    <th data-priority="1" >實付金額</th>
+                                    <th data-priority="2" >收件人姓名</th>
+                                    <th data-priority="6" >收件人電話</th>
+                                    <th data-priority="7" >訂單狀態</th>
+                                    <th data-priority="8" >付款狀態</th>
+                                    <th>明細</th>
+                                    <th>付款</th>
+                                    <th>刪除</th>
+                                    <!-- <th data-priority="3" >按鈕</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div id="names" style="width: 250px">
-                  <div>
-                    <div id="editNameContain" style="display: none">
-                      <input type="text" id="inputNameEdit" />
-                      <button class="btnNameEdit save" id="saveNameButton">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="1em"
-                          viewBox="0 70 400 400"
-                        >
-                          <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                          <path
-                            d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                    <div id="showNameContain">
-                      <span id="userName">User's Name</span>
-                      <button class="btnNameEdit" id="editNameButton">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="1em"
-                          viewBox="0 0 512 512"
-                        >
-                          <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                          <path
-                            d="M481 31C445.1-4.8 386.9-4.8 351 31l-15 15L322.9 33C294.8 4.9 249.2 4.9 221.1 33L135 119c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L255 66.9c9.4-9.4 24.6-9.4 33.9 0L302.1 80 186.3 195.7 316.3 325.7 481 161c35.9-35.9 35.9-94.1 0-129.9zM293.7 348.3L163.7 218.3 99.5 282.5c-48 48-80.8 109.2-94.1 175.8l-5 25c-1.6 7.9 .9 16 6.6 21.7s13.8 8.1 21.7 6.6l25-5c66.6-13.3 127.8-46.1 175.8-94.1l64.2-64.2z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="editNickNameContanin" style="display: none">
-                      <input type="text" id="inputNickNameEdit" />
-                      <button class="btnNameEdit save" id="saveNickNameButton">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="1em"
-                          viewBox="0 70 400 400"
-                        >
-                          <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                          <path
-                            d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                    <div id="showNickNameContain">
-                      <span id="userNickName">User's Nickname</span>
-                      <button class="btnNameEdit" id="editNickNameButton">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="1em"
-                          viewBox="0 0 512 512"
-                        >
-                          <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                          <path
-                            d="M481 31C445.1-4.8 386.9-4.8 351 31l-15 15L322.9 33C294.8 4.9 249.2 4.9 221.1 33L135 119c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L255 66.9c9.4-9.4 24.6-9.4 33.9 0L302.1 80 186.3 195.7 316.3 325.7 481 161c35.9-35.9 35.9-94.1 0-129.9zM293.7 348.3L163.7 218.3 99.5 282.5c-48 48-80.8 109.2-94.1 175.8l-5 25c-1.6 7.9 .9 16 6.6 21.7s13.8 8.1 21.7 6.6l25-5c66.6-13.3 127.8-46.1 175.8-94.1l64.2-64.2z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </span>
-              <span id="point">
-                <div id="pointnumber"></div>
-                <p style="text-align: center; font-weight: bold" class="m-3">
-                  Point
-                </p>
-                <!-- <div id="getpoint">
-                  <button id="game">game</button>
-                </div> -->
-              </span>
             </div>
-          </header>
-          <nav id="searchbar">
-            <!-- 搜尋欄位 -->
-          </nav>
-          <main class="mb-5">
-            <div>
-              <div id="user-info">
-                <div id="userPasswordDiv" style="display: flex">
-                  <label for="userPassword">密碼</label>
-                  <span>
-                    <div id="DBPasseord">
-                      <span id="showPassword"></span>
-                      <button
-                        id="editPasswordBtn"
-                        class="btn btn-primary save"
-                        style="margin-left: 8px"
-                      >
-                        修改密碼
-                      </button>
-                    </div>
-                    <div id="resetPassword" style="display: none">
-                      <input type="password" id="firstPassword" />
-                      <br />
-                      <input type="password" id="secondPassword" />
-                      <button
-                        id="resetPasswordBtn"
-                        class="btn btn-primary"
-                        style="margin-left: 8px"
-                      >
-                        儲存密碼
-                      </button>
-                    </div>
-                  </span>
-                </div>
-                <div id="userGenderDiv">
-                  <label for="userGender">性別</label>
-                  <select name="userGender" id="userGender">
-                    <option value="尚未設定">-</option>
-                    <option value="男性">男性</option>
-                    <option value="女性">女性</option>
-                  </select>
-                </div>
-                <div class="notice">test</div>
-                <div id="userBirthdayDiv">
-                  <label for="userBirthday">生日</label>
-                  <input type="date" id="userBirthday" />
-                </div>
-                <div class="notice">test</div>
-                <div id="userPhoneDiv">
-                  <label for="userPhone">電話</label>
-                  <input type="phone" id="userPhone" />
-                </div>
-                <div class="notice">test</div>
-                <div id="userAddressDiv">
-                  <label for="userAddress">地址</label>
-                  <select id="city" name="city">
-                    <option disabled="disabled" selected="selected" value="">
-                      縣市
-                    </option>
-                  </select>
-                  <select id="area" name="area">
-                    <option disabled="disabled" selected="selected" value="">
-                      鄉鎮[市]區
-                    </option>
-                  </select>
-                  <input type="text" id="userAddress" />
-                </div>
-                <div class="notice">test</div>
-              </div>
-              <div id="edit-info"></div>
-              <button
-                id="edit-button"
-                type="button"
-                class="btn btn-primary save"
-              >
-                儲存
-              </button>
-            </div>
-          </main>
-        </header>
+        
       </div>
     </div>
 
@@ -437,10 +316,18 @@
     <script src="../../../lib/easing/easing.min.js"></script>
     <script src="../../../lib/waypoints/waypoints.min.js"></script>
     <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
-
+    <script type="module" src="./js/memberCentreOrders.js"></script>
     <!-- Template Javascript -->
-
-    <script>
+    <!--dataTable-->
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <!-- <script>
       $(window).on("load", () => {
         const token = localStorage.getItem("Authorization_U");
         // token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts";
@@ -509,6 +396,6 @@
       photo_el.addEventListener("mouseover", () => {
         userPicEdit_btn.style.display = "block";
       });
-    </script>
+    </script> -->
   </body>
 </html>
