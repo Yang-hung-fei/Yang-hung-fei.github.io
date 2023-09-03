@@ -66,18 +66,32 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12" style="padding: 0">
-            <div class="card px-3 py-2" style="margin-bottom: 0">
+            <div class="card px-3 py-4" style="margin-bottom: 0">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
               <div class="table-wrap">
                 <table class="table myaccordion table-hover" id="accordion">
                   <thead>
                     <tr>
-                      <th>會員編號</th>
+                      <th >會員編號</th>
                       <th>姓名</th>
-                      <th>性別</th>
-                      <th>電話</th>
-                      <th>地址</th>
+                      <th>點數</th>
                       <th>創建時間</th>
-                      <th>&nbsp;</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -88,29 +102,28 @@
                       aria-controls="collapseOne"
                     >
                       <th scope="row">1</th>
-                      <td>Laptop Technology AS2020</td>
+                      <td>Laptop (Technology)</td>
                       <td>$200.00</td>
-                      <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="true"></i>
-                      </td>
+                      <td>$200.00</td>
                     </tr>
                     <tr>
                       <td
-                        colspan="7"
+                        colspan="4"
                         id="collapseOne"
                         class="collapse show acc"
                         data-parent="#accordion"
                       >
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Porro iste, facere sunt sequi nostrum ipsa, amet
-                          doloremque magnam reiciendis tempore sapiente.
-                          Necessitatibus recusandae harum nam sit perferendis
-                          quia inventore natus.
-                        </p>
+                        <div style="display: flex;">
+                          <div class="userPic" style="margin: 0 20px;">
+                            <img src="" alt="" style="background-color: aqua; border-radius: 100%; width: 100px; height: 100px; ">
+                          </div>
+                          <div class="userProfile">
+                            <div class="userGender">userGender</div>
+                            <div class="userBirthday">userBirthday</div>
+                            <div class="userAddress">userAddress</div>
+                            <div class="userPhone">userPhone</div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
 
@@ -125,15 +138,10 @@
                       <td>Laptop Technology AS2020</td>
                       <td>$200.00</td>
                       <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="false"></i>
-                      </td>
                     </tr>
                     <tr>
                       <td
-                        colspan="7"
+                        colspan="4"
                         id="collapseTwo"
                         class="collapse acc"
                         data-parent="#accordion"
@@ -159,15 +167,10 @@
                       <td>Laptop Technology AS2020</td>
                       <td>$200.00</td>
                       <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="false"></i>
-                      </td>
                     </tr>
                     <tr>
                       <td
-                        colspan="7"
+                        colspan="4"
                         id="collapseThree"
                         class="collapse acc"
                         data-parent="#accordion"
@@ -193,15 +196,10 @@
                       <td>Laptop Technology AS2020</td>
                       <td>$200.00</td>
                       <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="false"></i>
-                      </td>
                     </tr>
                     <tr>
                       <td
-                        colspan="7"
+                        colspan="4"
                         id="collapseFour"
                         class="collapse acc"
                         data-parent="#accordion"
@@ -218,6 +216,23 @@
                   </tbody>
                 </table>
               </div>
+              <nav aria-label="Page navigation example" style="margin-top: 30px;">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
