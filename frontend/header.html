@@ -24,16 +24,16 @@
     />
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet" />
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+    <link href="/frontend/lib/animate/animate.min.css" rel="stylesheet" />
+    <link href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/frontendBootstrap.min.css" rel="stylesheet" />
+    <link href="/frontend/css/frontendBootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/notify.css" />
-    <link rel="stylesheet" href="css/headerLogoutBtn.css" />
+    <link href="/frontend/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/css/notify.css" />
+    <link rel="stylesheet" href="/frontend/css/headerLogoutBtn.css" />
   </head>
 
   <body style="margin: 0; padding: 0; overflow: hidden">
@@ -110,7 +110,7 @@
               class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
               aria-labelledby="alertsDropdown"
               id="notifyMenu"
-              style="min-height: 50px"
+              style="min-height: 50px;"
             >
               <div class="list-group">
                 <!--這裡放通知-->
@@ -140,25 +140,24 @@
         </div>
       </div>
     </nav>
-
     <!-- Navbar End -->
+    <script src="/frontend/js/notify.js"></script>
+    <script type="module" src="/frontend/js/btnUser.js"></script>
+    <script type="module" src="/frontend/js/header.js"></script>
+    <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Header JS -->
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script type="module" src="js/btnUser.js"></script>
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
     <!-- <script type="module" src="js/UserNotify.js"></script> -->
-    <script type="module" src="js/header.js"></script>
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-    <!-- JSP後端時，放置時戳，解決重新整理icon會消失的狀況 -->
-    <!-- <script type="module" src="js/userPic.js"></script> -->
-    <script src="js/notify.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script type="module" src="js/headerLogoutBtn.js"></script>
+    <script src="/frontend/js/main.js"></script>
+    
   </body>
 </html>

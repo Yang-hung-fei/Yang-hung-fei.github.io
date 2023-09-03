@@ -1,11 +1,17 @@
-import config from "../../ipconfig.js";
-import { creatSidebarListMenu } from "/backend/js/sidebarMenu.js";
-import { showHomepageBoard } from "../pages/manageManager/js/showHomepageBoard.js";
+import config from "/ipconfig.js";
+import { createSidebarListMenu } from "/backend/js/sidebarMenu.js";
+import { showHomepageBoard } from "/backend/pages/manageManager/manageManager/js/showHomepageBoard.js";
+import { getManagerAuthority } from "/backend/pages/manageManager/manageManager/js/getManagerAuthority.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  try {
-    const token = localStorage.getItem("Authorization_M");
+  let token = localStorage.getItem("Authorization_M");
+  let manager = await getManagerAuthority(token);
 
+  //backend index.html show managerAccount name
+  const managerAccount = manager.message.managerAccount;
+  $("#accountShow").html(managerAccount);
+
+  try {
     if (token) {
       await fetchManagerData(token)
         .then((response) => response.json()) // 解析响应数据为 JSON 格式
@@ -26,8 +32,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     window.location.href = "/backend/login.html";
   }
 
-  showSidebarListMenu();
-  showHomepageBoard();
+  showSidebarListMenu(manager);
+  showHomepageBoard(token);
 });
 
 async function fetchManagerData(token) {
@@ -37,29 +43,40 @@ async function fetchManagerData(token) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
-  // showSidebarListMenu();
 }
 
-function showSidebarListMenu() {
-    // 先從 roles.json 中獲取會員擁有的角色
-    fetch("/backend/json/roles.json")
-      .then((response) => response.json())
-      .then((roles) => {
-        // 循環處理每個角色
-        roles.forEach((role) => {
-          const roleMenuFilePath = role.file;
-  
-          // 使用該文件路徑 fetch 對應的菜單資料
-          fetch("/backend/json/" + roleMenuFilePath)
-            .then((response) => response.json())
-            .then((roleMenus) => {
-              // 根據菜單資料創建連結或其他操作
-              creatSidebarListMenu(roleMenus);
-            })
-            .catch((error) =>
-              console.error("Error fetching role menu:", error)
-            );
-        });
-      })
-      .catch((error) => console.error("Error fetching roles:", error));
+async function showSidebarListMenu(manager) {
+  try {
+    if (manager) {
+      let managerAuthories = manager.message.managerAuthoritiesList;
+      let sidebarLinks = [];
+      console.log(managerAuthories);
+
+      // 加载roles.json文件
+      let rolesResponse = await fetch("/backend/json/roles.json");
+      let roles = await rolesResponse.json();
+
+      // 循环处理每个角色
+      for (const role of roles) {
+        // 检查当前角色是否在用户的权限列表中
+        if (managerAuthories.includes(role.role)) {
+          try {
+            // 加载对应角色的菜单文件
+            const response = await fetch("/backend/json/" + role.file);
+            const roleMenus = await response.json();
+            console.log(roleMenus);
+            // 根据菜单数据生成链接
+            createSidebarListMenu(roleMenus);
+          } catch (error) {
+            console.error("Error fetching role menu:", error);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error:", error);
   }
+
+  $("#sidebarLinks").append('<div id="sidebar-margin" style="height: 50px;"></div>');
+}
+

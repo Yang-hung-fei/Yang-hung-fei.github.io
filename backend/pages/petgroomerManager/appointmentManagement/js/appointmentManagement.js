@@ -226,7 +226,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks",
                 "Content-Type": "application/json"
             }
         })
@@ -333,7 +333,7 @@ window.addEventListener("load", () => {
                         <select id="timeSlotsContainer" name="pgaNewTime"></select><br>
                         
                         <label for="pgaOption" style="font-size: 18px;">修改選項</label>
-                        <select id="pgaOption">
+                        <select id="pgaOption" style="font-size: 14px; height:30px;">
                             <option value="" disabled selected>如需要請選擇</option>
                             <option value="狗狗洗澡" >狗狗洗澡</option>
                             <option value="狗狗半手剪 (洗澡+剃毛)" >狗狗半手剪 (洗澡+剃毛)</option>
@@ -382,7 +382,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/manager/modifyAppointment", {
                     method: "POST",
                     headers: {
-                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(editedData)
