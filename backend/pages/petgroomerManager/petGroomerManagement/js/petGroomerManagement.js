@@ -371,19 +371,19 @@ window.addEventListener("load", () => {
         data.forEach(petGroomer => {
             const row = document.createElement("tr");
             if(petGroomer.pgEmail===null){
-                petGroomer.pgEmail="";
+                petGroomer.pgEmail="無";
             }
             if(petGroomer.pgPh===null){
-                petGroomer.pgPh="";
+                petGroomer.pgPh="無";
             }
             if(petGroomer.pgAddress===null){
-                petGroomer.pgAddress="";
+                petGroomer.pgAddress="無";
             }
             if(petGroomer.pgAddress===null){
-                petGroomer.pgAddress="";
+                petGroomer.pgAddress="無";
             }
             if(petGroomer.pgBirthday===null){
-                petGroomer.pgBirthday="";
+                petGroomer.pgBirthday="無";
             }
 
             row.innerHTML = `
