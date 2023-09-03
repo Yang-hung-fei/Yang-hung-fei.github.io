@@ -34,8 +34,9 @@ div.table-title {
 }
 label {
   font-size: 18px;
-  display: block; /* 讓標籤顯示為區塊元素，以使每個標籤獨自佔據一行 */
+  display: inline-block; /* 讓標籤顯示為區塊元素，以使每個標籤獨自佔據一行 */
   margin-bottom: 10px; /* 設定底部間距 */
+  margin-top: 10px;
   width: 100%; /* 使標籤佔據 100% 的寬度，達到統一寬度的效果 */
 }
   
