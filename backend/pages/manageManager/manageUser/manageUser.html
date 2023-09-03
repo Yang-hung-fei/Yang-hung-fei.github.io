@@ -57,6 +57,7 @@
       rel="stylesheet"
       href="/backend/pages/manageManager/manageUser/css/table-style.css"
     />
+    <link rel="stylesheet" href="/backend/pages/manageManager/manageUser/css/customTableStyle.css">
   </head>
 
   <body style="background-color: transparent">
@@ -67,6 +68,12 @@
         <div class="row">
           <div class="col-12" style="padding: 0">
             <div class="card px-3 py-4" style="margin-bottom: 0">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">查詢會員姓名</span>
+                </div>
+                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+              </div>
               <nav aria-label="Page navigation example">
                 <ul class="pagination">
                   <li class="page-item">
@@ -90,6 +97,7 @@
                     <tr>
                       <th >會員編號</th>
                       <th>姓名</th>
+                      <th>暱稱</th>
                       <th>點數</th>
                       <th>創建時間</th>
                     </tr>
@@ -102,26 +110,27 @@
                       aria-controls="collapseOne"
                     >
                       <th scope="row">1</th>
-                      <td>Laptop (Technology)</td>
+                      <td>Laptop</td>
+                      <td>Technology</td>
                       <td>$200.00</td>
                       <td>$200.00</td>
                     </tr>
                     <tr>
                       <td
-                        colspan="4"
+                        colspan="5"
                         id="collapseOne"
                         class="collapse show acc"
                         data-parent="#accordion"
                       >
                         <div style="display: flex;">
-                          <div class="userPic" style="margin: 0 20px;">
-                            <img src="" alt="" style="background-color: aqua; border-radius: 100%; width: 100px; height: 100px; ">
+                          <div class="userPic">
+                            <img src="" alt="">
                           </div>
                           <div class="userProfile">
-                            <div class="userGender">userGender</div>
-                            <div class="userBirthday">userBirthday</div>
-                            <div class="userAddress">userAddress</div>
-                            <div class="userPhone">userPhone</div>
+                            <div class="userGender">性別：　男性</div>
+                            <div class="userBirthday">生日：　</div>
+                            <div class="userAddress">地址：　</div>
+                            <div class="userPhone">電話：　</div>
                           </div>
                         </div>
                       </td>
@@ -136,12 +145,13 @@
                     >
                       <th scope="row">2</th>
                       <td>Laptop Technology AS2020</td>
+                      <td>Technology</td>
                       <td>$200.00</td>
                       <td>2</td>
                     </tr>
                     <tr>
                       <td
-                        colspan="4"
+                        colspan="5"
                         id="collapseTwo"
                         class="collapse acc"
                         data-parent="#accordion"
@@ -165,12 +175,13 @@
                     >
                       <th scope="row">3</th>
                       <td>Laptop Technology AS2020</td>
+                      <td>Technology</td>
                       <td>$200.00</td>
                       <td>2</td>
                     </tr>
                     <tr>
                       <td
-                        colspan="4"
+                        colspan="5"
                         id="collapseThree"
                         class="collapse acc"
                         data-parent="#accordion"
@@ -194,12 +205,13 @@
                     >
                       <th scope="row">4</th>
                       <td>Laptop Technology AS2020</td>
+                      <td>Technology</td>
                       <td>$200.00</td>
                       <td>2</td>
                     </tr>
                     <tr>
                       <td
-                        colspan="4"
+                        colspan="5"
                         id="collapseFour"
                         class="collapse acc"
                         data-parent="#accordion"

@@ -1,0 +1,10 @@
+.userPic {
+  margin: 0 20px;
+}
+
+.userPic img {
+  background-color: aqua;
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+}
