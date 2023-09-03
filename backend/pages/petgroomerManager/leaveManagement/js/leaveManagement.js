@@ -24,17 +24,17 @@ window.addEventListener("load", () => {
 
                     buildTable(rs);
                 } else if (data.code === 401) {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `身分${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "無權限",
+                        text: `身分${data.message}`
+                    });
                 } else {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "預約單獲取失敗，請重新載入",
+                        text: data.message
+                    });
                 }
             });
     }
@@ -92,21 +92,60 @@ window.addEventListener("load", () => {
             info: true,
             language: {
                 url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
+            },createdRow: function (row, data, dataIndex) {
+                const leaveState = data.leaveState;
+    
+                if (leaveState === '未審核') {
+                    $('td', row).eq(6).css('color', 'blue'); // Set blue color for the 7th column (leaveState)
+                } else if (leaveState === '審核通過') {
+                    $('td', row).eq(6).css('color', 'green'); // Set green color for the 7th column (leaveState)
+                } else if (leaveState === '審核未通過') {
+                    $('td', row).eq(6).css('color', 'red'); // Set red color for the 7th column (leaveState)
+                }
             }
         });
         $('.table-container').css('overflow-x', 'auto');
         $('.table-fill tbody').on('click', '.finish', function (event) {
+
+
             const leaveNo = $(event.target).attr('data-leaveNo');
             const action = $(event.target).val();
-            changeLeave(leaveNo, action);
+            Swal.fire({
+                title: '確定審核通過嗎?',
+                text: "你將無法在次變動此假單!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '確定!',
+                cancelButtonText:'取消'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    changeLeave(leaveNo, action);
+                }
+              })
+
+            
             // 執行批准假單的函數
         });
 
         $('.table-fill tbody').on('click', '.cancel', function (event) {
             const leaveNo = $(event.target).attr('data-leaveNo');
             const action = $(event.target).val();
-            changeLeave(leaveNo, action);
-            // 執行取消假單的函數
+            Swal.fire({
+                title: '確定取消此假單嗎?',
+                text: "你將無法在次變動此假單!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '確定!',
+                cancelButtonText:'取消'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    changeLeave(leaveNo, action);
+                }
+              })
         });
     }
 
@@ -145,6 +184,7 @@ window.addEventListener("load", () => {
                         title: "假單審核失敗",
                         text: data.message
                     });
+                    fetchAndBuildTable();
                 }
             });
     }

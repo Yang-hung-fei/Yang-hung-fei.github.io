@@ -1,0 +1,361 @@
+
+div.table-title {
+    display: block;
+    margin: auto;
+    max-width: 1000px;
+    padding:5px;
+    width: 100%;
+    
+  }
+  
+  .table-title>h2 {
+     color:#4e555c;
+     font-size: 30px;
+     font-weight: 400;
+     font-style:normal;
+     font-family: "Roboto", helvetica, arial, sans-serif;
+     text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+     text-transform:uppercase;
+  }
+  /*照片*/
+.pg-pic{
+  width: 115px;
+  height: 120px;
+  object-fit: cover;
+  object-position: center;
+  border: 2px solid #fff;
+}
+.modifyPic{
+  width: 277px;
+  height: 277px;
+  object-fit: cover;
+  object-position: center;
+  border: 2px solid #fff;
+}
+label {
+  font-size: 18px;
+  display: inline-block; /* 讓標籤顯示為區塊元素，以使每個標籤獨自佔據一行 */
+  margin-bottom: 10px; /* 設定底部間距 */
+  margin-top: 10px;
+  width: 100%; /* 使標籤佔據 100% 的寬度，達到統一寬度的效果 */
+}
+  
+  /*** Table Styles **/
+  
+  .table-fill {
+    background: white;
+    border-radius:3px;
+    border-collapse: collapse;
+    height: 320px;
+    margin: auto;
+    max-width: 1000px;
+    padding:5px;
+    width: 100%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite;
+  }
+   
+  th {
+    color:#fefeff;;
+    background:rgba(9, 30, 63, 0.79);
+    border-bottom:2px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    font-size:18px;
+    font-weight: 100; 
+    padding:10px;
+    text-align:center;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    vertical-align:middle;
+    white-space: nowrap;
+    min-height: 100px;
+  }
+  
+  th:first-child {
+    border-top-left-radius:3px;
+  }
+   
+  th:last-child {
+    border-top-right-radius:3px;
+    border-right:none;
+  }
+    
+  tr {
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    color:rgba(9, 30, 63, 0.79);
+    font-size:16px;
+    font-weight:normal;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+  }
+   
+  tr:hover td {
+    background:rgba(9, 30, 63, 0.79);;
+    color:#ffffff;
+    border-top: 1px solid #ffffff;
+  }
+   
+  tr:first-child {
+    border-top:none;
+  }
+  
+  tr:last-child {
+    border-bottom:none;
+  }
+   
+  tr:nth-child(odd) td {
+    background:#EBEBEB;
+  }
+   
+  tr:nth-child(odd):hover td {
+    background:rgba(0, 50, 129, 0.79);
+  }
+  
+  tr:last-child td:first-child {
+    border-bottom-left-radius:3px;
+  }
+   
+  tr:last-child td:last-child {
+    border-bottom-right-radius:3px;
+  }
+   
+  td {
+    background:#FFFFFF;
+    text-align:left;
+    vertical-align:middle;
+    font-weight:300; 
+    font-size:13px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #ffffff;
+    
+  }
+  
+  td:last-child {
+    border-right: 0px;
+  }
+  
+  th.text-left {
+    text-align: left;
+  }
+  
+  th.text-center {
+    text-align: center;
+  }
+  
+  th.text-right {
+    text-align: right;
+  }
+  
+  td.text-left {
+    text-align: left;
+    padding: 0;
+  }
+  
+  td.text-center {
+    text-align: center;
+    padding: 0;
+  }
+  
+  td.text-right {
+    text-align: right;
+  }
+
+  /* 按鈕 */
+  .slot-button {
+      background-color: rgba(0, 50, 129, 0.79);
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      margin: 5px;
+      border-radius: 5px;
+      text-align: center; /* 讓文字置中 */
+  }
+  
+  .slot-button:hover {
+      background-color: #8f88f8;
+      color: #fff;
+  }
+  .slot-button:active {
+    background-color: #8f88f8;
+    color: #fff;
+  }
+  
+  /* 狀態改變按鈕樣式 */
+  .slot-button.disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+      color: #888;
+  }
+  
+  /* 狀態改變用於選中的按鈕 */
+  .slot-button-selected {
+      background-color: #8f88f8;
+      color: #fff;
+  }
+
+input:checked + .orderBy_label{
+    background-color: #8f88f8 !important;
+    
+}
+.orderBy_label {
+  font-size: 10px;
+  border-radius: 20px;
+}
+.orderBy_label:active {
+  background-color: #8f88f8 !important;
+  color: #fff !important;
+}
+.orderBy_label:hover {
+  background-color: #8f88f8 !important;
+}
+.radio{
+  width: 20px;
+  display: flex;
+}
+
+hr{
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border: 1px solid rgba(9, 30, 63, 0.79);
+}
+body {
+  background-color: #f9f9fa
+}
+
+.padding {
+  padding: 3rem !important
+}
+
+.user-card-full {
+  overflow: hidden;
+}
+
+.card {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+  box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+  border: none;
+  margin-bottom: 30px;
+}
+
+.m-r-0 {
+  margin-right: 0px;
+}
+
+.m-l-0 {
+  margin-left: 0px;
+}
+
+.user-card-full .user-profile {
+  border-radius: 5px 0 0 5px;
+}
+
+.bg-c-lite-green {
+      background: -webkit-gradient(linear, left top, right top, from(#5dccff), to(#041397));
+  background: linear-gradient(to right, #5addee, #6390f2);
+}
+
+.profile {
+  padding: 20px 0;
+}
+
+.card-block {
+  padding: 1.25rem;
+}
+
+.m-b-25 {
+  margin-bottom: 25px;
+}
+
+.img-radius {
+  border-radius: 5px;
+}
+#pic{
+  border-radius: 5px;
+  width: 100%; /* 图片宽度填满容器 */
+  height: auto; /* 高度自适应以保持纵横比 */
+}
+
+
+h6 {
+  font-size: 14px;
+}
+
+.card .card-block p {
+  line-height: 25px;
+}
+
+@media only screen and (min-width: 1400px){
+p {
+  font-size: 14px;
+}
+}
+
+.card-block {
+  padding: 1.25rem;
+}
+
+.b-b-default {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.m-b-20 {
+  margin-bottom: 20px;
+}
+
+.p-b-5 {
+  padding-bottom: 5px !important;
+}
+
+.card .card-block p {
+  line-height: 25px;
+}
+
+.m-b-10 {
+  margin-bottom: 10px;
+}
+
+.text-muted {
+  color: #919aa3 !important;
+}
+
+.b-b-default {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.f-w-600 {
+  font-weight: 600;
+}
+
+.m-b-20 {
+  margin-bottom: 20px;
+}
+
+.m-t-40 {
+  margin-top: 20px;
+}
+
+.p-b-5 {
+  padding-bottom: 5px !important;
+}
+
+.m-b-10 {
+  margin-bottom: 10px;
+}
+
+.m-t-40 {
+  margin-top: 20px;
+}
+
+.user-card-full .social-link li {
+  display: inline-block;
+}
+
+.user-card-full .social-link li a {
+  font-size: 20px;
+  margin: 0 10px 0 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+

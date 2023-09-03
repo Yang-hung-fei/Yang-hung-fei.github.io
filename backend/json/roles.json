@@ -1,19 +1,22 @@
 [
-    {
-      "role": "商城管理",
-      "file": "role_menus_mall.json"
-    },
-    {
-      "role": "美容師後台管理",
-      "file": "role_menus_petgroomerManage.json"
-    },
-    {
-      "role": "美容師個人管理",
-      "file": "role_menus_petgroomerPersonalManage.json"
-    },
-    {
-      "role": "社群管理",
-      "file": "role_menus_socailManage.json"
-    }
-  ]
-  
+  {
+    "role": "商品管理",
+    "file": "role_menus_mall.json",
+    "divId": "mallMenuDiv"
+  },
+  {
+    "role": "美容師管理",
+    "file": "role_menus_petgroomerManage.json",
+    "divId": "petgroomerManageDiv"
+  },
+  {
+    "role": "美容師個人管理",
+    "file": "role_menus_petgroomerPersonalManage.json",
+    "divId": "petgroomerPersonalManageDiv"
+  },
+  {
+    "role": "社群管理",
+    "file": "role_menus_socailManage.json",
+    "divId": "socailManageDiv"
+  }
+]

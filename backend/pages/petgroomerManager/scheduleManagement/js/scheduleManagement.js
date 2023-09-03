@@ -3,6 +3,8 @@ let tdElements = [];
 window.addEventListener("load", () => {
     // 表格元素
     const calendarTable = document.getElementById('calendar');
+    //error
+    const errorDiv = document.getElementById("error");
 
     //存放資訊
     const pgNameSelect = document.getElementById('pgName');
@@ -49,7 +51,6 @@ window.addEventListener("load", () => {
     monthInput.value = parseInt(currentMonth); // 將月分設置道Input框中
 
     yearSelect.addEventListener('change', function () {
-
         fetchGroomerSchedule(pgIdInput.value, parseInt(yearSelect.value), parseInt(monthInput.value));
 
     });
@@ -100,6 +101,19 @@ window.addEventListener("load", () => {
                         firstOption.selected = true;
                         pgNameSelect.dispatchEvent(new Event('change'));
                     }
+                } else if (data.code === 401) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "無權限",
+                        text: `身分${data.message}`
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "無美容師，無法查詢班表。",
+                        text: data.message
+                    });
+
                 }
             });
     }
@@ -164,14 +178,14 @@ window.addEventListener("load", () => {
     }
     //建構班表
     function fetchGroomerSchedule(pgId, yearParam, monthParam) {
+
         fetch(config.url + `/manager/schedule?pgId=${pgId}&year=${yearParam}&month=${monthParam}`, {
             method: "GET",
             headers: {
                 Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
                 "Content-Type": "application/json"
             }
-        })
-            .then(response => response.json())
+        }).then(res => res.json())
             .then(data => {
                 if (data.code === 200) {
                     const pgs = data.message;
@@ -207,8 +221,6 @@ window.addEventListener("load", () => {
                         for (let day = 1; day <= daysOfMonth; day++) {
                             const th = document.createElement('th');
                             th.textContent = `${day}號`; // Display day of the month
-
-
                             dateRow.appendChild(th);
                         }
 
@@ -268,6 +280,7 @@ window.addEventListener("load", () => {
 
                             calendarBody.appendChild(row);
                         }
+
                         // 找到表頭的容器元素
                         const tableHeaderRow = document.querySelector("#calendar-body tr:first-child");
                         const thElements = tableHeaderRow.querySelectorAll("th");
@@ -325,14 +338,52 @@ window.addEventListener("load", () => {
                             });
                         });
 
-                        // 為每個送出按鈕添加點擊事件
-                        sendButtons.forEach((sendButton, index) => {
-                            sendButton.addEventListener("click", () => {
+                        calendarTable.addEventListener('click', (event) => {
+                            const clickedElement = event.target;
 
-                                const thElement = sendButton.parentElement; // 取得包含按鈕的 th 元素
-                                const columnIndex = thElement.cellIndex; // 取得所在列的索引（不包含表頭行）
-                                const tableBody = calendarTable.querySelector('tbody'); // 表格的 tbody 元素
-                                tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有 td
+                            // 確保點擊的是「修改」按鈕元素
+                            if (clickedElement.classList.contains('modify-button')) {
+                                const thElement = clickedElement.parentElement;
+                                const columnIndex = thElement.cellIndex;
+                                const tableBody = calendarTable.querySelector('tbody');
+                                const tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`);
+
+                                // Toggle buttons visibility
+                                clickedElement.hidden = true;
+                                thElement.querySelector('.send-button').hidden = false;
+                                thElement.querySelector('.cancel-button').hidden = false;
+                                event.stopPropagation();
+                                event.stopImmediatePropagation();
+                                // Enable corresponding status-button elements
+                                tdElements.forEach(td => {
+                                    const button = td.querySelector('.status-button');
+                                    button.disabled = false;
+                                });
+                            }
+
+                            // 確保點擊的是 status-button 按鈕元素
+                            if (clickedElement.classList.contains('status-button')) {
+                                const currentValue = clickedElement.value;
+
+                                if (currentValue === '0') {
+                                    clickedElement.value = '1';
+                                } else if (currentValue === '1') {
+                                    clickedElement.value = '0';
+                                } else if (currentValue === '2') {
+                                    clickedElement.value = '1';
+                                }
+                                event.stopPropagation();
+                                event.stopImmediatePropagation();
+                                clickedElement.textContent = getButtonText(clickedElement.value);
+                                clickedElement.classList.remove('green-button', 'gray-button', 'yellow-button');
+                                clickedElement.classList.add(getButtonClass(clickedElement.value));
+
+                            }
+                            if (clickedElement.classList.contains('send-button')) {
+                                const thElement = clickedElement.parentElement;
+                                const columnIndex = thElement.cellIndex;
+                                const tableBody = calendarTable.querySelector('tbody');
+                                const tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`);
 
                                 const firstTd = tdElements[0]; // 取得該列的第一個 td 元素
                                 const pgsId = firstTd.querySelector('[name="pgsId"]').value;
@@ -349,8 +400,8 @@ window.addEventListener("load", () => {
                                 fetchModifySchedule(pgsId, pgId, pgsDate, pgsState);
 
                                 // 隱藏送出和取消按鈕
-                                sendButtons[index].hidden = true;
-                                cancelButtons[index].hidden = true;
+                                thElement.querySelector('.send-button').hidden = true;
+                                clickedElement.hidden = true;
 
                                 // 顯示所有列的修改按鈕
                                 modifyButtons.forEach((btn) => {
@@ -362,72 +413,35 @@ window.addEventListener("load", () => {
                                     const button = td.querySelector('.status-button');
                                     button.disabled = true;
                                 });
+                                fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
 
-                            });
-
-                        });
-
-                        // 取消按鈕監聽
-                        cancelButtons.forEach((cancelButton, index) => {
-                            cancelButton.addEventListener("click", () => {
+                            }
+                            if (clickedElement.classList.contains('cancel-button')) {
+                                const thElement = clickedElement.parentElement;
+                                const columnIndex = thElement.cellIndex;
+                                const tableBody = calendarTable.querySelector('tbody');
+                                const tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`);
 
                                 // 隐藏送出和取消按钮
-                                sendButtons[index].hidden = true;
-                                cancelButtons[index].hidden = true;
+                                thElement.querySelector('.send-button').hidden = true;
+                                clickedElement.hidden = true;
 
                                 // 顯示所有列的修改按鈕
                                 modifyButtons.forEach((btn) => {
                                     btn.hidden = false;
                                 });
-
+                                event.stopPropagation();
+                                event.stopImmediatePropagation();
                                 // 將該列的所有 status-button 按鈕的 disabled 屬性改回 true
                                 tdElements.forEach(td => {
                                     const button = td.querySelector('.status-button');
                                     button.disabled = true;
                                 });
                                 fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
-
-                            });
-                        });
-                        
-                        calendarTable.addEventListener('click', (event) => {
-                            const clickedElement = event.target;
-                            console.log('1');
-                            // 確保點擊的是「修改」按鈕元素
-                            if (clickedElement.id === 'modify') {
-                                const thElement = clickedElement.parentElement; // 取得包含按鈕的 th 元素
-                                const columnIndex = thElement.cellIndex; // 取得所在列的索引（不包含表頭行）
-                                const tableBody = calendarTable.querySelector('tbody'); // 表格的 tbody 元素
-                                tdElements = tableBody.querySelectorAll(`td:nth-child(${columnIndex + 1})`); // 抓取指定列的所有 td
-
-                                // 將該列的所有 status-button 按鈕的 disabled 屬性改為 false
-                                tdElements.forEach(td => {
-                                    const button = td.querySelector('.status-button');
-                                    button.disabled = false;
-                                });
-                            }
-
-                            // 確保點擊的是 status-button 按鈕元素
-                            if (clickedElement.classList.contains('status-button')) {
-                                const currentValue = clickedElement.value;
-
-                                // 循環改變 value 值
-                                if (currentValue === '0') {
-                                    clickedElement.value = '1';
-                                } else if (currentValue === '1') {
-                                    clickedElement.value = '0';
-                                } else if (currentValue === '2') {
-                                    clickedElement.value = '1';
-                                }
-
-                                // 更新按鈕的文字和樣式
-                                clickedElement.textContent = getButtonText(clickedElement.value);
-                                clickedElement.classList.remove('green-button', 'gray-button', 'yellow-button');
-                                clickedElement.classList.add(getButtonClass(clickedElement.value));
                             }
                         });
-                        
                     }
+
                     function getButtonText(state) {
                         switch (state) {
                             case '0':
@@ -463,7 +477,7 @@ window.addEventListener("load", () => {
                         title: data.message,
                     });
                 }
-            });
+            })
     }
 
     //修改請求
@@ -547,7 +561,7 @@ window.addEventListener("load", () => {
             checkbox.value = '1';
             checkbox.id = checkboxId;
             checkbox.classList.add('form-check-input');
-
+           
             timeSlot.appendChild(timeLabel);
             timeSlot.appendChild(checkbox);
 
