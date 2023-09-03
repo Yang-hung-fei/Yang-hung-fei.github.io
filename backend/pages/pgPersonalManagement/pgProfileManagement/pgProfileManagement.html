@@ -26,7 +26,7 @@
 	<!-- Flatpickr -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<!--CSS-->
-	<link rel="stylesheet" href="./css/petGroomerManagement.css">
+	<link rel="stylesheet" href="./css/pgProfileManagement.css">
 
 </head>
 
@@ -509,96 +509,152 @@
 					</ul>
 				</div>
 			</nav>
-			
+
 			<main class="content">
 				<div class="container-fluid p-0" id="mainContent">
 					<!--主要內容 起始-->
 					<div style="min-height: 700px; min-width: 1030px;">
 						<div class="table-title" style="margin-left:0px ; margin-bottom: 20px;">
 							<div class="row">
-									<div id="error"></div>
-									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">美容師管理
-										<button style="display: inline" class="btn slot-button" id="insertNewPgBtn">我要新增美容師</button>
-									</h2>
+								<div id="error"></div>
+								<h2
+									style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79); margin-left: 67px;">
+									美容師個人頁面管理
+								</h2>
 							</div>
 						</div>
-						<div style="display: flex; justify-content: space-between; ">
-							<div style="display: flex; justify-content: flex-start;">
-								<label for="search"
-									style="padding-right: 10px; font-size: 18px; width: 70px;">搜尋</label>
-								<input type="text" class="form-control" id="search"
-									style="width: 50px; height: 25px; border-radius: 3px; width: 200px; margin-right: 20px;"
-									value="" placeholder="請輸入ID/姓名/地址" />
-								<label for="limit" style="font-size: 18px; width: 80px;">最大筆數</label>
-								<select name="limit" id="limit" style="font-size: 15px; margin-bottom: 20px;">
-									<option value="10" disabled selected>請選擇</option>
-									<option value="5" style="text-align: center;">5</option>
-									<option value="10" style="text-align: center;">10</option>
-									<option value="15" style="text-align: center;">15</option>
-									<option value="20" style="text-align: center;">20</option>
-								</select>
-								<div style="width: 200px;">
-									<select name="sort" id="sort"
-										style="appearance: none; padding: 0;text-align: center; max-width: 80px; height: 29px; margin-bottom: 20px; margin-left: 30px; border: 1px solid gray;"
-										class="form-control">
-										<option value="desc" disabled selected>排序</option>
-										<option value="asc">升序</option>
-										<option value="desc">降序</option>
-									</select>
+
+						<div class="page-content page-container" id="page-content">
+							<div class="padding">
+								<div class="row container d-flex justify-content-center">
+									<div class="col-xl-12 col-md-12">
+										<div class="card user-card-full">
+											<div class="row m-l-0 m-r-0">
+												<div class="col-sm-4 bg-c-lite-green user-profile">
+													<div class="card-block text-center text-white width:500px;">
+														<div class="m-b-25">
+															<h6 class="f-w-600" id="picNull"
+																style="display: none; color: rgb(125, 52, 52);">您尚未上傳頭像
+															</h6>
+															<img class="" alt="Profile-Image" id="pic"
+																style="max-height: 277px; max-width: 277px;">
+														</div>
+														<h6 class="f-w-600 p-b-5  b-b-default" id="name"
+															style="font-size: 20px;"></h6>
+														<span style="display: inline-block;">管理員 ID</span>
+														<p id="manId"></p>
+														<span style="display: inline-block;">美容師 ID</span>
+														<p id="pgId"></p>
+														<div id="modify_img" hidden>
+															<label for="previewImage" class="p-b-5  b-b-default"
+																style="font-size: 18px;">上傳預覽</label>
+															<img id="previewImage" alt="尚未選擇" class="modifyPic"
+																style="max-height: 277px; max-width: 277px;">
+															<input type="file" id="newPgPic" accept="image/*"
+																class="form-control" />
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-8">
+													<div class="card-block">
+														<h6 class="m-b-20 p-b-5 b-b-default f-w-600"
+															style="font-size: 20px;">個人資訊 <button
+																style="display: inline" class="btn slot-button"
+																id="modifyPgBtn">我要修改</button></h6>
+														<div class="row">
+															<div class="col-sm-6">
+																<p class="m-b-10 f-w-600">Email</p>
+																<h6 class="text-muted f-w-400" id="email"></h6>
+															</div>
+															<div class="col-sm-6">
+																<p class="m-b-10 f-w-600">Phone</p>
+																<h6 class="text-muted f-w-400" id="phone"></h6>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-sm-6">
+																<p class="m-b-10 f-w-600">地址</p>
+																<h6 class="text-muted f-w-400" id="address"></h6>
+															</div>
+															<div class="col-sm-6">
+																<p class="m-b-10 f-w-600">生日</p>
+																<h6 class="text-muted f-w-400" id="birthday"></h6>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-sm-6">
+																<p class="m-b-10 f-w-600">性別</p>
+																<h6 class="text-muted f-w-400" id="gender"></h6>
+															</div>
+															<div class="col-sm-6">
+																<p class="m-b-10 f-w-600">總預約</p>
+																<h6 class="text-muted f-w-400" id="appointments"></h6>
+															</div>
+														</div>
+														<div id="modifyBlock" hidden>
+															<h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"
+																style="font-size: 20px;">修改</h6>
+															<div class="row">
+																<div class="col-sm-6">
+																	<p class="m-b-10 f-w-600">Email</p>
+																	<input type="email" id="newPgEmail"
+																		class="form-control ext-muted f-w-400" value="">
+
+																</div>
+																<div class="col-sm-6">
+																	<p class="m-b-10 f-w-600">Phone</p>
+																	<input type="tel" pattern="[0-9]{10}"
+																		title="請輸入有效的手機號碼（10位數字）" id="newPgPh"
+																		class="form-control text-muted f-w-400"
+																		value="">
+
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-sm-6">
+																	<p class="m-b-10 f-w-600">地址</p>
+																	<input type="text" id="newPgAddress"
+																		class="form-control text-muted f-w-400"
+																		value="">
+																</div>
+																<div class="col-sm-6">
+																	<p class="m-b-10 f-w-600">生日</p>
+																	<input type="text"
+																		class="form-control text-muted f-w-400"
+																		id="dateInput" name="dateInput"
+																		placeholder="請點擊選擇日期"
+																		style="background-color: aliceblue;">
+
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-sm-6">
+																	<p class="m-b-10 f-w-600">性別</p>
+																	<select id="newPgGender"
+																		class="form-control text-muted f-w-400">
+																		<option value="1">男</option>
+																		<option value="2">女</option>
+																	</select>
+																</div>
+																<div class="col-sm-6">
+																	<p class="m-b-10 f-w-600">暱稱</p>
+																	<input type="text" id="newPgName"
+																		class="form-control text-muted f-w-400"
+																		value="">
+
+																</div>
+
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div style="display: flex; justify-content: flex-end; margin-right:40px">
-								<label for="maxCount" style="padding-right: 15px; font-size: 18px;">總筆數</label>
-								<input type="text" class="form-control" id="maxCount"
-									style="width: 50px; height: 25px; border-radius: 3px;" readonly />
-							</div>
 						</div>
 
-						<table class="table-fill" style="min-width: 1030px;">
-							<thead>
-								<tr>
-									<th class="text-align:top"
-										style="border-top-left-radius: 5px; position: relative; height: 50px;">美容師編號
-										<div class="radio"
-											style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
-											<label class="orderBy_label" for="orderBy_PG_ID" style="margin: 0;">▼
-												<input value="PG_ID" type="radio" id="orderBy_PG_ID" name="orderBy"
-													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
-										</div>
-									</th>
-									<th class="text-center" style="position: relative;">管理員編號
-										<div class="radio"
-											style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
-											<label class="orderBy_label" for="orderBy_MAN_ID" style="margin: 0;">▼
-												<input value="MAN_ID" type="radio" id="orderBy_MAN_ID" name="orderBy"
-													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
-										</div>
-									</th>
-
-									<th class="text-center" style="position: relative; flex: 1;">美容師姓名
-										<div class="radio"
-											style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
-											<label class="orderBy_label" for="orderBy_PG_NAME" style="margin: 0;">▼
-												<input value="PG_NAME" type="radio" id="orderBy_PG_NAME" name="orderBy"
-													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
-										</div>
-									</th>
-									<th class="text-center" style="position: relative;">性別</th>
-									<th class="text-center">美容師頭像</th>
-									<th class="text-center" style="position: relative;">Email</th>
-									<th class="text-center">行動電話</th>
-									<th class="text-center" style="position: relative;">地址</th>
-									<th class="text-center" style="position: relative;">生日</th>
-									<th class="text-center" style="position: relative;">總預約數</th>
-									<th class="text-center">修改美容師資訊</th>
-								</tr>
-							</thead>
-							<tbody class="table-hover">
-
-							</tbody>
-						</table>
-						<div class="btn-group" role="group" aria-label="First group" id="pagination-buttons">
-						</div>
 					</div>
 
 					<!--主要內容 結束-->
@@ -638,7 +694,7 @@
 	ㄋ
 
 	<!--JS-->
-	<script type="module" src="./js/petGroomerManagement.js"></script>
+	<script type="module" src="./js/pgProfileManagement.js"></script>
 	<!--sweetalert2-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 	<!-- Flatpickr -->

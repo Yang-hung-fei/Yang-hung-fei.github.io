@@ -24,17 +24,17 @@ window.addEventListener("load", () => {
 
                     buildTable(rs);
                 } else if (data.code === 401) {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `身分${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "無權限",
+                        text: `身分${data.message}`
+                    });
                 } else {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "預約單獲取失敗，請重新載入",
+                        text: data.message
+                    });
                 }
             });
     }

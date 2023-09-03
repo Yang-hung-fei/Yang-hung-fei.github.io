@@ -231,3 +231,16 @@ input:checked+.orderBy_label {
 .calendar-cell{
   padding: 4px;
 }
+/* 預設樣式 */
+
+/* 滑鼠左鍵按住hover時的樣式 */
+.form-check-input:hover {
+  cursor: pointer; /* 改變滑鼠游標為手型 */
+  background-color: #e0e0e0; /* 修改背景顏色或其他樣式 */
+}
+
+/* 滑鼠右鍵按住hover時的樣式 */
+.form-check-input.right-click:hover {
+  cursor: not-allowed; /* 改變滑鼠游標為禁止符號 */
+  /* 可以選擇修改其他樣式，以指示取消選擇 */
+}
