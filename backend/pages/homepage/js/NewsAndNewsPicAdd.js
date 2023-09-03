@@ -87,14 +87,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         var addNewsAndNewsPic = document.getElementById("addNewsAndNewsPic");
                         console.log(addNewsAndNewsPic);
                   //      alert(config.url + "/manager/homepageManage/addNewsPic");
-                        addNewsAndNewsPic.addEventListener("submit", function (event) {
+                        addNewsAndNewsPic.addEventListener("click", function (event) {
                console.log("aaa");
                             event.preventDefault(); // 阻止表單的預設提交行為
 
                             // 創建 FormData 對象並將表單數據添加到其中
                             const formData = new FormData(addNewsAndNewsPic);
                            
-
+                            const data2={
+                                pic: $("#pic")[0].files[0]
+                            }
                        //   alert(config.url + "/manager/homepageManage/addNewsPic");
 
                             //使用 fetch API 發起 AJAX 請求 新增最新消息圖片
