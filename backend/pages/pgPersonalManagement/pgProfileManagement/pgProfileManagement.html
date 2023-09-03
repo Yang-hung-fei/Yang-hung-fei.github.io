@@ -26,7 +26,7 @@
 	<!-- Flatpickr -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<!--CSS-->
-	<link rel="stylesheet" href="./css/scheduleManagement.css">
+	<link rel="stylesheet" href="./css/pgProfileManagement.css">
 
 </head>
 
@@ -512,71 +512,68 @@
 
 			<main class="content">
 				<div class="container-fluid p-0" id="mainContent">
-
 					<!--主要內容 起始-->
-					<div style="min-height: 1200px; min-width: 1030px;">
-						<div class="table-title">
-							<div id="error"></div>
-							<div class="row" style="margin-bottom: 20px;">
-								<div class="col-md-12">
-									<div id="error"></div>
-									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">排班管理
-									</h2>
-								</div>
-								<div class="col-md-2">
-
-									<label for="pgName" class="form-label" style="margin-left: 0px;">選擇美容師</label><br>
-									<select id="pgName" name="pgName" class="form-select"
-										style="max-width: 120px; margin-left: 0px;"></select>
-									<!-- 發送預約請求抓pgId值-->
-									<div style="display: flex; align-items: center;">
-										<input id="pgId" name="pgId" value="" class="form-control" readonly hidden
-											style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
-									</div>
-								</div>
-								<div class="col-md-3  d-flex" style="position: relative">
-									<img id="pgPic" src="" alt="該美容師未有照片" class="img-fluid img-thumbnail"
-										style="display: none; width: 200px; height: 200px;">
-								</div>
-								<div class="col-md-2" style="padding-right: 0;">
-
-								</div>
-								<div class="col-md-4" style="border-left: 3px solid gray;">
-									<h3>新增班表</h3>
-									<p>請勾選出勤時間段。<br>例：勾選4,5,6點，代表4點~6點出勤。</p>
-									<input type="text" id="dateInput" name="dateInput" class="form-control"
-										style="margin-bottom: 25px;" placeholder="請點擊選擇新增日期">
-									<div id="timeSlots" class="d-flex flex-wrap gap-3">
-										<!-- 時間槽將會在 JavaScript 中動態生成 -->
-									</div>
-									<button id="addNewScBtn" class="btn btn-secondary"
-										style="margin-left: 0px;">新增</button>
-								</div>
-							</div>
-							<div style="overflow-x: auto;overflow-y: auto;">
-								<div style="display: flex; align-content: center;">
-
-									<select id="yearSelect" class="form-select"
-										style="max-width: 120px; margin-right: 0px; height:30px; margin-top:5px;"></select>
-									<label for="yearSelect" class="form-label" style=" font-size: 24px; margin-top:2px;padding: 0 10px;">年</label>
-
-									<input id="month" name="month" type="number" min="1" max="12" class="form-control"
-										style="max-width: 120px; margin-left: 5px; margin: 0; height:30px; margin-top:5px;">
-									<label for="month" class="form-label" style="margin-left: 0px; font-size: 24px; margin-right: 10px;margin-top:2px; padding: 0 10px;">月</label>
-									<button id="prevMonthBtn" class="btn btn-secondary"
-										style="margin-right: 5px;  height:30px;">&lt;</button>
-									<button id="nextMonthBtn" class="btn btn-secondary"
-										style="margin-left: 5px;  height:30px;">&gt;</button>
-								</div>
-								<table id="calendar" class="table-fill" style="min-width: 1030px;">
-									<tbody id="calendar-body">
-									</tbody>
-								</table>
+					<div style="min-height: 700px; min-width: 1030px;">
+						<div class="table-title" style="margin-left:0px ; margin-bottom: 20px;">
+							<div class="row">
+								<div id="error"></div>
+								<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">
+									美容師個人頁面管理
+									<button style="display: inline" class="btn slot-button"
+										id="modifyPgBtn">我要修改</button>
+								</h2>
 							</div>
 						</div>
+						<div style="display: flex; justify-content: space-between; ">
+							<div class="container">
+								<div class="row">
+									<div class="col-md-3">
+
+										<label for="previewImage" style="font-size: 18px;">美容師照片</label>
+										<img id="previewImage" src="${pgPicSrc}" alt="此美容師無照片" class="modifyPic"><br>
+										
+									</div>
+
+									<div class="col-md-3">
+										<form>
+											<div>
+												<span style="font-size: 18px; min-width: 1000px;">ID</span>
+											<span style="font-size: 20px; margin-left: 20px;">1</span>
+											</div>
+											
+											<span style="font-size: 18px; min-width: 40px;">姓名</span>
+											<span style="font-size: 20px; margin-left: 20px;">咖波</span>
+											<label for="newPgGender" style="font-size: 18px;">美容師性別</label>
+											<input type="text" id="newPgGender" class="form-control"
+												value="${pgName}" /><br>
+											<label for="newPgEmail" style="font-size: 18px;">Email</label>
+											<label id="emailCheck" for="emailCheck"
+												style="color:red; font-size: 12px;"></label>
+											<input type="email" id="newPgEmail" class="form-control"
+												value="${pgEmail}"><br>
+											<label for="newPgPh" style="font-size: 18px;">手機號碼</label>
+											<label id="phCheck" for="phCheck"
+												style="color:red; font-size: 12px;"></label>
+											<input type="tel" pattern="[0-9]{10}" title="請輸入有效的手機號碼（10位數字）" id="newPgPh"
+												class="form-control" value="${pgPh}"><br>
+											<label for="newPgAddress" style="font-size: 18px;">地址</label>
+											<input type="text" id="newPgAddress" class="form-control"
+												value="${pgAddress}"><br>
+											<label for="newPgBirthday" style="font-size: 18px;">生日</label>
+											<input type="text" id="dateInput" name="dateInput" placeholder="請點擊選擇日期"
+												style="min-width:271.76px;"><br>
+											<label for="newPgPic" style="font-size: 18px;">上傳圖片</label>
+											<input type="file" id="newPgPic" accept="image/*" class="form-control" />
+											<form>
+									</div>
+								
+								</div>
+							</div>
+
+						</div>
+
+						<!--主要內容 結束-->
 					</div>
-					<!--主要內容 結束-->
-				</div>
 			</main>
 
 			<footer class="footer">
@@ -609,10 +606,10 @@
 			</footer>
 		</div>
 	</div>
-
+	ㄋ
 
 	<!--JS-->
-	<script type="module" src="./js/scheduleManagement.js"></script>
+	<script type="module" src="./js/pgProfileManagement.js"></script>
 	<!--sweetalert2-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 	<!-- Flatpickr -->

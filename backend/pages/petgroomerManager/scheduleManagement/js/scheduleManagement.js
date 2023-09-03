@@ -113,7 +113,7 @@ window.addEventListener("load", () => {
                         title: "無美容師，無法查詢班表。",
                         text: data.message
                     });
-                
+
                 }
             });
     }
@@ -561,7 +561,7 @@ window.addEventListener("load", () => {
             checkbox.value = '1';
             checkbox.id = checkboxId;
             checkbox.classList.add('form-check-input');
-
+           
             timeSlot.appendChild(timeLabel);
             timeSlot.appendChild(checkbox);
 
