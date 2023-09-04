@@ -1,67 +1,14 @@
 import config from "../../../../../ipconfig.js";
 import { updateDiscountAmount } from './discount.js';
 
-$("#contactForm").validator().on("submit", function (event) {
-    if (event.isDefaultPrevented()) {
-        // handle the invalid form...
-        formError();
-        submitMSG(false, "Did you fill in the form properly?");
-    } else {
-        // everything looks good!
-        event.preventDefault();
-        submitForm();
-    }
-});
-
-function submitForm(){
-    // Initiate Variables With Form Content
-    var name = $("#name").val();
-    var email = $("#email").val();
-    var msg_subject = $("#msg_subject").val();
-    var message = $("#message").val();
-
-
-    $.ajax({
-        type: "POST",
-        url: "php/form-process.php",
-        data: "name=" + name + "&email=" + email + "&msg_subject=" + msg_subject + "&message=" + message,
-        success : function(text){
-            if (text == "success"){
-                formSuccess();
-            } else {
-                formError();
-                submitMSG(false,text);
-            }
-        }
-    });
-}
-
-function formSuccess(){
-    $("#contactForm")[0].reset();
-    submitMSG(true, "Message Submitted!")
-}
-
-function formError(){
-    $("#contactForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-        $(this).removeClass();
-    });
-}
-
-function submitMSG(valid, msg){
-    if(valid){
-        var msgClasses = "h3 text-center tada animated text-success";
-    } else {
-        var msgClasses = "h3 text-center text-danger";
-    }
-    $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
-}
-
 const tbody = document.querySelector("#shopCartTBody"); //監聽toby
 const updateButton = document.querySelector('.update-box input[type="submit"]'); //監聽更新購物車按鈕
 const getPointButton = document.getElementById("getPointButton"); //監聽取得點數按鈕
 const pointInput = document.getElementById("pointInput"); //監聽顯示點數欄位
 const userPoint = document.querySelector('#discount-amount');
-
+//Header Token
+//const token = localStorage.getItem("Authorization_U");
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
 document.addEventListener("DOMContentLoaded", ()=>{   
     updateCart();
     updateTotalAmount();
@@ -154,7 +101,7 @@ function updateCart() {
     fetch(config.url + "/user/getShopCart", {
         method: "GET",
         headers: {
-            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts",
+            Authorization_U: token,
             "Content-Type": "application/json"
         }
     })
@@ -212,7 +159,7 @@ function deleteProduct(pdNo, row) {
     fetch(config.url + "/user/deleteProduct/" + pdNo, {
         method: "DELETE",
         headers: {
-            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts",
+            Authorization_U: token,
             "Content-Type": "application/json"
         }
     })
@@ -280,7 +227,7 @@ function updateCartItemQuantity(pdNo, quantity) {
     fetch(`${config.url}/user/addProduct?pdNo=${pdNo}&quantity=${quantity}`, {
         method: "POST",
         headers: {
-            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts",
+            Authorization_U: token,
             "Content-Type": "application/json"
         }
     })
@@ -334,7 +281,7 @@ function getUserPointAndUpdateUI() {
     fetch(config.url + "/user/profile", {
         method: "GET",
         headers: {
-            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts",
+            Authorization_U: token,
             "Content-Type": "application/json"
         }
     })
@@ -376,3 +323,58 @@ checkoutButton.addEventListener('click', function () {
 });
 
 
+
+$("#contactForm").validator().on("submit", function (event) {
+    if (event.isDefaultPrevented()) {
+        // handle the invalid form...
+        formError();
+        submitMSG(false, "Did you fill in the form properly?");
+    } else {
+        // everything looks good!
+        event.preventDefault();
+        submitForm();
+    }
+});
+
+function submitForm(){
+    // Initiate Variables With Form Content
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var msg_subject = $("#msg_subject").val();
+    var message = $("#message").val();
+
+
+    $.ajax({
+        type: "POST",
+        url: "php/form-process.php",
+        data: "name=" + name + "&email=" + email + "&msg_subject=" + msg_subject + "&message=" + message,
+        success : function(text){
+            if (text == "success"){
+                formSuccess();
+            } else {
+                formError();
+                submitMSG(false,text);
+            }
+        }
+    });
+}
+
+function formSuccess(){
+    $("#contactForm")[0].reset();
+    submitMSG(true, "Message Submitted!")
+}
+
+function formError(){
+    $("#contactForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+        $(this).removeClass();
+    });
+}
+
+function submitMSG(valid, msg){
+    if(valid){
+        var msgClasses = "h3 text-center tada animated text-success";
+    } else {
+        var msgClasses = "h3 text-center text-danger";
+    }
+    $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
+}
