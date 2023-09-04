@@ -1,6 +1,8 @@
 import config from "../../../../../ipconfig.js";
 let tdElements = [];
 window.addEventListener("load", () => {
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A"; // 使用Manager Token
     // 表格元素
     const calendarTable = document.getElementById('calendar');
     //error
@@ -64,7 +66,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/schedulePageGroomer", {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         })
@@ -182,7 +184,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/schedule?pgId=${pgId}&year=${yearParam}&month=${monthParam}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         }).then(res => res.json())
@@ -494,7 +496,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/modifySchedule", {
             method: "POST",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestData)
@@ -593,7 +595,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/insertNewSchedule", {
             method: 'POST',
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestData)
