@@ -2,7 +2,7 @@ import config from "/ipconfig.js";
 
 // 等待页面加载完毕后执行以下代码
 $(window).on("load", () => {
-  searchUsers();
+  searchUsers(searchURL());
 });
 
 $(document).ready(function () {
@@ -48,6 +48,10 @@ function listenSearchInput() {
     if (event.which === 13) {
       searchURL({ search: inputElement.value });
     }
+  });
+
+  $("#button-search").on("click", () => {
+    searchURL({ search: inputElement.value });
   });
 }
 
@@ -109,16 +113,16 @@ function searchURL({
   url.searchParams.append("sort", sort_selected);
 
   currentSearchURL = url;
-  return url;
+  searchUsers(currentSearchURL);
 }
 
-function searchUsers() {
+function searchUsers(currentSearchURL) {
   let token = localStorage.getItem("Authorization_M");
   // deleteTableContent();
 
   // 发送 HTTP GET 请求
   try {
-    const response = fetch(searchURL().toString(), {
+    const response = fetch(currentSearchURL.toString(), {
       method: "GET",
       headers: {
         Authorization_M: token,
@@ -131,8 +135,7 @@ function searchUsers() {
         var code = userData.code;
         if (code === 200) {
           // 成功处理响应
-          console.log(userData);
-          creatPageButton(userData.message);
+          createPageButtons(userData.message);
           createResultTable(userData.message);
         } else {
           // 处理响应错误
@@ -156,9 +159,9 @@ function searchUsers() {
 
 // -------------------HTML-------------------
 
-function creatPageButton(response) {
-  const paginationEl = document.getElementsByClassName("pagination");
-  const responsePageSize = response.size;
+function createPageButtons(response) {
+  const paginationElements = document.getElementsByClassName("pagination");
+  const responsePageSize = response.page;
   let html = "";
 
   // Create the "Previous" button
@@ -178,7 +181,10 @@ function creatPageButton(response) {
     `;
   }
 
-  paginationEl.innerHTML = html;
+  // Loop through all pagination elements and set their innerHTML
+  for (let i = 0; i < paginationElements.length; i++) {
+    paginationElements[i].innerHTML = html;
+  }
 }
 
 function createResultTable(response) {
@@ -258,14 +264,4 @@ function createResultTable(response) {
 
   // 将html添加到结果表格中
   resultTable_el.innerHTML = html;
-}
-
-function deleteTableContent() {
-  const tableContainer = document.getElementById("resultTable");
-  if (tableContainer) {
-    // 逐个删除子元素，直到容器为空
-    while (tableContainer.firstChild) {
-      tableContainer.removeChild(tableContainer.firstChild);
-    }
-  }
 }
