@@ -80,7 +80,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="basic-url"
+                  id="search"
                   aria-describedby="basic-addon3"
                 />
               </div>
@@ -117,7 +117,9 @@
                 <span style="padding: 0 10px; display: inline"
                   >一頁
                   <select name="page" id="page">
-                    <option value="1"></option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
                   </select>
                   筆
                 </span>
@@ -129,7 +131,7 @@
                       <th>會員編號</th>
                       <th>
                         <span>姓名　(暱稱)</span>
-                        <span id="nameOrder">
+                        <span class="orderBy" id="USER_NAME">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="1em"
@@ -145,7 +147,7 @@
                       <th style="width: 100px">點數</th>
                       <th>
                         <span>生日</span>
-                        <span id="birthdayOrder">
+                        <span class="orderBy" id="USER_BIRTHDAY">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="1em"
@@ -160,7 +162,7 @@
                       </th>
                       <th>
                         <span>創建時間</span>
-                        <span id="createdDayOrder">
+                        <span class="orderBy" id="USER_CREATED">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="1em"
@@ -176,7 +178,7 @@
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="resultTable">
                     <tr
                       data-toggle="collapse"
                       data-target="#collapseOne"
@@ -350,7 +352,10 @@
     <script src="/backend/pages/manageManager/manageUser/js/table-main.js"></script>
     <script src="/jquery/jquery-3.2.1.min.js"></script>
     <script src="/backend/js/app.js"></script>
-    <script src="/backend/pages/manageManager/manageUser/js/searchUser.js"></script>
+    <script
+      type="module"
+      src="/backend/pages/manageManager/manageUser/js/searchUser.js"
+    ></script>
     <script>
       function sweetAlert() {
         (async () => {

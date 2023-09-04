@@ -1,9 +1,5 @@
-import 
+(function ($) {
+  "use strict";
 
-(function($) {
-
-	"use strict";
-
-	$('[data-toggle="tooltip"]').tooltip()
-	
+  $('[data-toggle="tooltip"]').tooltip();
 })(jQuery);

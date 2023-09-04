@@ -9,15 +9,15 @@
   height: 100px;
 }
 
-.table>tbody>tr>td:nth-child(3){
+.table > tbody > tr > td:nth-child(3) {
   text-align: right;
   padding-right: 40px;
 }
 
-.table>:not(:last-child)>:last-child>*{
+.table > :not(:last-child) > :last-child > * {
   position: relative;
 }
-table>thead>tr>th span:nth-child(2){
+table > thead > tr > th span:nth-child(2) {
   position: absolute;
   padding: 0 30px;
   right: 10px;
