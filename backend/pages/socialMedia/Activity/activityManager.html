@@ -535,131 +535,128 @@
             <main class="content">
                 <div class="container-fluid p-0" id="mainContent">
                     <!--主要內容 起始-->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="col-sm-10 p-0 flex justify-content-lg-start justify-content-center">
-                                            <h2 class="ml-lg-2">活動管理</h2>
-                                        </div>
-                                        <div class="col-sm-2 p-0 flex justify-content-lg-end justify-content-center">
-                                            <a href="#addActivity" class="btn btn-success" data-bs-toggle="modal">
-                                                <i class="bi bi-plus-square"></i>
-                                                <span>新增活動</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="row mt-5">
+                        <div class="col-lg-11 p-0 justify-content-md-start justify-content-center">
+                            <h2 class="ml-lg-2">活動管理</h2>
+                        </div>
+                        <div class="col-lg-1 p-0 flex justify-content-md-end justify-content-center">
+                            <a href="#addActivity" class="btn btn-success" data-bs-toggle="modal">
+                                <i class="bi bi-plus-square"></i>
+                                <span>新增活動</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="table">
+                                    <thead class="thead">
+                                        <tr class="table-dark">
+                                            <th>活動Id</th>
+                                            <th>活動主題</th>
+                                            <th>活動內容</th>
+                                            <th>活動時間</th>
+                                            <th>活動限制人數</th>
+                                            <th>目前報名人數</th>
+                                            <th>報名開始時間</th>
+                                            <th>報名結束時間</th>
+                                            <th>活動狀態
+                                                <select>
+                                                    <option value="0">執行中</option>
+                                                    <option value="1">已取消</option>
+                                                </select>
+                                            </th>
+                                            <th>修改</th>
+                                            <th>取消</th>
+                                            <th>查詢</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody">
+                                        <tr>
+                                            <td>活動Id</td>
+                                            <td>活動主題</td>
+                                            <td>活動內容</td>
+                                            <td>活動時間</td>
+                                            <td>活動限制人數</td>
+                                            <td>目前報名人數</td>
+                                            <td>報名開始時間</td>
+                                            <td>報名結束時間</td>
+                                            <td>活動狀態</td>
+                                            <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
+                                                        class="bi bi-pencil-square"></i>
+                                            </td>
+                                            <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
+                                                        class="bi bi-trash3-fill"></i>
+                                            </td>
+                                            <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
+                                                        class="bi bi-eye-fill"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>活動Id</td>
+                                            <td>活動主題</td>
+                                            <td>活動內容</td>
+                                            <td>活動時間</td>
+                                            <td>活動限制人數</td>
+                                            <td>目前報名人數</td>
+                                            <td>報名開始時間</td>
+                                            <td>報名結束時間</td>
+                                            <td>活動狀態</td>
+                                            <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
+                                                        class="bi bi-pencil-square"></i>
+                                            </td>
+                                            <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
+                                                        class="bi bi-trash3-fill"></i>
+                                            </td>
+                                            <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
+                                                        class="bi bi-eye-fill"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>活動Id</td>
+                                            <td>活動主題</td>
+                                            <td>活動內容</td>
+                                            <td>活動時間</td>
+                                            <td>活動限制人數</td>
+                                            <td>目前報名人數</td>
+                                            <td>報名開始時間</td>
+                                            <td>報名結束時間</td>
+                                            <td>活動狀態</td>
+                                            <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
+                                                        class="bi bi-pencil-square"></i>
+                                            </td>
+                                            <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
+                                                        class="bi bi-trash3-fill"></i>
+                                            </td>
+                                            <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
+                                                        class="bi bi-eye-fill"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>活動Id</td>
+                                            <td>活動主題</td>
+                                            <td>活動內容</td>
+                                            <td>活動時間</td>
+                                            <td>活動限制人數</td>
+                                            <td>目前報名人數</td>
+                                            <td>報名開始時間</td>
+                                            <td>報名結束時間</td>
+                                            <td>活動狀態</td>
+                                            <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
+                                                        class="bi bi-pencil-square"></i>
+                                            </td>
+                                            <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
+                                                        class="bi bi-trash3-fill"></i>
+                                            </td>
+                                            <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
+                                                        class="bi bi-eye-fill"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>活動Id</th>
-                                <th>活動主題</th>
-                                <th>活動內容</th>
-                                <th>活動時間</th>
-                                <th>活動限制人數</th>
-                                <th>目前報名人數</th>
-                                <th>報名開始時間</th>
-                                <th>報名結束時間</th>
-                                <th>活動狀態
-                                    <select>
-                                        <option value="0">執行中</option>
-                                        <option value="1">已取消</option>
-                                    </select>
-                                </th>
-                                <th>修改</th>
-                                <th>取消</th>
-                                <th>查詢</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>活動Id</td>
-                                <td>活動主題</td>
-                                <td>活動內容</td>
-                                <td>活動時間</td>
-                                <td>活動限制人數</td>
-                                <td>目前報名人數</td>
-                                <td>報名開始時間</td>
-                                <td>報名結束時間</td>
-                                <td>活動狀態</td>
-                                <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
-                                            class="bi bi-pencil-square"></i>
-                                </td>
-                                <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
-                                            class="bi bi-trash3-fill"></i>
-                                </td>
-                                <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
-                                            class="bi bi-eye-fill"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>活動Id</td>
-                                <td>活動主題</td>
-                                <td>活動內容</td>
-                                <td>活動時間</td>
-                                <td>活動限制人數</td>
-                                <td>目前報名人數</td>
-                                <td>報名開始時間</td>
-                                <td>報名結束時間</td>
-                                <td>活動狀態</td>
-                                <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
-                                            class="bi bi-pencil-square"></i>
-                                </td>
-                                <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
-                                            class="bi bi-trash3-fill"></i>
-                                </td>
-                                <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
-                                            class="bi bi-eye-fill"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>活動Id</td>
-                                <td>活動主題</td>
-                                <td>活動內容</td>
-                                <td>活動時間</td>
-                                <td>活動限制人數</td>
-                                <td>目前報名人數</td>
-                                <td>報名開始時間</td>
-                                <td>報名結束時間</td>
-                                <td>活動狀態</td>
-                                <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
-                                            class="bi bi-pencil-square"></i>
-                                </td>
-                                <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
-                                            class="bi bi-trash3-fill"></i>
-                                </td>
-                                <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
-                                            class="bi bi-eye-fill"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>活動Id</td>
-                                <td>活動主題</td>
-                                <td>活動內容</td>
-                                <td>活動時間</td>
-                                <td>活動限制人數</td>
-                                <td>目前報名人數</td>
-                                <td>報名開始時間</td>
-                                <td>報名結束時間</td>
-                                <td>活動狀態</td>
-                                <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i
-                                            class="bi bi-pencil-square"></i>
-                                </td>
-                                <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
-                                            class="bi bi-trash3-fill"></i>
-                                </td>
-                                <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i
-                                            class="bi bi-eye-fill"></i>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
 
                     <!-- 新增活動 -->
                     <div id="addActivity" class="modal fade">
@@ -837,15 +834,7 @@
 
 
     <!--JS-->
-    <script>
-        $(document).ready(function () {
-            // Activate tooltip
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap5'
-        });
-    </script>
+    <script type="module" src="./js/activityManager.js"></script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -855,19 +844,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js"></script>
     <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <!-- Template Javascript -->
-    <script src="../../../../backend/js/main.js?t=2"></script>
-    <script src="./js/activityManager.js"></script>
     <!--sweetalert2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <!-- Flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    <script src="../../../../jquery/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 
 
     <!--Other-->
-    <script src="../../../js/app.js"></script>
+    <script src="../../../js/app.js"></script> 
+ 
+
+
 </body>
 
 </html>
