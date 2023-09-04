@@ -371,19 +371,17 @@ window.addEventListener("load", () => {
         data.forEach(petGroomer => {
             const row = document.createElement("tr");
             if(petGroomer.pgEmail===null){
-                petGroomer.pgEmail="無";
+                petGroomer.pgEmail="";
             }
             if(petGroomer.pgPh===null){
-                petGroomer.pgPh="無";
+                petGroomer.pgPh="";
             }
             if(petGroomer.pgAddress===null){
                 petGroomer.pgAddress="無";
             }
-            if(petGroomer.pgAddress===null){
-                petGroomer.pgAddress="無";
-            }
+            
             if(petGroomer.pgBirthday===null){
-                petGroomer.pgBirthday="無";
+                petGroomer.pgBirthday="";
             }
 
             row.innerHTML = `
