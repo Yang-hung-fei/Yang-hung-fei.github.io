@@ -1,6 +1,8 @@
 import config from "../../../../../ipconfig.js";
 let tdElements = [];
 window.addEventListener("load", () => {
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A"; // 使用Manager Token
     // 表格元素
     const calendarTable = document.getElementById('calendar');
     //error
@@ -64,7 +66,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/schedulePageGroomer", {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         })
@@ -102,17 +104,18 @@ window.addEventListener("load", () => {
                         pgNameSelect.dispatchEvent(new Event('change'));
                     }
                 } else if (data.code === 401) {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `身分${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "無權限",
+                        text: `身分${data.message}`
+                    });
                 } else {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "無美容師，無法查詢班表。",
+                        text: data.message
+                    });
+
                 }
             });
     }
@@ -181,7 +184,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/schedule?pgId=${pgId}&year=${yearParam}&month=${monthParam}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         }).then(res => res.json())
@@ -493,7 +496,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/modifySchedule", {
             method: "POST",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestData)
@@ -560,7 +563,7 @@ window.addEventListener("load", () => {
             checkbox.value = '1';
             checkbox.id = checkboxId;
             checkbox.classList.add('form-check-input');
-
+           
             timeSlot.appendChild(timeLabel);
             timeSlot.appendChild(checkbox);
 
@@ -592,7 +595,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/insertNewSchedule", {
             method: 'POST',
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestData)

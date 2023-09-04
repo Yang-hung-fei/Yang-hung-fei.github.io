@@ -1,6 +1,7 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A"; // 使用Manager Token
     const searchInput = document.getElementById("search");
     const limitSelect = document.querySelector("#limit");
     const sortSelect = document.querySelector("#sort");
@@ -13,18 +14,230 @@ window.addEventListener("load", () => {
     //錯誤顯示用
     const errorDiv = document.getElementById("error");
 
-    //存放資訊
-    const manNameSelect = document.getElementById('manName');
-    const manIdInput = document.getElementById('manId');
-    //進頁面先撈
-    fetchMan();
+
+    //新增按鈕
+    const insertNewPgBtn = document.getElementById('insertNewPgBtn');
+
+    insertNewPgBtn.addEventListener('click', function () {
+        insertNewPg();
+    });
+
+    //------新增------//
+    function insertNewPg() {
+
+        Swal.fire({
+            title: `新增美容師`,
+            html:
+                `
+                <div class="row d-flex justify-content-center" style="color: #fff; font-family: cwTeXYen" >
+                    <div class="col-md-12">
+                        <form>
+                        <p for="manName" class="form-label" style="margin-left: 0px;font-size: 20px; color:#fff;">1.選擇管理員</p><br>
+								<select id="manName" name="manName" class="form-select"
+									style="max-width: 120px; min-width:290px; margin-left: 0px; margin-bottom: 20px; margin-top: 0px; text-align:left;"></select>
+								<p style="color: yellow;font-size: 14px;">只會列出擁有美容師個人管理權限之管理員。<br>如需將管理員新增此權限請至管理員管理。</p>
+								<!-- 發送新增請求抓Man值-->
+								<div style="display: flex; align-items: center;">
+									<input id="manId" name="manId" value="" class="form-control" readonly hidden
+										style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
+								</div>
+                                
+                                <p class="form-label" style="margin-left: 0px;font-size: 20px; color:#fff;">2.請填寫基本資料</p><br>
+									<span style="font-size: 14px; color:yellow; font-family: cwTeXYen"
+										padding-bottom: 20px;>除了"姓名"以外，如不須新增的內容可留空</span><br><br>
+									<label for="insertPgName" style="font-size: 18px;">美容師姓名</label>
+                                    <span style="font-size: 14px; color:yellow; font-family: cwTeXYen">美容師姓名不可留白</span>
+									<input type="text" id="insertPgName" class="form-control" value="" /><br>
+									<label for="insertPgGender" style="font-size: 18px;">美容師性別</label>
+									<select id="insertPgGender" class="form-control">
+										<option value="1">男</option>
+										<option value="2">女</option>
+									</select>
+
+									<label for="insertPgEmail" style="font-size: 18px; margin-top:10px;">Email</label>
+									<label id="insertPgEmailCheck" style="color:yellow; font-size: 12px;"></label>
+									<input type="email" id="insertPgEmail" class="form-control" value=""><br>
+
+									<label for="insertPgPh" style="font-size: 18px;">手機號碼</label>
+									<label id="insertPhCheck" for="phCheck" style="color:yellow; font-size: 12px;"></label>
+									<input type="tel" pattern="[0-9]{10}" title="請輸入有效的手機號碼（10位數字）" id="insertPgPh"
+										class="form-control" value=""><br>
+
+									<label for="insertPgAddress" style="font-size: 18px;">地址</label>
+									<input type="text" id="insertPgAddress" class="form-control" value=""><br>
+
+									<label for="insertPgBirthday" style="font-size: 18px;">生日</label>
+									<input type="text" class="form-control" id="insertPgBirthday" name="dateInput" placeholder="請點擊選擇日期"
+										style="width:100%;"><br>
+
+									<label for="insertPgPic" style="font-size: 18px;">上傳圖片</label>
+									<input type="file" id="insertPgPic" accept="image/*" class="form-control" />
+                                    <label for="insertPreviewImage" style="font-size: 18px; margin-top:20px;">預覽</label>
+                        <img id="insertPreviewImage" src="" alt="尚未上傳照片" class="modifyPic" style="display:none; max-width:277px;max-height:277px;"><br>
+                        <form> 
+                    </div>
+                 </div>
+                 `,
+            didRender: function () {
+                //存放資訊
+                const manNameSelect = document.getElementById('manName');
+                const manIdInput = document.getElementById('manId');
+
+                fetchMan(manNameSelect,manIdInput);
+
+                insertPgBirthday.flatpickr({
+                    dateFormat: "Y-m-d",
+                    onChange: function (selectedDates, dateStr, instance) {
+                        const selectedDate = selectedDates[0];
+                        const formattedDate = formatDate(selectedDate);
+                        insertPgBirthday.value = formattedDate;
+                    },
+                });
+                const insertPgPh = document.getElementById("insertPgPh");
+                const insertPgEmail = document.getElementById("insertPgEmail");
+
+                insertPgPh.addEventListener("blur", function () {
+                    // 手機號碼格式驗證
+                    const phoneNumber = insertPgPh.value;
+                    const phoneNumberPattern = /^[0-9]{10}$/; // 台灣10碼
+                    if (!phoneNumberPattern.test(phoneNumber)) {
+                        const insertPhCheck = document.getElementById("insertPhCheck");
+                        insertPhCheck.innerText = '手機號碼格式錯誤 請輸入有效的手機號碼（10位數字）';
+                    } else {
+                        const insertPhCheck = document.getElementById("insertPhCheck");
+                        insertPhCheck.innerText = '';
+                    }
+                });
+
+                insertPgEmail.addEventListener("blur", function () {
+                    // Email格式驗證
+                    const email = insertPgEmail.value;
+                    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                    if (!emailPattern.test(email)) {
+                        const insertPgEmailCheck = document.getElementById("insertPgEmailCheck");
+                        insertPgEmailCheck.innerText = 'Email格式錯誤 請輸入有效的Email地址';
+                    } else {
+                        const insertPgEmailCheck = document.getElementById("insertPgEmailCheck");
+                        insertPgEmailCheck.innerText = '';
+                    }
+                });
+
+                const insertPgPic = document.getElementById("insertPgPic");
+                const insertPreviewImage = document.getElementById("insertPreviewImage");
+
+                insertPgPic.addEventListener("change", function () {
+                    // 當選擇了新圖片時觸發事件
+                    const file = insertPgPic.files[0];
+                    if (file) {
+                        // 讀取選擇的圖片並顯示預覽
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            insertPreviewImage.src = e.target.result;
+                            insertPreviewImage.style.display = "block";
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+            },
+            showCancelButton: true,
+            confirmButtonText: '確認',
+            confirmButtonColor: '#8f88f8',
+            cancelButtonText: '取消',
+            background: 'rgba(0, 50, 129, 0.79)',
+            width: '600px',
+            preConfirm: () => {
+                // 創建FormData對象，用於包裝要上傳的文件
+                const formData = new FormData();
+                const insertPgPic = document.getElementById("insertPgPic");
+                const selectedFile = insertPgPic.files[0];
+                if (selectedFile === undefined || selectedFile === "" || selectedFile === null) {
+                    formData.append("pgPic", null);
+                } else {
+                    formData.append("pgPic", selectedFile);
+                }
+                const manIdInput = document.getElementById('manId');
+                const insertPgName = document.getElementById("insertPgName");
+                const insertPgGender = document.getElementById("insertPgGender");
+                const insertPgEmail = document.getElementById("insertPgEmail");
+                const insertPgPh = document.getElementById("insertPgPh");
+                const insertPgAddress = document.getElementById("insertPgAddress");
+                const insertPgBirthday = document.getElementById("insertPgBirthday");
+
+                // 將空值替換為null
+                const sanitizedNewPgEmail = insertPgEmail || null;
+                const sanitizedNewPgPh = insertPgPh || null;
+                const sanitizedNewPgAddress = insertPgAddress || null;
+                const sanitizedDateInput = insertPgBirthday || null;
+
+                // 添加其他表單數據到FormData對象
+                console.log(insertPgName.value);
+                console.log(insertPgGender.value);
+                console.log(sanitizedNewPgEmail.value);
+                console.log(sanitizedNewPgPh.value);
+                console.log(sanitizedNewPgAddress.value);
+                console.log(sanitizedDateInput.value);
+                console.log(formData.get('pgPic'));
+
+                formData.append("manId", manIdInput.value); // manId值
+                formData.append("pgName", insertPgName.value); //美容師姓名
+                formData.append("pgGender", insertPgGender.value); // 性別值
+                formData.append("pgEmail", sanitizedNewPgEmail.value); // Email值
+                formData.append("pgPh", sanitizedNewPgPh.value); // 手機號碼值
+                formData.append("pgAddress", sanitizedNewPgAddress.value); // 地址值
+                formData.append("pgBirthday", sanitizedDateInput.value); // 生日值
+
+                return formData;
+            },
+            didClose: () => {
+                // 當 Swal 關閉時，手動清除驗證訊息
+                Swal.update({
+                    didRender: () => {
+                        Swal.hideValidationMessage(); // 清除驗證訊息
+                    }
+                });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const formData = result.value;
+                // 送出修改，TOKEN要改
+                fetch(config.url + "/manager/commitInsertNewGroomer", {
+                    method: "POST",
+                    headers: {
+                        Authorization_M: token
+                    },
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code === 200) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "新增成功",
+                                text: data.message
+                            });
+                            let searchString = searchInput.value;
+                            fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage, searchString);
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "新增失敗",
+                                text: data.message
+                            });
+                        }
+                    });
+            }
+
+        });
+    }
+
 
     //撈管理員資料(token要改)
-    function fetchMan() {
+    function fetchMan(manNameSelect,manIdInput){
         fetch(config.url + "/manager/insertNewGroomer", {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         })
@@ -33,7 +246,7 @@ window.addEventListener("load", () => {
                 if (data.code === 200) {
                     const managers = data.message;
 
-                    // 填充美容師下拉選單
+                    // 填充下拉選單
                     managers.forEach(man => {
                         const option = document.createElement('option');
                         option.value = man.managerId;
@@ -65,14 +278,7 @@ window.addEventListener("load", () => {
 
 
 
-
-
-
-
     //-------------------------------------------TABLE-------------------------------------------
-
-
-
 
 
     // 純顯示筆數用
@@ -116,7 +322,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/getAllGroomerListSort?limit=${itemsPerPage}&sort=${sort}&offset=${offset}&orderBy=${orderBy}&search=${searchString}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A", // 使用Manager Token
+                Authorization_M: token, // 使用Manager Token
                 "Content-Type": "application/json"
             }
         })
@@ -165,6 +371,19 @@ window.addEventListener("load", () => {
 
         data.forEach(petGroomer => {
             const row = document.createElement("tr");
+            if(petGroomer.pgEmail===null){
+                petGroomer.pgEmail="";
+            }
+            if(petGroomer.pgPh===null){
+                petGroomer.pgPh="";
+            }
+            if(petGroomer.pgAddress===null){
+                petGroomer.pgAddress="無";
+            }
+            
+            if(petGroomer.pgBirthday===null){
+                petGroomer.pgBirthday="";
+            }
 
             row.innerHTML = `
             <td class="text-center" name="pgId" value="${petGroomer.pgId}">${petGroomer.pgId}</td>
@@ -249,7 +468,7 @@ window.addEventListener("load", () => {
                     
                         <form>
                         <span for="pgId" style="font-size: 18px;">美容師ID:${pgId}</span><br><br>
-                        <span  style="font-size: 14px; color:#ddd; font-family: cwTeXYen" padding-bottom: 20px;>不修改的內容請留空</span><br><br>
+                        <span  style="font-size: 14px; font-family: cwTeXYen; padding-bottom: 20px; color:yellow;">不修改的內容可為空</span><br><br>
                         <label for="newPgName" style="font-size: 18px;">美容師姓名</label>               
                         <input type="text" id="newPgName" class="form-control" value="${pgName}"  /><br>
                         <label for="newPgGender" style="font-size: 18px;">美容師性別</label>  
@@ -338,7 +557,7 @@ window.addEventListener("load", () => {
                         reader.readAsDataURL(file);
                     }
                 });
-                
+
             },
             showCancelButton: true,
             confirmButtonText: '確認',
@@ -370,16 +589,6 @@ window.addEventListener("load", () => {
                 const sanitizedNewPgAddress = newPgAddress || null;
                 const sanitizedDateInput = dateInput || null;
 
-                // 添加其他表單數據到FormData對象
-                console.log(manId);
-                console.log(newPgName.value);
-                console.log(newPgGender.value);
-                console.log(sanitizedNewPgEmail.value);
-                console.log(sanitizedNewPgPh.value);
-                console.log(sanitizedNewPgAddress.value);
-                console.log(sanitizedDateInput.value);
-                console.log(formData.get('pgPic'));
-
                 formData.append("pgId", pgId); // manId值
                 formData.append("manId", manId); // manId值
                 formData.append("pgName", newPgName.value); //美容師姓名
@@ -406,7 +615,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/manager/updateGroomerByPgId", {
                     method: "POST",
                     headers: {
-                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks"
+                        Authorization_M: token
                     },
                     body: formData,
                 })

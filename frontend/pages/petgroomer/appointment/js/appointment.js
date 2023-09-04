@@ -1,9 +1,9 @@
 import config from "../../../../../ipconfig.js";
-
-/*4. 當使用者點選中一個radio ，根據使用者點選的是第幾個RADIO，出現標籤LABLE(可以不須動態生成)顯示使用者選的是xx:xx~xx:xx時段(假如使用者點第3個radio，則代表2:00~3:00)。
-5. 該LABLE標籤旁邊有一個INPUT 看不到的，value會根據使用者點選哪個改變。
-6. 該INPUT標籤的VALUE依據使用者點選第幾個RADIO。預設為24個數字0。(動態根據使用者點選的RADIO標籤是第幾個就將value 的第幾位數變為1。如使用者又點選其他的 則再將全部變為0並對應位數 */
 window.addEventListener("load", () => {
+    //Header Token
+    // const token = localStorage.getItem("Authorization_U");
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A";
+
 
     const pgNameSelect = document.getElementById('pgName');
     const pgPic = document.getElementById('pgPic');
@@ -15,72 +15,71 @@ window.addEventListener("load", () => {
     const dateInput = document.getElementById('dateInput');
     //pgsId欄位。
     const pgsIdLabel = document.getElementById('pgsIdLabel');
-    //Header Token
-    const token = localStorage.getItem("Authorization_U");
+
     // 時段選項容器
     const timeSlotsContainer = document.getElementById('timeSlotsContainer');
-    
+
     const pgIdInput = document.getElementById('pgId');
 
     fetchGroomer();
 
     //撈使用者/美容師資料(token要改)
-    function fetchGroomer(){
-    fetch(config.url + "/user/appointmentPage", {
-        method: "GET",
-        headers: {
-            Authorization_U: token,
-            "Content-Type": "application/json"
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.code === 200) {
-                const groomers = data.message.rs;
-
-                // 填充美容師下拉選單
-                groomers.forEach(groomer => {
-                    const option = document.createElement('option');
-                    option.value = groomer.pgId;
-                    option.textContent = groomer.pgName;
-                    pgNameSelect.appendChild(option);
-                });
-
-                // 美容師選擇事件
-                pgNameSelect.addEventListener('change', function () {
-                    timeValueInput.value = '000000000000000000000000';
-                    pgPic.style.display = 'inline';
-                    const selectedGroomer = groomers.find(groomer => groomer.pgId == this.value);
-                    pgNameShow.textContent = selectedGroomer.pgName;
-                    pgPic.src = '';
-
-                    if (selectedGroomer) {
-                        const buttons = document.querySelectorAll('.time-slot-button');
-                        buttons.forEach(button => {
-                            button.classList.remove('time-slot-button-selected');
-
-                        });
-                        pgGender.textContent = selectedGroomer.pgGender;
-                        pgPic.src = 'data:image/png;base64,' + selectedGroomer.pgPic;
-                        pgIdInput.value=selectedGroomer.pgId;
-                        fetchScheduleForDate(selectedGroomer.pgId);
-                        
-                    }
-                    // 重置 flatpickr 為尚未選擇的狀態
-                    dateInput._flatpickr.clear();
-                });
-
-                // 直接選擇第一個選項並觸發 change 事件
-                const firstOption = pgNameSelect.querySelector('option');
-                if (firstOption) {
-                    firstOption.selected = true;
-                    pgNameSelect.dispatchEvent(new Event('change'));
-                }
-                // 設定使用者名稱和電話
-                userNameInput.value = data.message.userName;
-                userPhInput.value = data.message.userPh;
+    function fetchGroomer() {
+        fetch(config.url + "/user/appointmentPage", {
+            method: "GET",
+            headers: {
+                Authorization_U: token,
+                "Content-Type": "application/json"
             }
-        });
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    const groomers = data.message.rs;
+
+                    // 填充美容師下拉選單
+                    groomers.forEach(groomer => {
+                        const option = document.createElement('option');
+                        option.value = groomer.pgId;
+                        option.textContent = groomer.pgName;
+                        pgNameSelect.appendChild(option);
+                    });
+
+                    // 美容師選擇事件
+                    pgNameSelect.addEventListener('change', function () {
+                        timeValueInput.value = '000000000000000000000000';
+                        pgPic.style.display = 'inline';
+                        const selectedGroomer = groomers.find(groomer => groomer.pgId == this.value);
+                        pgNameShow.textContent = selectedGroomer.pgName;
+                        pgPic.src = '';
+
+                        if (selectedGroomer) {
+                            const buttons = document.querySelectorAll('.time-slot-button');
+                            buttons.forEach(button => {
+                                button.classList.remove('time-slot-button-selected');
+
+                            });
+                            pgGender.textContent = selectedGroomer.pgGender;
+                            pgPic.src = 'data:image/png;base64,' + selectedGroomer.pgPic;
+                            pgIdInput.value = selectedGroomer.pgId;
+                            fetchScheduleForDate(selectedGroomer.pgId);
+
+                        }
+                        // 重置 flatpickr 為尚未選擇的狀態
+                        dateInput._flatpickr.clear();
+                    });
+
+                    // 直接選擇第一個選項並觸發 change 事件
+                    const firstOption = pgNameSelect.querySelector('option');
+                    if (firstOption) {
+                        firstOption.selected = true;
+                        pgNameSelect.dispatchEvent(new Event('change'));
+                    }
+                    // 設定使用者名稱和電話
+                    userNameInput.value = data.message.userName;
+                    userPhInput.value = data.message.userPh;
+                }
+            });
     }
     // 請求 /user/pgScheduleForA API (token要改)
 
@@ -120,7 +119,7 @@ window.addEventListener("load", () => {
                             }
                         },
                     });
-                }else{
+                } else {
                     Swal.fire({
                         icon: "error",
                         title: data.message
@@ -217,8 +216,8 @@ window.addEventListener("load", () => {
             pgaOption: selectedOptionValue,// 預約選項
             pgaNotes: pgaNotesTextarea.value, // 預約文字
             pgaPhone: userPhInput.value,// 預約電話 (Not Null)
-            pgaState:0// 預約單狀態 (0:未完成 / 1:完成訂單 / 2:取消, 預設: 0)
-        }; 
+            pgaState: 0// 預約單狀態 (0:未完成 / 1:完成訂單 / 2:取消, 預設: 0)
+        };
 
         insertNewAppointment(appointmentData);
 
@@ -240,14 +239,14 @@ window.addEventListener("load", () => {
                         icon: 'success',
                         title: '預約成功!',
                         text: `${data.message}`,
-                      })
+                    })
                     fetchGroomer();
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: '預約失敗!',
                         text: `${data.message}`,
-                      })
+                    })
                     fetchGroomer();
                 }
             });
@@ -260,7 +259,7 @@ window.addEventListener("load", () => {
                 icon: 'error',
                 title: '請至少選擇一種方案！',
                 text: '方案尚未選擇',
-              })
+            })
             return false;
         }
         return true;
@@ -272,7 +271,7 @@ window.addEventListener("load", () => {
                 icon: 'error',
                 title: '請選擇日期！',
                 text: '預約日期尚未選擇',
-              })
+            })
             return false;
         }
         return true;
@@ -286,7 +285,7 @@ window.addEventListener("load", () => {
                 icon: 'error',
                 title: '請選擇時段！',
                 text: '預約時段尚未選擇',
-              })
+            })
             return false;
         }
         return true;
@@ -299,7 +298,7 @@ window.addEventListener("load", () => {
                 icon: 'error',
                 title: '請輸入有效的手機號碼！',
                 text: '手機號碼格式有誤',
-              })
+            })
             return false;
         }
         return true;

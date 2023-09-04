@@ -1,6 +1,9 @@
 import config from "../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    const token = localStorage.getItem("Authorization_U");
+    //Header Token
+    // const token = localStorage.getItem("Authorization_U");
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A";
+
 
     const limitSelect = document.querySelector("#limit");
     const sortSelect = document.querySelector("#sort");
@@ -31,7 +34,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/appointmentList?limit=${itemsPerPage}&sort=${sort}&offset=${offset}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
+                Authorization_U: token,
                 "Content-Type": "application/json"
             }
         })
@@ -181,7 +184,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/user/CompleteOrCancel", {
             method: "POST",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
+                Authorization_U: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestBody)
@@ -256,7 +259,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/user/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
+                Authorization_U: token,
                 "Content-Type": "application/json"
             }
         })
@@ -406,7 +409,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/user/modifyAppointment", {
                     method: "POST",
                     headers: {
-                        Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTAxNDU4fQ.Tt0YmYLBpItP3tFStWQ9nvTQfyq5CqqJdKXWstkUF68",
+                        Authorization_U: token,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(editedData)

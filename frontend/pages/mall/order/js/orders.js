@@ -2,6 +2,10 @@ import config from "../../../../../ipconfig.js";
 import { updateDiscountAmount } from './discount.js';
 
 document.addEventListener("DOMContentLoaded", () => {
+    //Header Token
+    //const token = localStorage.getItem("Authorization_U");
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
+
     // 從localStorage中獲取折扣金額
     const storedCouponDiscount = sessionStorage.getItem('couponDiscount');
     const couponDiscount = parseFloat(storedCouponDiscount || '0'); // 預設為0
@@ -38,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(config.url + "/user/getShopCart", {
         method: "GET",
         headers: {
-            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts",
+            Authorization_U: token,
             "Content-Type": "application/json"
         }
     })
@@ -82,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(config.url + "/user/profile", {
         method: "GET",
         headers: {
-            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts",
+            Authorization_U: token,
             "Content-Type": "application/json"
         }
     })
@@ -206,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     fetch(config.url + "/user/order", {
                         method: "POST",
                         headers: {
-                            Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts",
+                            Authorization_U: token,
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify(postData)
@@ -214,19 +218,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     .then(response => response.json())
                     .then(data => {
                         // 處理後端 API 的回應
-                        console.log(data.message);
-                        // Swal.fire(data.message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.message,
+                          })
                         // 如果訂單成功，再發送刪除購物車的請求
                         if (data.message === "新增成功") {
                             fetch(config.url + "/user/deleteShopCart", {
                                 method: "DELETE",
                                 headers: {
-                                    Authorization_U: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts"
+                                    Authorization_U: token
                                 }
                             })
                             .then(response => response.json())
                             .then(data => {
                                 console.log(data.message); // 可以根據需要進行處理
+                                Swal.fire("表單新增成功前往付款!");
                             })
                             .catch(error => {
                                 console.error('Error deleting shopping cart:', error);
@@ -241,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // 使用者按下取消按鈕，不執行請求
                     console.log('使用者取消了訂單提交。');
                 }
-                console.log("表單驗證通過，執行提交操作。");
+                // console.log("表單驗證通過，執行提交操作。");
             }
             
         });
