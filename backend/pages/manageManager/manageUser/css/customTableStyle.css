@@ -3,7 +3,8 @@
 }
 
 .userPic img {
-  background-color: aqua;
+  background-color: rgb(243, 243, 243);
+  border: 3px #fff solid;
   border-radius: 100%;
   width: 100px;
   height: 100px;
