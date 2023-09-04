@@ -2,7 +2,7 @@ import config from "/ipconfig.js";
 
 // 等待页面加载完毕后执行以下代码
 $(window).on("load", () => {
-  searchUsers({ orderBy: "USER_NAME", page: 1, size: 5, sort: "asc" });
+  searchUsers();
 });
 
 $(document).ready(function () {
@@ -15,11 +15,10 @@ $(document).ready(function () {
 
 function listenPageLink() {
   $(".page-link").on("click", () => {
-    // Add click event listeners to the page links
     for (let i = 0; i < this.length; i++) {
       this[i].addEventListener("click", () => {
-        currentPage = i + 1; // Adjust for 1-based index
-        return currentPage;
+        currentPage = i + 1;
+        searchURL({ page: currentPage });
       });
     }
   });
@@ -27,52 +26,61 @@ function listenPageLink() {
 
 function listenSearchInput() {
   var inputElement = $("#search");
-  // 监听输入框的键盘按键事件
   inputElement.keypress(function (event) {
-    // 判断按下的键是否是Enter键，其键码为13
     if (event.which === 13) {
-      // 在这里执行你的操作，例如触发表单提交或执行搜索等
-      // 这里只是一个示例，你可以根据实际需求来处理
+      searchURL({ search: inputElement.value });
     }
   });
 }
 
 function listenOrderBy() {
-  $(".orderBy").on("click", () => {
-    toggleSortOrder();
+  $(".orderBy").on("click", (event) => {
+    const newOrderBy = $(event.currentTarget).attr("dataId");
+    toggleSortOrder(newOrderBy);
+  });
+
+  $(".sort").on("click", (event) => {
+    event.stopPropagation();
+    const newOrderBy = $(event.currentTarget)
+      .closest(".orderBy")
+      .attr("dataId");
+    toggleSortOrder(newOrderBy);
   });
 }
 
-let sortOrder = {}; // 用对象来保存不同排序条件的排序顺序
-function toggleSortOrder(orderId) {
-  if (!sortOrder[orderId]) {
-    sortOrder[orderId] = "asc"; // 如果排序顺序不存在，设置为升序
-  } else {
-    sortOrder[orderId] = sortOrder[orderId] === "asc" ? "desc" : "asc"; // 切换排序顺序
-  }
-
-  // 根据排序顺序修改 SVG 图标（你需要根据实际图标路径数据来设置）
-  const orderElement = document.getElementById(orderId);
-  orderElement.innerHTML =
-    sortOrder[orderId] === "asc"
-      ? '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!-- 升序图标路径数据 --></svg>'
-      : '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!-- 降序图标路径数据 --></svg>';
-
-  // 在这里添加排序逻辑，根据当前排序条件和排序顺序对表格数据进行排序
-  // 例如，可以使用数组的 sort 方法来排序表格数据
-
-  // 排序完成后，更新表格内容
+function toggleSortOrder(orderBy) {
+  const currentOrderBy = currentSearchURL.searchParams.get("orderBy");
+  const currentSort = currentSearchURL.searchParams.get("sort");
+  const newSort =
+    orderBy === currentOrderBy
+      ? currentSort === "asc"
+        ? "desc"
+        : "asc"
+      : "asc";
+  searchURL({ orderBy, sort: newSort });
 }
 
 // -------------------Fetch-------------------
 
-function searchURL() {
+let currentSearchURL;
+function searchURL({
+  orderBy = "USER_NAME",
+  page = 1,
+  size = 5,
+  sort = "asc",
+} = {}) {
   // 构建请求 URL，包括请求参数
   const search_inputed = document.getElementById("search").value;
-  const page_selected = listenPageLink(); // 當前頁碼
-  const itemsPerPage = 5; // 每頁顯示的項目數
-  const orderBy_selected = listenOrderBy();
-  const sort_selected = "asc";
+  const page_selected = page; // 使用传递的参数值或默认值
+  const itemsPerPage = size; // 使用传递的参数值或默认值
+  const orderBy_selected = orderBy; // 使用传递的参数值或默认值
+  const sort_selected = sort; // 使用传递的参数值或默认值
+
+  console.log("search_inputed:", search_inputed);
+  console.log("page_selected:", page_selected);
+  console.log("itemsPerPage:", itemsPerPage);
+  console.log("orderBy_selected:", orderBy_selected);
+  console.log("sort_selected:", sort_selected);
 
   const url = new URL(config.url + "/manager/users");
   url.searchParams.append("search", search_inputed);
@@ -81,6 +89,7 @@ function searchURL() {
   url.searchParams.append("orderBy", orderBy_selected);
   url.searchParams.append("sort", sort_selected);
 
+  currentSearchURL = url;
   return url;
 }
 
