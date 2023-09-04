@@ -7,6 +7,7 @@ $(window).on("load", () => {
 
 $(document).ready(function () {
   listenPageLink();
+  listenItemsPerPage();
   listenOrderBy();
   listenSearchInput();
 });
@@ -31,6 +32,13 @@ function listenPageLink() {
 
     // 执行你的其他操作，例如更新 URL
     searchURL({ page: currentPage });
+  });
+}
+
+function listenItemsPerPage() {
+  $("#page").on("change", function () {
+    const selectedValue = $(this).val();
+    searchURL({ size: selectedValue });
   });
 }
 
