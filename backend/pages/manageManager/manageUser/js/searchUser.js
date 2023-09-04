@@ -14,13 +14,23 @@ $(document).ready(function () {
 // -------------------DataListener-------------------
 
 function listenPageLink() {
-  $(".page-link").on("click", () => {
-    for (let i = 0; i < this.length; i++) {
-      this[i].addEventListener("click", () => {
-        currentPage = i + 1;
-        searchURL({ page: currentPage });
-      });
+  const pageLinks = $(".pagination .page-link");
+
+  pageLinks.on("click", function () {
+    const pageIndex = $(this).parent().index();
+    const pageCount = pageLinks.length - 3; // 减去首个和最后两个箭头按钮
+    let currentPage;
+
+    if (pageIndex === 0) {
+      currentPage = 1; // 第一个 .page-link 设置为1
+    } else if (pageIndex === pageCount + 2) {
+      currentPage = pageCount; // 最后一个 .page-link 设置为 pageCount
+    } else {
+      currentPage = pageIndex;
     }
+
+    // 执行你的其他操作，例如更新 URL
+    searchURL({ page: currentPage });
   });
 }
 
