@@ -1,29 +1,119 @@
 import config from "../../../../../ipconfig.js";
 const hostUrl = config.url;
 const AcUrl = "/manager/activity";
-const activityId = "1";
 const createAcUrl = hostUrl + AcUrl;
-const updateAcUrl = hostUrl + AcUrl + "/" + activityId;
-const cancelAcurl = hostUrl + AcUrl + "/cancel/" + activityId;
-const getAcDetailsUrl = hostUrl + AcUrl + "/" + activityId;
+const updateAcUrl = hostUrl + AcUrl;
+const cancelAcurl = hostUrl + AcUrl + "/cancel";
+const getAcDetailsUrl = hostUrl + AcUrl;
 const getAllAcUrl = hostUrl + AcUrl + "/all";
 const activityManToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MDA2OTU2fQ.6mu7dwpu36S8JctWsYJpHxMrbHBGY4TGPND4EXH4098";
 
 
-//建立活動
+// ------------------------- 建立活動  ------------------------- //
+function createAc() {
+    let postData = {
+        "title": "活動建立測試",
+        "content": "測試第28次",
+        "startTime": "2023-08-29",
+        "endTime": "2023-09-19",
+        "activityTime": "2023-09-12 09:30:00",
+        "enrollLimit": 40
+    };
+
+    fetch(createAcUrl, {
+        method: "POST",
+        headers: {
+            Authorization_M: activityManToken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(postData),
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            console.log(data.message);
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+// createAc();
+// ------------------------- 取消活動  ------------------------- //
+function cancelAc() {
+    let activityId = 28;
+    fetch(cancelAcurl + `/${activityId}`, {
+        method: "PUT",
+        headers: {
+            Authorization_M: activityManToken,
+            "Content-Type": "application/json",
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            console.log(data.message);
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+}
+// cancelAc();
 
 
+// ------------------------- 更新活動  ------------------------- //
+function updateAc() {
+    let activityId = 28;
+    let updateData = {
+        "title": "活動建立測試",
+        "content": "測試第28次",
+        "startTime": "2023-08-29",
+        "endTime": "2023-09-19",
+        "activityTime": "2023-09-12 09:30:00",
+        "enrollLimit": 30
+    };
+    fetch(updateAcUrl + `/${activityId}`, {
+        method: "PUT",
+        headers: {
+            Authorization_M: activityManToken,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData)
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            console.log(data.message);
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+}
+// updateAc();
 
-//取消活動
+// ------------------------- 查詢單一活動  ------------------------- //
+function getAcDetails() {
+    let activityId = 28;
+    fetch(getAcDetailsUrl + `/${activityId}`, {
+        method: "GET",
+        headers: {
+            Authorization_M: activityManToken,
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            console.log(data.message);
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
 
+getAcDetails();
 
-// function createAc(){
-//     fetch(createAcUrl)
-// }
-//更新活動
-
-//查詢活動列表
-
+// ------------------------- 查詢活動  ------------------------- //
 function getAllAc() {
 
     fetch(getAllAcUrl, {
@@ -56,15 +146,9 @@ function getAllAc() {
         });
 }
 
-getAllAc();
-//https://www.youtube.com/watch?v=oGzVgN70wg0&t=123s&ab_channel=SteveGriffith-Prof3ssorSt3v3
-//查詢單一活動資訊
+// getAllAc();
 
-
-
-
-/************************ 建立分頁************************/
-
+// ------------------------- 建立分頁  ------------------------- //
 // 更新資料表格和分頁
 function createDataTable(data) {
     // // 選擇分頁元素
@@ -125,4 +209,4 @@ function createDataTable(data) {
     }
 
 }
-/************************ 建立分頁************************/
+// ------------------------- 改變分頁  ------------------------- //
