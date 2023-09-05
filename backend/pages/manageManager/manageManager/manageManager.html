@@ -67,7 +67,7 @@
               <h5 class="card-title mb-0">管理員查詢</h5>
               <button
                 onclick="sweetAlert()"
-                class="btn btn-outline-dark btn-sm"
+      
               >
                 新增管理員
               </button>
@@ -82,7 +82,7 @@
                 >
               </div>
               <input
-                type="text"
+                type="text" class="form-control form-control-sm"
                 class="form-control"
                 id="search"
                 aria-describedby="basic-addon3"
@@ -153,7 +153,7 @@
                     </div>
                   </td>
                   <td>
-                    <buttom class="btn btn-link btn-sm" style="width: 100%"
+                   style="width: 100%"
                       >編輯</buttom
                     >
                   </td>
@@ -171,7 +171,7 @@
                     </div>
                   </td>
                   <td>
-                    <buttom class="btn btn-link btn-sm" style="width: 100%"
+                   style="width: 100%"
                       >編輯</buttom
                     >
                   </td>
@@ -189,7 +189,7 @@
                     </div>
                   </td>
                   <td>
-                    <buttom class="btn btn-link btn-sm" style="width: 100%"
+                   style="width: 100%"
                       >編輯</buttom
                     >
                   </td>
@@ -207,7 +207,7 @@
                     </div>
                   </td>
                   <td>
-                    <buttom class="btn btn-link btn-sm" style="width: 100%"
+                   style="width: 100%"
                       >編輯</buttom
                     >
                   </td>
@@ -225,7 +225,7 @@
                     </div>
                   </td>
                   <td>
-                    <buttom class="btn btn-link btn-sm" style="width: 100%"
+                   style="width: 100%"
                       >編輯</buttom
                     >
                   </td>
@@ -262,7 +262,8 @@
             style="
               display: flex;
               justify-content: space-between;
-              align-items: center;
+              align-items: top;
+              margin-bottom: 20px;
             "
           >
             <h3 style="margin: 0">會員名稱</h3>
@@ -275,19 +276,125 @@
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
+                  margin-bottom: 15px;
                 "
               >
                 <h5 class="card-title mb-0">管理員資料</h5>
-                <button class="btn btn-outline-dark btn-sm">編輯</button>
+                <butto class="btn btn-outline-dark">編輯</butto>
+                <butto class="btn btn-primary d-none">儲存</butto>
               </header>
-              <div></div>
+              <div>
+                <div style="display: flex; align-items:center;margin-bottom: 15px;">
+                  <lable class="form-label" style="flex-shrink:1; margin: 0;  white-space:nowrap; font-size: 15px;">帳號：</lable>
+                  <input type="text" class="form-control form-control-sm" readonly/>
+                </div>
+                <div style="display: flex; align-items:center;margin-bottom: 15px;">
+                  <lable class="form-label" style="flex-shrink:1; margin: 0;  white-space:nowrap; font-size: 15px;">ＩＤ：</lable>
+                  <input type="text" class="form-control form-control-sm" readonly/>
+                </div>
+                <div style="display: flex; align-items:center;margin-bottom: 15px;">
+                  <lable class="form-label" style="flex-shrink:1; margin: 0;  white-space:nowrap; font-size: 15px;">密碼：</lable>
+                  <input type="text" class="form-control form-control-sm" readonly/>
+                </div>
+                <div style="display: flex; align-items:center;margin-bottom: 15px;">
+                  <lable class="form-label" style="flex-shrink:1; margin: 0;  white-space:nowrap; font-size: 15px;">狀態：</lable>
+                  <input type="text" class="form-control form-control-sm" readonly/>
+                </div>
+              </div>
             </section>
             <div class="vr mx-3"></div>
             <section style="flex: 1">
-              <header>
-                <h5 class="card-title mb-0">管理員權限</h5>
+              <header
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 15px;
+                "
+              >
+                <h5 class="card-title mb-0">管理員資料</h5>
+                <butto class="btn btn-outline-dark">編輯</butto>
+                <butto class="btn btn-primary d-none">儲存</butto>
               </header>
-              <div></div>
+              <div
+                class="custom-control custom-checkbox"
+                style="display: flex; gap: 30px"
+              >
+                <div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1" disabled
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >首頁管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1" disabled
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >管理員管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1" disabled
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >會員管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1" disabled
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >商品管理</label
+                    >
+                  </div>
+                </div>
+                <div style="justify-content: start">
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1" disabled
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >美容師管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1" disabled
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >美容師個人管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1" disabled
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >社群管理</label
+                    >
+                  </div>
+                </div>
+              </div>
             </section>
           </main>
         </section>
