@@ -1,7 +1,7 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
     // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A"; // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4"; // 使用Manager Token
     //錯誤顯示用
     const errorDiv = document.getElementById("error");
 
@@ -105,6 +105,7 @@ window.addEventListener("load", () => {
                 }
             }
         });
+
         $('.table-container').css('overflow-x', 'auto');
         $('.table-fill tbody').on('click', '.finish', function (event) {
 
