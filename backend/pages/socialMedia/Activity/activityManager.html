@@ -23,8 +23,7 @@
 
     <!-- sweetalert2 -->
     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-    <!-- Flatpickr -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 
     <!-- Favicon -->
     <link href="../../../img/avatars/avatar.jpg" rel="icon">
@@ -562,6 +561,7 @@
                                             <th>報名結束時間</th>
                                             <th>活動狀態
                                                 <select>
+                                                    <option value="2">所有活動</option>
                                                     <option value="0">執行中</option>
                                                     <option value="1">已取消</option>
                                                 </select>
@@ -662,7 +662,7 @@
                     <div id="addActivity" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form>
+                                <form id="createForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">新增活動</h4>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">
@@ -676,8 +676,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label>活動時間</label>
-                                            <input id="datepicker" width="276" />
-                                            <input id="datepicker" width="270" required />
+                                            <input type="datetime-local" class="form-control" placeholder="選擇日期..."
+                                                required>
                                         </div>
                                         <div class="form-group">
                                             <label>活動圖片</label>
@@ -689,11 +689,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>報名開始時間</label>
-                                            <input type="text" class="form-control" required>
+                                            <input class="form-control" type="date" placeholder="選擇日期.." required>
                                         </div>
                                         <div class="form-group">
                                             <label>報名截止時間</label>
-                                            <input type="text" class="form-control" required>
+                                            <input class="form-control" type="date" placeholder="選擇日期.." required>
                                         </div>
                                         <div class="form-group">
                                             <label>報名人數限制</label>
@@ -712,10 +712,10 @@
                     <!-- 新增活動結束 -->
 
                     <!-- 修改活動 -->
-                    <div id="editActivity" class="modal fade">
+                    <div id="editActivity" data-keyboard="true" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form>
+                                <form id="editForm">
                                     <div class="modal-header">
                                         <h4 class="modal-title">修改活動</h4>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">
@@ -724,33 +724,47 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label>活動主題</label>
-                                            <input type="text" class="form-control" required>
+                                            <label for="title">活動主題</label>
+                                            <input type="text" class="form-control" name="title" id="title" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>活動時間</label>
-                                            <input id="datepicker" width="276" />
-                                            <input id="datepicker" width="270" required />
+                                            <label for="activityTime">活動時間</label>
+                                            <input type="datetime-local" class="form-control" placeholder="選擇日期..."
+                                                name="activityTime" id="activityTime" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>活動圖片</label>
-                                            <input type="file" class="form-control" required>
+                                            <label for="activityImg">活動圖片</label>
+                                            <input type="file" class="form-control" name="activityImg" id="activityImg">
                                         </div>
                                         <div class="form-group">
-                                            <label>活動內容</label>
-                                            <textarea class="form-control" required></textarea>
+                                            <label for="activityContent">活動內容</label>
+                                            <textarea class="form-control" name="activityContent" id="activityContent"
+                                                required></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>報名開始時間</label>
-                                            <input type="text" class="form-control" required>
+                                            <label for="startTime">報名開始時間</label>
+                                            <input class="form-control" name="startTime" id="startTime" type="date"
+                                                placeholder="選擇日期.." required>
                                         </div>
                                         <div class="form-group">
-                                            <label>報名截止時間</label>
-                                            <input type="text" class="form-control" required>
+                                            <label for="endTime">報名截止時間</label>
+                                            <input class="form-control" name="endTime" id="endTime" type="date"
+                                                class="form-control" placeholder="選擇日期..." required>
                                         </div>
                                         <div class="form-group">
-                                            <label>報名人數限制</label>
-                                            <input type="text" class="form-control" required>
+                                            <label for="enterLimit">報名人數限制</label>
+                                            <input type="text" name="enterLimit" id="enterLimit" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="peopleCount">目前報名人數</label>
+                                            <input type="text" name="peopleCount" id="peopleCount" class="form-control"
+                                                readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status">活動狀態</label>
+                                            <input type="text" name="status" id="status" class="form-control"
+                                                readonly="readonly">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -786,6 +800,57 @@
                         </div>
                     </div>
                     <!-- 取消活動結束 -->
+                    <!-- 查看單一活動資訊 -->
+                    <div id="queryActivity" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form>
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">單一活動資訊</h4>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">
+                                            x
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>活動Id</label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>活動主題</label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>活動時間</label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>活動圖片</label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>活動內容</label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>報名開始時間</label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>報名截止時間</label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>報名人數限制</label>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 查看單一活動資訊結束 -->
+
                     <!-- 活動分頁管理  -->
                     <nav aria-label="Page navigation" class="mt-5">
                         <ul class="pagination justify-content-center">
@@ -846,15 +911,14 @@
     <!-- Template Javascript -->
     <!--sweetalert2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-    <!-- Flatpickr -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    
+
+
 
 
     <!--Other-->
-    <script src="../../../js/app.js"></script> 
- 
+    <script src="../../../js/app.js"></script>
+
 
 
 </body>

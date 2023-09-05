@@ -7,6 +7,74 @@ const cancelAcurl = hostUrl + AcUrl + "/cancel";
 const getAcDetailsUrl = hostUrl + AcUrl;
 const getAllAcUrl = hostUrl + AcUrl + "/all";
 const activityManToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MDA2OTU2fQ.6mu7dwpu36S8JctWsYJpHxMrbHBGY4TGPND4EXH4098";
+// ------------------------- 頁面載入  ------------------------- //
+window.addEventListener('load', function () {
+    getAllAc();
+});
+// ------------------------- crud api  ------------------------- //
+// createAc();
+// cancelAc();
+// updateAc();
+// getAcDetails();
+// getAllAc();
+
+// ------------------------- 事件驅動  ------------------------- //
+
+const editModal = document.getElementById('editActivity');
+editModal.addEventListener('show.bs.modal', async function (e) {
+    //當使用者點擊按鈕
+    let button = e.relatedTarget;
+    let activityId = button.getAttribute('data-id');
+    //fetch獲取資料
+    let fetchData = await getAcDetails(activityId);
+    document.getElementById('title').value = fetchData.title;
+    document.getElementById('activityTime').value = fetchData.activityTime;
+    document.getElementById('activityImg').value = fetchData.activityPicture;
+    document.getElementById('activityContent').value = fetchData.content;
+    document.getElementById('startTime').value = fetchData.startTime;
+    document.getElementById('endTime').value = fetchData.endTime;
+    document.getElementById('peopleCount').value = fetchData.peopleCount;
+    document.getElementById('enterLimit').value = fetchData.enrollLimit;
+    let status = document.getElementById('status');
+    if (fetchData.status == 0) {
+        status.value = "執行中";
+    } else {
+        status.value = "已取消"
+    }
+
+    document.getElementById('editForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        let title = document.getElementById('title').value;
+        let activityTime = document.getElementById('activityTime').value;
+        let activityContent = document.getElementById('activityContent').value;
+        let startTime = document.getElementById('startTime').value;
+        let endTime = document.getElementById('endTime').value;
+        let enrollLimit = document.getElementById('enterLimit').value;
+        //處理圖片轉換成字串
+        let activityImg = document.getElementById('activityImg').value;
+        // 處理時間格式
+        let newAcTime = activityTime.toString().replace("T", " ");
+        let updateData = {
+            "title": title,
+            "content": activityContent,
+            "startTime": startTime.toString(),
+            "endTime": endTime.toString(),
+            "activityTime": newAcTime + ":00",
+            "activityPicture": null,
+            "enrollLimit": enrollLimit
+        };
+        let updateResult = await updateAc(activityId, updateData);
+        console.log(updateResult);
+
+        // 在需要關閉模態的地方，例如更新成功後
+        if (updateResult != null) {
+        //   editModal.;
+        }
+    });
+});
+
+
+
 
 
 // ------------------------- 建立活動  ------------------------- //
@@ -38,7 +106,7 @@ function createAc() {
         });
 }
 
-// createAc();
+
 // ------------------------- 取消活動  ------------------------- //
 function cancelAc() {
     let activityId = 28;
@@ -52,27 +120,19 @@ function cancelAc() {
         .then(res => {
             return res.json();
         }).then(data => {
-            console.log(data.message);
+            return data.message;
         })
         .catch(err => {
             console.log(err.message);
         });
 }
-// cancelAc();
+
 
 
 // ------------------------- 更新活動  ------------------------- //
-function updateAc() {
-    let activityId = 28;
-    let updateData = {
-        "title": "活動建立測試",
-        "content": "測試第28次",
-        "startTime": "2023-08-29",
-        "endTime": "2023-09-19",
-        "activityTime": "2023-09-12 09:30:00",
-        "enrollLimit": 30
-    };
-    fetch(updateAcUrl + `/${activityId}`, {
+async function updateAc(activityId, updateData) {
+
+    return fetch(updateAcUrl + `/${activityId}`, {
         method: "PUT",
         headers: {
             Authorization_M: activityManToken,
@@ -83,18 +143,17 @@ function updateAc() {
         .then(res => {
             return res.json();
         }).then(data => {
-            console.log(data.message);
+            return data.message;
         })
         .catch(err => {
             console.log(err.message);
         });
 }
-// updateAc();
+
 
 // ------------------------- 查詢單一活動  ------------------------- //
-function getAcDetails() {
-    let activityId = 28;
-    fetch(getAcDetailsUrl + `/${activityId}`, {
+async function getAcDetails(activityId) {
+    return fetch(getAcDetailsUrl + `/${activityId}`, {
         method: "GET",
         headers: {
             Authorization_M: activityManToken,
@@ -104,14 +163,14 @@ function getAcDetails() {
         .then(res => {
             return res.json();
         }).then(data => {
-            console.log(data.message);
+            return data.message;
         })
         .catch(err => {
             console.error(err.message);
         });
 }
 
-getAcDetails();
+
 
 // ------------------------- 查詢活動  ------------------------- //
 function getAllAc() {
@@ -146,7 +205,6 @@ function getAllAc() {
         });
 }
 
-// getAllAc();
 
 // ------------------------- 建立分頁  ------------------------- //
 // 更新資料表格和分頁
@@ -174,12 +232,12 @@ function createDataTable(data) {
                <td>${dataDetails.startTime}</td>
                <td>${dataDetails.endTime}</td>
                <td>${dataDetails.status == 0 ? "執行中" : "已取消"}</td>
-               <td><a href="#editActivity" class="edit" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i>
+               <td><a href="#editActivity" class="edit" data-bs-toggle="modal" data-id="${dataDetails.activityId}"><i class="bi bi-pencil-square"></i>
                </td>
-               <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal"><i
+               <td><a href="#cancelActivity" class="cancel" data-bs-toggle="modal" data-id="${dataDetails.activityId}"><i
                            class="bi bi-trash3-fill"></i>
                </td>
-               <td><a href="#queryActivity" class="query" data-bs-toggle="modal"><i class="bi bi-eye-fill"></i>
+               <td><a href="#queryActivity" class="query" data-bs-toggle="modal" data-id="${dataDetails.activityId}"><i class="bi bi-eye-fill"></i>
                </td>
                </tr>`;
 
@@ -210,3 +268,4 @@ function createDataTable(data) {
 
 }
 // ------------------------- 改變分頁  ------------------------- //
+
