@@ -275,6 +275,11 @@ body {
   width: 100%; /* 图片宽度填满容器 */
   height: auto; /* 高度自适应以保持纵横比 */
 }
+#previewImage{
+  border-radius: 5px;
+  width: 100%; /* 图片宽度填满容器 */
+  height: auto; /* 高度自适应以保持纵横比 */
+}
 
 
 h6 {
