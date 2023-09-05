@@ -1502,19 +1502,19 @@
 }
 /*------------------------------------------------------------------ All Pages -------------------------------------------------------------------*/
  .all-title-box{
-     background: url("../images/all-bg-title.jpg") no-repeat center center;
+     background: url("../images/shopCartBanner.png") no-repeat ;
      -webkit-background-size: cover;
      -moz-background-size: cover;
      -ms-background-size: cover;
      -o-background-size: cover;
-     background-size: cover;
+     background-size: contain;
      text-align: center;
      background-attachment: fixed;
-     padding: 70px 0px;
+     padding: 80px 0px;
      position: relative;
 }
  .all-title-box::before{
-     background: rgba(0,0,0,0.6);
+     background: rgba(0,0,0,0.4);
      content: "";
      position: absolute;
      z-index: 0;

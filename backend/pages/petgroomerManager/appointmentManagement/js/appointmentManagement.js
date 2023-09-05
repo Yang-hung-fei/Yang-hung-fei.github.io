@@ -1,6 +1,9 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token ="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A";
+
     const searchInput = document.getElementById("search");
     const limitSelect = document.querySelector("#limit");
     const sortSelect = document.querySelector("#sort");
@@ -52,7 +55,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/allAppointmentSearch?limit=${itemsPerPage}&sort=${sort}&offset=${offset}&orderBy=${orderBy}&search=${searchString}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c", // 使用Manager Token
+                Authorization_M: token, // 使用Manager Token
                 "Content-Type": "application/json"
             }
         })
@@ -226,7 +229,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/pgScheduleForA?pgId=${pgId}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         })
@@ -333,7 +336,7 @@ window.addEventListener("load", () => {
                         <select id="timeSlotsContainer" name="pgaNewTime"></select><br>
                         
                         <label for="pgaOption" style="font-size: 18px;">修改選項</label>
-                        <select id="pgaOption">
+                        <select id="pgaOption" style="font-size: 14px; height:30px;">
                             <option value="" disabled selected>如需要請選擇</option>
                             <option value="狗狗洗澡" >狗狗洗澡</option>
                             <option value="狗狗半手剪 (洗澡+剃毛)" >狗狗半手剪 (洗澡+剃毛)</option>
@@ -382,7 +385,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/manager/modifyAppointment", {
                     method: "POST",
                     headers: {
-                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                        Authorization_M: token,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(editedData)
@@ -429,7 +432,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/CompleteOrCancel", {
             method: "POST",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestBody)
