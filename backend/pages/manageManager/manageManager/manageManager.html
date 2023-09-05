@@ -67,7 +67,7 @@
               <h5 class="card-title mb-0">管理員查詢</h5>
               <button
                 onclick="sweetAlert()"
-      
+                class="btn btn-outline-dark"
               >
                 新增管理員
               </button>
@@ -254,7 +254,7 @@
       </div>
     </div>
 
-    <!-- LightBox Star -->
+    <!-- Edit LightBox Star -->
     <div class="col-9">
       <div class="card px-3 py-4" style="margin-bottom: 0">
         <section class="container">
@@ -283,7 +283,7 @@
                 <butto class="btn btn-outline-dark">編輯</butto>
                 <butto class="btn btn-primary d-none">儲存</butto>
               </header>
-              <div>
+              <div id="managerData">
                 <div style="display: flex; align-items:center;margin-bottom: 15px;">
                   <lable class="form-label" style="flex-shrink:1; margin: 0;  white-space:nowrap; font-size: 15px;">帳號：</lable>
                   <input type="text" class="form-control form-control-sm" readonly/>
@@ -312,15 +312,15 @@
                   margin-bottom: 15px;
                 "
               >
-                <h5 class="card-title mb-0">管理員資料</h5>
+                <h5 class="card-title mb-0">管理員權限</h5>
                 <butto class="btn btn-outline-dark">編輯</butto>
                 <butto class="btn btn-primary d-none">儲存</butto>
               </header>
-              <div
+              <div 
                 class="custom-control custom-checkbox"
                 style="display: flex; gap: 30px"
               >
-                <div>
+                <div id="managerAuthoriies">
                   <div class="checkbox">
                     <input
                       type="checkbox"
@@ -362,7 +362,7 @@
                     >
                   </div>
                 </div>
-                <div style="justify-content: start">
+                <div>
                   <div class="checkbox">
                     <input
                       type="checkbox"
@@ -401,8 +401,13 @@
       </div>
     </div>
 
-    <!-- LightBox End -->
+    <!-- Edit LightBox End -->
 
+    <!-- Add LightBox Star -->
+
+    
+    <!-- Add LightBox End -->
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
     <script src="/jquery/jquery-3.2.1.min.js"></script>
     <script src="/backend/js/app.js"></script>
