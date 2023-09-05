@@ -15,7 +15,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>AdminKit Demo - Bootstrap 5 Admin Template</title>
+	<title>petGroomerManagement</title>
 
 	<link href="../../../css/sublist.css" rel="stylesheet">
 	<link href="../../../css/app.css" rel="stylesheet">
@@ -509,14 +509,18 @@
 					</ul>
 				</div>
 			</nav>
-
+			
 			<main class="content">
 				<div class="container-fluid p-0" id="mainContent">
 					<!--主要內容 起始-->
 					<div style="min-height: 700px; min-width: 1030px;">
-						<div class="table-title" style="margin-left:0px ;">
-							<div id="error"></div>
-							<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">預約管理</h2>
+						<div class="table-title" style="margin-left:0px ; margin-bottom: 20px;">
+							<div class="row">
+									<div id="error"></div>
+									<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">美容師管理
+										<button style="display: inline" class="btn slot-button" id="insertNewPgBtn">我要新增美容師</button>
+									</h2>
+							</div>
 						</div>
 						<div style="display: flex; justify-content: space-between; ">
 							<div style="display: flex; justify-content: flex-start;">
@@ -557,7 +561,7 @@
 										style="border-top-left-radius: 5px; position: relative; height: 50px;">美容師編號
 										<div class="radio"
 											style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
-											<label class="orderBy_label" for="orderBy_PG_ID"  style="margin: 0;">▼
+											<label class="orderBy_label" for="orderBy_PG_ID" style="margin: 0;">▼
 												<input value="PG_ID" type="radio" id="orderBy_PG_ID" name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
@@ -565,7 +569,7 @@
 									<th class="text-center" style="position: relative;">管理員編號
 										<div class="radio"
 											style="position: absolute; bottom: 0; left: 90%; transform: translateX(-50%);">
-											<label class="orderBy_label" for="orderBy_MAN_ID"  style="margin: 0;">▼
+											<label class="orderBy_label" for="orderBy_MAN_ID" style="margin: 0;">▼
 												<input value="MAN_ID" type="radio" id="orderBy_MAN_ID" name="orderBy"
 													style="appearance: none; padding: 0; border: 0; text-align: center; max-width: 80px;"></label>
 										</div>
@@ -596,28 +600,7 @@
 						<div class="btn-group" role="group" aria-label="First group" id="pagination-buttons">
 						</div>
 					</div>
-					
-					<!-- 新增美容師-->
-					<div>
-						<h2 style="font-family: Roboto; font-size: 40px; color: rgba(9, 30, 63, 0.79);">新增美容師</h2>
-						<div class="row">
-							<div class="col-md-4">
-								<label for="manName" class="form-label"
-									style="margin-left: 0px;font-size: large;">選擇管理員</label><br>
-								<select id="manName" name="manName" class="form-select"
-									style="max-width: 120px; margin-left: 0px;"></select>
-								<p style="color: red;">只會列出擁有美容師個人管理權限之管理員。<br>如需將管理員新增此權限請至管理員管理。</p>
-								<!-- 發送新增請求抓Man值-->
-								<div style="display: flex; align-items: center;">
-									<input id="manId" name="manId" value="" class="form-control" readonly hidden
-										style="max-width: 120px; margin-left: 5px; margin: 0;"></input>
-								</div>
-							</div>
 
-						</div>
-
-
-					</div>
 					<!--主要內容 結束-->
 				</div>
 			</main>

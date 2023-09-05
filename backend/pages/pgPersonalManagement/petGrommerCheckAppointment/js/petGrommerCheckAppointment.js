@@ -1,6 +1,7 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c"; // 使用Manager Token
     const searchInput = document.getElementById("search");
     const limitSelect = document.querySelector("#limit");
     const sortSelect = document.querySelector("#sort");
@@ -52,7 +53,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/PgAppointmentSearch?limit=${itemsPerPage}&sort=${sort}&offset=${offset}&orderBy=${orderBy}&search=${searchString}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c", // 使用Manager Token
+                Authorization_M: token, // 使用Manager Token
                 "Content-Type": "application/json"
             }
         })
@@ -66,18 +67,18 @@ window.addEventListener("load", () => {
                     buildTable(appointments);
                     updatePaginationButtons(totalAppointments);
                 } else if (data.code === 401) {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `身分${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "無權限",
+                        text: `身分${data.message}`
+                    });
                     maxCount.value = 0;
                 } else {
-                    let errorLabel = document.createElement("label");
-                    errorLabel.innerHTML = `${data.message}`;
-                    errorLabel.style.color = "red";
-                    errorLabel.style.font = "16px Arial, sans-serif";
-                    errorDiv.appendChild(errorLabel);
+                    Swal.fire({
+                        icon: "error",
+                        title: "目前無預約單",
+                        text: data.message
+                    });
                     maxCount.value = 0;
                 }
             });
