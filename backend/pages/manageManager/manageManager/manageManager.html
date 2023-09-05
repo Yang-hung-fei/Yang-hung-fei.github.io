@@ -84,7 +84,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="basic-url"
+                id="search"
                 aria-describedby="basic-addon3"
               />
               <button
@@ -130,7 +130,7 @@
                 筆
               </span>
             </div>
-            <table class="table-fill mb-4">
+            <table class="table mb-4">
               <thead>
                 <tr>
                   <th class="text-left">管理員帳號</th>
@@ -139,7 +139,7 @@
                   <th class="text-center" style="width: 100px">編輯</th>
                 </tr>
               </thead>
-              <tbody class="table-hover">
+              <tbody class="table-hover" id="resultTable">
                 <tr>
                   <td class="text-left">January</td>
                   <td class="text-left">2023-08-15</td>
@@ -257,6 +257,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
     <script src="/jquery/jquery-3.2.1.min.js"></script>
     <script src="/backend/js/app.js"></script>
+    <script
+      type="module"
+      src="/backend/pages/manageManager/manageManager/js/searchManager.js"
+    ></script>
     <script>
       function sweetAlert() {
         (async () => {

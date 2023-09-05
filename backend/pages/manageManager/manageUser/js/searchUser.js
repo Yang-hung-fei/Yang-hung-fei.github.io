@@ -80,7 +80,6 @@ function toggleSortOrder(orderBy) {
         : "asc"
       : "asc";
   searchURL({ orderBy, sort: newSort });
-  // searchUsers();
 }
 
 // -------------------Fetch-------------------
