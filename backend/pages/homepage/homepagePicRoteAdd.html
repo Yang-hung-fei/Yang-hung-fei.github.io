@@ -138,7 +138,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-5.jpg"
+                                                <img src="../../img/avatars/avatar-5.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -152,7 +152,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-2.jpg"
+                                                <img src="../../img/avatars/avatar-2.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="William Harris">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -166,7 +166,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-4.jpg"
+                                                <img src="../../img/avatars/avatar-4.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="Christina Mason">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -180,7 +180,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-3.jpg"
+                                                <img src="../../img/avatars/avatar-3.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -235,44 +235,44 @@
 
                     <h2 class="text-dark mb-1" style="color: #2D4472;">新增輪播圖
                     </h2>
-                    <form style="padding: 16px;">
+                    <form id="addRotePic" style="padding: 16px;" enctype="multipart/form-data" action="/your-upload-endpoint" method="POST">
                         <div style="margin: 20px;"><label class="form-label"
-                                style="width: 90px;color: #2D4472;">跳轉URL：</label><input class="form-control" type="url"
-                                style="display: inline-block;width: 750px;border-color: #a2b6df;">
+                                style="width: 90px;color: #2D4472;">跳轉URL：</label><input id="picLocateUrl" class="form-control" type="url"
+                                style="display: inline-block;width: 750px;border-color: #a2b6df;" placeholder="請輸入欲跳轉的商品或活動網址">
                         </div>
                         <div style="margin: 20px; border-color: #a2b6df;">
-                            <label class="form-label" 
-                            style="width: 90px;color: #2D4472;">輪播圖：</label> <!--這是按鈕-->
-                            <input class="form-control" type="file" 
-                            style="display: inline-block;width: 350px;border-color: #a2b6df;">
-                        <div>
-                            <div
-                                style="width: 200px;height: 200px;border-radius: 10px;border: 2px dashed #a2b6df;display: flex;justify-content: center;align-items: center;margin-top: 5px;margin-left: 90px;">
-                                <span>預覽圖</span>
+                            <label class="form-label" style="width: 90px;color: #2D4472;">輪播圖：</label> <!--這是按鈕-->
+                            <input id="pic" class="form-control" type="file"
+                                style="display: inline-block;width: 350px;border-color: #a2b6df;">
+                            <div>
+                                <div
+                                    style="width: 200px;height: 200px;border-radius: 10px;border: 2px dashed #a2b6df;display: flex;justify-content: center;align-items: center;margin-top: 5px;margin-left: 90px;">
+                                    <img id="previewRotePic" src="" alt="預覽圖" style="max-width: 100%; max-height: 100%;">
+                                </div>
                             </div>
                         </div>
-                        </div>
                         <div style="margin: 20px; display: flex; align-items: center;">
-                            <label class="form-label" style="width: 80px; color: #2D4472; margin-right: 10px;">
-                              上架狀態：
+                            <label id="newsStatus" class="form-label" style="width: 80px; color: #2D4472; margin-right: 10px;">
+                                上架狀態：
                             </label>
-                            <select class="form-select" style="margin-right: 20px; display: inline-block;width: 350px;border-color: #a2b6df;">
-                              <option value="0">下架</option>
-                              <option value="1">上架</option>
+                            <select class="form-select"
+                                style="margin-right: 20px; display: inline-block;width: 350px;border-color: #a2b6df;">
+                                <option value="0">下架</option>
+                                <option value="1">上架</option>
                             </select>
                         </div>
-                          
+
                         <div style="margin: 20px;"><label class="form-label"
-                                style="width: 90px;color: #2D4472;">開始日期：</label><input class="form-control" type="date"
+                                style="width: 90px;color: #2D4472;">開始日期：</label><input id="startDate" class="form-control" type="date"
                                 style="width: 350px;display: inline-block;color: #2D4472;border-color: #a2b6df;">
                         </div>
                         <div style="margin: 20px;"><label class="form-label"
-                            style="width: 90px;color: #2D4472;">結束日期：</label><input class="form-control" type="date"
-                            style="width: 350px;display: inline-block;color: #2D4472;border-color: #a2b6df;">
+                                style="width: 90px;color: #2D4472;">結束日期：</label><input id="endDate" class="form-control" type="date"
+                                style="width: 350px;display: inline-block;color: #2D4472;border-color: #a2b6df;">
                         </div>
 
 
-                        <div class="mb-3" style="text-align: left;margin: 20px; "><button class="btn btn-primary"
+                        <div class="mb-3" style="text-align: left;margin: 20px; "><button id="sendRotePic" class="btn btn-primary"
                                 type="submit"
                                 style="background: #2D4472;border-style: none;text-align: left;margin-left: 90px; width:85px;height:30px; color: #f1ecd1;">送出資料</button>
                         </div>
@@ -290,7 +290,8 @@
 
                         <div>消息內容: <textarea name="消息內容" rows="5" cols="60">請輸入消息內容...</textarea></div>
 
-                        <button type="submit" style="background: #2D4472;border-style: none;text-align: left;margin-left: 90px; width:85px;height:30px; color: #f1ecd1;">送出資料</button>
+                        <button type="submit"
+                            style="background: #2D4472;border-style: none;text-align: left;margin-left: 90px; width:85px;height:30px; color: #f1ecd1;">送出資料</button>
                     </form>
 
 
@@ -329,15 +330,12 @@
     </div>
 
     <script src="./js/jquery-3.7.0.min.js"></script>
+    <script src="path/to/jquery.dataTables.min.js"></script>
     <script src="../../js/app.js"></script>
-    <script src="../../js/sublist.js"></script>
+    <script src="../../js/sublistArrow.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="module" src="../../js/onload.js"></script>
     <script type="module" src="./js/PicRoteAdd.js"></script>
-    <script type="module" src="../../js/testlist.js">
-        import * as functionsModule from '../functions.js';
-        loadMenuAndContent();
-    </script>
+
 </body>
 
 </html>

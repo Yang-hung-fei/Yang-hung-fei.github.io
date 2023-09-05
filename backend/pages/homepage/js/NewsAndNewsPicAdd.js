@@ -94,13 +94,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             // 創建 FormData 對象並將表單數據添加到其中
                             const formData = new FormData(addNewsAndNewsPic);
                            
-                            const data2={
-                                pic: $("#pic")[0].files[0]
-                            }
                        //   alert(config.url + "/manager/homepageManage/addNewsPic");
 
                             //使用 fetch API 發起 AJAX 請求 新增最新消息圖片
-                            fetch(config.url + "/manager/homepageManage/addNewsPic", {
+                            fetch(config.url + `/manager/homepageManage/addNewsPic`,{
+                        //      ?newsNo=${??}&pic=${$("#pic")[0].files[0]}
+                       //     `, {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "multipart/form-data",
