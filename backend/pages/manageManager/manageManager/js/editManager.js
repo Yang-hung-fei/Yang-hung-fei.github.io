@@ -1,37 +1,14 @@
 import config from "/ipconfig";
 
-export function editManagerData() {
-  getEditedManagerData();
+//【Authorities】
+// -------------thisManagerAuthoritiesListener-------------
 
-  fetch(config.url + "/manager/manageManager", {
-    method: "PUT",
-    headers: {
-      Authorization_U: token,
-      "Content-Type": "application/json",
-    },
-    body: formData.toString(), // Encode the parameters as a string
-  })
-    .then((response) => response.json())
-    .then((responseData) => {
-      var code = responseData.code;
-      if (code === 200) {
-        swal("修改成功", "", "success");
-      }
-    })
-    .catch((error) => {
-      // 处理捕获的错误，包括网络错误等
-      console.error("Fetch error:", error);
-    });
-}
+// -------------editThisManagerAuthorities-------------
+function geteEitManagerAuthoriies() {
+  const account = "";
+  const authories = "";
 
-function getEditedManagerData() {
-  const managerAccount = "";
-  const managerId = "";
-  const managerPassword = "";
-  const managerState = "";
-  const orgManagerAccount = "";
-
-  let setedManagerProfil;
+  let setedManagerAuthoriies;
 }
 
 export function editManagerAuthorities() {
@@ -58,12 +35,48 @@ export function editManagerAuthorities() {
     });
 }
 
-function geteEitManagerAuthoriies() {
-  const account = "";
-  const authories = "";
+// ----------------showAuthoritiesHTML----------------
 
-  let setedManagerAuthoriies;
+//【ManagerData】
+// -------------thisManagerDataListener-------------
+
+// -------------editThisManagerData-------------
+
+function getEditedManagerData() {
+  const managerAccount = "";
+  const managerId = "";
+  const managerPassword = "";
+  const managerState = "";
+  const orgManagerAccount = "";
+
+  let setedManagerProfil;
 }
+
+export function editManagerData() {
+  getEditedManagerData();
+
+  fetch(config.url + "/manager/manageManager", {
+    method: "PUT",
+    headers: {
+      Authorization_U: token,
+      "Content-Type": "application/json",
+    },
+    body: formData.toString(), // Encode the parameters as a string
+  })
+    .then((response) => response.json())
+    .then((responseData) => {
+      var code = responseData.code;
+      if (code === 200) {
+        swal("修改成功", "", "success");
+      }
+    })
+    .catch((error) => {
+      // 处理捕获的错误，包括网络错误等
+      console.error("Fetch error:", error);
+    });
+}
+
+// ----------------showThisManagerDataHTML----------------
 
 function searchManagerAuthority() {
   fetch(config.url + "/manager/manageManager/authorities", {
