@@ -53,7 +53,7 @@
     <div class="row">
       <div class="col-12">
         <div class="card px-3 py-2" style="margin-bottom: 0">
-          <div
+          <header
             class="card-header"
             style="background-color: transparent; border-bottom: none"
           >
@@ -72,9 +72,9 @@
                 新增管理員
               </button>
             </div>
-          </div>
+          </header>
 
-          <div class="card-body">
+          <main class="card-body">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon3"
@@ -249,10 +249,52 @@
                 </li>
               </ul>
             </nav>
-          </div>
+          </main>
         </div>
       </div>
     </div>
+
+    <!-- LightBox Star -->
+    <div class="col-9">
+      <div class="card px-3 py-4" style="margin-bottom: 0">
+        <section class="container">
+          <header
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <h3 style="margin: 0">會員名稱</h3>
+            <h6 style="margin: 0">會員編號</h6>
+          </header>
+          <main style="display: flex">
+            <section style="flex: 1">
+              <header
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <h5 class="card-title mb-0">管理員資料</h5>
+                <button class="btn btn-outline-dark btn-sm">編輯</button>
+              </header>
+              <div></div>
+            </section>
+            <div class="vr mx-3"></div>
+            <section style="flex: 1">
+              <header>
+                <h5 class="card-title mb-0">管理員權限</h5>
+              </header>
+              <div></div>
+            </section>
+          </main>
+        </section>
+      </div>
+    </div>
+
+    <!-- LightBox End -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
     <script src="/jquery/jquery-3.2.1.min.js"></script>
