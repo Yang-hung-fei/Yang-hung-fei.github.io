@@ -53,6 +53,10 @@
       rel="stylesheet"
       href="/backend/pages/manageManager/manageManager/css/progressBar.css"
     />
+    <link
+      rel="stylesheet"
+      href="/backend/pages/manageManager/manageManager/css/sccessCheckMark.css"
+    />
   </head>
   <div id="main-content">
     <h1 class="h3 mb-3">管理員管理</h1>
@@ -436,7 +440,7 @@
             <li>設定資料</li>
             <li>設定權限</li>
           </ul>
-          <div class="step-content active" id="step1Content">
+          <div class="step-content active d-none" id="step1Content">
             <h5 class="h3 m-4" style="text-align: center">管理員資料</h5>
             <div id="managerData" class="mx-5 mb-4">
               <div
@@ -475,7 +479,7 @@
               <button class="nextButton btn btn-primary d-none">下一步</button>
             </div>
           </div>
-          <div class="step-content hidden" id="step2Content">
+          <div class="step-content hidden d-none" id="step2Content">
             <h5 class="h3 m-4" style="text-align: center">管理員資料</h5>
             <div id="managerData" class="mx-5 mb-4">
               <div
@@ -545,7 +549,7 @@
               <button class="nextButton btn btn-primary d-none">下一步</button>
             </div>
           </div>
-          <div class="step-content hidden" id="step3Content">
+          <div class="step-content hidden d-none" id="step3Content">
             <h5 class="h3 m-4" style="text-align: center">管理員權限</h5>
             <div
               class="custom-control custom-checkbox mb-4"
@@ -633,9 +637,23 @@
             </div>
           </div>
           <div class="step-content hidden" id="completionPage">
-            <!-- 完成页面内容 -->
-            <h2>完成</h2>
-            <p>恭喜，您已成功完成所有步骤！</p>
+            <h5 class="h3 m-4" style="text-align: center">新增完成</h5>
+            <div
+              class="mb-4"
+              style="display: flex; justify-content: center; gap: 60px"
+            >
+              <div class="success-checkmark">
+                <div class="check-icon">
+                  <span class="icon-line line-tip"></span>
+                  <span class="icon-line line-long"></span>
+                  <div class="icon-circle"></div>
+                  <div class="icon-fix"></div>
+                </div>
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="btn btn btn-outline-dark">關閉</button>
+            </div>
           </div>
         </div>
       </div>
@@ -651,5 +669,6 @@
     ></script>
     <script src="/backend/pages/manageManager/manageManager/js/lightbox.js"></script>
     <script src="/backend/pages/manageManager/manageManager/js/progressBar.js"></script>
+    <script src="/backend/pages/manageManager/manageManager/js/sccessCheckMark.js"></script>
   </body>
 </html>
