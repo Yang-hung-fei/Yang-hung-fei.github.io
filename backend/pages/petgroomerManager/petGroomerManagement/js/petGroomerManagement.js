@@ -476,11 +476,11 @@ window.addEventListener("load", () => {
                             <option value="1" ${pgGender === '男' ? 'selected' : ''}>男</option>
                             <option value="2" ${pgGender === '女' ? 'selected' : ''}>女</option>
                         </select>
-                        <label for="newPgEmail" style="font-size: 18px;">Email</label>
-                        <label id="emailCheck" for="emailCheck" style="color:red; font-size: 12px;"></label>
+                        <label for="newPgEmail" style="font-size: 18px;">Email&nbsp;&nbsp;&nbsp;<span id="emailCheck" for="emailCheck" style="color:yellow; font-size: 12px;"></span></label>
+                        
                         <input type="email" id="newPgEmail" class="form-control" value="${pgEmail}" ><br>
-                        <label for="newPgPh" style="font-size: 18px;">手機號碼</label>
-                        <label id="phCheck"  for="phCheck" style="color:red; font-size: 12px;"></label>
+                        <label for="newPgPh" style="font-size: 18px;">手機號碼&nbsp;&nbsp;&nbsp;<span id="phCheck"  for="phCheck" style="color:yellow; font-size: 12px;"></span></label>
+                        
                         <input type="tel" pattern="[0-9]{10}" title="請輸入有效的手機號碼（10位數字）" id="newPgPh" class="form-control" value="${pgPh}"><br>
                         <label for="newPgAddress" style="font-size: 18px;">地址</label>
                         <input type="text" id="newPgAddress" class="form-control" value="${pgAddress}"><br>
