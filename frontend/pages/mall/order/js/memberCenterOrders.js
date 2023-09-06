@@ -3,8 +3,8 @@ import config from "../../../../../ipconfig.js";
 let dataTable; // 將 dataTable 定義在函數之外
 let selectedRow;
 //Header Token
-//const token = localStorage.getItem("Authorization_U");
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
+const token = localStorage.getItem("Authorization_U");
+//const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
 
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
@@ -31,12 +31,12 @@ function fetchUserOrders() {
             
             const formattedData = orders.map(order => [
                 order.ordNo,
-                order.ordCreate, // 假設你的訂單數據包含訂單日期
-                order.orderAmount, // 假設你的訂單數據包含實付金額
-                order.recipientName, // 假設你的訂單數據包含收件人姓名
-                order.recipientPh, // 假設你的訂單數據包含收件人電話
-                order.ordStatus, // 假設你的訂單數據包含訂單狀態
-                order.ordPayStatus // 假設你的訂單數據包含付款狀態
+                order.ordCreate, // 訂單日期
+                order.orderAmount, // 實付金額
+                order.recipientName, // 收件人姓名
+                order.recipientPh, // 收件人電話
+                order.ordStatus, // 訂單狀態
+                order.ordPayStatus // 付款狀態
                 // 這些應該根據你的API響應的實際數據結構進行調整
                 
             ]);
@@ -326,12 +326,16 @@ function getOrderDetailByOrdNo(ordNo) {
             const day = ordFinishArray[2];
             const hour = ordFinishArray[3];
             const minute = ordFinishArray[4];
-
+            
             // 使用 JavaScript 的 Date 類別建立日期物件
             const ordFinishDate = new Date(year, month - 1, day, hour, minute);
-
+            let formattedOrdFinish;
             // 使用 Date 物件的方法取得格式化的日期和時間
-            const formattedOrdFinish = ordFinishDate.toLocaleString();
+            if(year == 1970){
+                formattedOrdFinish = "此訂單尚未完成付款";
+            }else{
+                formattedOrdFinish = ordFinishDate.toLocaleString();
+            }
 
             //定義訂單狀態
             const ordStatusMap = {
@@ -420,3 +424,4 @@ function getOrderDetailByOrdNo(ordNo) {
         }
     })
 }
+

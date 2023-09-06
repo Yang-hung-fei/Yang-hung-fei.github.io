@@ -7,8 +7,8 @@ const getPointButton = document.getElementById("getPointButton"); //監聽取得
 const pointInput = document.getElementById("pointInput"); //監聽顯示點數欄位
 const userPoint = document.querySelector('#discount-amount');
 //Header Token
-//const token = localStorage.getItem("Authorization_U");
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
+const token = localStorage.getItem("Authorization_U");
+// const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
 document.addEventListener("DOMContentLoaded", ()=>{   
     updateCart();
     updateTotalAmount();

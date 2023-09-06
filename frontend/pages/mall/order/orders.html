@@ -36,6 +36,33 @@
         h2 {
             font-weight: bold;
         }
+        .wave{
+        position: relative;
+        -webkit-box-reflect: below -5px linear-gradient(transparent, rgba(0,0,0,0.2));
+        }
+
+        .wave span{
+        position: relative;
+        display: inline-block;
+        text-transform: uppercase;
+        font-size: 2rem;
+        color: black;
+        animation: animate 2s ease-in-out infinite;
+        animation-delay: calc(0.1s * var(--i));
+        }
+
+        @keyframes animate
+        {
+            0%{
+                transform: translateY(0px);
+            }
+            20%{
+                transform: translateY(-20px);
+            }
+            40%, 100%{
+                transform: translateY(0px);
+            }
+        }
     </style>
 </head>
 
@@ -108,20 +135,30 @@
 
 
         <!-- Page Header Start -->
-        <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container-fluid page-header mb-3 wow fadeIn" data-wow-delay="0.1s">
             <div class="container">
-                <h1 class="display-3 mb-3 animated slideInDown">訂單</h1>
-                <nav aria-label="breadcrumb animated slideInDown">
+                <div class="wave">
+                    <span style="--i:1;">我</span>
+                    <span style="--i:2;">的</span>
+                    <span style="--i:3;">訂</span>
+                    <span style="--i:4;">單</span>
+                </div>
+                <!-- <h1 class="display-3 mb-3 animated slideInDown"></h1> -->
+
+                
+                <!-- <nav aria-label="breadcrumb animated slideInDown">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a class="text-body" href="../../../index.html">逛逛首頁</a></li>
                         <li class="breadcrumb-item"><a class="text-body" href="../product/product.html">繼續購物</a></li>
                         <li class="breadcrumb-item text-dark active" aria-current="page"></li>
                     </ol>
-                </nav>
+                </nav> -->
             </div>
         </div>
         <!-- Page Header End -->
         
+
+
         <!-- Start Cart  -->
         <div id="app">
             <div class="cart-box-main">
@@ -473,6 +510,7 @@
     <script src="../../../js/main.js"></script>
     <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/judgeLogin.js"></script>
     <script type="module" src="js/orders.js"></script>
     <script type="module" src="js/discount.js"></script>
 </body>
