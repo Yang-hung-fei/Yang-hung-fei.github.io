@@ -1,6 +1,6 @@
 import config from "/ipconfig.js";
 import { createSidebarListMenu } from "/backend/js/sidebarMenu.js";
-import { showHomepageBoard } from "/backend/pages/manageManager/manageManager/js/showHomepageBoard.js";
+import { showIndexBoard } from "/backend/js/showIndexBoard.js";
 import { getManagerAuthority } from "/backend/pages/manageManager/manageManager/js/getManagerAuthority.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   showSidebarListMenu(manager);
-  showHomepageBoard(token);
+  showIndexBoard(token);
 });
 
 async function fetchManagerData(token) {
@@ -77,6 +77,7 @@ async function showSidebarListMenu(manager) {
     console.error("Error:", error);
   }
 
-  $("#sidebarLinks").append('<div id="sidebar-margin" style="height: 50px;"></div>');
+  $("#sidebarLinks").append(
+    '<div id="sidebar-margin" style="height: 50px;"></div>'
+  );
 }
-
