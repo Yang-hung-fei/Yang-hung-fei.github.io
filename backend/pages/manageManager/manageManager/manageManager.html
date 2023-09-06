@@ -425,7 +425,36 @@
     <!-- Edit LightBox End -->
 
     <!-- Add LightBox Star -->
-
+    <div class="col-9 lightbox" id="editLightBox">
+      <div class="card px-3 py-4" style="margin-bottom: 0">
+        <div class="container">
+          <ul class="progressbar">
+            <li class="active">Step 1</li>
+            <li>Step 2</li>
+            <li>Step 3</li>
+          </ul>
+          <div class="step-content active" id="step1Content">
+            <!-- Step 1 content goes here -->
+            <button class="nextButton">下一步</button>
+          </div>
+          <div class="step-content hidden" id="step2Content">
+            <!-- Step 2 content goes here -->
+            <button class="prevButton">上一步</button>
+            <button class="nextButton">下一步</button>
+          </div>
+          <div class="step-content hidden" id="step3Content">
+            <!-- Step 3 content goes here -->
+            <button class="prevButton">上一步</button>
+            <button class="nextButton">下一步</button>
+          </div>
+          <div class="step-content hidden" id="completionPage">
+            <!-- 完成页面内容 -->
+            <h2>完成</h2>
+            <p>恭喜，您已成功完成所有步骤！</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Add LightBox End -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
@@ -436,32 +465,6 @@
       src="/backend/pages/manageManager/manageManager/js/searchManager.js"
     ></script>
     <script src="/backend/pages/manageManager/manageManager/js/lightbox.js"></script>
-    <script>
-      function sweetAlert() {
-        (async () => {
-          const { value: formValues } = await Swal.fire({
-            title: "Multiple inputs",
-            html:
-              '<input id="swal-input1" class="swal2-input">' +
-              '<input id="swal-input2" class="swal2-input">',
-            focusConfirm: false,
-            preConfirm: () => {
-              return [
-                {
-                  managerAccount: document.getElementById("swal-input1").value,
-                  managerPassword: document.getElementById("swal-input2").value,
-                },
-              ];
-            },
-          });
-
-          if (formValues) {
-            Swal.fire(JSON.stringify(formValues));
-            const test = JSON.stringify(formValues);
-            console.log(test);
-          }
-        })();
-      }
-    </script>
+    <script src="/backend/pages/manageManager/manageManager/js/progressBar.js"></script>
   </body>
 </html>
