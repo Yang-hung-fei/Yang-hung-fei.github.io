@@ -30,7 +30,6 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
- 
   </head>
 
   <body onload="resize();">
@@ -84,7 +83,7 @@
 
         <main class="content">
           <iframe
-            src="/backend/pages/manageManager/manageUser/manageUser.html"
+            src="/backend/pages/manageManager/manageManager/manageManager.html"
             name="mainframe"
             id="mainframe"
             width="100%"
@@ -169,7 +168,7 @@
       //body 根據 iframe 內容調整高度
       function resize() {
         parent.document.getElementById("mainframe").height =
-          document.body.scrollHeight; //將子頁面高度傳到父頁面框架
+          document.body.scrollHeight + 100; //將子頁面高度傳到父頁面框架
       }
     </script>
     <script>

@@ -57,6 +57,10 @@
       rel="stylesheet"
       href="/backend/pages/manageManager/manageUser/css/table-style.css"
     />
+    <link
+      rel="stylesheet"
+      href="/backend/pages/manageManager/manageUser/css/customTableStyle.css"
+    />
   </head>
 
   <body style="background-color: transparent">
@@ -66,158 +70,141 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12" style="padding: 0">
-            <div class="card px-3 py-2" style="margin-bottom: 0">
+            <div class="card px-3 py-4" style="margin-bottom: 0">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3"
+                    >查詢會員姓名</span
+                  >
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="search"
+                  aria-describedby="basic-addon3"
+                />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="button-search"
+                  style="width: 120px"
+                >
+                  搜尋
+                </button>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <nav aria-label="Page navigation" style="display: inline">
+                  <ul class="pagination">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">3</a>
+                    </li>
+                  </ul>
+                </nav>
+                <span style="padding: 0 10px; display: inline"
+                  >一頁
+                  <select name="page" id="page">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                  </select>
+                  筆
+                </span>
+              </div>
               <div class="table-wrap">
                 <table class="table myaccordion table-hover" id="accordion">
                   <thead>
                     <tr>
                       <th>會員編號</th>
-                      <th>姓名</th>
-                      <th>性別</th>
-                      <th>電話</th>
-                      <th>地址</th>
-                      <th>創建時間</th>
-                      <th>&nbsp;</th>
+                      <th>
+                        <span>姓名　(暱稱)</span>
+                        <span class="orderBy" dataId="USER_NAME">
+                          <svg
+                            class="sort"
+                            dataId="USER_NAME"
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="1em"
+                            viewBox="0 0 320 512"
+                          >
+                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                              d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"
+                            />
+                          </svg>
+                        </span>
+                      </th>
+                      <th style="width: 100px">點數</th>
+                      <th>
+                        <span>生日</span>
+                        <span class="orderBy" dataId="USER_BIRTHDAY">
+                          <svg
+                            class="sort"
+                            dataId="USER_BIRTHDAY"
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="1em"
+                            viewBox="0 0 320 512"
+                          >
+                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                              d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"
+                            />
+                          </svg>
+                        </span>
+                      </th>
+                      <th>
+                        <span>創建時間</span>
+                        <span class="orderBy" dataId="USER_CREATED">
+                          <svg
+                            class="sort"
+                            dataId="USER_CREATED"
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="1em"
+                            viewBox="0 0 320 512"
+                          >
+                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                              d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"
+                            />
+                          </svg>
+                        </span>
+                      </th>
+                      <th></th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr
-                      data-toggle="collapse"
-                      data-target="#collapseOne"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      <th scope="row">1</th>
-                      <td>Laptop Technology AS2020</td>
-                      <td>$200.00</td>
-                      <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="true"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        colspan="7"
-                        id="collapseOne"
-                        class="collapse show acc"
-                        data-parent="#accordion"
-                      >
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Porro iste, facere sunt sequi nostrum ipsa, amet
-                          doloremque magnam reiciendis tempore sapiente.
-                          Necessitatibus recusandae harum nam sit perferendis
-                          quia inventore natus.
-                        </p>
-                      </td>
-                    </tr>
-
-                    <tr
-                      data-toggle="collapse"
-                      data-target="#collapseTwo"
-                      aria-expanded="false"
-                      aria-controls="collapseTwo"
-                      class="collapsed"
-                    >
-                      <th scope="row">2</th>
-                      <td>Laptop Technology AS2020</td>
-                      <td>$200.00</td>
-                      <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="false"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        colspan="7"
-                        id="collapseTwo"
-                        class="collapse acc"
-                        data-parent="#accordion"
-                      >
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Porro iste, facere sunt sequi nostrum ipsa, amet
-                          doloremque magnam reiciendis tempore sapiente.
-                          Necessitatibus recusandae harum nam sit perferendis
-                          quia inventore natus.
-                        </p>
-                      </td>
-                    </tr>
-
-                    <tr
-                      data-toggle="collapse"
-                      data-target="#collapseThree"
-                      aria-expanded="false"
-                      aria-controls="collapseThree"
-                      class="collapsed"
-                    >
-                      <th scope="row">3</th>
-                      <td>Laptop Technology AS2020</td>
-                      <td>$200.00</td>
-                      <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="false"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        colspan="7"
-                        id="collapseThree"
-                        class="collapse acc"
-                        data-parent="#accordion"
-                      >
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Porro iste, facere sunt sequi nostrum ipsa, amet
-                          doloremque magnam reiciendis tempore sapiente.
-                          Necessitatibus recusandae harum nam sit perferendis
-                          quia inventore natus.
-                        </p>
-                      </td>
-                    </tr>
-
-                    <tr
-                      data-toggle="collapse"
-                      data-target="#collapseFour"
-                      aria-expanded="false"
-                      aria-controls="collapseFour"
-                      class="collapsed"
-                    >
-                      <th scope="row">4</th>
-                      <td>Laptop Technology AS2020</td>
-                      <td>$200.00</td>
-                      <td>2</td>
-                      <td>$400.00</td>
-                      <td>$400.00</td>
-                      <td>
-                        <i class="fa" aria-hidden="false"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        colspan="7"
-                        id="collapseFour"
-                        class="collapse acc"
-                        data-parent="#accordion"
-                      >
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Porro iste, facere sunt sequi nostrum ipsa, amet
-                          doloremque magnam reiciendis tempore sapiente.
-                          Necessitatibus recusandae harum nam sit perferendis
-                          quia inventore natus.
-                        </p>
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody id="resultTable"></tbody>
                 </table>
               </div>
+              <nav
+                aria-label="Page navigation example"
+                style="margin-top: 30px"
+              >
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
@@ -230,6 +217,10 @@
     <script src="/backend/pages/manageManager/manageUser/js/table-main.js"></script>
     <script src="/jquery/jquery-3.2.1.min.js"></script>
     <script src="/backend/js/app.js"></script>
+    <script
+      type="module"
+      src="/backend/pages/manageManager/manageUser/js/searchUser.js"
+    ></script>
     <script>
       function sweetAlert() {
         (async () => {
