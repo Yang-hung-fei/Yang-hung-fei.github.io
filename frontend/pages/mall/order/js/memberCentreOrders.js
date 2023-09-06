@@ -40,7 +40,6 @@ function fetchUserOrders() {
                 // 這些應該根據你的API響應的實際數據結構進行調整
                 
             ]);
-            console.log(formattedData);
             // 初始化或重新初始化DataTable
             if (dataTable) {
                 dataTable.clear().destroy();
@@ -69,7 +68,7 @@ function fetchUserOrders() {
                         title: '訂單編號'
                     },
                     {
-                        title: '訂單成立時間',
+                        title: '成立時間',
                         targets: 1,
                         render: function (data, type, row) {
                             if (type === 'display' || type === 'filter') {
@@ -77,9 +76,10 @@ function fetchUserOrders() {
                                 const date = new Date(data[0], data[1] - 1, data[2], data[3], data[4], data[5]);
             
                                 // 使用 Date 對象格式化日期，包括時、分和秒
-                                const formattedDate = `${date.getFullYear()}年${(date.getMonth() + 1).toString().padStart(2, '0')}月
-                                ${date.getDate().toString().padStart(2, '0')}日<br>${date.getHours().toString().padStart(2, '0')}
-                                時${date.getMinutes().toString().padStart(2, '0')}分${date.getSeconds().toString().padStart(2, '0')}秒`;
+                                const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                                                      `${date.getDate().toString().padStart(2, '0')}<br>` +
+                                                      `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:` +
+                                                      `${date.getSeconds().toString().padStart(2, '0')}`;
 
                                 return formattedDate;
                             }
@@ -139,7 +139,7 @@ function fetchUserOrders() {
                         render: function (data, type, row) {
                             if (type === 'display') {
                                 // 创建查询按钮元素
-                                const searchButton = '<a href="#" class="btn-link"><i class="fa fa-search"></i></a>';
+                                const searchButton = '<a href="#" class="btn-link find-icon"><i class="fa fa-search"></i></a>';
                                 return searchButton;
                             }
                             return data; // 其他情况返回原始数据
@@ -151,7 +151,7 @@ function fetchUserOrders() {
                         render: function (data, type, row) {
                             if (type === 'display') {
                                 // 创建支付按钮元素
-                                const paymentButton = '<a href="#" class="btn-link"><i class="fa-solid fa-money-bill"></i></a>';
+                                const paymentButton = '<a href="#" class="btn-link payMoney-icon"><i class="fa-solid fa-money-bill"></i></a>';
                                 return paymentButton;
                             }
                             return data; // 其他情况返回原始数据
@@ -179,9 +179,15 @@ function fetchUserOrders() {
                         className: 'text-center'              
                     },
                     {
+                        targets: [0, 1, 2],
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).css('width', '11%')
+                        },
+                    },
+                    {
                         targets: [3, 4],
                         createdCell: function (td, cellData, rowData, row, col) {
-                            $(td).css('width', '12%')
+                            $(td).css('width', '10%')
                         },
                     },
                     {
@@ -189,9 +195,17 @@ function fetchUserOrders() {
                         createdCell: function (td, cellData, rowData, row, col) {
                             $(td).css('width', '9%')
                         },
+                    },
+                    {
+                        targets:[6],
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            if (cellData === 0) {
+                                $(td).css('backgroundColor', '#FFB5B5');
+                            }
+                            
+                        },
                     }
                 ]
-                
                 
                 // 可以設置其他DataTable選項
             });
@@ -201,9 +215,8 @@ function fetchUserOrders() {
                 e.preventDefault();
                 selectedRow = dataTable.row($(this).closest('tr')).data();
                 const rowData = dataTable.row($(this).closest('tr')).data();
-                const ordNo = rowData[0]; // 假设订单号在第一列
+                const ordNo = rowData[0]; // 訂單編號在第一列
                 // 在這裡處理刪除操作，你可以使用rowData中的數據
-                // 构建要发送到后端的数据对象
                 const requestData = {
                     ordNo: ordNo,
                     ordStatus: 6 // 设置订单状态为6，您可以根据需要修改
@@ -224,9 +237,35 @@ function fetchUserOrders() {
                     }
                 });
 
-                // 執行刪除訂單的相關操作，可以使用fetch或其他方法
-                // 記得要在這裡執行訂單刪除的操作
             });
+
+            // 監聽查詢訂單的點擊事件
+            $('#OrdersTable tbody').on('click', 'a.find-icon',function (e) {
+                e.preventDefault();
+                const rowData = dataTable.row($(this).closest('tr')).data();
+                const ordNo = rowData[0];
+                getOrderDetailByOrdNo(ordNo);
+            });
+
+            // 監聽訂單付款的點擊事件
+            $('#OrdersTable tbody').on('click', 'a.payMoney-icon', function (e) {
+                e.preventDefault();
+                const rowData = dataTable.row($(this).closest('tr')).data();
+                const ordNo = rowData[0];
+                // 檢查付款狀態是否為 1（已付款）
+                if (rowData[6] === 1) {
+                    Swal.fire({
+                        title: '無法執行付款操作',
+                        text: '該訂單已付款，無法再次執行付款操作。',
+                        icon: 'warning',
+                        confirmButtonText: '確定'
+                    });
+                } else {
+                    // 付款操作
+                    console.log(ordNo);
+                }
+                
+            })
 
         } else {
             console.error("Failed to fetch user orders:", data);
@@ -262,3 +301,122 @@ function deleteOrder(requestData, selectedRow) {
     });
 }
 
+// 查詢訂單詳情
+function getOrderDetailByOrdNo(ordNo) {
+    fetch(config.url + "/user/order/" + ordNo, {
+        method: "GET",
+        headers: {
+            'Authorization_U': token,
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 處理api
+        if (data.code === 200) {
+            
+            const orderDetail = data.message;
+            // console.log("訂單詳情:", orderDetail);
+
+           // 假設 orderDetail[0].ordFinish 是包含日期和時間的陣列
+            const ordFinishArray = orderDetail[0].ordFinish;
+            // 依次取出陣列中的年、月、日、時、分
+            const year = ordFinishArray[0];
+            const month = ordFinishArray[1];
+            const day = ordFinishArray[2];
+            const hour = ordFinishArray[3];
+            const minute = ordFinishArray[4];
+
+            // 使用 JavaScript 的 Date 類別建立日期物件
+            const ordFinishDate = new Date(year, month - 1, day, hour, minute);
+
+            // 使用 Date 物件的方法取得格式化的日期和時間
+            const formattedOrdFinish = ordFinishDate.toLocaleString();
+
+            //定義訂單狀態
+            const ordStatusMap = {
+                0 : "未出貨",
+                1 : "已出貨",
+                2 : "已到貨",
+                3 : "退貨申請",
+                4 : "退貨成功",
+                5 : "訂單完成",
+                6 : "訂單取消"
+            }
+            const orderStatus = ordStatusMap[orderDetail[0].ordStatus];
+            //定義付款狀態
+            const ordPayStatusMap = {
+                0 : "未付款",
+                1 : "已付款"
+            }
+            const orderPayStatus = ordPayStatusMap[orderDetail[0].ordPayStatus];
+            //定義取貨方式
+            const ordPickMap ={
+                0 : "店面取貨",
+                1 : "超商取貨",
+                2 : "宅配到府"
+            }
+            const orderPick = ordPickMap[orderDetail[0].ordPick];
+            //定義評價狀態
+            const evaluateStatusMap = {
+                0 : "未評價",
+                1 : "已評價"
+            }
+            const orderEvaluateStatus = evaluateStatusMap[orderDetail[0].evaluateStatus];
+            let htmlString = `
+            <div class="row d-flex justify-content-center" style="color: black;">
+                <div>
+                    <p><strong>本張訂單編號:</strong> <span id="ordNo">No. ${orderDetail[0].ordNo}</span></p>
+                    <p><strong>訂單狀態:</strong> <span id="ordStatus">${orderStatus}</span></p>
+                    <p><strong>付款狀態:</strong> <span id="ordPayStatus">${orderPayStatus}</span></p>
+                    <p><strong>取貨方式:</strong> <span id="ordPick">${orderPick}</span></p>
+                    <p><strong>商品總金額:</strong> <span id="totalAmount">${orderDetail[0].totalAmount} 元</span></p>
+                    <p><strong>本張訂單使用點數:</strong> <span id="userPoint">${orderDetail[0].userPoint} 點</span></p>
+                    <p><strong>運費:</strong> <span id="ordFee">${orderDetail[0].ordFee} 元</span></p>
+                    <p><strong>實付金額:</strong> <span id="orderAmount">${orderDetail[0].orderAmount} 元</span></p>
+                    <p><strong>收件人姓名:</strong> <span id="recipientName">${orderDetail[0].recipientName}</span></p>
+                    <p><strong>收件地址:</strong> <span id="recipientAddress">${orderDetail[0].recipientAddress}</span></p>
+                    <p><strong>收件人電話:</strong> <span id="recipientPh">${orderDetail[0].recipientPh}</span></p>
+                    <p><strong>評價狀態:</strong> <span id="evaluateStatus">${orderEvaluateStatus}</span></p>
+                    <p><strong>訂單完成時間:</strong> <span id="ordFinish">${formattedOrdFinish}</span></p>
+                </div>
+                `;
+
+            // 填充訂單詳細清單
+            htmlString += `<h4 style="color: #AD5A5A;"><strong>購買商品清單</strong></h4>`;
+            htmlString += `<table border="1">
+                <tr  style="justify-content: center;">
+                    <th>商品名稱</th>
+                    <th>數量</th>
+                    <th>價格</th>
+                </tr>`;
+
+            orderDetail[0].detailList.forEach((item) => {
+            htmlString += `
+                <tr style="justify-content: center;">
+                    <td>${item.pdName}</td>
+                    <td>${item.qty}</td>
+                    <td>${item.price} 元</td>
+                </tr>`;
+            });
+            
+            htmlString += `</table>`;
+
+            Swal.fire({
+                title: "訂單詳情",
+                html:htmlString,
+                width: 600,
+                padding: '3em',
+                // color: '#FFE6D9',
+                background: "url(images/orderBackGround.png)",
+                backdrop: `
+                  rgba(255, 238, 221, 0.5)
+                  no-repeat
+                `
+              })
+            // 在这里可以将详细信息显示给用户或执行其他操作
+        } else {
+            console.error("獲取訂單訊息失敗:", data);
+        }
+    })
+}
