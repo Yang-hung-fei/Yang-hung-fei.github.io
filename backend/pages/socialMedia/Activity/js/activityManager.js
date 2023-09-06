@@ -56,7 +56,6 @@ editModal.addEventListener('submit', async function (e) {
     console.log(button);
     let activityId = button.getAttribute('data-id');
     e.preventDefault();
-    // let activityId = document.getElementById('activityId').value;
     let title = document.getElementById('title').value;
     let activityTime = document.getElementById('activityTime').value;
     let activityContent = document.getElementById('activityContent').value;
@@ -329,11 +328,4 @@ function createPagination(data) {
 
 
 // ------------------------- 改變分頁  ------------------------- //
-//https://www.youtube.com/watch?v=oGzVgN70wg0&t=123s
-//https://www.youtube.com/watch?v=v9zewquUR_0
-//https://www.youtube.com/watch?v=EaRrmOtPYTM&list=PLyuRouwmQCjnEupVi5lpP6VrLg-eO-Zcp
-//https://www.youtube.com/watch?v=ccX3ApO4qz8&t=1400s
-//https://openhome.cc/zh-tw/javascript/script/module/
-//page
-//https://github.com/saam-khatri/Dynamic-pagination/blob/main/js/main.js
-//https://www.youtube.com/watch?v=Q3bu6nlcSZQ
+
