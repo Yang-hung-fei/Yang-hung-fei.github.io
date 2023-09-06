@@ -45,9 +45,11 @@
       rel="stylesheet"
       href="/backend/pages/manageManager/manageManager/css/table.css"
     />
+    <link rel="stylesheet" href="/backend/pages/manageManager/manageManager/css/lightbox.css">
   </head>
 
   <body style="background-color: transparent">
+    <div id="lightboxOverlay" class="lightbox-overlay"></div>
     <h1 class="h3 mb-3">管理員管理</h1>
 
     <div class="row">
@@ -255,7 +257,7 @@
     </div>
 
     <!-- Edit LightBox Star -->
-    <div class="col-9">
+    <div class="col-9 lightbox" id="editLightBox">
       <div class="card px-3 py-4" style="margin-bottom: 0">
         <section class="container">
           <header
@@ -267,7 +269,11 @@
             "
           >
             <h3 style="margin: 0">會員名稱</h3>
-            <h6 style="margin: 0">會員編號</h6>
+            <h6 id="editManagerId" style="margin: 0;position: relative;
+            top: 3px;
+            right: 35px;
+            color: #c3c3c3;">NUMBER0000</h6>
+            <span class="close cursor" onclick="closeModal()">&times;</span>
           </header>
           <main style="display: flex">
             <section style="flex: 1">
@@ -400,6 +406,7 @@
         </section>
       </div>
     </div>
+    
 
     <!-- Edit LightBox End -->
 
@@ -407,6 +414,8 @@
 
     
     <!-- Add LightBox End -->
+
+    
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
     <script src="/jquery/jquery-3.2.1.min.js"></script>
@@ -415,6 +424,7 @@
       type="module"
       src="/backend/pages/manageManager/manageManager/js/searchManager.js"
     ></script>
+    <script src="/backend/pages/manageManager/manageManager/js/lightbox.js"></script>
     <script>
       function sweetAlert() {
         (async () => {
