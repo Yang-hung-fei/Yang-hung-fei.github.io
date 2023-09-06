@@ -425,7 +425,7 @@
     <!-- Edit LightBox End -->
 
     <!-- Add LightBox Star -->
-    <div class="col-9 lightbox" id="editLightBox">
+    <div class="col-6 lightbox" id="addLightBox">
       <div class="card px-3 py-4" style="margin-bottom: 0">
         <div class="container">
           <ul
@@ -437,18 +437,200 @@
             <li>設定權限</li>
           </ul>
           <div class="step-content active" id="step1Content">
-            <!-- Step 1 content goes here -->
-            <button class="nextButton">下一步</button>
+            <h5 class="h3 m-4" style="text-align: center">管理員資料</h5>
+            <div id="managerData" class="mx-5 mb-4">
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <lable
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >帳號：</lable
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <lable
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >密碼：</lable
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="btn btn-dark">新增</button>
+              <button class="nextButton btn btn-primary d-none">下一步</button>
+            </div>
           </div>
           <div class="step-content hidden" id="step2Content">
-            <!-- Step 2 content goes here -->
-            <button class="prevButton">上一步</button>
-            <button class="nextButton">下一步</button>
+            <h5 class="h3 m-4" style="text-align: center">管理員資料</h5>
+            <div id="managerData" class="mx-5 mb-4">
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <lable
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >帳號：</lable
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <lable
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >ＩＤ：</lable
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <lable
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >密碼：</lable
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <lable
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >狀態：</lable
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="prevButton btn btn-outline-dark">上一步</button>
+              <button class="btn btn-dark">設置</button>
+              <button class="nextButton btn btn-primary d-none">下一步</button>
+            </div>
           </div>
           <div class="step-content hidden" id="step3Content">
-            <!-- Step 3 content goes here -->
-            <button class="prevButton">上一步</button>
-            <button class="nextButton">下一步</button>
+            <h5 class="h3 m-4" style="text-align: center">管理員權限</h5>
+            <div
+              class="custom-control custom-checkbox mb-4"
+              style="display: flex; justify-content: center; gap: 60px"
+            >
+              <div id="managerAuthoriies">
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >首頁管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >管理員管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >會員管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >商品管理</label
+                  >
+                </div>
+              </div>
+              <div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >美容師管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >美容師個人管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >社群管理</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="prevButton btn btn-outline-dark">上一步</button>
+              <button class="btn btn-dark">設置</button>
+              <button class="nextButton btn btn-primary d-none">下一步</button>
+            </div>
           </div>
           <div class="step-content hidden" id="completionPage">
             <!-- 完成页面内容 -->

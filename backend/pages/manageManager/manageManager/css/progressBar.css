@@ -1,3 +1,13 @@
+#addLightBox button {
+  width: 73.33px;
+}
+
+#addLightBox .btnContain {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
 .container {
   width: 100%;
 }
