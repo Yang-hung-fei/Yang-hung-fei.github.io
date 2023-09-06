@@ -14,6 +14,8 @@
   position: relative; /* 添加相对定位 */
   text-align: center;
   cursor: pointer;
+  color: #ddd;
+  font-weight: normal;
 }
 
 .progressbar li:before {
@@ -53,13 +55,14 @@
 }
 
 .progressbar li.active {
-  color: #6f79a7;
+  color: #222e3c;
+  font-weight: bold;
 }
 
 .progressbar li.active:before {
-  border-color: #6f79a7;
+  border-color: #222e3c;
 }
 
 .progressbar li.active + li:after {
-  background-color: #6f79a7;
+  background-color: #222e3c;
 }
