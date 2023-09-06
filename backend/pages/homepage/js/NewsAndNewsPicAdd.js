@@ -1,7 +1,7 @@
 import config from "../../../../ipconfig.js";
 
 //把選擇檔案按鈕和預覽圖片連結
-localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzOTgwNzc3fQ.2tiXKDGkG1CBEOdl1tnjQokBizDRdPVK6cXDbqDrO24");
+localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MTkzMjY3fQ.SzSM7havg7wzQTzchWnxWWSQd46CMoPskSWhPXdLjaw");
 window.addEventListener("load", function () {
     var picInput = document.getElementById("pic");
     var previewPic = document.getElementById("previewPic");
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var newsTitle = $("#newsTitle").val();
         var newsCont = $("#newsCont").val();
-        var newsStatus = $("#newsStatus").val();
+
         var pic = $("#pic").val();
 
         // 檢查表單數據是否為空
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = {
             newsTitle: newsTitle,
             newsCont: newsCont
-            //newsStatus: newsStatus
+
 
         };
 
@@ -63,69 +63,67 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((response) => response.json())
             .then((responseData) => {
                 var code = responseData.code;
-                
-               
+
+
                 if (code === 200) {
 
-             //    var token = responseData.message;
+                    //    var token = responseData.message;
                     localStorage.setItem("Authorization_M", token);
-                //    console.log(token);
+                    //    console.log(token);
                     if (token) {
-                        console.log("token存在"); 
+                        console.log("token存在");
 
 
                     } else {
                         console.log("Code 200???");
 
                     }
-                 //   alert('最新消息文字存檔成功!');
+                    //   alert('最新消息文字存檔成功!');
+                    let newsNo = responseData.message;
 
-                    
-                                    
-                    if (pic != null) {
 
-                        var addNewsAndNewsPic = document.getElementById("addNewsAndNewsPic");
-                        console.log(addNewsAndNewsPic);
-                  //      alert(config.url + "/manager/homepageManage/addNewsPic");
-                        addNewsAndNewsPic.addEventListener("click", function (event) {
-               console.log("aaa");
-                            event.preventDefault(); // 阻止表單的預設提交行為
+                    if (pic !== null) {
 
-                            // 創建 FormData 對象並將表單數據添加到其中
-                            const formData = new FormData(addNewsAndNewsPic);
-                           
-                       //   alert(config.url + "/manager/homepageManage/addNewsPic");
+                        // 創建 FormData 對象並將表單數據添加到其中
+                        const formData = new FormData();
+                        console.log(formData);
+                        var newsId = newsNo;
+                        var pic = $("#pic").prop("files")[0];
 
-                            //使用 fetch API 發起 AJAX 請求 新增最新消息圖片
-                            fetch(config.url + `/manager/homepageManage/addNewsPic`,{
-                        //      ?newsNo=${??}&pic=${$("#pic")[0].files[0]}
-                       //     `, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "multipart/form-data",
-                                    "Authorization_M": token
-                                },
-                                body: formData,
-                                
-                            }) 
-                                .then((response) => response.json())
-                                
-                                .then((responseData) => {
-                                    
-                                    var code = responseData.code;
-                                 
-                                   
-                                    if (code === 201) {
-                      
-                                        alert('存檔成功!');
-                                        location.reload();
-                                    } else {
-                                        alert(message ?? '圖片存檔失敗');
-                                    } console.log("aaa");
-                                });
-                                
+                        formData.append("newsNo", newsId);
+                        formData.append("pic", pic);
 
-                        });
+
+                        //   alert(config.url + "/manager/homepageManage/addNewsPic");
+
+                        //使用 fetch API 發起 AJAX 請求 新增最新消息圖片
+                        fetch(config.url + `/manager/homepageManage/addNewsPic`, {
+                            //      ?newsNo=${??}&pic=${$("#pic")[0].files[0]}
+                            //     `, {
+                            method: "POST",
+                            headers: {
+                                //      "Content-Type": "multipart/form-data",
+                                "Authorization_M": token
+                            },
+                            body: formData,
+
+                        })
+                            .then((response) => response.json())
+
+                            .then((responseData) => {
+
+                                var code = responseData.code;
+
+
+                                if (code === 200) {
+
+                                    alert('存檔成功!');
+                                    location.reload();
+                                } else {
+                                    console.log("aaa")
+                                    //   alert(message ?? '圖片存檔失敗');
+                                };
+                            });
 
                     } else { alert('本次不帶入圖片') };
 

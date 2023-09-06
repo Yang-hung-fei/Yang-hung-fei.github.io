@@ -252,10 +252,10 @@
                             </div>
                         </div>
                         <div style="margin: 20px; display: flex; align-items: center;">
-                            <label id="newsStatus" class="form-label" style="width: 80px; color: #2D4472; margin-right: 10px;">
+                            <label id="Status" class="form-label" style="width: 80px; color: #2D4472; margin-right: 10px;">
                                 上架狀態：
                             </label>
-                            <select class="form-select"
+                            <select class="form-select" id ="picRotStatus"
                                 style="margin-right: 20px; display: inline-block;width: 350px;border-color: #a2b6df;">
                                 <option value="0">下架</option>
                                 <option value="1">上架</option>
@@ -278,21 +278,7 @@
                         </div>
                     </form>
 
-                    <h3>新增輪播圖</h3>
-                    <form style="padding: 16px;">
-                        <div>
-                            消息標題: <input type="text">
-                        </div>
-
-                        <div>
-                            消息內容: <input type="text">
-                        </div>
-
-                        <div>消息內容: <textarea name="消息內容" rows="5" cols="60">請輸入消息內容...</textarea></div>
-
-                        <button type="submit"
-                            style="background: #2D4472;border-style: none;text-align: left;margin-left: 90px; width:85px;height:30px; color: #f1ecd1;">送出資料</button>
-                    </form>
+                   
 
 
                 </div>
@@ -330,7 +316,7 @@
     </div>
 
     <script src="./js/jquery-3.7.0.min.js"></script>
-    <script src="path/to/jquery.dataTables.min.js"></script>
+    <!-- <script src="path/to/jquery.dataTables.min.js"></script> -->
     <script src="../../js/app.js"></script>
     <script src="../../js/sublistArrow.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

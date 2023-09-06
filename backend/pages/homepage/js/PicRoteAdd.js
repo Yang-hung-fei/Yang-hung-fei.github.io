@@ -1,7 +1,7 @@
 import config from "../../../../ipconfig.js";
 
 //把選擇檔案按鈕和預覽圖片連結
-localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzOTgwNzc3fQ.2tiXKDGkG1CBEOdl1tnjQokBizDRdPVK6cXDbqDrO24");
+localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MTkzMjY3fQ.SzSM7havg7wzQTzchWnxWWSQd46CMoPskSWhPXdLjaw");
 window.addEventListener("load", function () {
     var picInput = document.getElementById("pic");
     var previewRotePic = document.getElementById("previewRotePic");
@@ -31,21 +31,27 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault(); // 阻止表單的預設行為        
 
         // 創建 FormData 對象並將表單數據添加到其中
-        const formData = new FormData(addRotePic);
-
+        const formData = new FormData();
+        console.log(formData);
         var picLocateUrl = $("#picLocateUrl").val();
-        var pic = $("#pic").val();
+        var pic = $("#pic").prop("files")[0];
         var startDate = $("#startDate").val();
-        var endDate = $("#endDate").val();
+        var endDate = $("#endDate").val(); 
 
+        formData.append("pic", pic);
+        var picRotStatus = $("#picRotStatus").val(); 
+        formData.append("picLocateUrl", picLocateUrl);
+        formData.append("picRotStart", startDate);
+        formData.append("picRotEnd", endDate); 
+        formData.append("picRotStatus", picRotStatus);
         // 檢查表單數據是否為空
         if (picLocateUrl === "" || pic === "") {
             alert("請填入資料！");
             return;
         } else {
-            //  alert("資料已送出");
+            alert("資料已送出");
         }
-
+/*
         const data = {
             picLocateUrl: picLocateUrl,
             pic: pic,
@@ -54,13 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
             //newsStatus: newsStatus
 
         };
-
+*/
 
         // 使用 fetch API 發起 AJAX 請求 新增輪播圖
         fetch(config.url + "/manager/homepageManage/addRotePic", {
             method: "POST",
             headers: {
-            //    "Content-Type": "multipart/form-data",
                 "Authorization_M": token
             },
             body: formData,
@@ -70,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var code = responseData.code;
 
                 console.log(responseData);
-                console.log(data);
+               // console.log(data);
 
                 if (picLocateUrl === "") {
                     alert("請填入跳轉URL！");
