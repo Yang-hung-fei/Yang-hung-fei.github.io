@@ -1,13 +1,21 @@
-var lightboxOverlay = document.getElementById("lightboxOverlay");
-var editLightBox = document.getElementById("editLightBox");
-var addLightBox = document.getElementById("addLightBox");
+$(document).ready(function () {
+  var $lightboxOverlay = $("#lightboxOverlay");
+  var $editLightBox = $("#editLightBox");
+  var $addLightBox = $("#addLightBox");
 
-lightboxOverlay.addEventListener("click", function () {
-  closeModal();
+  // 點擊lightboxOverlay或<span>元素都會關閉燈箱
+  $lightboxOverlay.click(function () {
+    closeModal();
+  });
+
+  // 點擊<span>元素也會關閉燈箱
+  $(".close").click(function () {
+    closeModal();
+  });
+
+  function closeModal() {
+    $editLightBox.hide();
+    $addLightBox.hide();
+    $lightboxOverlay.hide();
+  }
 });
-
-function closeModal() {
-  editLightBox.style.display = "none";
-  addLightBox.style.display = "none";
-  lightboxOverlay.style.display = "none";
-}
