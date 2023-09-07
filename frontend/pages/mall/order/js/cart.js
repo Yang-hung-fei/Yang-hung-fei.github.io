@@ -224,7 +224,7 @@ function handleQuantityChange(event) {
 
 // 更新購物車中商品數量, 記得更新token 
 function updateCartItemQuantity(pdNo, quantity) {
-    fetch(`${config.url}/user/addProduct?pdNo=${pdNo}&quantity=${quantity}`, {
+    fetch(`${config.url}/user/changProductAmount?pdNo=${pdNo}&quantity=${quantity}`, {
         method: "POST",
         headers: {
             Authorization_U: token,

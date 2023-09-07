@@ -2,7 +2,7 @@ import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
     //Header Token
     // const token = localStorage.getItem("Authorization_U");
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A";
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NDg3NzY0fQ.cnwBY2RnTE74GmMIbFUy9qOXY-DYrzyXDg-gQ18iFGM";
 
 
     const pgNameSelect = document.getElementById('pgName');
@@ -78,6 +78,11 @@ window.addEventListener("load", () => {
                     // 設定使用者名稱和電話
                     userNameInput.value = data.message.userName;
                     userPhInput.value = data.message.userPh;
+                }else{
+                    Swal.fire({
+                        icon: "error",
+                        title: data.message
+                    });
                 }
             });
     }

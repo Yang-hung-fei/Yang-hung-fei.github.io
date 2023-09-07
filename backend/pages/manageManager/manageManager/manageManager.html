@@ -45,15 +45,30 @@
       rel="stylesheet"
       href="/backend/pages/manageManager/manageManager/css/table.css"
     />
+    <link
+      rel="stylesheet"
+      href="/backend/pages/manageManager/manageManager/css/lightbox.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/backend/pages/manageManager/manageManager/css/progressBar.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/backend/pages/manageManager/manageManager/css/sccessCheckMark.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/backend/pages/manageManager/manageManager/css/toggleCheckbox.css"
+    />
   </head>
-
-  <body style="background-color: transparent">
+  <div id="main-content">
     <h1 class="h3 mb-3">管理員管理</h1>
 
     <div class="row">
       <div class="col-12">
         <div class="card px-3 py-2" style="margin-bottom: 0">
-          <div
+          <header
             class="card-header"
             style="background-color: transparent; border-bottom: none"
           >
@@ -67,108 +82,87 @@
               <h5 class="card-title mb-0">管理員查詢</h5>
               <button
                 onclick="sweetAlert()"
-                class="btn btn-outline-dark btn-sm"
+                class="btn btn-outline-dark"
+                id="mainAddManagerButton"
               >
                 新增管理員
               </button>
             </div>
-          </div>
+          </header>
 
-          <div class="card-body">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-            <table class="table-fill mb-4">
+          <main class="card-body">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3"
+                  >查詢管理員帳號</span
+                >
+              </div>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                class="form-control"
+                id="search"
+                aria-describedby="basic-addon3"
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-search"
+                style="width: 120px"
+              >
+                搜尋
+              </button>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <nav aria-label="Page navigation" style="display: inline">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <span style="padding: 0 10px; display: inline"
+                >一頁
+                <select name="page" id="page">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                </select>
+                筆
+              </span>
+            </div>
+            <table class="table mb-4">
               <thead>
                 <tr>
                   <th class="text-left">管理員帳號</th>
                   <th class="text-left" style="width: 170px">創建時間</th>
-                  <th class="text-left" style="width: 170px">啟用狀態</th>
-                  <th class="text-left" style="width: 100px">編輯</th>
+                  <th class="text-center" style="width: 100px">啟用</th>
+                  <th class="text-center" style="width: 100px">編輯</th>
                 </tr>
               </thead>
-              <tbody class="table-hover">
-                <tr>
-                  <td class="text-left">January</td>
-                  <td class="text-left">2023-08-15</td>
-                  <td class="text-left">
-                    <label class="close" for="flexSwitchCheckDefault"
-                      >關閉</label
-                    >
-                    <div class="form-check form-switch">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="flexSwitchCheckDefault"
-                        >開啟</label
-                      >
-                    </div>
-                  </td>
-                  <td>
-                    <buttom class="btn btn-primary btn-sm" style="width: 100%"
-                      >編輯</buttom
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">February</td>
-                  <td class="text-left">$ 10,000.00</td>
-                  <td class="text-left">$ 10,000.00</td>
-                  <td>
-                    <buttom class="btn btn-primary btn-sm" style="width: 100%"
-                      >編輯</buttom
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">March</td>
-                  <td class="text-left">$ 85,000.00</td>
-                  <td class="text-left">$ 85,000.00</td>
-                  <td>
-                    <buttom class="btn btn-primary btn-sm" style="width: 100%"
-                      >編輯</buttom
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">April</td>
-                  <td class="text-left">$ 56,000.00</td>
-                  <td class="text-left">$ 56,000.00</td>
-                  <td>
-                    <buttom class="btn btn-primary btn-sm" style="width: 100%"
-                      >編輯</buttom
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">May</td>
-                  <td class="text-left">$ 98,000.00</td>
-                  <td class="text-left">$ 98,000.00</td>
-                  <td>
-                    <buttom class="btn btn-primary btn-sm" style="width: 100%"
-                      >編輯</buttom
-                    >
-                  </td>
-                </tr>
-              </tbody>
+              <tbody class="table-hover" id="resultTable"></tbody>
             </table>
             <nav aria-label="Page navigation example">
               <ul class="pagination">
@@ -187,40 +181,572 @@
                 </li>
               </ul>
             </nav>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <body style="background-color: transparent">
+    <div
+      id="lightboxOverlay"
+      class="lightbox-overlay"
+      style="z-index: 998"
+    ></div>
+    <!-- Edit LightBox Star -->
+    <div class="col-9 lightbox" id="editLightBox" style="display: none">
+      <div class="card px-3 py-4" style="margin-bottom: 0">
+        <section class="container">
+          <header
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: top;
+              margin-bottom: 20px;
+            "
+          >
+            <h3 style="margin: 0">會員名稱</h3>
+            <h6
+              id="editManagerId"
+              style="
+                margin: 0;
+                position: relative;
+                top: 3px;
+                right: 35px;
+                color: #c3c3c3;
+              "
+            >
+              NUMBER0000
+            </h6>
+            <span class="close cursor" onclick="closeModal()">&times;</span>
+          </header>
+          <main style="display: flex">
+            <section style="flex: 1">
+              <header
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 15px;
+                "
+              >
+                <h5 class="card-title mb-0">管理員資料</h5>
+                <button
+                  class="btn btn-outline-dark"
+                  id="Edit_editManagerDataButton"
+                >
+                  編輯
+                </button>
+                <button
+                  class="btn btn-primary d-none"
+                  id="Edit_saveManagerDataButton"
+                >
+                  儲存
+                </button>
+              </header>
+              <div id="managerData">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <label
+                    class="form-label"
+                    style="
+                      flex-shrink: 1;
+                      margin: 0;
+                      white-space: nowrap;
+                      font-size: 15px;
+                    "
+                    >帳號：</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    readonly
+                  />
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <label
+                    class="form-label"
+                    style="
+                      flex-shrink: 1;
+                      margin: 0;
+                      white-space: nowrap;
+                      font-size: 15px;
+                    "
+                    >ＩＤ：</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    readonly
+                  />
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <label
+                    class="form-label"
+                    style="
+                      flex-shrink: 1;
+                      margin: 0;
+                      white-space: nowrap;
+                      font-size: 15px;
+                    "
+                    >密碼：</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    readonly
+                  />
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <label
+                    class="form-label"
+                    style="
+                      flex-shrink: 1;
+                      margin: 0;
+                      white-space: nowrap;
+                      font-size: 15px;
+                    "
+                    >狀態：</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    readonly
+                  />
+                </div>
+              </div>
+            </section>
+            <div class="vr mx-3"></div>
+            <section style="flex: 1">
+              <header
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 15px;
+                "
+              >
+                <h5 class="card-title mb-0">管理員權限</h5>
+                <button
+                  class="btn btn-outline-dark"
+                  id="Edit_editManagerAuthorities"
+                >
+                  編輯
+                </button>
+                <button
+                  class="btn btn-primary d-none"
+                  id="Edit_saveManagerAuthorities"
+                >
+                  儲存
+                </button>
+              </header>
+              <div
+                id="Edit_managerAuthorities"
+                class="custom-control custom-checkbox"
+                style="display: flex; gap: 30px"
+              >
+                <div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="Edit_checkHomepage"
+                      disabled
+                    />
+                    <label class="custom-control-label" for="Edit_checkHomepage"
+                      >首頁管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="Edit_checkManageManager"
+                      disabled
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkManageManager"
+                      >管理員管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="Edit_checkManageUser"
+                      disabled
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkManageUser"
+                      >會員管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="Edit_checkMall"
+                      disabled
+                    />
+                    <label class="custom-control-label" for="Edit_checkMall"
+                      >商品管理</label
+                    >
+                  </div>
+                </div>
+                <div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="Edit_checkPetgroomerManager"
+                      disabled
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkPetgroomerManager"
+                      >美容師管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="Edit_checkpgPersonalManagement"
+                      disabled
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkpgPersonalManagement"
+                      >美容師個人管理</label
+                    >
+                  </div>
+                  <div class="checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="Edit_checkSocialMedia"
+                      disabled
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkSocialMedia"
+                      >社群管理</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+        </section>
+      </div>
+    </div>
+    <!-- Edit LightBox End -->
+
+    <!-- Add LightBox Star -->
+    <div class="col-6 lightbox" id="addLightBox">
+      <div class="card px-3 py-4" style="margin-bottom: 0">
+        <div class="container py-3">
+          <ul
+            class="progressbar py-1"
+            style="display: flex; justify-content: center"
+          >
+            <li class="active">新增管理員</li>
+            <li>設定資料</li>
+            <li>設定權限</li>
+          </ul>
+          <div class="step-content active" id="step1Content">
+            <h5 class="h3 m-4" style="text-align: center">管理員帳號</h5>
+            <div id="managerData" class="mx-5 mb-4">
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <label
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >帳號：</label
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <label
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >密碼：</label
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="btn btn-dark fetch" id="Add_addManagerButton">
+                新增
+              </button>
+              <button
+                class="nextButton btn btn-primary"
+                id="Add_addedManagerButton"
+              >
+                下一步
+              </button>
+            </div>
+          </div>
+          <div class="step-content d-none" id="step2Content">
+            <h5 class="h3 m-4" style="text-align: center">管理員資料</h5>
+            <div id="managerData" class="mx-5 mb-4">
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <label
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >帳號：</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  disabled
+                />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <label
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >密碼：</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  disabled
+                />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <label
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >ＩＤ：</label
+                >
+                <input type="text" class="form-control form-control-sm" />
+              </div>
+              <div class="checkbox_item citem_3" style="display: flex">
+                <label
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >狀態：</label
+                >
+                <label
+                  class="checkbox_wrap"
+                  style="margin: auto; width: 180px; border-radius: 5px"
+                >
+                  <input
+                    type="checkbox"
+                    name="checkbox"
+                    class="checkbox_inp"
+                    checked
+                  />
+                  <span class="checkbox_mark"></span>
+                </label>
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="btn btn-dark fetch" id="Add_UpdateManagerData">
+                設置
+              </button>
+              <button class="nextButton btn btn-primary">下一步</button>
+            </div>
+          </div>
+          <div class="step-content d-none" id="step3Content">
+            <h5 class="h3 m-4" style="text-align: center">管理員權限</h5>
+            <div
+              id="Add_managerAuthorities"
+              class="custom-control custom-checkbox mb-4"
+              style="display: flex; justify-content: center; gap: 60px"
+            >
+              <div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Add_checkHomepage"
+                  />
+                  <label class="custom-control-label" for="Add_checkHomepage"
+                    >首頁管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Add_checkManageManager"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Add_checkManageManager"
+                    >管理員管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Add_checkManageUser"
+                  />
+                  <label class="custom-control-label" for="Add_checkManageUser"
+                    >會員管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Add_checkMall"
+                  />
+                  <label class="custom-control-label" for="Add_checkMall"
+                    >商品管理</label
+                  >
+                </div>
+              </div>
+              <div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Add_checkPetgroomerManager"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Add_checkPetgroomerManager"
+                    >美容師管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Add_checkpgPersonalManagement"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Add_checkpgPersonalManagement"
+                    >美容師個人管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Add_checkSocialMedia"
+                  />
+                  <label class="custom-control-label" for="Add_checkSocialMedia"
+                    >社群管理</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="prevButton btn btn-outline-dark">上一步</button>
+              <button
+                class="btn btn-dark fetch"
+                id="Add_UpdateManagerAuthorities"
+              >
+                設置
+              </button>
+              <button class="nextButton btn btn-primary">下一步</button>
+            </div>
+          </div>
+          <div class="step-content d-none" id="completionPage">
+            <h5 class="h3 m-4" style="text-align: center">新增完成</h5>
+            <div
+              class="mb-4"
+              style="display: flex; justify-content: center; gap: 60px"
+            >
+              <div class="success-checkmark">
+                <div class="check-icon">
+                  <span class="icon-line line-tip"></span>
+                  <span class="icon-line line-long"></span>
+                  <div class="icon-circle"></div>
+                  <div class="icon-fix"></div>
+                </div>
+              </div>
+            </div>
+            <div class="btnContain">
+              <button class="btn btn btn-outline-dark" id="Add_completeButton">
+                關閉
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
+    <!-- Add LightBox End -->
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.4/dist/sweetalert2.all.min.js"></script>
     <script src="/jquery/jquery-3.2.1.min.js"></script>
     <script src="/backend/js/app.js"></script>
-    <script>
-      function sweetAlert() {
-        (async () => {
-          const { value: formValues } = await Swal.fire({
-            title: "Multiple inputs",
-            html:
-              '<input id="swal-input1" class="swal2-input">' +
-              '<input id="swal-input2" class="swal2-input">',
-            focusConfirm: false,
-            preConfirm: () => {
-              return [
-                {
-                  managerAccount: document.getElementById("swal-input1").value,
-                  managerPassword: document.getElementById("swal-input2").value,
-                },
-              ];
-            },
-          });
-
-          if (formValues) {
-            Swal.fire(JSON.stringify(formValues));
-            const test = JSON.stringify(formValues);
-            console.log(test);
-          }
-        })();
-      }
-    </script>
+    <script
+      type="module"
+      src="/backend/pages/manageManager/manageManager/js/searchManager.js"
+    ></script>
+    <script src="/backend/pages/manageManager/manageManager/js/lightbox.js"></script>
+    <script src="/backend/pages/manageManager/manageManager/js/progressBar.js"></script>
+    <script src="/backend/pages/manageManager/manageManager/js/sccessCheckMark.js"></script>
   </body>
 </html>
