@@ -1,39 +1,30 @@
 import config from "/ipconfig.js";
 
 var statusOutput = document.getElementById("statusOutput");
-var messagesArea = document.getElementById("messagesArea"); 
+var messagesArea = document.getElementById("messagesArea");
+var self = '${userName}';
 var webSocket;
-let self;
 $(window).on("load", () => {
     connect();
 })
 function connect() {
-
-    let token = localStorage.getItem("Authorization_U");
+    
+    let token = localStorage.getItem("Authorization_U"); 
     let connectUrl = (config.url).split('//')[1];
     if (token == null)
-        return;
+        return;  
     let url = 'ws://' + connectUrl + '/websocket/productMallChat?access_token=' + token;
     let webSocket = new WebSocket(url);
     webSocket.onopen = function () {
         console.log("Connect Success!");
-        //撈回跟商品管理員的歷史紀錄
-        var jsonObj = {
-            "type": "getIdentity", 
-            "sender":"",
-            "receiver":"ProductManager",
-            "message": ""
-        };
-        webSocket.send(JSON.stringify(jsonObj));
+       
     };
 
     webSocket.onmessage = function (event) {
         var jsonObj = JSON.parse(event.data);
-        if("getIdentity"===jsonObj.type){
-            alert(jsonObj.message);
-            self=jsonObj.message;
-        }
-        if ("history" === jsonObj.type) {
+        if ("open" === jsonObj.type) {
+            refreshFriendList(jsonObj);
+        } else if ("history" === jsonObj.type) {
             messagesArea.innerHTML = '';
             var ul = document.createElement('ul');
             ul.id = "area";
@@ -91,7 +82,17 @@ function sendMessage() {
     }
 }
 
- 
+// 有好友上線或離線就更新列表
+function refreshFriendList(jsonObj) {
+    var friends = jsonObj.users;
+    var row = document.getElementById("row");
+    row.innerHTML = '';
+    for (var i = 0; i < friends.length; i++) {
+        if (friends[i] === self) { continue; }
+        row.innerHTML += '<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
+    }
+    addListener();
+}
 // 註冊列表點擊事件並抓取好友名字以取得歷史訊息
 function addListener() {
     var container = document.getElementById("row");
@@ -109,6 +110,12 @@ function addListener() {
 }
 
 function disconnect() {
-    webSocket.close(); 
+    webSocket.close();
+    document.getElementById('sendMessage').disabled = true;
+    document.getElementById('connect').disabled = false;
+    document.getElementById('disconnect').disabled = true;
 }
- 
+
+function updateFriendName(name) {
+    statusOutput.innerHTML = name;
+}
