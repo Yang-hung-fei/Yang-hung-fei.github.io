@@ -541,7 +541,30 @@
                   "
                   >帳號：</label
                 >
-                <input type="text" class="form-control form-control-sm" />
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  disabled
+                />
+              </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 15px"
+              >
+                <label
+                  class="form-label"
+                  style="
+                    flex-shrink: 1;
+                    margin: 0;
+                    white-space: nowrap;
+                    font-size: 15px;
+                  "
+                  >密碼：</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  disabled
+                />
               </div>
               <div
                 style="display: flex; align-items: center; margin-bottom: 15px"
@@ -558,21 +581,6 @@
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
-              <div
-                style="display: flex; align-items: center; margin-bottom: 15px"
-              >
-                <label
-                  class="form-label"
-                  style="
-                    flex-shrink: 1;
-                    margin: 0;
-                    white-space: nowrap;
-                    font-size: 15px;
-                  "
-                  >密碼：</label
-                >
-                <input type="text" class="form-control form-control-sm" />
-              </div>
               <div class="checkbox_item citem_3" style="display: flex">
                 <label
                   class="form-label"
@@ -584,7 +592,10 @@
                   "
                   >狀態：</label
                 >
-                <label class="checkbox_wrap" style="margin: auto; width: 180px">
+                <label
+                  class="checkbox_wrap"
+                  style="margin: auto; width: 180px; border-radius: 5px"
+                >
                   <input
                     type="checkbox"
                     name="checkbox"

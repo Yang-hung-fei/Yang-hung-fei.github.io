@@ -124,9 +124,9 @@ body {
 /* skewed styles */
 .checkbox_item.citem_3 .checkbox_wrap .checkbox_mark {
   width: 180px;
-  height: 35px;
+  height: 30px;
   padding: 2px;
-  border-radius: 0;
+  border-radius: 3px;
   transform: skew(-360deg);
   overflow: hidden;
 }
