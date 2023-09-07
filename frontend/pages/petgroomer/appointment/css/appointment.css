@@ -20,6 +20,7 @@ img[class^="img-"] {
     object-fit: cover;
     vertical-align: middle;
     overflow: clip;
+    border-radius: 5px;
 }
 
 * {
@@ -91,3 +92,10 @@ button#commit:active{
     background-color: #D08C60;
     color: black;
 }
+.back-to-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 这将使图标垂直水平居中 */
+    text-decoration: none; /* 去除链接的下划线 */
+  }
