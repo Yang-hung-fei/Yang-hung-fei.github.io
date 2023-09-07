@@ -1,51 +1,53 @@
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-#main>div:first-child {
-    flex: 1;
+#main > div:first-child {
+  flex: 1;
 }
 
 #content {
-    position: relative;
-    flex: 3;
+  position: relative;
+  flex: 3;
 }
 
 #sidebar {
-    min-width: 150px;
+  min-width: 150px;
 }
 
 #main {
-    display: flex;
-    position: relative;
-    min-height: 800px;
-    margin: 0 20px;
+  display: flex;
+  position: relative;
+  min-height: 800px;
+  margin: 0 20px;
 }
 
-main, #navbar, #searchbar{
-    max-width: calc(100vw - 70px - 100vw/4);
+main,
+#navbar,
+#searchbar {
+  max-width: calc(100vw - 70px - 100vw / 4);
 }
 
 main {
-    min-height: 100px;
-    background-color: #fff;
-    margin-top: 25px;
+  min-height: 100px;
+  background-color: #fff;
+  margin-top: 25px;
 }
 
 #sidebar {
-    margin: 25px;
+  margin: 25px;
 }
 
 #profile,
 #navbar,
 #sidebar {
-    border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
 }
 
 #sidebar,
 main {
-    border-radius: 5px
+  border-radius: 5px;
 }
 
 /* #sidebar, #navbar, main{box-shadow: #6e5d56 0 5px 0;} */
@@ -53,34 +55,29 @@ main {
 #sidebar,
 #navbar,
 main {
-    border: 5px solid #FEFCEC;
-    outline: 2px solid #bfac9f;
+  border: 5px solid #fefcec;
+  outline: 2px solid #bfac9f;
 }
 
 #searchbar {
-    outline: 2px solid #bfac9f;
-    border-top: #6F5242 2px solid;
+  outline: 2px solid #bfac9f;
+  border-top: #6f5242 2px solid;
 }
 
 /* 導覽列的margin-top，預設值為100px */
 #navbar {
-    margin-top: 25px;
-    min-height: 200px;
-    /* 將導覽列高度設為 200px */
-    top: 0;
-    transition: top 0.3s ease;
-    /* 添加過渡效果 */
-    flex-wrap: wrap;
+  margin-top: 25px;
+  min-height: 200px;
+  /* 將導覽列高度設為 200px */
+  top: 0;
+  flex-wrap: wrap;
 }
 
 #searchbar {
-    height: 50px;
-    top: 200px;
-    transition: top 0.3s ease;
-    /* 添加過渡效果 */
+  height: 50px;
+  top: 200px;
 }
 
 #searchbar {
-    background-color: #fefcec;
-  }
-  
+  background-color: #fefcec;
+}

@@ -151,13 +151,14 @@
     </div>
 
     <script src="/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/jquery/jquery-3.7.0.min.js"></script>
     <script src="/backend/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="/backend/js/sidebar.js"></script>
     <script src="/backend/js/sublistArrow.js"></script>
     <script>
       $(document).ready(function () {
-        // 使用事件委托处理通过 JavaScript 生成的链接
+        // 使用事件委託處理通過 JavaScript 生成的鏈接
         $("#sidebarLinks").on("click", ".function-link", function (e) {
           e.preventDefault(); // 阻止默认链接行为
           var newSrc = $(this).attr("href"); // 获取链接的 href 属性

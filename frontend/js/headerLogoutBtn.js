@@ -1,4 +1,4 @@
-import {backToRedirectUrl} from '/frontend/js/backToRedirectUrl.js';
+import { backToRedirectUrl } from "/frontend/js/backToRedirectUrl.js";
 
 // Get the user and logout button elements
 const userIcon = document.getElementById("user");
