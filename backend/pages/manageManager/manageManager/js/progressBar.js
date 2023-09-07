@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const stepContainers = document.querySelectorAll(".step-content");
   let currentStep = 0;
 
-  stepContainers.forEach((container, index) => {
+  stepContainers.forEach((container) => {
     const prevButton = container.querySelector(".prevButton");
     const nextButton = container.querySelector(".nextButton");
     const fetchButton = container.querySelector(".fetch");
@@ -50,14 +50,10 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchButton.classList.add("d-none");
 
         // 显示下一个步骤的 nextButton
-        const nextStepContainer = stepContainers[currentStep + 1];
-        if (nextStepContainer) {
-          const nextStepNextButton =
-            nextStepContainer.querySelector(".nextButton");
-          if (nextStepNextButton) {
-            nextStepNextButton.classList.remove("d-none");
-          }
-        }
+        fetchButton
+          .closest("div.btnContain")
+          .querySelector("button.nextButton")
+          .classList.remove("d-none");
       });
     }
   });
@@ -93,4 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 初始化頁面
   updateProgressBar();
+});
+
+$("#Add_addManagerButton").on("click", () => {
+  $("#step1Content input").prop("disabled", true);
 });
