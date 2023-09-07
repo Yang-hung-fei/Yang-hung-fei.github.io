@@ -6,7 +6,7 @@ const updateAcUrl = hostUrl + AcUrl;
 const cancelAcurl = hostUrl + AcUrl + "/cancel";
 const getAcDetailsUrl = hostUrl + AcUrl;
 const getAllAcUrl = hostUrl + AcUrl + "/all";
-const activityManToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MDA2OTU2fQ.6mu7dwpu36S8JctWsYJpHxMrbHBGY4TGPND4EXH4098";
+const activityManToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MzY5OTU0fQ.Rhi4c1HV8uIB5w_nCajIFnrn8EdBfUOeR5UwlGB3N0U";
 // ------------------------- 頁面載入  ------------------------- //
 window.addEventListener('load', function () {
     getAllAc();
@@ -19,7 +19,14 @@ window.addEventListener('load', function () {
 // getAllAc();
 
 // ------------------------- 事件驅動  ------------------------- //
+//改變分頁
+const pagination = document.querySelector(".pagination");
+pagination.addEventListener('click', async (event) => {
+    let page = await event.target.getAttribute('data-page');
+    await getAllAc(page);
+})
 
+//修改活動
 const editModal = document.getElementById('editActivity');
 editModal.addEventListener('show.bs.modal', async function (e) {
     //當使用者點擊按鈕
@@ -41,37 +48,79 @@ editModal.addEventListener('show.bs.modal', async function (e) {
     } else {
         status.value = "已取消"
     }
-
-    document.getElementById('editForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        let title = document.getElementById('title').value;
-        let activityTime = document.getElementById('activityTime').value;
-        let activityContent = document.getElementById('activityContent').value;
-        let startTime = document.getElementById('startTime').value;
-        let endTime = document.getElementById('endTime').value;
-        let enrollLimit = document.getElementById('enterLimit').value;
-        //處理圖片轉換成字串
-        let activityImg = document.getElementById('activityImg').value;
-        // 處理時間格式
-        let newAcTime = activityTime.toString().replace("T", " ");
-        let updateData = {
-            "title": title,
-            "content": activityContent,
-            "startTime": startTime.toString(),
-            "endTime": endTime.toString(),
-            "activityTime": newAcTime + ":00",
-            "activityPicture": null,
-            "enrollLimit": enrollLimit
-        };
-        let updateResult = await updateAc(activityId, updateData);
-        console.log(updateResult);
-
-        // 在需要關閉模態的地方，例如更新成功後
-        if (updateResult != null) {
-        //   editModal.;
-        }
-    });
 });
+
+// document.getElementById('editForm').
+editModal.addEventListener('submit', async function (e) {
+    let button = e.target;
+    console.log(button);
+    let activityId = button.getAttribute('data-id');
+    e.preventDefault();
+    let title = document.getElementById('title').value;
+    let activityTime = document.getElementById('activityTime').value;
+    let activityContent = document.getElementById('activityContent').value;
+    let startTime = document.getElementById('startTime').value;
+    let endTime = document.getElementById('endTime').value;
+    let enrollLimit = document.getElementById('enterLimit').value;
+    //處理圖片轉換成字串
+    let activityImg = document.getElementById('activityImg').value;
+    // 處理時間格式
+    let newAcTime = activityTime.toString().replace("T", " ");
+    let updateData = {
+        "title": title,
+        "content": activityContent,
+        "startTime": startTime.toString(),
+        "endTime": endTime.toString(),
+        "activityTime": newAcTime + ":00",
+        "activityPicture": null,
+        "enrollLimit": enrollLimit
+    };
+    let updateResult = await updateAc(activityId, updateData);
+    console.log(updateResult);
+    if (updateResult != null) {
+        //關閉modal
+        editModal.classList.remove('show');
+        editModal.
+            editModal.addEventListener('show.bs.modal')
+        // editModal.style.display = 'none';
+
+        // let modalBackdrop = document.querySelector('.modal-backdrop');
+        // if (modalBackdrop) {
+        //     modalBackdrop.parentNode.removeChild(modalBackdrop);
+        // }
+    }
+});
+
+
+editModal.addEventListener('hide.bs.modal', async function (e) {
+    //當使用者點擊按鈕
+    let button = e.relatedTarget;
+    let activityId = button.getAttribute('data-id');
+    console.log(activityId);
+
+})
+
+
+
+// editModal.hidden = true;
+// // editModal.style.display = 'none';
+// // 移除body上的modal-open類別
+// document.body.classList.remove('modal-open');
+// // 移除帶有modal - backdrop類別的元素
+// let modalBackdrop = document.querySelector('.modal-backdrop');
+// if (modalBackdrop) {
+//     // modalBackdrop.style.display = 'none';
+//     console.log(modalBackdrop.checkVisibility());
+//     // console.log(modalBackdrop.getAttribute('class'));
+//     // modalBackdrop.setAttribute('class', 'modal fade');
+// }
+
+
+// editModal.getAttribute('class');
+// editModal.setAttribute('class', 'modal fade');
+
+
+// const addModal = document.getElementById('addActivity');
 
 
 
@@ -150,7 +199,6 @@ async function updateAc(activityId, updateData) {
         });
 }
 
-
 // ------------------------- 查詢單一活動  ------------------------- //
 async function getAcDetails(activityId) {
     return fetch(getAcDetailsUrl + `/${activityId}`, {
@@ -173,9 +221,14 @@ async function getAcDetails(activityId) {
 
 
 // ------------------------- 查詢活動  ------------------------- //
-function getAllAc() {
+async function getAllAc(page) {
+    let params = new URLSearchParams({
+        page: page
+    });
+    let newUrl = `${page === undefined ? getAllAcUrl : getAllAcUrl + '?' + params.toString()}`;
 
-    fetch(getAllAcUrl, {
+    console.log(newUrl);
+    return fetch(newUrl, {
         method: "GET",
         headers: {
             Authorization_M: activityManToken,
@@ -188,7 +241,7 @@ function getAllAc() {
             let activityPageData = data.message;
             let pageData = {
                 //目前所在頁數(預設為0)
-                curentPage: activityPageData.currentPageNumber + 1,
+                curentPage: activityPageData.currentPageNumber,
                 //一頁有幾筆資料
                 pageSize: activityPageData.pageSize,
                 totalPage: activityPageData.totalPage,
@@ -199,11 +252,14 @@ function getAllAc() {
         }).then(pageData => {
             //create table data and pagination
             createDataTable(pageData);
+            createPagination(pageData);
         })
         .catch(err => {
             console.error(err.message);
         });
 }
+
+
 
 
 // ------------------------- 建立分頁  ------------------------- //
@@ -212,8 +268,6 @@ function createDataTable(data) {
     // // 選擇分頁元素
     let table = document.querySelector("#table");
     let tbody = table.querySelector("tbody");
-    let pagination = document.querySelector(".pagination");
-    console.log(pagination);
     // 清空tbody表格
     tbody.innerHTML = "";
     let dataList = '';
@@ -243,29 +297,35 @@ function createDataTable(data) {
 
     });
     tbody.innerHTML = dataList;
-    console.log(tbody);
+}
 
+function createPagination(data) {
+    let pagination = document.querySelector(".pagination");
     //建立分頁 -清空分頁
     pagination.innerHTML = "";
     // 總頁數
     let totalPages = data.totalPage;
+    //預設為1
     let currentPage = data.curentPage;
 
     // 創建分頁頁碼
     for (let i = 1; i <= totalPages; i++) {
         const pageItem = document.createElement("li");
         pageItem.classList.add("page-item");
-        if (i === currentPage) {
+        if (i === currentPage + 1) {
             pageItem.classList.add("active");
         }
         const pageLink = document.createElement("a");
         pageLink.classList.add("page-link");
-        pageLink.href = `${i}`;
+        pageLink.href = "#";
         pageLink.textContent = i;
+        pageLink.setAttribute('data-page', i - 1);
         pageItem.appendChild(pageLink);
         pagination.appendChild(pageItem);
-    }
 
+    }
 }
+
+
 // ------------------------- 改變分頁  ------------------------- //
 
