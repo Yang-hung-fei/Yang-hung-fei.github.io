@@ -33,9 +33,8 @@ async function createAc(postData) {
 
 
 // ------------------------- 取消活動  ------------------------- //
-function cancelAc() {
-    let activityId = 28;
-    fetch(cancelAcurl + `/${activityId}`, {
+async function cancelAc(activityId) {
+    return fetch(cancelAcurl + `/${activityId}`, {
         method: "PUT",
         headers: {
             Authorization_M: activityManToken,
@@ -45,7 +44,7 @@ function cancelAc() {
         .then(res => {
             return res.json();
         }).then(data => {
-            return data.message;
+            return data;
         })
         .catch(err => {
             console.log(err.message);

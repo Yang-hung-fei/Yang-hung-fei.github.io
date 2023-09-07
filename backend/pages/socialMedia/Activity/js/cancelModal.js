@@ -1,4 +1,5 @@
-//新增活動
+import { getAllAc, cancelAc } from "./callApi.js";
+//取消活動
 async function showCancelModal(activityId) {
     let modalWrap = null;
     modalWrap = document.createElement('div');
@@ -18,11 +19,10 @@ async function showCancelModal(activityId) {
                                 <p class="text-danger"><small>取消活動後資料不會復原喔!!!</small></p>
                             </div>
                             <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-bs-dismiss="modal" value="返回">
-                                    <input type="submit" id="cancelConfirm" class="btn btn-danger" value="確認取消">
-                                    </div>
-                                </form>
+                                <button type="button" class="btn btn-default" data-bs-dismiss="modal">返回</button>
+                                <button type="submit" id="cancelConfirm" class="btn btn-danger">確認取消</button>
                             </div>
+                        </form>    
                     </div>
                 </div> 
             </div > 
@@ -34,51 +34,45 @@ async function showCancelModal(activityId) {
 
 
 
-    const addComfirm = document.querySelector('#cancelConfirm');
-    addComfirm.addEventListener('click', (e) => {
-        modal.hide();
+    const cancelConfirm = document.querySelector('#cancelConfirm');
+    cancelConfirm.addEventListener('click', (e) => {
+        e.preventDefault();
+        cancelActiv(activityId);
     })
 
-    // async function addData() {
-    //     console.log("新增成功");
+    async function cancelActiv(activityId) {
+        console.log("取消成功" + activityId);
+        let cancelResult = await cancelAc(activityId)
 
-    // let postData = {
-    //     "title": "活動建立測試",
-    //     "content": "測試第28次",
-    //     "startTime": "2023-08-29",
-    //     "endTime": "2023-09-19",
-    //     "activityTime": "2023-09-12 09:30:00",
-    //     "enrollLimit": 40
-    // };
-    // let updateResult = await createAc(postData);
-    // if (updateResult.code === 200) {
-    //     Swal.fire(
-    //         {
-    //             title: '確認新增',
-    //             icon: 'success',
-    //             confirmButtonText: '了解', //　按鈕顯示文字
-    //         }
-    //     ).then((result) => {
-    //         if (result.isConfirmed) {
-    //             // location.reload();
-    //             console.log("改變render");
-    //             let pageData = getAc();
-    //             createDataTable(pageData);
-    //             createPagination(pageData);
-    //         }
-    //     })
-    // } else {
-    //     Swal.fire(
-    //         {
-    //             title: '新增失敗',
-    //             icon: 'error',
-    //             confirmButtonText: '了解', //　按鈕顯示文字
-    //         }
-    //     );
-    // }
+        if (cancelResult.code === 200) {
+            Swal.fire(
+                {
+                    title: '取消成功',
+                    icon: 'success',
+                    confirmButtonText: '了解', //　按鈕顯示文字
+                }
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    // 選取具有 "page-item active" 類別的元素
+                    const activePageItem = document.querySelector('.page-item.active');
+                    // 從選取的元素中獲取 data-page 屬性的值
+                    const pageValue = activePageItem.querySelector('.page-link').getAttribute('data-page');
+                    getAllAc(pageValue);
 
+                }
+            })
+        } else {
+            Swal.fire(
+                {
+                    title: '取消失敗',
+                    icon: 'error',
+                    confirmButtonText: '了解', //　按鈕顯示文字
+                }
+            );
+        }
+        modal.hide();
 
-    // }
+    }
 
 }
 
