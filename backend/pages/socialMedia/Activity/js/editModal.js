@@ -2,8 +2,6 @@
 import { getAcDetails, getAllAc, updateAc } from "./callApi.js";
 import { createDataTable, createPagination } from "./pagination.js";
 
-//新增活動
-
 //修改活動
 async function showEditModal(activityId) {
     let id = await activityId;
@@ -14,7 +12,7 @@ async function showEditModal(activityId) {
     // }
     modalWrap = document.createElement('div');
     modalWrap.innerHTML = `
-<div class="modal fade" >
+<div class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="editForm">
@@ -82,7 +80,7 @@ async function showEditModal(activityId) {
 
     document.body.append(modalWrap);
 
-    var modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+    let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
     modal.show();
 
     // 輸入

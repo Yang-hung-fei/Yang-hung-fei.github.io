@@ -1,4 +1,5 @@
 import { showEditModal } from "./editModal.js";
+import { showCancelModal } from "./cancelModal.js";
 // ------------------------- 建立分頁  ------------------------- //
 // 更新資料表格和分頁
 async function createDataTable(data) {
@@ -48,7 +49,21 @@ async function createDataTable(data) {
             await showEditModal(dataId);
 
         });
-    })
+    });
+
+    //取消活動監聽
+    const cancelActivities = document.querySelectorAll('#cancelBtn');
+    cancelActivities.forEach((cancelAc) => {
+        cancelAc.addEventListener('click', async function (e) {
+            // 使用 dataset 屬性獲取 data-id 的值
+            let dataId = this.dataset.id;
+            //fetch獲取資料
+            console.log(dataId);
+            console.log("show your modal");
+            await showCancelModal(dataId);
+
+        });
+    });
 }
 async function createPagination(data) {
     let pagination = document.querySelector(".pagination");

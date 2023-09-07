@@ -12,17 +12,8 @@ const getAcByStatusUrl = hostUrl + AcUrl + "/status"
 const activityManToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NDEwMjMyfQ.VY0ctjroAS7CBFnoM_pXurVmU1S6yUV2GW81iAK1MBY";
 
 // ------------------------- 建立活動  ------------------------- //
-function createAc() {
-    let postData = {
-        "title": "活動建立測試",
-        "content": "測試第28次",
-        "startTime": "2023-08-29",
-        "endTime": "2023-09-19",
-        "activityTime": "2023-09-12 09:30:00",
-        "enrollLimit": 40
-    };
-
-    fetch(createAcUrl, {
+async function createAc(postData) {
+    return fetch(createAcUrl, {
         method: "POST",
         headers: {
             Authorization_M: activityManToken,
@@ -33,7 +24,7 @@ function createAc() {
         .then(res => {
             return res.json();
         }).then(data => {
-            console.log(data.message);
+            return data;
         })
         .catch(err => {
             console.error(err.message);
