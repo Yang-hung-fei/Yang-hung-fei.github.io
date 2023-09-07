@@ -57,6 +57,10 @@
       rel="stylesheet"
       href="/backend/pages/manageManager/manageManager/css/sccessCheckMark.css"
     />
+    <link
+      rel="stylesheet"
+      href="/backend/pages/manageManager/manageManager/css/toggleCheckbox.css"
+    />
   </head>
   <div id="main-content">
     <h1 class="h3 mb-3">管理員管理</h1>
@@ -569,9 +573,7 @@
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
-              <div
-                style="display: flex; align-items: center; margin-bottom: 15px"
-              >
+              <div class="checkbox_item citem_3" style="display: flex">
                 <label
                   class="form-label"
                   style="
@@ -582,7 +584,15 @@
                   "
                   >狀態：</label
                 >
-                <input type="text" class="form-control form-control-sm" />
+                <label class="checkbox_wrap" style="margin: auto; width: 180px">
+                  <input
+                    type="checkbox"
+                    name="checkbox"
+                    class="checkbox_inp"
+                    checked
+                  />
+                  <span class="checkbox_mark"></span>
+                </label>
               </div>
             </div>
             <div class="btnContain">
