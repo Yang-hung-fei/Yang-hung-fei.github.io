@@ -76,7 +76,11 @@
               "
             >
               <h5 class="card-title mb-0">管理員查詢</h5>
-              <button onclick="sweetAlert()" class="btn btn-outline-dark">
+              <button
+                onclick="sweetAlert()"
+                class="btn btn-outline-dark"
+                id="mainAddManagerButton"
+              >
                 新增管理員
               </button>
             </div>
@@ -223,8 +227,18 @@
                 "
               >
                 <h5 class="card-title mb-0">管理員資料</h5>
-                <butto class="btn btn-outline-dark">編輯</butto>
-                <butto class="btn btn-primary d-none">儲存</butto>
+                <button
+                  class="btn btn-outline-dark"
+                  id="Edit_editManagerDataButton"
+                >
+                  編輯
+                </button>
+                <button
+                  class="btn btn-primary d-none"
+                  id="Edit_saveManagerDataButton"
+                >
+                  儲存
+                </button>
               </header>
               <div id="managerData">
                 <div
@@ -234,7 +248,7 @@
                     margin-bottom: 15px;
                   "
                 >
-                  <lable
+                  <label
                     class="form-label"
                     style="
                       flex-shrink: 1;
@@ -242,7 +256,7 @@
                       white-space: nowrap;
                       font-size: 15px;
                     "
-                    >帳號：</lable
+                    >帳號：</label
                   >
                   <input
                     type="text"
@@ -257,7 +271,7 @@
                     margin-bottom: 15px;
                   "
                 >
-                  <lable
+                  <label
                     class="form-label"
                     style="
                       flex-shrink: 1;
@@ -265,7 +279,7 @@
                       white-space: nowrap;
                       font-size: 15px;
                     "
-                    >ＩＤ：</lable
+                    >ＩＤ：</label
                   >
                   <input
                     type="text"
@@ -280,7 +294,7 @@
                     margin-bottom: 15px;
                   "
                 >
-                  <lable
+                  <label
                     class="form-label"
                     style="
                       flex-shrink: 1;
@@ -288,7 +302,7 @@
                       white-space: nowrap;
                       font-size: 15px;
                     "
-                    >密碼：</lable
+                    >密碼：</label
                   >
                   <input
                     type="text"
@@ -303,7 +317,7 @@
                     margin-bottom: 15px;
                   "
                 >
-                  <lable
+                  <label
                     class="form-label"
                     style="
                       flex-shrink: 1;
@@ -311,7 +325,7 @@
                       white-space: nowrap;
                       font-size: 15px;
                     "
-                    >狀態：</lable
+                    >狀態：</label
                   >
                   <input
                     type="text"
@@ -332,22 +346,33 @@
                 "
               >
                 <h5 class="card-title mb-0">管理員權限</h5>
-                <butto class="btn btn-outline-dark">編輯</butto>
-                <butto class="btn btn-primary d-none">儲存</butto>
+                <button
+                  class="btn btn-outline-dark"
+                  id="Edit_editManagerAuthorities"
+                >
+                  編輯
+                </button>
+                <button
+                  class="btn btn-primary d-none"
+                  id="Edit_saveManagerAuthorities"
+                >
+                  儲存
+                </button>
               </header>
               <div
+                id="Edit_managerAuthorities"
                 class="custom-control custom-checkbox"
                 style="display: flex; gap: 30px"
               >
-                <div id="managerAuthoriies">
+                <div>
                   <div class="checkbox">
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="Edit_checkHomepage"
                       disabled
                     />
-                    <label class="custom-control-label" for="customCheck1"
+                    <label class="custom-control-label" for="Edit_checkHomepage"
                       >首頁管理</label
                     >
                   </div>
@@ -355,10 +380,12 @@
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="Edit_checkManageManager"
                       disabled
                     />
-                    <label class="custom-control-label" for="customCheck1"
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkManageManager"
                       >管理員管理</label
                     >
                   </div>
@@ -366,10 +393,12 @@
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="Edit_checkManageUser"
                       disabled
                     />
-                    <label class="custom-control-label" for="customCheck1"
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkManageUser"
                       >會員管理</label
                     >
                   </div>
@@ -377,10 +406,10 @@
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="Edit_checkMall"
                       disabled
                     />
-                    <label class="custom-control-label" for="customCheck1"
+                    <label class="custom-control-label" for="Edit_checkMall"
                       >商品管理</label
                     >
                   </div>
@@ -390,10 +419,12 @@
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="Edit_checkPetgroomerManager"
                       disabled
                     />
-                    <label class="custom-control-label" for="customCheck1"
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkPetgroomerManager"
                       >美容師管理</label
                     >
                   </div>
@@ -401,10 +432,12 @@
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="Edit_checkpgPersonalManagement"
                       disabled
                     />
-                    <label class="custom-control-label" for="customCheck1"
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkpgPersonalManagement"
                       >美容師個人管理</label
                     >
                   </div>
@@ -412,10 +445,12 @@
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="Edit_checkSocialMedia"
                       disabled
                     />
-                    <label class="custom-control-label" for="customCheck1"
+                    <label
+                      class="custom-control-label"
+                      for="Edit_checkSocialMedia"
                       >社群管理</label
                     >
                   </div>
@@ -431,22 +466,22 @@
     <!-- Add LightBox Star -->
     <div class="col-6 lightbox" id="addLightBox">
       <div class="card px-3 py-4" style="margin-bottom: 0">
-        <div class="container">
+        <div class="container py-3">
           <ul
-            class="progressbar"
+            class="progressbar py-1"
             style="display: flex; justify-content: center"
           >
             <li class="active">新增管理員</li>
             <li>設定資料</li>
             <li>設定權限</li>
           </ul>
-          <div class="step-content active d-none" id="step1Content">
+          <div class="step-content active" id="step1Content">
             <h5 class="h3 m-4" style="text-align: center">管理員資料</h5>
             <div id="managerData" class="mx-5 mb-4">
               <div
                 style="display: flex; align-items: center; margin-bottom: 15px"
               >
-                <lable
+                <label
                   class="form-label"
                   style="
                     flex-shrink: 1;
@@ -454,14 +489,14 @@
                     white-space: nowrap;
                     font-size: 15px;
                   "
-                  >帳號：</lable
+                  >帳號：</label
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
               <div
                 style="display: flex; align-items: center; margin-bottom: 15px"
               >
-                <lable
+                <label
                   class="form-label"
                   style="
                     flex-shrink: 1;
@@ -469,23 +504,30 @@
                     white-space: nowrap;
                     font-size: 15px;
                   "
-                  >密碼：</lable
+                  >密碼：</label
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
             </div>
             <div class="btnContain">
-              <button class="btn btn-dark">新增</button>
-              <button class="nextButton btn btn-primary d-none">下一步</button>
+              <button class="btn btn-dark fetch" id="Add_addManagerButton">
+                新增
+              </button>
+              <button
+                class="nextButton btn btn-primary"
+                id="Add_addedManagerButton"
+              >
+                下一步
+              </button>
             </div>
           </div>
-          <div class="step-content hidden d-none" id="step2Content">
+          <div class="step-content d-none" id="step2Content">
             <h5 class="h3 m-4" style="text-align: center">管理員資料</h5>
             <div id="managerData" class="mx-5 mb-4">
               <div
                 style="display: flex; align-items: center; margin-bottom: 15px"
               >
-                <lable
+                <label
                   class="form-label"
                   style="
                     flex-shrink: 1;
@@ -493,14 +535,14 @@
                     white-space: nowrap;
                     font-size: 15px;
                   "
-                  >帳號：</lable
+                  >帳號：</label
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
               <div
                 style="display: flex; align-items: center; margin-bottom: 15px"
               >
-                <lable
+                <label
                   class="form-label"
                   style="
                     flex-shrink: 1;
@@ -508,14 +550,14 @@
                     white-space: nowrap;
                     font-size: 15px;
                   "
-                  >ＩＤ：</lable
+                  >ＩＤ：</label
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
               <div
                 style="display: flex; align-items: center; margin-bottom: 15px"
               >
-                <lable
+                <label
                   class="form-label"
                   style="
                     flex-shrink: 1;
@@ -523,14 +565,14 @@
                     white-space: nowrap;
                     font-size: 15px;
                   "
-                  >密碼：</lable
+                  >密碼：</label
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
               <div
                 style="display: flex; align-items: center; margin-bottom: 15px"
               >
-                <lable
+                <label
                   class="form-label"
                   style="
                     flex-shrink: 1;
@@ -538,31 +580,35 @@
                     white-space: nowrap;
                     font-size: 15px;
                   "
-                  >狀態：</lable
+                  >狀態：</label
                 >
                 <input type="text" class="form-control form-control-sm" />
               </div>
             </div>
             <div class="btnContain">
               <button class="prevButton btn btn-outline-dark">上一步</button>
-              <button class="btn btn-dark">設置</button>
-              <button class="nextButton btn btn-primary d-none">下一步</button>
+              <button class="btn btn-dark fetch" id="Add_UpdateManagerData">
+                設置
+              </button>
+              <button class="nextButton btn btn-primary">下一步</button>
             </div>
           </div>
-          <div class="step-content hidden d-none" id="step3Content">
+          <div class="step-content d-none" id="step3Content">
             <h5 class="h3 m-4" style="text-align: center">管理員權限</h5>
             <div
+              id="Add_managerAuthorities"
               class="custom-control custom-checkbox mb-4"
               style="display: flex; justify-content: center; gap: 60px"
             >
-              <div id="managerAuthoriies">
+              <div>
                 <div class="checkbox">
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="customCheck1"
+                    id="Add_checkHomepage"
+                    disabled
                   />
-                  <label class="custom-control-label" for="customCheck1"
+                  <label class="custom-control-label" for="Add_checkHomepage"
                     >首頁管理</label
                   >
                 </div>
@@ -570,9 +616,12 @@
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="customCheck1"
+                    id="Add_checkManageManager"
+                    disabled
                   />
-                  <label class="custom-control-label" for="customCheck1"
+                  <label
+                    class="custom-control-label"
+                    for="Add_checkManageManager"
                     >管理員管理</label
                   >
                 </div>
@@ -580,9 +629,10 @@
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="customCheck1"
+                    id="Add_checkManageUser"
+                    disabled
                   />
-                  <label class="custom-control-label" for="customCheck1"
+                  <label class="custom-control-label" for="Add_checkManageUser"
                     >會員管理</label
                   >
                 </div>
@@ -590,9 +640,10 @@
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="customCheck1"
+                    id="Add_checkMall"
+                    disabled
                   />
-                  <label class="custom-control-label" for="customCheck1"
+                  <label class="custom-control-label" for="Add_checkMall"
                     >商品管理</label
                   >
                 </div>
@@ -602,9 +653,12 @@
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="customCheck1"
+                    id="Add_checkPetgroomerManager"
+                    disabled
                   />
-                  <label class="custom-control-label" for="customCheck1"
+                  <label
+                    class="custom-control-label"
+                    for="Add_checkPetgroomerManager"
                     >美容師管理</label
                   >
                 </div>
@@ -612,9 +666,12 @@
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="customCheck1"
+                    id="Add_checkpgPersonalManagement"
+                    disabled
                   />
-                  <label class="custom-control-label" for="customCheck1"
+                  <label
+                    class="custom-control-label"
+                    for="Add_checkpgPersonalManagement"
                     >美容師個人管理</label
                   >
                 </div>
@@ -622,9 +679,10 @@
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="customCheck1"
+                    id="Add_checkSocialMedia"
+                    disabled
                   />
-                  <label class="custom-control-label" for="customCheck1"
+                  <label class="custom-control-label" for="Add_checkSocialMedia"
                     >社群管理</label
                   >
                 </div>
@@ -632,11 +690,16 @@
             </div>
             <div class="btnContain">
               <button class="prevButton btn btn-outline-dark">上一步</button>
-              <button class="btn btn-dark">設置</button>
-              <button class="nextButton btn btn-primary d-none">下一步</button>
+              <button
+                class="btn btn-dark fetch"
+                id="Add_UpdateManagerAuthorities"
+              >
+                設置
+              </button>
+              <button class="nextButton btn btn-primary">下一步</button>
             </div>
           </div>
-          <div class="step-content hidden" id="completionPage">
+          <div class="step-content d-none" id="completionPage">
             <h5 class="h3 m-4" style="text-align: center">新增完成</h5>
             <div
               class="mb-4"
@@ -652,7 +715,9 @@
               </div>
             </div>
             <div class="btnContain">
-              <button class="btn btn btn-outline-dark">關閉</button>
+              <button class="btn btn btn-outline-dark" id="Add_completeButton">
+                關閉
+              </button>
             </div>
           </div>
         </div>

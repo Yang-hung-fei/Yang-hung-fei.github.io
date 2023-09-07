@@ -13,6 +13,10 @@ $(document).ready(function () {
     closeModal();
   });
 
+  $("#Add_completeButton").click(function () {
+    closeModal();
+  });
+
   function closeModal() {
     $editLightBox.hide();
     $addLightBox.hide();

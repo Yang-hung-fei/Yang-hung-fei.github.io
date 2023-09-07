@@ -1,48 +1,76 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // 获取所有步骤内容的容器
+  // 獲取所有步驟內容的容器
   const stepContainers = document.querySelectorAll(".step-content");
-
-  // 设置初始步骤为0（第一个步骤）
   let currentStep = 0;
 
-  // 遍历每个步骤内容容器
   stepContainers.forEach((container, index) => {
-    // 获取当前步骤的 "上一步" 和 "下一步" 按钮
     const prevButton = container.querySelector(".prevButton");
     const nextButton = container.querySelector(".nextButton");
+    const fetchButton = container.querySelector(".fetch");
 
-    // 下一步按钮点击事件处理程序
     if (nextButton) {
       nextButton.addEventListener("click", () => {
         if (currentStep < stepContainers.length - 1) {
+          // 隐藏当前步骤
+          stepContainers[currentStep].classList.remove("active");
+          stepContainers[currentStep].classList.add("d-none");
+
+          // 显示下一个步骤
           currentStep++;
+          stepContainers[currentStep].classList.remove("d-none");
+          stepContainers[currentStep].classList.add("active");
+
           updateProgressBar();
         }
       });
     }
 
-    // 上一步按钮点击事件处理程序
     if (prevButton) {
       prevButton.addEventListener("click", () => {
         if (currentStep > 0) {
+          // 隐藏当前步骤
+          stepContainers[currentStep].classList.remove("active");
+          stepContainers[currentStep].classList.add("d-none");
+
+          // 显示上一个步骤
           currentStep--;
+          stepContainers[currentStep].classList.remove("d-none");
+          stepContainers[currentStep].classList.add("active");
+
           updateProgressBar();
+        }
+      });
+    }
+
+    if (fetchButton) {
+      fetchButton.addEventListener("click", () => {
+        // 在这里执行数据传递操作，例如向服务器发送请求或处理数据
+
+        // 隐藏当前步骤的 fetch 按钮
+        fetchButton.classList.add("d-none");
+
+        // 显示下一个步骤的 nextButton
+        const nextStepContainer = stepContainers[currentStep + 1];
+        if (nextStepContainer) {
+          const nextStepNextButton =
+            nextStepContainer.querySelector(".nextButton");
+          if (nextStepNextButton) {
+            nextStepNextButton.classList.remove("d-none");
+          }
         }
       });
     }
   });
 
-  // 更新进度条和步骤内容的函数
   function updateProgressBar() {
-    // 遍历每个步骤内容容器
     stepContainers.forEach((stepContainer, stepIndex) => {
-      // 更新进度条
+      // 更新進度條
       const progressBar =
         stepContainer.parentNode.querySelector(".progressbar");
       if (progressBar) {
         const steps = progressBar.querySelectorAll("li");
 
-        // 根据当前步骤索引更新进度条
+        // 根據當前步驟索引更新進度條
         steps.forEach((step, index) => {
           if (index <= currentStep) {
             step.classList.add("active");
@@ -52,17 +80,17 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
 
-      // 更新步骤内容的显示/隐藏
+      // 更新步驟內容的顯示/隱藏
       if (stepIndex === currentStep) {
-        stepContainer.classList.remove("hidden");
+        stepContainer.classList.remove("d-none"); // 使用classList.remove隐藏
         stepContainer.classList.add("active");
       } else {
         stepContainer.classList.remove("active");
-        stepContainer.classList.add("hidden");
+        stepContainer.classList.add("d-none"); // 使用classList.add显示
       }
     });
   }
 
-  // 初始化页面
+  // 初始化頁面
   updateProgressBar();
 });
