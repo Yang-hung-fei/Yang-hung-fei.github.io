@@ -44,6 +44,7 @@ function connect() {
         var jsonObj = JSON.parse(event.data);
         if ("getIdentity" === jsonObj.type) { 
             self = jsonObj.sender;
+            alert(self);
             //拿回使用者資訊後 拿回歷史紀錄 
             var jsonHisObj = {
                 "type": "history",
@@ -101,7 +102,7 @@ function sendMessage() {
         var jsonObj = {
             "type": "chat",
             "sender": self,
-            "receiver": "friend",
+            "receiver": "PdManager",
             "message": message
         };
         console.log(message);
@@ -121,7 +122,7 @@ function addListener() {
         var jsonObj = {
             "type": "history",
             "sender": self,
-            "receiver": friend,
+            "receiver": "PdManager",
             "message": ""
         };
         webSocket.send(JSON.stringify(jsonObj));
