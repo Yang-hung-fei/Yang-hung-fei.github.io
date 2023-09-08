@@ -1,137 +1,216 @@
 import config from "../../../../ipconfig.js";
 
-localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MTkzMjY3fQ.SzSM7havg7wzQTzchWnxWWSQd46CMoPskSWhPXdLjaw");
+// localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MTkzMjY3fQ.SzSM7havg7wzQTzchWnxWWSQd46CMoPskSWhPXdLjaw");
+// let token = localStorage.getItem("Authorization_M");
+let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MTkzMjY3fQ.SzSM7havg7wzQTzchWnxWWSQd46CMoPskSWhPXdLjaw";
+
+const mainUrl = config.url;
+const newsUrl = "/manager/homepageManage";
+const updateNewsUrl = mainUrl + newsUrl;
+const getNewsDetailsUrl = mainUrl + newsUrl;
+const getAllNewsUrl = mainUrl + newsUrl + "/getAllNews";
+
+// ------------------------- 頁面載入  ------------------------- //
+window.addEventListener('load', function () {
+    getAllNews();
+});
 
 
-// <!--網頁載入後執行-->
-document.addEventListener("DOMContentLoaded", function () {
-    const newsList = document.getElementById("newsList");
-    let token = localStorage.getItem("Authorization_M");
-    window.addEventListener("click", function (event) {
-        event.preventDefault(); // 阻止表單的預設行為        
+// ------------------------- 事件驅動  ------------------------- //
 
-        var newsTitle = $("#newsTitle").val();
-        var newsCont = $("#newsCont").val();
-        var newsStatus = $("#newsStatus").val();
-        var pic = $("#pic").val();
+const editModal = document.getElementById('editNews');
+editModal.addEventListener('show.bs.modal', async function (e) {
+    //當使用者點擊按鈕
+    let button = e.relatedTarget;
+    let newsNo = button.getAttribute('newsNo');
+    //fetch獲取資料
+    let fetchData = await getNewsDetails(newsNo);
+    document.getElementById('newsNo').value = fetchData.newsNo;
+    document.getElementById('newsTitle').value = fetchData.newsTitle;
+    document.getElementById('newsCont').value = fetchData.newsCont;
+    document.getElementById('newsStatus').value = fetchData.newsStatus;
+    document.getElementById('updateTime').value = fetchData.updateTime;
 
-        const data = {
-            newsTitle: newsTitle,
-            newsCont: newsCont
-            //newsStatus: newsStatus
+    let status = document.getElementById('newsStatus');
+    if (fetchData.newsStatus == 1) {
+        status.value = "上架中";
+    } else {
+        status.value = "已下架"
+    }
+
+    document.getElementById('editForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        let newsNo = document.getElementById('newsNo').value;
+        let newsTitle = document.getElementById('newsTitle').value;
+        let newsCont = document.getElementById('newsCont').value;
+        let newsStatus = document.getElementById('newsStatus').value;
+        let updateTime = document.getElementById('updateTime').value;
+
+        //處理圖片轉換成字串
+        //   let newsPic = document.getElementById('newsPic').value;
+        // 處理時間格式
+        let newUpdateTime = updateTime.toString().replace("T", " ");
+        let updateData = {
+            "newsNo": newsNo,
+            "newsTitle": newsTitle,
+            "newsCont": newsCont,
+            "newsStatus": newsStatus,
+            "updateTime": newUpdateTime + ":00",
+            "newsPic": null,
 
         };
+        let updateResult = await updateNews(newsNo, updateData);
+        console.log(updateResult);
+
+        // 在需要關閉模態的地方，例如更新成功後
+        if (updateResult != null) {
+            //   editModal.;
+        }
     });
-
-    $(document).ready(function () {
-        $('#example').DataTable({
-            "data": newsList,
-            "lengthMenu": [3, 5, 10, 20, 50, 100],
-            "searching": true,
-            "paging": true,
-            "ordering": true,
-            "columns": [
-                // 配置每列的数据来源
-                { "data": "newsNo" },
-                { "data": "newsTitle" },
-                { "data": "updateTime" },
-
-            ],
-
-        });
-    });
-
-
-
-    fetch(config.url + "/manager/homepageManage/getAllNews")
-        .then((response) => response.json())
-        .then((data) => {
-
-            $('#example').DataTable({
-                "data": data,
-                "lengthMenu": [3, 5, 10, 20, 50, 100],
-                "searching": true,
-                "paging": true,
-                "ordering": true,
-                "columns": [
-                    { "data": "newsNo" },
-                    { "data": "newsTitle" },
-                    { "data": "updateTime" },
-
-                ],
-                "language": {
-                    "processing": "處理中...",
-                    "loadingRecords": "載入中...",
-                    "lengthMenu": "顯示 _MENU_ 筆結果",
-                    "zeroRecords": "沒有符合的結果",
-                    "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-                    "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-                    "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-                    "infoPostFix": "",
-                    "search": "搜尋:",
-                    "paginate": {
-                        "first": "第一頁",
-                        "previous": "上一頁",
-                        "next": "下一頁",
-                        "last": "最後一頁"
-                    },
-                    "aria": {
-                        "sortAscending": ": 升冪排列",
-                        "sortDescending": ": 降冪排列"
-                    }
-                }
-            });
-        })
-        .catch((error) => {
-            console.error("error occured while get newsList：", error);
-        });
-
-
-
-    // 使用 Fetch API 從資料庫獲取最新消息數據
-    fetch(config.url + "/manager/homepageManage/getNews", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization_M": token,
-        },
-        body: JSON.stringify(data),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            // 遍歷最新消息數據並創建消息列表項目
-            data.forEach((news) => {
-                const listItem = document.createElement("li");
-
-                // 創建標題元素
-                const titleElement = document.createElement("h2");
-                titleElement.textContent = news.title;
-
-                // 創建內容元素
-                const contentElement = document.createElement("p");
-                contentElement.textContent = news.content;
-
-                // 將標題和內容元素添加到列表項目
-                listItem.appendChild(titleElement);
-                listItem.appendChild(contentElement);
-
-                // 將列表項目添加到消息列表
-                newsList.appendChild(listItem);
-            });
-        })
-        .catch((error) => {
-            console.error("獲取最新消息時出錯：", error);
-        });
-
-
-
 });
 
 
 
 
 
+// ------------------------- 更新  ------------------------- //
+async function updateNews(newsNo, updateData) {
+
+    return fetch(updateNewsUrl + `/${newsNo}`, {
+        method: "PUT",
+        headers: {
+            Authorization_M: token,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData)
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data.message;
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+}
+
+
+// ------------------------- 查詢單一news  ------------------------- //
+async function getOneNews(newsNo) {
+    return fetch(getNewsDetailsUrl + `/${newsNo}`, {
+        method: "GET",
+        headers: {
+            "Authorization_M": token,
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data.message;
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
 
 
 
+// ------------------------- 查詢all news  ------------------------- //
+function getAllNews() {
 
+    fetch(getAllNewsUrl, {
+        method: "GET",
+        headers: {
+            "Authorization_M": token
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            let newsPageData = data.message;
+            let pageData = {
+                //目前所在頁數(預設為0)
+                curentPage: newsPageData.currentPageNumber + 1,
+                //一頁有幾筆資料
+                pageSize: newsPageData.pageSize,
+                totalPage: newsPageData.totalPage,
+                fetchData: newsPageData,
+            }
+            return pageData;
+
+        }).then(pageData => {
+            //create table data and pagination
+            createDataTable(pageData);
+        })
+    // .catch(err => {
+    //     console.error(err.message);
+    // });
+}
+
+
+// ------------------------- 建立分頁  ------------------------- //
+// 更新資料表格和分頁
+function createDataTable(data) {
+    // // 選擇分頁元素
+    let table = document.querySelector("#table");
+    let tbody = document.getElementById("dataTableList");
+    let pagination = document.querySelector(".pagination");
+    console.log(pagination);
+    // 清空tbody表格
+    tbody.innerHTML = "";
+    let dataList = '';
+    let fetchData = data.fetchData;
+
+
+
+    // 建立資料表格
+    fetchData.forEach(dataDetails => {
+        console.log(dataDetails.newsNo);
+        // 建立資料
+        dataList += `
+               <tr>
+               <td>${dataDetails.newsNo}</td>
+               <td>${dataDetails.newsTitle}</td>
+               <td>${dataDetails.newsCont}</td>
+               <td>${dataDetails.newsStatus == 1 ? "上架中" : "已下架"}</td>
+               <td>${dataDetails.updateTime}</td>
+
+               <td><button class="btn btn-primary" type="button"
+               style="background: #325aab;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;"
+               onclick="editNewsByNewsNo(${dataDetails.newsNo})">修改</button>
+               </td>
+               <td>
+               <button class="btn btn-danger" type="button"
+               style="background: #f44336; border-style: none; color: #ffffff; width: 60px; height: 30px; font-size: 14px;"
+               onclick="deleteNewsByNewsNo(${dataDetails.newsNo})">刪除</button>
+               </td>
+               
+               
+               </tr>`;
+
+    });
+    tbody.innerHTML = dataList;
+
+    //建立分頁 -清空分頁
+    pagination.innerHTML = "";
+    // 總頁數
+    let totalPages = data.totalPage;
+    let currentPage = data.curentPage;
+
+    // 創建分頁頁碼
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.classList.add("page-item");
+        if (i === currentPage) {
+            pageItem.classList.add("active");
+        }
+        const pageLink = document.createElement("a");
+        pageLink.classList.add("page-link");
+        pageLink.href = `${i}`;
+        pageLink.textContent = i;
+        pageItem.appendChild(pageLink);
+        pagination.appendChild(pageItem);
+    }
+
+}
