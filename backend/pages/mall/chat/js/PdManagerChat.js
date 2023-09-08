@@ -8,6 +8,9 @@ let webSocket;
 let userName;
 $(window).on("load", () => {
     connect();
+    $("#sendMessage").on("click",event=>{ 
+        sendMessage();
+    });
 });
 $(document).on('keydown', function (event) {
     if (webSocket == null || self == null)
@@ -62,7 +65,9 @@ function connect() {
             var li = document.createElement('li');
             jsonObj.sender === self ? li.className += 'me' : li.className += 'friend';
             li.innerHTML = jsonObj.message;
-            console.log(li);
+            console.log(li); 
+            if(!(jsonObj.sender===userName)&&!(jsonObj.sender==="商城管理員"))
+                return;
             document.getElementById("area").appendChild(li);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }  
