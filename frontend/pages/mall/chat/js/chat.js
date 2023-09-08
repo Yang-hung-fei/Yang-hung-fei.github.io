@@ -110,25 +110,4 @@ function sendMessage() {
         inputMessage.value = "";
         inputMessage.focus();
     }
-}
-
-
-// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
-function addListener() {
-    var container = document.getElementById("row");
-    container.addEventListener("click", function (e) {
-        var friend = e.srcElement.textContent;
-        updateFriendName(friend);
-        var jsonObj = {
-            "type": "history",
-            "sender": self,
-            "receiver": "PdManager",
-            "message": ""
-        };
-        webSocket.send(JSON.stringify(jsonObj));
-    });
-}
-
-function disconnect() {
-    webSocket.close();
-}
+} 
