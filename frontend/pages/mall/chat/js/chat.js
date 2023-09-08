@@ -1,12 +1,25 @@
 import config from "/ipconfig.js";
 
-var statusOutput = document.getElementById("statusOutput");
-var messagesArea = document.getElementById("messagesArea"); 
+ 
+var messagesArea = document.getElementById("messagesArea");
 var webSocket;
 let self;
 $(window).on("load", () => {
     connect();
-})
+    $("#sendMessage").on("click",event=>{ 
+        sendMessage();
+    });
+ 
+});
+$(document).on('keydown', function(event) {
+    if(webSocket==null||self==null)
+        return;
+    if (event.which === 13) {
+      // 在這裡處理按下 Enter 鍵的操作
+      sendMessage();
+    }
+  });
+
 function connect() {
 
     let token = localStorage.getItem("Authorization_U");
@@ -14,14 +27,14 @@ function connect() {
     if (token == null)
         return;
     let url = 'ws://' + connectUrl + '/websocket/productMallChat?access_token=' + token;
-    let webSocket = new WebSocket(url);
+    webSocket = new WebSocket(url);
     webSocket.onopen = function () {
         console.log("Connect Success!");
-        //撈回跟商品管理員的歷史紀錄
+        //得到當前使用者資訊
         var jsonObj = {
-            "type": "getIdentity", 
-            "sender":"",
-            "receiver":"ProductManager",
+            "type": "getIdentity",
+            "sender": "",
+            "receiver": "ProductManager",
             "message": ""
         };
         webSocket.send(JSON.stringify(jsonObj));
@@ -29,9 +42,18 @@ function connect() {
 
     webSocket.onmessage = function (event) {
         var jsonObj = JSON.parse(event.data);
-        if("getIdentity"===jsonObj.type){
-            alert(jsonObj.message);
-            self=jsonObj.message;
+        if ("getIdentity" === jsonObj.type) { 
+            self = jsonObj.message;
+            //拿回使用者資訊後 拿回歷史紀錄
+
+            var jsonHisObj = {
+                "type": "history",
+                "sender": self,
+                "receiver": "ProductManager",
+                "message": ""
+            };
+            webSocket.send(JSON.stringify(jsonHisObj));
+            return; 
         }
         if ("history" === jsonObj.type) {
             messagesArea.innerHTML = '';
@@ -70,28 +92,27 @@ function connect() {
 
 function sendMessage() {
     var inputMessage = document.getElementById("message");
-    var friend = statusOutput.textContent;
     var message = inputMessage.value.trim();
 
     if (message === "") {
         alert("Input a message");
         inputMessage.focus();
-    } else if (friend === "") {
-        alert("Choose a friend");
-    } else {
+    }
+    else {
         var jsonObj = {
             "type": "chat",
             "sender": self,
-            "receiver": friend,
+            "receiver": "friend",
             "message": message
         };
+        console.log(message);
         webSocket.send(JSON.stringify(jsonObj));
         inputMessage.value = "";
         inputMessage.focus();
     }
 }
 
- 
+
 // 註冊列表點擊事件並抓取好友名字以取得歷史訊息
 function addListener() {
     var container = document.getElementById("row");
@@ -109,6 +130,5 @@ function addListener() {
 }
 
 function disconnect() {
-    webSocket.close(); 
+    webSocket.close();
 }
- 

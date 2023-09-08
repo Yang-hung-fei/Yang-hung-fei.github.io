@@ -2,28 +2,45 @@ import config from "/ipconfig.js";
 
 var statusOutput = document.getElementById("statusOutput");
 var messagesArea = document.getElementById("messagesArea");
-var self = '${userName}';
-var webSocket;
+var self = "商城管理員";
+let user;
+let webSocket;
+let userName;
 $(window).on("load", () => {
     connect();
-})
+});
+$(document).on('keydown', function (event) {
+    if (webSocket == null || self == null)
+        return;
+    if (event.which === 13) {
+        // 在這裡處理按下 Enter 鍵的操作
+        sendMessage();
+    }
+});
 function connect() {
-    
-    let token = localStorage.getItem("Authorization_U"); 
+
+    let token = localStorage.getItem("Authorization_M");
     let connectUrl = (config.url).split('//')[1];
     if (token == null)
-        return;  
+        return;
     let url = 'ws://' + connectUrl + '/websocket/productMallChat?access_token=' + token;
-    let webSocket = new WebSocket(url);
+    webSocket = new WebSocket(url);
     webSocket.onopen = function () {
         console.log("Connect Success!");
-       
+        var jsonObj = {
+            "type": "getUserList",
+            "sender": "ProductManager",
+            "receiver": "",
+            "message": ""
+        };
+        webSocket.send(JSON.stringify(jsonObj));
     };
 
     webSocket.onmessage = function (event) {
-        var jsonObj = JSON.parse(event.data);
-        if ("open" === jsonObj.type) {
-            refreshFriendList(jsonObj);
+        var jsonObj = JSON.parse(event.data); 
+        if ("getUserList" === jsonObj.type) { 
+            
+            refreshUserList(jsonObj);
         } else if ("history" === jsonObj.type) {
             messagesArea.innerHTML = '';
             var ul = document.createElement('ul');
@@ -48,10 +65,7 @@ function connect() {
             console.log(li);
             document.getElementById("area").appendChild(li);
             messagesArea.scrollTop = messagesArea.scrollHeight;
-        } else if ("close" === jsonObj.type) {
-            refreshFriendList(jsonObj);
-        }
-
+        }  
     };
 
     webSocket.onclose = function (event) {
@@ -60,20 +74,19 @@ function connect() {
 }
 
 function sendMessage() {
-    var inputMessage = document.getElementById("message");
-    var friend = statusOutput.textContent;
+    var inputMessage = document.getElementById("message"); 
     var message = inputMessage.value.trim();
 
     if (message === "") {
-        alert("Input a message");
+        alert("請輸入訊息");
         inputMessage.focus();
-    } else if (friend === "") {
-        alert("Choose a friend");
+    } else if (user === "") {
+        alert("選擇一個客戶");
     } else {
         var jsonObj = {
             "type": "chat",
             "sender": self,
-            "receiver": friend,
+            "receiver": user+"-"+userName,
             "message": message
         };
         webSocket.send(JSON.stringify(jsonObj));
@@ -83,13 +96,14 @@ function sendMessage() {
 }
 
 // 有好友上線或離線就更新列表
-function refreshFriendList(jsonObj) {
-    var friends = jsonObj.users;
+function refreshUserList(jsonObj) {
+    var users = jsonObj.userDataList;
     var row = document.getElementById("row");
+    // console.log(users.userName);
     row.innerHTML = '';
-    for (var i = 0; i < friends.length; i++) {
-        if (friends[i] === self) { continue; }
-        row.innerHTML += '<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
+    for (var i = 0; i < users.length; i++) { 
+        if (users[i] === self) { continue; }
+        row.innerHTML += '<div id=' + i + ' class="column" name="friendName"  ><h2>' + users[i].userName + '</h2><input type="hidden" id="hiddenInput" value=' + users[i].userId + '></div>';
     }
     addListener();
 }
@@ -97,23 +111,35 @@ function refreshFriendList(jsonObj) {
 function addListener() {
     var container = document.getElementById("row");
     container.addEventListener("click", function (e) {
-        var friend = e.srcElement.textContent;
-        updateFriendName(friend);
+        userName = e.srcElement.textContent;
+          
+        // 使用 querySelector 或 getElementById 来获取 hidden input
+        var inputElement = findInputElement(e.target);
+        user = inputElement.value;
+        
+        updateFriendName(userName);
         var jsonObj = {
             "type": "history",
             "sender": self,
-            "receiver": friend,
+            "receiver": user,
             "message": ""
         };
         webSocket.send(JSON.stringify(jsonObj));
     });
 }
-
+function findInputElement(element) {
+    // 逐级向上遍历 DOM 树，查找包含 input 的父级 div 元素
+    while (element) {
+        if (element.tagName === "DIV" && element.querySelector("input")) {
+            return element.querySelector("input");
+        }
+        element = element.parentNode;
+    }
+    return null; // 没有找到包含 input 的 div 元素
+}
 function disconnect() {
     webSocket.close();
-    document.getElementById('sendMessage').disabled = true;
-    document.getElementById('connect').disabled = false;
-    document.getElementById('disconnect').disabled = true;
+    document.getElementById('sendMessage').disabled = true; 
 }
 
 function updateFriendName(name) {
