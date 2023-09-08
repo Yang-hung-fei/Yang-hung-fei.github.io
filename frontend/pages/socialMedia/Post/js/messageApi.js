@@ -1,79 +1,16 @@
-import config from '../../../../../ipconfig.js';
+import config from "../../../../../ipconfig.js";
 const hostUrl = config.url;
-const acUrl = hostUrl + "/user/activity";
-const userToken = "";
+const userMesUrl = hostUrl + "/user/social/post";
 
-// get hot activities
-async function getHotActivities() {
-    return fetch(acUrl + "/hot", {
-        method: "GET",
-        headers: {
-            Authorization_M: userToken,
-            "Content-Type": "application/json"
-        },
-    })
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            return data;
-        })
-        .catch(err => {
-            console.error(err.message);
-        });
-}
-
-// keywoard search
-async function searchActivity(activityContent) {
-    let params = new URLSearchParams({
-        activityContent: activityContent
-    });
-    return fetch(acUrl + "/search" + params.toString(), {
-        method: "GET",
-        headers: {
-            Authorization_M: userToken,
-            "Content-Type": "application/json"
-        },
-    })
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            return data;
-        })
-        .catch(err => {
-            console.error(err.message);
-        });
-}
-
-// get activity details
-async function getActivityDetails(activityId) {
-
-    return fetch(acUrl + `/${activityId}`, {
-        method: "GET",
-        headers: {
-            Authorization_M: userToken,
-            "Content-Type": "application/json"
-        },
-    })
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            return data;
-        })
-        .catch(err => {
-            console.error(err.message);
-        });
-}
-
-// join activity
-async function joinActivity(joinReq) {
-
-    return fetch(acUrl + "/join", {
+// create message
+async function createMessage(postId, messageData) {
+    return fetch(userPostUrl + `${postId}/message`, {
         method: "POST",
         headers: {
             Authorization_M: userToken,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(joinReq)
+        body: JSON.stringify(messageData),
     })
         .then(res => {
             return res.json();
@@ -85,16 +22,15 @@ async function joinActivity(joinReq) {
         });
 }
 
-// leave activity
-async function leaveActivity(joinReq) {
-
-    return fetch(acUrl + "/leave", {
+// edit message
+async function editMessage(messageId, messageData) {
+    return fetch(userPostUrl + `/message/${messageId}`, {
         method: "PUT",
         headers: {
             Authorization_M: userToken,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(joinReq)
+        body: JSON.stringify(messageData),
     })
         .then(res => {
             return res.json();
@@ -106,13 +42,28 @@ async function leaveActivity(joinReq) {
         });
 }
 
-// get Join Details
-async function getUerJoinDetails(page) {
-    let params = new URLSearchParams({
-        page: page
-    });
-    let joinUrl = page === undefined ? acUrl + "/joinList" : acUrl + "/joinList" + params.toString();
-    return fetch(joinUrl, {
+//delete message
+async function deleteMessage(messageId) {
+    return fetch(userPostUrl + `/message/${messageId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization_M: userToken,
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+//get one message details
+async function getMessage(messageId) {
+    return fetch(userPostUrl + `/message/${messageId}`, {
         method: "GET",
         headers: {
             Authorization_M: userToken,
@@ -129,4 +80,23 @@ async function getUerJoinDetails(page) {
         });
 }
 
-export { getHotActivities, searchActivity, getActivityDetails, joinActivity, leaveActivity, getUerJoinDetails };
+//get messages by postId 
+async function getMessagesByPostId(postId) {
+    return fetch(userPostUrl + `/${postId}/messages`, {
+        method: "GET",
+        headers: {
+            Authorization_M: userToken,
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+export { createMessage, editMessage, deleteMessage, getMessage, getMessagesByPostId }
