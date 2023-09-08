@@ -1,6 +1,5 @@
 
 import { getAllAc, createAc } from "./callApi.js";
-import { createDataTable, createPagination } from "./pagination.js";
 
 //新增活動
 async function showAddModal() {
@@ -29,8 +28,12 @@ async function showAddModal() {
                     </div>
                     <div class="form-group">
                         <label for="activityImg">活動圖片</label>
-                        <input type="file" class="form-control" name="activityImg" id="activityImg">
+                            <input type="file" accept="image/*" class="form-control" name="activityImg" id="activityImg">
+                        <div class="mt-3">
+                            <img id="imageOutput" src="" alt="此活動沒有照片" class="img-fluid"><br>
+                        </div>
                     </div>
+                   
                     <div class="form-group">
                         <label for="activityContent">活動內容</label>
                         <textarea class="form-control" name="activityContent" id="activityContent"
@@ -64,23 +67,20 @@ async function showAddModal() {
     document.body.append(modalWrap);
     let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
     modal.show();
-
-
-
     const addComfirm = document.querySelector('#addComfirm');
     addComfirm.addEventListener('click', async (e) => {
         await addData();
     })
 
-
     // 輸入
-    let titleValue;
-    let activityTime;
-    let activityContent;
-    let startTime;
-    let endTime;
-    let enrollLimit;
-    let activityImg;
+    var activityImg;
+    var titleValue;
+    var activityTime;
+    var activityContent;
+    var startTime;
+    var endTime;
+    var enrollLimit;
+
 
     var postData = {
         "title": titleValue,
@@ -88,7 +88,7 @@ async function showAddModal() {
         "startTime": startTime,
         "endTime": endTime,
         "activityTime": activityTime,
-        "activityPicture": null,
+        "activityPicture": activityImg,
         "enrollLimit": enrollLimit,
     };
     const title = document.querySelector('#title');
@@ -127,13 +127,35 @@ async function showAddModal() {
         enrollLimit = e.target.value;
         postData.enrollLimit = enrollLimit;
     });
+    var activityImgOputs = document.body.querySelectorAll('#imageOutput');
+    var activityImgInputs = document.querySelectorAll('#activityImg');
+    activityImgInputs.forEach((activityImgInput) => {
+        activityImgInput.addEventListener('change', (e) => {
+            let file = e.target.files[0];
+            if (file) {
+                toBase64(file).then((reslut) => {
+                    //轉換成base64字串傳輸資料(這邊要解析格式)
+                    let base64String = (reslut.split(',')[1]);
+                    //建立預覽圖
+                    activityImgOputs.forEach((activityImgOput) => {
+                        activityImgOput.src = reslut;
+                    })
+                    postData.activityPicture = base64String;
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        });
+    })
 
-    //    處理圖片轉換成字串
-    // const activityImgInput = document.getElementById('activityImg');
-    // activityImgInput.value = fetchData.activityImg;
-    // activityImgInput.addEventListener('change', () => {
-    //     activityImg = activityImgInput.value;
-    // });
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
     async function addData() {
         console.log("新增成功");
         let createResult = await createAc(postData);
@@ -146,8 +168,6 @@ async function showAddModal() {
                 }
             ).then((result) => {
                 if (result.isConfirmed) {
-                    // location.reload();
-                    console.log("改變render");
                     getAllAc();
                 }
             })

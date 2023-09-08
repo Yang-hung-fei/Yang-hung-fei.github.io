@@ -34,7 +34,10 @@ async function showEditModal(activityId) {
                     </div>
                     <div class="form-group">
                         <label for="activityImg">活動圖片</label>
-                        <input type="file" class="form-control" name="activityImg" id="activityImg" value="${fetchData.activityPicture}">
+                            <input type="file" class="form-control" name="activityImg" id="activityImg">
+                        <div class="mt-3">
+                            <img id="imageOutput" src="data:image/*;base64,${fetchData.activityPicture}" alt="此活動沒有照片" class="img-fluid"><br>
+                         </div>
                     </div>
                     <div class="form-group">
                         <label for="activityContent">活動內容</label>
@@ -68,7 +71,7 @@ async function showEditModal(activityId) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button"  id="close" class="btn btn-default" data-bs-dismiss="modal">返回</button>
+                    <button type="button" class="close btn btn-default" data-bs-dismiss="modal">返回</button>
                     <a herf="#" type="submit" id="editComfirm" onclick = "editData()" class="btn btn-success" >確認修改</a>
                 </div>
             </form>
@@ -98,7 +101,7 @@ async function showEditModal(activityId) {
         "startTime": startTime,
         "endTime": endTime,
         "activityTime": activityTime,
-        "activityPicture": null,
+        "activityPicture": activityImg,
         "enrollLimit": enrollLimit,
     };
 
@@ -130,8 +133,7 @@ async function showEditModal(activityId) {
         updateData.content = activityContent;
         activityContentInput.addEventListener('input', () => {
             activityContent = activityContentInput.value;
-            updateData.activityContent = activityContent;
-            console.log(activityContent);
+            updateData.content = activityContent;
         });
     });
 
@@ -165,12 +167,55 @@ async function showEditModal(activityId) {
         });
     });
 
-    //處理圖片轉換成字串
-    // let activityImgInput = document.getElementById('activityImg');
-    // activityImgInput.value = fetchData.activityImg;
-    // activityImgInput.addEventListener('change', () => {
-    //     activityImg = activityImgInput.value;
-    // });
+    //處理圖片
+    var activityImgOputs = document.querySelectorAll('#imageOutput');
+    var activityImgInputs = document.querySelectorAll('#activityImg');
+    activityImgInputs.forEach((activityImgInput) => {
+        activityImgInput.addEventListener('change', (e) => {
+            let file = e.target.files[0];
+            console.log(file);
+            if (file) {
+
+                toBase64(file).then((reslut) => {
+                    //轉換成base64字串傳輸資料(這邊要解析格式)
+                    let base64String = (reslut.split(',')[1]);
+                    console.log(base64String);
+                    //建立預覽圖
+                    activityImgOputs.forEach((activityImgOput) => {
+                        activityImgOput.src = reslut;
+                    })
+                    updateData.activityPicture = base64String;
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        });
+    })
+
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    const cancelBtns = document.querySelectorAll('#cancel');
+    cancelBtns.forEach((cancelBtn) => {
+        cancelBtn.addEventListener('click', function (e) {
+            activityImgOput.setAttribute('src', '');
+            postData = {
+                "title": "",
+                "content": "",
+                "startTime": "",
+                "endTime": "",
+                "activityTime": "",
+                "activityPicture": null,
+                "enrollLimit": "",
+            };
+            location.reload();
+        })
+    })
 
 
 
@@ -183,8 +228,6 @@ async function showEditModal(activityId) {
 
 
     async function editData() {
-
-        console.log(updateData);
         let updateResult = await updateAc(activityId, updateData);
         if (updateResult.code === 200) {
             Swal.fire(
@@ -195,8 +238,6 @@ async function showEditModal(activityId) {
                 }
             ).then((result) => {
                 if (result.isConfirmed) {
-                    // location.reload();
-                    console.log("改變render");
                     let pageData = getAc();
                     createDataTable(pageData);
                     createPagination(pageData);
@@ -223,7 +264,6 @@ async function getAc() {
     // 從選取的元素中獲取 data-page 屬性的值
     const pageValue = activePageItem.querySelector('.page-link').getAttribute('data-page');
     let data = await getAllAc(pageValue);
-    console.log(data);
     let pageData = {
         //目前所在頁數(預設為0)
         curentPage: await data.curentPage,

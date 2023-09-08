@@ -1,6 +1,5 @@
 import config from "../../../../../ipconfig.js";
 import { createDataTable, createPagination } from "./pagination.js"
-import { showEditModal } from "./editModal.js";
 const hostUrl = config.url;
 const AcUrl = "/manager/activity";
 const createAcUrl = hostUrl + AcUrl;
