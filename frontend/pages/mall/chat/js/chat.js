@@ -43,9 +43,8 @@ function connect() {
     webSocket.onmessage = function (event) {
         var jsonObj = JSON.parse(event.data);
         if ("getIdentity" === jsonObj.type) { 
-            self = jsonObj.message;
-            //拿回使用者資訊後 拿回歷史紀錄
-
+            self = jsonObj.sender;
+            //拿回使用者資訊後 拿回歷史紀錄 
             var jsonHisObj = {
                 "type": "history",
                 "sender": self,
