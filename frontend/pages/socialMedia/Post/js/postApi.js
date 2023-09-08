@@ -1,4 +1,4 @@
-import config from "../../../../../ipconfig";
+import config from "../../../../../ipconfig.js";
 const hostUrl = config.url;
 const userPostUrl = hostUrl + "/user/social/post";
 const userToken = ""

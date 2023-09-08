@@ -1,4 +1,4 @@
-import config from "../../../../../ipconfig";
+import config from "../../../../../ipconfig.js";
 const hostUrl = config.url;
 const userColltUrl = hostUrl + "user/social/collection";
 const userToken = ""
@@ -181,4 +181,24 @@ async function addPostCollByTag(pcId, postTagReq) {
         });
 }
 
-export { createPostColl, deletePostColl, queryPostColl, createPostColltag, deletePostColltag, editPostColltag, queryPostColltags, queryCollBytag, addPostCollByTag }
+//將收藏貼文加入分類標籤(收藏一律加入在預設分類標籤)
+async function deleteTPostCollByTag(pcId, postTagReq) {
+    return fetch(userColltUrl + `/${pcId}/tags`, {
+        method: "DELETE",
+        headers: {
+            Authorization_M: userToken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(postTagReq),
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+export { createPostColl, deletePostColl, queryPostColl, createPostColltag, deletePostColltag, editPostColltag, queryPostColltags, queryCollBytag, addPostCollByTag, deleteTPostCollByTag }
