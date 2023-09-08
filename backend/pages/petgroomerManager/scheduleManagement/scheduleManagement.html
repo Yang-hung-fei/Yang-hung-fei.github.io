@@ -15,7 +15,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>AdminKit Demo - Bootstrap 5 Admin Template</title>
+	<title>scheduleManagement</title>
 
 	<link href="../../../css/sublist.css" rel="stylesheet">
 	<link href="../../../css/app.css" rel="stylesheet">
@@ -539,22 +539,11 @@
 										style="display: none; width: 200px; height: 200px;">
 								</div>
 								<div class="col-md-2" style="padding-right: 0;">
-									<label for="yearSelect" class="form-label" style="margin-left: 0px;">年</label>
-									<select id="yearSelect" class="form-select"
-										style="max-width: 120px; margin-right: 0px;"></select>
 
-									<label for="month" class="form-label" style="margin-left: 0px;">月</label>
-									<input id="month" name="month" type="number" min="1" max="12" class="form-control"
-										style="max-width: 120px; margin-left: 5px; margin: 0;">
-
-									<button id="prevMonthBtn" class="btn btn-secondary"
-										style="margin-right: 5px;">&lt;</button>
-									<button id="nextMonthBtn" class="btn btn-secondary"
-										style="margin-left: 5px;">&gt;</button>
 								</div>
 								<div class="col-md-4" style="border-left: 3px solid gray;">
 									<h3>新增班表</h3>
-									<p>請勾選上班時間段</p>
+									<p>請勾選出勤時間段。<br>例：勾選4,5,6點，代表4點~6點出勤。</p>
 									<input type="text" id="dateInput" name="dateInput" class="form-control"
 										style="margin-bottom: 25px;" placeholder="請點擊選擇新增日期">
 									<div id="timeSlots" class="d-flex flex-wrap gap-3">
@@ -565,6 +554,22 @@
 								</div>
 							</div>
 							<div style="overflow-x: auto;overflow-y: auto;">
+								<div style="display: flex; align-content: center;">
+
+									<select id="yearSelect" class="form-select"
+										style="max-width: 120px; margin-right: 0px; height:30px; margin-top:5px;"></select>
+									<label for="yearSelect" class="form-label"
+										style=" font-size: 24px; margin-top:2px;padding: 0 10px;">年</label>
+
+									<input id="month" name="month" type="number" min="1" max="12" class="form-control"
+										style="max-width: 120px; margin-left: 5px; margin: 0; height:30px; margin-top:5px;">
+									<label for="month" class="form-label"
+										style="margin-left: 0px; font-size: 24px; margin-right: 10px;margin-top:2px; padding: 0 10px;">月</label>
+									<button id="prevMonthBtn" class="btn btn-secondary"
+										style="margin-right: 5px;  height:30px;">&lt;</button>
+									<button id="nextMonthBtn" class="btn btn-secondary"
+										style="margin-left: 5px;  height:30px;">&gt;</button>
+								</div>
 								<table id="calendar" class="table-fill" style="min-width: 1030px;">
 									<tbody id="calendar-body">
 									</tbody>

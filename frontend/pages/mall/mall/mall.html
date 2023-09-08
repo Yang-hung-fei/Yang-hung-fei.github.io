@@ -30,15 +30,16 @@
 </head>
 
 <body>
+    <iframe id="header" src="/frontend/header.html" frameborder="0" width="100%" height="auto"></iframe>
     <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" role="status"></div>
-    </div>
+    </div> -->
     <!-- Spinner End -->
 
 
     <!-- Navbar Start -->
-    <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s" style="background-color: #FEFCEC;" >
+    <!-- <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s" style="background-color: #FEFCEC;" >
         
         <div class="top-bar row gx-0 align-items-center d-none d-lg-flex">
             <div class="col-lg-6 px-5 text-start">
@@ -92,12 +93,12 @@
                 </div>
             </div>
         </nav>
-    </div>
+    </div> -->
     <!-- Navbar End -->
 
 
     <!-- Page Header Start -->
-    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 0">
         <div class="container">
             <h1 class="display-3 mb-3 animated slideInDown">Products</h1>
             <nav aria-label="breadcrumb animated slideInDown">
@@ -105,6 +106,7 @@
                     <li class="breadcrumb-item"><a class="text-body" href="#">Home</a></li>
                     <li class="breadcrumb-item"><a class="text-body" href="#">Pages</a></li>
                     <li class="breadcrumb-item text-dark active" aria-current="page">Products</li>
+                    <img class="display-3 mb-3 animated slideInDown" src="img/寵物商店.png" >
                 </ol>
             </nav>
         </div>
@@ -458,6 +460,7 @@
     <script src="../../../lib/waypoints/waypoints.min.js"></script>
     <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
     <script type="module" src="product.js"></script>
+    <script type="module" src="../productdetail/productdetail.js"></script>
 
     <!-- Template Javascript -->
     <script src="../../../js/main.js"></script>

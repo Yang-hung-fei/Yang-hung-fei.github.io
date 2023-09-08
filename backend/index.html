@@ -30,7 +30,6 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
- 
   </head>
 
   <body onload="resize();">
@@ -84,7 +83,7 @@
 
         <main class="content">
           <iframe
-            src="/backend/pages/manageManager/manageUser/manageUser.html"
+            src="/backend/pages/manageManager/manageManager/manageManager.html"
             name="mainframe"
             id="mainframe"
             width="100%"
@@ -152,13 +151,14 @@
     </div>
 
     <script src="/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/jquery/jquery-3.7.0.min.js"></script>
     <script src="/backend/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="/backend/js/sidebar.js"></script>
     <script src="/backend/js/sublistArrow.js"></script>
     <script>
       $(document).ready(function () {
-        // 使用事件委托处理通过 JavaScript 生成的链接
+        // 使用事件委託處理通過 JavaScript 生成的鏈接
         $("#sidebarLinks").on("click", ".function-link", function (e) {
           e.preventDefault(); // 阻止默认链接行为
           var newSrc = $(this).attr("href"); // 获取链接的 href 属性
@@ -169,7 +169,7 @@
       //body 根據 iframe 內容調整高度
       function resize() {
         parent.document.getElementById("mainframe").height =
-          document.body.scrollHeight; //將子頁面高度傳到父頁面框架
+          document.body.scrollHeight + 100; //將子頁面高度傳到父頁面框架
       }
     </script>
     <script>

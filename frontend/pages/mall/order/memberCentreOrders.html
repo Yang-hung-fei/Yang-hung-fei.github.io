@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>All Dog Cat</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Libraries Stylesheet -->
+    <link href="../../../lib/animate/animate.min.css" rel="stylesheet" />
+    <link
+      href="../../../lib/owlcarousel/assets/owl.carousel.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../../../css/frontendBootstrap.min.css" rel="stylesheet" />
+
+    <!-- Template Stylesheet -->
+    <link href="../../../css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../memberCentre/css/mainnav.css" />
+    <link rel="stylesheet" href="../../memberCentre/css/porfile.css" />
+    <link rel="stylesheet" href="../../memberCentre/css/sidebar.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="./css/item.css" rel="stylesheet" />
+   
+    <style>
+      .current-page {
+        background-color: #D0D0D0; /* 藍色背景，你可以根據需要自定義顏色 */
+        color: #fff; /* 白色文本 */
+        font-weight: bold; /* 粗體字體 */
+      }
+       /* 在这里添加排序箭头图标的自定义样式 */
+       #OrdersTable thead th {
+          text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <iframe
+      id="header"
+      src="/frontend/header.html"
+      width="100%"
+      height="200px"
+    ></iframe>
+
+    <div id="main">
+      <div style="margin-right: -10px;">
+        <aside id="sidebar" style="background-color: #fff">
+          <ul id="chatroom">
+            <li id="stornchat">
+              <a href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 640 512"
+                >
+                  <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                  <path
+                    d="M36.8 192H603.2c20.3 0 36.8-16.5 36.8-36.8c0-7.3-2.2-14.4-6.2-20.4L558.2 21.4C549.3 8 534.4 0 518.3 0H121.7c-16 0-31 8-39.9 21.4L6.2 134.7c-4 6.1-6.2 13.2-6.2 20.4C0 175.5 16.5 192 36.8 192zM64 224V384v80c0 26.5 21.5 48 48 48H336c26.5 0 48-21.5 48-48V384 224H320V384H128V224H64zm448 0V480c0 17.7 14.3 32 32 32s32-14.3 32-32V224H512z"
+                  />
+                </svg>
+                <span class="title">商城聊天室</span>
+                <span class="notice"></span>
+              </a>
+            </li>
+            <li id="gromerchat">
+              <a href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 640 512"
+                >
+                  <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                  <path
+                    d="M64 131.9C64 112.1 80.1 96 99.9 96c9.5 0 18.6 3.8 25.4 10.5l16.2 16.2c-21 38.9-17.4 87.5 10.9 123L151 247c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L345 121c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-1.3 1.3c-35.5-28.3-84.2-31.9-123-10.9L170.5 61.3C151.8 42.5 126.4 32 99.9 32C44.7 32 0 76.7 0 131.9V448c0 17.7 14.3 32 32 32s32-14.3 32-32V131.9zM256 352a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-128a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-128a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm32-32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"
+                  />
+                </svg>
+                <span class="title">美容聊天室</span>
+                <span class="notice"></span>
+              </a>
+            </li>
+            <li id="activitychat">
+              <a href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 640 512"
+                >
+                  <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                  <path
+                    d="M435.4 361.3l-89.7-6c-5.2-.3-10.3 1.1-14.5 4.2s-7.2 7.4-8.4 12.5l-22 87.2c-14.4 3.2-29.4 4.8-44.8 4.8s-30.3-1.7-44.8-4.8l-22-87.2c-1.3-5-4.3-9.4-8.4-12.5s-9.3-4.5-14.5-4.2l-89.7 6C61.7 335.9 51.9 307 49 276.2L125 228.3c4.4-2.8 7.6-7 9.2-11.9s1.4-10.2-.5-15L100.4 118c19.9-22.4 44.6-40.5 72.4-52.7l69.1 57.6c4 3.3 9 5.1 14.1 5.1s10.2-1.8 14.1-5.1l69.1-57.6c27.8 12.2 52.5 30.3 72.4 52.7l-33.4 83.4c-1.9 4.8-2.1 10.1-.5 15s4.9 9.1 9.2 11.9L463 276.2c-3 30.8-12.7 59.7-27.6 85.1zM256 48l.9 0h-1.8l.9 0zM56.7 196.2c.9-3 1.9-6.1 2.9-9.1l-2.9 9.1zM132 423l3.8 2.7c-1.3-.9-2.5-1.8-3.8-2.7zm248.1-.1c-1.3 1-2.7 2-4 2.9l4-2.9zm75.2-226.6l-3-9.2c1.1 3 2.1 6.1 3 9.2zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm14.1-325.7c-8.4-6.1-19.8-6.1-28.2 0L194 221c-8.4 6.1-11.9 16.9-8.7 26.8l18.3 56.3c3.2 9.9 12.4 16.6 22.8 16.6h59.2c10.4 0 19.6-6.7 22.8-16.6l18.3-56.3c3.2-9.9-.3-20.7-8.7-26.8l-47.9-34.8z"
+                  />
+                </svg>
+                <span class="title">活動聊天室</span>
+                <span class="notice"></span>
+              </a>
+            </li>
+          </ul>
+          <hr />
+          <a href="#">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 640 512"
+            >
+              <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+              <path
+                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
+              />
+            </svg>
+            <span class="title">個人資料</span>
+          </a>
+          <hr />
+          <div id="menu">
+            <ul>
+              <li id="storn" class="title">寵物商城</li>
+              <div class="menu">
+                <li><a href="#">購物車</a></li>
+                <li><a href="#" class="current-page">商品訂單</a></li>
+                <li><a href="#">商品收藏</a></li>
+              </div>
+            </ul>
+            <ul>
+              <li id="storn" class="title">美容預約</li>
+              <div class="menu">
+                <li><a href="#">預約紀錄</a></li>
+                <li><a href="#">作品收藏</a></li>
+              </div>
+            </ul>
+            <ul>
+              <li id="storn" class="title">活動社群</li>
+              <div class="menu">
+                <li><a href="#">參與活動</a></li>
+                <li><a href="#">貼文收藏</a></li>
+              </div>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <div> <!-- id="content" -->
+          <!-- /* 預留 fixed 欄位空間，不需要就刪除 margin-top */ -->
+
+             
+          
+            <div class="container-fluid px-4">
+                <h2 class="mt-4">會員訂單管理</h2>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">所擁有訂單資訊</li>
+                </ol>
+                
+                <div class="card mb-4">
+                    <!-- <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        所擁有訂單資訊
+                    </div> -->
+                    <div class="card-body">
+                        <table id="OrdersTable" class="table table-striped table-bordered dt-responsive compact hover order-column"
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <!-- data-priority="1" 為縮框時優先順序 -->
+                                    <th data-priority="4">訂單編號</th>
+                                    <th data-priority="5" >訂單創立時間</th>
+                                    <th data-priority="1" >實付金額</th>
+                                    <th data-priority="2" >收件人姓名</th>
+                                    <th data-priority="6" >收件人電話</th>
+                                    <th data-priority="7" >訂單狀態</th>
+                                    <th data-priority="8" >付款狀態</th>
+                                    <th>明細</th>
+                                    <th>付款</th>
+                                    <th>刪除</th>
+                                    <!-- <th data-priority="3" >按鈕</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        
+      </div>
+
+      
+    </div>
+
+    <footer
+      class="container-fluid footer mt-0 pt-5 wow fadeIn"
+      data-wow-delay="0.1s"
+      style="background-color: #6f5242"
+    >
+      <div class="container py-5">
+        <div class="row g-5">
+          <div class="col-lg-3 col-md-6">
+            <img
+              src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
+              alt="LOGO"
+              style="width: 180px"
+            />
+            <p>
+              Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat
+              ipsum et lorem et sit, sed stet lorem sit clita
+            </p>
+            <div class="d-flex pt-2">
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-1"
+                href=""
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-1"
+                href=""
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-1"
+                href=""
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-0"
+                href=""
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h4 class="text-light mb-4">Address</h4>
+            <p>
+              <i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA
+            </p>
+            <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+            <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h4 class="text-light mb-4">Quick Links</h4>
+            <a class="btn btn-link" href="">About Us</a>
+            <a class="btn btn-link" href="">Contact Us</a>
+            <a class="btn btn-link" href="">Our Services</a>
+            <a class="btn btn-link" href="">Terms & Condition</a>
+            <a class="btn btn-link" href="">Support</a>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h4 class="text-light mb-4">Newsletter</h4>
+            <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+            <div class="position-relative mx-auto" style="max-width: 400px">
+              <input
+                class="form-control bg-transparent w-100 py-3 ps-4 pe-5"
+                type="text"
+                placeholder="Your email"
+              />
+              <button
+                type="button"
+                class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
+              >
+                SignUp
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid copyright">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+              Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+              <br />Distributed By:
+              <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a
+      href="#"
+      class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"
+      ><i class="bi bi-arrow-up"></i
+    ></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../lib/wow/wow.min.js"></script>
+    <script src="../../../lib/easing/easing.min.js"></script>
+    <script src="../../../lib/waypoints/waypoints.min.js"></script>
+    <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script type="module" src="./js/memberCentreOrders.js"></script>
+    <!-- Template Javascript -->
+    <!--dataTable-->
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <!-- <script>
+      $(window).on("load", () => {
+        const token = localStorage.getItem("Authorization_U");
+        // token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts";
+        if (!token) {
+          window.location.href = "/frontend/pages/user/login.html";
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("editNameButton")
+          .addEventListener("click", function () {
+            document.getElementById("showNameContain").style.display = "none";
+            document.getElementById("editNameContain").style.display = "block";
+          });
+
+        document
+          .getElementById("saveNameButton")
+          .addEventListener("click", function () {
+            // 在這裡添加儲存名稱的程式碼
+            document.getElementById("editNameContain").style.display = "none";
+            document.getElementById("showNameContain").style.display = "block";
+
+            // 在這裡添加fetch名稱的程式碼
+          });
+
+        document
+          .getElementById("editNickNameButton")
+          .addEventListener("click", function () {
+            document.getElementById("showNickNameContain").style.display =
+              "none";
+            document.querySelector(".editNickNameContanin").style.display =
+              "block";
+          });
+
+        document
+          .getElementById("saveNickNameButton")
+          .addEventListener("click", function () {
+            // 在這裡添加儲存暱稱的程式碼
+            document.querySelector(".editNickNameContanin").style.display =
+              "none";
+            document.getElementById("showNickNameContain").style.display =
+              "block";
+
+            // 在這裡添加fetch暱稱的程式碼
+          });
+      });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script type="module" src="../../../js/getUserProfile.js"></script>
+    <script type="module" src="../../memberCentre/js/editUserProfile.js"></script>
+    <script src="../../user/js/address.js"></script>
+    <script
+      type="module"
+      src="/frontend/pages/memberCentre/js/resetPassword.js"
+    ></script>
+    <script>
+      const photo_el = document.getElementById("photo");
+      const userPicEdit_btn = document.getElementById("userPicEdit");
+
+      photo_el.addEventListener("mouseout", () => {
+        userPicEdit_btn.style.display = "none";
+      });
+
+      photo_el.addEventListener("mouseover", () => {
+        userPicEdit_btn.style.display = "block";
+      });
+    </script> -->
+  </body>
+</html>

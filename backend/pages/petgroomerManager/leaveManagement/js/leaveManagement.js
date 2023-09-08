@@ -1,6 +1,7 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4"; // 使用Manager Token
     //錯誤顯示用
     const errorDiv = document.getElementById("error");
 
@@ -12,7 +13,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/findAllLeave`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A", // 使用Manager Token
+                Authorization_M: token, // 使用Manager Token
                 "Content-Type": "application/json"
             }
         })
@@ -104,6 +105,7 @@ window.addEventListener("load", () => {
                 }
             }
         });
+
         $('.table-container').css('overflow-x', 'auto');
         $('.table-fill tbody').on('click', '.finish', function (event) {
 
@@ -161,7 +163,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/changeLeave", {
             method: "POST",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNjM0ODE5fQ.qMvo_LrPZp3-za4HCjjMhUX8b_mHXSIuNATPM9Ke83c",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestBody)

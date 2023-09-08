@@ -1,6 +1,7 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4"; // 使用Manager Token
     const searchInput = document.getElementById("search");
     const limitSelect = document.querySelector("#limit");
     const sortSelect = document.querySelector("#sort");
@@ -203,7 +204,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/manager/commitInsertNewGroomer", {
                     method: "POST",
                     headers: {
-                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks"
+                        Authorization_M: token
                     },
                     body: formData,
                 })
@@ -236,7 +237,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/insertNewGroomer", {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         })
@@ -321,7 +322,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/getAllGroomerListSort?limit=${itemsPerPage}&sort=${sort}&offset=${offset}&orderBy=${orderBy}&search=${searchString}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A", // 使用Manager Token
+                Authorization_M: token, // 使用Manager Token
                 "Content-Type": "application/json"
             }
         })
@@ -377,11 +378,9 @@ window.addEventListener("load", () => {
                 petGroomer.pgPh="";
             }
             if(petGroomer.pgAddress===null){
-                petGroomer.pgAddress="";
+                petGroomer.pgAddress="無";
             }
-            if(petGroomer.pgAddress===null){
-                petGroomer.pgAddress="";
-            }
+            
             if(petGroomer.pgBirthday===null){
                 petGroomer.pgBirthday="";
             }
@@ -477,11 +476,11 @@ window.addEventListener("load", () => {
                             <option value="1" ${pgGender === '男' ? 'selected' : ''}>男</option>
                             <option value="2" ${pgGender === '女' ? 'selected' : ''}>女</option>
                         </select>
-                        <label for="newPgEmail" style="font-size: 18px;">Email</label>
-                        <label id="emailCheck" for="emailCheck" style="color:red; font-size: 12px;"></label>
+                        <label for="newPgEmail" style="font-size: 18px;">Email&nbsp;&nbsp;&nbsp;<span id="emailCheck" for="emailCheck" style="color:yellow; font-size: 12px;"></span></label>
+                        
                         <input type="email" id="newPgEmail" class="form-control" value="${pgEmail}" ><br>
-                        <label for="newPgPh" style="font-size: 18px;">手機號碼</label>
-                        <label id="phCheck"  for="phCheck" style="color:red; font-size: 12px;"></label>
+                        <label for="newPgPh" style="font-size: 18px;">手機號碼&nbsp;&nbsp;&nbsp;<span id="phCheck"  for="phCheck" style="color:yellow; font-size: 12px;"></span></label>
+                        
                         <input type="tel" pattern="[0-9]{10}" title="請輸入有效的手機號碼（10位數字）" id="newPgPh" class="form-control" value="${pgPh}"><br>
                         <label for="newPgAddress" style="font-size: 18px;">地址</label>
                         <input type="text" id="newPgAddress" class="form-control" value="${pgAddress}"><br>
@@ -616,7 +615,7 @@ window.addEventListener("load", () => {
                 fetch(config.url + "/manager/updateGroomerByPgId", {
                     method: "POST",
                     headers: {
-                        Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MDk3MDkzfQ.3A0IMzRE25469nbQMmdNuDr3CZiX60uA2-LhbJ4cRks"
+                        Authorization_M: token
                     },
                     body: formData,
                 })

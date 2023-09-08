@@ -1,0 +1,25 @@
+.userPic {
+  margin: 0 20px;
+}
+
+.userPic img {
+  background-color: rgb(243, 243, 243);
+  border: 3px #fff solid;
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+}
+
+.table > tbody > tr > td:nth-child(3) {
+  text-align: right;
+  padding-right: 40px;
+}
+
+.table > :not(:last-child) > :last-child > * {
+  position: relative;
+}
+table > thead > tr > th span:nth-child(2) {
+  position: absolute;
+  padding: 0 30px;
+  right: 10px;
+}

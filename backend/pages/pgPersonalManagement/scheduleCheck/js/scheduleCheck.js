@@ -1,7 +1,9 @@
 import config from "../../../../../ipconfig.js";
 let tdElements = [];
 window.addEventListener("load", () => {
-
+    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4";
+    
     //error
     const errorDiv = document.getElementById("error");
 
@@ -63,7 +65,7 @@ window.addEventListener("load", () => {
         fetch(config.url + "/manager/scheduleGetGroomers", {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         })
@@ -180,7 +182,7 @@ window.addEventListener("load", () => {
         fetch(config.url + `/manager/scheduleForOtherPg?pgId=${pgId}&year=${yearParam}&month=${monthParam}`, {
             method: "GET",
             headers: {
-                Authorization_M: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A",
+                Authorization_M: token,
                 "Content-Type": "application/json"
             }
         })
