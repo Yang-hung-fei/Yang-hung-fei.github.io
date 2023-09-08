@@ -1,0 +1,556 @@
+import config from "/ipconfig.js";
+
+// 等待页面加载完毕后执行以下代码
+$(window).on("load", () => {
+  searchmanagers(searchURL());
+});
+
+$(document).ready(function () {
+  listenPageLink();
+  listenItemsPerPage();
+  listenSearchInput();
+});
+
+//-------------------active-------------------
+var $lightboxOverlay = $("#lightboxOverlay");
+var $editLightBox = $("#editLightBox");
+var $addLightBox = $("#addLightBox");
+
+$(document).on("click", "#lightboxOverlay", function () {
+  $editLightBox.empty();
+  $addLightBox.hide();
+  $lightboxOverlay.hide();
+});
+
+$(document).on("click", ".close", function () {
+  $editLightBox.empty();
+  $addLightBox.hide();
+  $lightboxOverlay.hide();
+});
+
+$(document).on("click", "#Edit_completeButton", function () {
+  $editLightBox.empty();
+  $addLightBox.hide();
+  $lightboxOverlay.hide();
+});
+
+$(document).on("click", "#Add_completeButton", function () {
+  $editLightBox.empty();
+  $addLightBox.hide();
+  $lightboxOverlay.hide();
+});
+
+let token = localStorage.getItem("Authorization_M");
+
+// -------------------DataListener-------------------
+
+function listenPageLink() {
+  const pageLinks = $(".pagination .page-link");
+
+  pageLinks.on("click", function () {
+    const pageIndex = $(this).parent().index();
+    const pageCount = pageLinks.length - 3; // 减去首个和最后两个箭头按钮
+    let currentPage;
+
+    if (pageIndex === 0) {
+      currentPage = 1; // 第一个 .page-link 设置为1
+    } else if (pageIndex === pageCount + 2) {
+      currentPage = pageCount; // 最后一个 .page-link 设置为 pageCount
+    } else {
+      currentPage = pageIndex;
+    }
+
+    // 执行你的其他操作，例如更新 URL
+    searchURL({ page: currentPage });
+  });
+}
+
+function listenItemsPerPage() {
+  $("#page").on("change", function () {
+    const selectedValue = $(this).val();
+    searchURL({ size: selectedValue });
+  });
+}
+
+function listenSearchInput() {
+  var inputElement = $("#search");
+  inputElement.keypress(function (event) {
+    if (event.which === 13) {
+      searchURL({ search: inputElement.value });
+    }
+  });
+
+  $("#button-search").on("click", () => {
+    searchURL({ search: inputElement.value });
+  });
+}
+
+// -------------------Fetch-------------------
+
+let currentSearchURL;
+function searchURL({ page = 1, size = 5 } = {}) {
+  // 构建请求 URL，包括请求参数
+  const search_inputed = document.getElementById("search").value;
+  const page_selected = page; // 使用传递的参数值或默认值
+  const itemsPerPage = size; // 使用传递的参数值或默认值
+
+  console.log("search_inputed:", search_inputed);
+  console.log("page_selected:", page_selected);
+  console.log("itemsPerPage:", itemsPerPage);
+
+  const url = new URL(config.url + "/manager/manageManager");
+  url.searchParams.append("search", search_inputed);
+  url.searchParams.append("page", page_selected);
+  url.searchParams.append("size", itemsPerPage);
+
+  currentSearchURL = url;
+  searchmanagers(currentSearchURL);
+}
+
+function searchmanagers(currentSearchURL) {
+  // deleteTableContent();
+
+  // 发送 HTTP GET 请求
+  try {
+    const response = fetch(currentSearchURL.toString(), {
+      method: "GET",
+      headers: {
+        Authorization_M: token,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((managerData) => {
+        // 处理服务器响应数据
+        var code = managerData.code;
+        if (code === 200) {
+          // 成功处理响应
+          createPageButtons(managerData.message);
+          createResultTable(managerData.message);
+        } else {
+          // 处理响应错误
+        }
+      })
+      .catch((error) => {
+        // 捕获 HTTP 请求或处理响应的错误
+        console.error("Error:", error);
+        // 输出服务器返回的文本
+        if (error instanceof Response) {
+          error.text().then((text) => {
+            console.error("Server response:", text);
+          });
+        }
+      });
+  } catch (error) {
+    // 捕获代码块内部的错误
+    console.error("Error:", error);
+  }
+}
+
+// -------------------HTML-------------------
+
+function createPageButtons(response) {
+  const paginationElements = document.getElementsByClassName("pagination");
+  const responsePageSize = response.page;
+  let html = "";
+
+  // Create the "Previous" button
+  html += `
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+  `;
+
+  for (let i = 1; i <= responsePageSize; i++) {
+    html += `
+      <li class="page-item">
+        <a class="page-link" href="#">${i}</a>
+      </li>
+    `;
+  }
+
+  // Loop through all pagination elements and set their innerHTML
+  for (let i = 0; i < paginationElements.length; i++) {
+    paginationElements[i].innerHTML = html;
+  }
+}
+
+function createResultTable(response) {
+  const resultTable_el = document.getElementById("resultTable");
+  let seachTableHTML = ``;
+  const managerData = response.body;
+
+  // 遍历managerData数组
+  managerData.forEach((manager) => {
+    const managerAccount = manager.managerAccount;
+    const managerCreated = manager.managerCreated;
+    const managerState = manager.managerState === "開啟" ? "checked" : ``;
+
+    // 创建表格行并添加到html中
+    seachTableHTML += `
+    <tr style="height: 10px;">
+      <td class="text-left">${managerAccount}</td>
+      <td class="text-left">${managerCreated}</td>
+      <td class="text-center">
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="flexSwitchCheckDefault"
+            ${managerState}
+          />
+        </div>
+      </td>
+      <td>
+        <buttom class="btn btn-link btn-sm editBtn" style="width: 100%;" data-managerAccount="${managerAccount}" data-managerCreated="${managerCreated}" data-managerState="${managerState}" 
+          >編輯</buttom
+        >
+      </td>
+    </tr>
+    `;
+  });
+
+  // 将html添加到结果表格中
+  resultTable_el.innerHTML = seachTableHTML;
+
+  // 監聽表格中的編輯按鈕點擊事件
+  const parentElement = document.querySelector("table");
+  parentElement.addEventListener("click", function (event) {
+    if (event.target.classList.contains("editBtn")) {
+      const managerAccount = event.target.getAttribute("data-managerAccount");
+      const managerState = event.target.getAttribute("data-managerState");
+      $("#lightboxOverlay").css("display", "flex");
+      console.log("test");
+      createEditLightBox(managerAccount, managerState);
+      checkAuthorities(managerAccount);
+      console.log(`編輯的managerAccount是：${managerAccount}`);
+    }
+  });
+
+  //儲存編輯的管理員資料
+  const orgManagerAccountValue = $("#orgManagerAccount").val();
+  const managerAccountValue = $("#newManagerAccount").val();
+  const managerPasswordValue = $("#newManagerPassword").val();
+  const managerStateValue = $("#newManagerState").val();
+  console.log("orgManagerAccountValue:", orgManagerAccountValue);
+  console.log("managerAccountValue:", managerAccountValue);
+  console.log("managerPasswordValue:", managerPasswordValue);
+  console.log("managerStateValue:", managerStateValue);
+  //轉JSON
+  const elements = {
+    orgManagerAccount: orgManagerAccountValue,
+    managerAccount: managerAccountValue,
+    managerPassword: managerPasswordValue,
+    managerState: managerStateValue,
+  };
+  const jsonData = JSON.stringify(elements);
+  console.log(jsonData);
+  $(document).on("click", "#Edit_completeButton", function () {
+    updateManagerData(jsonData);
+  });
+}
+
+function updateManagerData(jsonData) {
+  fetch(config.url + "/manager/manageManager", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: jsonData,
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // 解析响应的 JSON 数据（如果需要）
+    })
+    .then((data) => {
+      if (data.code === 200) {
+        console.log("save");
+      }
+    })
+    .catch((error) => {
+      // 处理请求失败或异常情况
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+
+function checkAuthorities(account) {
+  // 构建请求 URL，包括查询参数
+  const url = new URL(config.url + "/manager/manageManager/authorities");
+  url.searchParams.append("managerAccount", account);
+
+  fetch(url.toString(), {
+    method: "GET",
+    headers: {
+      Authorization_M: token,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => response.json())
+    .then((responseData) => {
+      var code = responseData.code;
+      console.log(responseData);
+      if (code === 200) {
+        const checkboxes = document.querySelectorAll(
+          '#editLightBox input[type="checkbox"]'
+        );
+        const jsonData = responseData.message.managerAuthoritiesList;
+        jsonData.forEach((label) => {
+          // 查找与标签匹配的复选框
+          const matchingCheckbox = Array.from(checkboxes).find((checkbox) => {
+            const checkboxLabel =
+              checkbox.nextElementSibling.textContent.trim();
+            return label === checkboxLabel;
+          });
+
+          // 如果找到匹配的复选框，勾选它
+          if (matchingCheckbox) {
+            matchingCheckbox.checked = true;
+          }
+        });
+      }
+    })
+    .catch((error) => {
+      // 处理捕获的错误，包括网络错误等
+      console.error("Fetch error:", error);
+    });
+}
+
+function createEditLightBox(account, state) {
+  const editLightBox_el = document.getElementById("editLightBox");
+  let editLightBoxHTML = ``;
+
+  editLightBoxHTML = `
+    <div class="card px-3 py-4" style="margin-bottom: 0">
+    <section class="container">
+      <header
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: top;
+          margin-bottom: 20px;
+        "
+      >
+        <h3 style="margin: 0">${account}</h3>
+        <span class="close cursor" id="closeEditLightBox">&times;</span>
+      </header>
+      <main style="display: flex">
+        <section style="flex: 1">
+          <header
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 15px;
+            "
+          >
+            <h5 class="card-title mb-0">管理員資料</h5>
+          </header>
+          <div id="Edit_editingManagerData">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                display: none;
+              "
+            >
+              <label
+                class="form-label"
+                style="
+                  flex-shrink: 1;
+                  margin: 0;
+                  white-space: nowrap;
+                  font-size: 15px;
+                "
+                >帳號：</label
+              >
+              <input id="orgManagerAccount" type="text" class="form-control form-control-sm" value="${account}" onfocus="javascript:if(this.value=='${account}')this.value=''";/>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+              "
+            >
+              <label
+                class="form-label"
+                style="
+                  flex-shrink: 1;
+                  margin: 0;
+                  white-space: nowrap;
+                  font-size: 15px;
+                "
+                >帳號：</label
+              >
+              <input id="newManagerAccount" type="text" class="form-control form-control-sm" value="${account}" onfocus="javascript:if(this.value=='${account}')this.value=''";/>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+              "
+            >
+              <label
+                class="form-label"
+                style="
+                  flex-shrink: 1;
+                  margin: 0;
+                  white-space: nowrap;
+                  font-size: 15px;
+                "
+                >密碼：</label
+              >
+              <input id="newManagerPassword" type="text" class="form-control form-control-sm" />
+            </div>
+            <div class="checkbox_item citem_3" style="display: flex">
+              <label
+                class="form-label"
+                style="
+                  flex-shrink: 1;
+                  margin: 0;
+                  white-space: nowrap;
+                  font-size: 15px;
+                "
+                >狀態：</label
+              >
+              <label
+                class="checkbox_wrap"
+                style="margin: auto; width: 180px; border-radius: 5px"
+              >
+                <input
+                  id="newManagerState"
+                  type="checkbox"
+                  name="checkbox"
+                  class="checkbox_inp"
+                  ${state}
+                />
+                <span class="checkbox_mark"></span>
+              </label>
+            </div>
+          </div>
+        </section>
+        <div class="vr mx-3"></div>
+        <section style="flex: 1">
+          <header
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 15px;
+            "
+          >
+            <h5 class="card-title mb-0">管理員權限</h5>
+          </header>
+          <div
+            id="Edit_managerAuthorities"
+            class="custom-control custom-checkbox"
+          >
+            <div
+              id="Edit_editingAuthorities"
+              style="display: flex; gap: 30px"
+            >
+              <div class="left">
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Edit_editingCheckHomepage"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Edit_editingCheckHomepage"
+                    >首頁管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Edit_editingCheckManageUser"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Edit_editingCheckManageUser"
+                    >會員管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Edit_editingCheckMall"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Edit_editingCheckMall"
+                    >商品管理</label
+                  >
+                </div>
+              </div>
+              <div class="right">
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Edit_editingCheckPetgroomerManager"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Edit_editingCheckPetgroomerManager"
+                    >美容師管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Edit_editingCheckpgPersonalManagement"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Edit_editingCheckpgPersonalManagement"
+                    >美容師個人管理</label
+                  >
+                </div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="Edit_editingCheckSocialMedia"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Edit_editingCheckSocialMedia"
+                    >社群管理</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+    <div
+      class="btnContain mt-4 mb-2"
+      style="display: flex; justify-content: center"
+    >
+      <button
+        class="btn btn-sm btn-dark"
+        style="width: 180px"
+        id="Edit_completeButton"
+      >
+        儲存
+      </button>
+    </div>
+  </div>
+  `;
+
+  editLightBox_el.innerHTML = editLightBoxHTML;
+}

@@ -62,3 +62,8 @@ input:disabled ~ label,
 input[readonly] {
   cursor: not-allowed;
 }
+
+input[type="checkbox"],
+input[type="checkbox"] + label {
+  cursor: pointer;
+}
