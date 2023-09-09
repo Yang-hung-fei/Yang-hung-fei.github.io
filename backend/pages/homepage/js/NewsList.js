@@ -1,8 +1,8 @@
 import config from "../../../../ipconfig.js";
 
-// localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MTkzMjY3fQ.SzSM7havg7wzQTzchWnxWWSQd46CMoPskSWhPXdLjaw");
+// localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k");
 // let token = localStorage.getItem("Authorization_M");
-let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0MTkzMjY3fQ.SzSM7havg7wzQTzchWnxWWSQd46CMoPskSWhPXdLjaw";
+let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k";
 
 const mainUrl = config.url;
 const newsUrl = "/manager/homepageManage";
@@ -29,13 +29,31 @@ editModal.addEventListener('show.bs.modal', async function (e) {
     document.getElementById('newsTitle').value = fetchData.newsTitle;
     document.getElementById('newsCont').value = fetchData.newsCont;
     document.getElementById('newsStatus').value = fetchData.newsStatus;
-    document.getElementById('updateTime').value = fetchData.updateTime;
+
+    // 定義函數格式化日期時間
+    function formatDateTime(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份從0開始，需要加1，並且補齊兩位
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    // 使用 Date 對象將時間戳轉換為日期和時間
+    let updateTime = new Date(fetchData.updateTime);
+    document.getElementById('updateTime').value = formatDateTime(updateTime);
+
+    console.log("fetchData.updateTime:", fetchData.updateTime);
+    console.log("updateTime:", updateTime);
 
     let status = document.getElementById('newsStatus');
     if (fetchData.newsStatus == 1) {
         status.value = "上架中";
     } else {
-        status.value = "已下架"
+        status.value = "已下架";
     }
 
     document.getElementById('editForm').addEventListener('submit', async function (e) {
@@ -46,7 +64,7 @@ editModal.addEventListener('show.bs.modal', async function (e) {
         let newsStatus = document.getElementById('newsStatus').value;
         let updateTime = document.getElementById('updateTime').value;
 
-        //處理圖片轉換成字串
+        // 圖片轉換成字串
         //   let newsPic = document.getElementById('newsPic').value;
         // 處理時間格式
         let newUpdateTime = updateTime.toString().replace("T", " ");
@@ -57,17 +75,21 @@ editModal.addEventListener('show.bs.modal', async function (e) {
             "newsStatus": newsStatus,
             "updateTime": newUpdateTime + ":00",
             "newsPic": null,
-
         };
         let updateResult = await updateNews(newsNo, updateData);
         console.log(updateResult);
 
-        // 在需要關閉模態的地方，例如更新成功後
-        if (updateResult != null) {
-            //   editModal.;
-        }
     });
+
+
+
+
+    // 在需要關閉模態的地方，例如更新成功後
+    if (updateResult != null) {
+        //   editModal.;
+    }
 });
+
 
 
 
