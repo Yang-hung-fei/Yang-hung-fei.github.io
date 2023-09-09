@@ -21,9 +21,7 @@ $(window).on("load", () => {
     getUserPerfile(token);
     webSocket.send("getHistory");
   }
-  webSocket.onmessage = function (event) {
-    notificationDot.classList.add("visible");
-    notificationDot.classList.remove("hidden");
+  webSocket.onmessage = function (event) { 
     let notifyMsg = JSON.parse(event.data);
     console.log(notifyMsg.msg);
     //若是獲得 點數 alert顯示
@@ -31,6 +29,8 @@ $(window).on("load", () => {
       swal(notifyMsg.msg);
       return;
     }
+    notificationDot.classList.add("visible");
+    notificationDot.classList.remove("hidden");
     let redirectUrl = "#";
     let imgBase64;
     switch (notifyMsg.notifyType) {
