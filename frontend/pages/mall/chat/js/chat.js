@@ -94,7 +94,7 @@ function sendMessage() {
     var message = inputMessage.value.trim();
 
     if (message === "") {
-        alert("Input a message");
+        swal ( "哎呀🤭" ,  "請輸入訊息" ,  "error" ); 
         inputMessage.focus();
     }
     else {

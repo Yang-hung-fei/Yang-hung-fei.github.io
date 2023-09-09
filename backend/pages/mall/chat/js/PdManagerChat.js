@@ -95,10 +95,10 @@ function sendMessage() {
     var message = inputMessage.value.trim();
 
     if (message === "") {
-        alert("請輸入訊息");
+        swal ( "哎呀🤭" ,  "請輸入訊息" ,  "error" );
         inputMessage.focus();
-    } else if (user === "") {
-        alert("選擇一個客戶");
+    } else if (user === "") { 
+        swal ( "哎呀🤭" ,  "請選擇一位客戶" ,  "error" );
     } else {
         var jsonObj = {
             "type": "chat",
