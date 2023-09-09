@@ -76,17 +76,15 @@ function connect() {
                 };
                 webSocket.send(JSON.stringify(jsonObj));
             }
-            let notify=document.getElementById(jsonObj.sender); 
+            let notify=document.getElementById(jsonObj.sender);  
             if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager")){
-                //當訊息內容不是當前提聊天框 
+                //當訊息內容不是當前提聊天框   
                 notify.classList.add("visible");
                 notify.classList.remove("hidden");
                 return;
             }
-            notify.classList.add("hidden");
-            notify.classList.remove("visible"); 
             document.getElementById("area").appendChild(li);
-            messagesArea.scrollTop = messagesArea.scrollHeight;
+            messagesArea.scrollTop = messagesArea.scrollHeight;  
         }  
     };
 
