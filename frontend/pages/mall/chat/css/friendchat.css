@@ -1,75 +1,114 @@
-* {
-	margin: auto;
-	padding: 0px;
+#chat {
+  font: 15px verdana, Times New Roman, arial, helvetica, sans-serif,
+    Microsoft JhengHei;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-html, body {
-	font: 15px verdana, Times New Roman, arial, helvetica, sans-serif,
-		Microsoft JhengHei;
-	width: 90%;
-	height: 90%;
-	background: #eeeeda;
+#chat .panel {
+  float: right;
+  border: 2px solid #bfac9f;
+  border-radius: 5px;
+  outline: 2px solid #bfac9f;
 }
 
-.panel {
-	float: right;
-	border: 2px solid #0078ae;
-	border-radius: 5px;
-	width: 50%;
+#chat .message-area {
+  height: 60vh;
+  resize: none;
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: #ffffff;
+  padding: 5px 10px 0 0;
+  border-radius: 5px 5px 5px 5px;
+  border: 5px solid #fefcec;
+  outline: 2px solid #bfac9f;
 }
 
-.message-area {
-	height: 70%;
-	resize: none;
-	box-sizing: border-box;
-	overflow: auto;
-	background-color: #ffffff;
+/* 捲軸底色 */
+#chat .message-area::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #bfac9f;
+  border-radius: 3px;
+}
+/* 捲軸寬度 */
+#chat .message-area::-webkit-scrollbar {
+  width: 6px;
+  background-color: #fff;
+}
+/* 捲軸本體顏色 */
+#chat .message-area::-webkit-scrollbar-thumb {
+  background-color: #755948;
+  border-radius: 3px;
 }
 
-.input-area {
-	background: #0078ae;
-	box-shadow: inset 0 0 10px #00568c;
+#chat .input-area {
+  background: #bfac9f;
+  box-shadow: inset 0 0 10px #bfac9f;
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
 }
 
-.input-area input {
-	margin: 0.5em 0em 0.5em 0.5em;
+#chat .input-area input[type="text"] {
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  flex-shrink: 0;
+  min-width: 80%;
+  word-wrap: break-word;
 }
 
-.text-field {
-	border: 1px solid grey;
-	padding: 0.2em;
-	box-shadow: 0 0 5px #000000;
+#chat .input-area input[type="submit"] {
+  flex-grow: 0;
+  flex-shrink: 1;
+  background-color: #bfac9f;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
 }
 
-h1 {
-	font-size: 1.5em;
-	padding: 5px;
-	margin: 5px;
+#chat .input-area input[type="submit"]:hover {
+  background-color: #755948;
+}
+
+#chat .text-field {
+  padding: 0.2em;
+}
+
+#chat h1 {
+  font-size: 1.5em;
+  padding: 5px;
+  margin: 5px;
 }
 
 #message {
-	min-width: 50%;
-	max-width: 60%;
+  min-width: 50%;
+  max-width: 60%;
 }
 
-.statusOutput {
-	background: #0078ae;
-	text-align: center;
-	color: #ffffff;
-	border: 1px solid grey;
-	padding: 0.2em;
-	box-shadow: 0 0 5px #000000;
-	width: 30%;
-	margin-top: 10%;
-	margin-left: 60%;
+#chat .statusOutput {
+  background: #bfac9f;
+  text-align: center;
+  color: #ffffff;
+  padding: 0.2em;
+  margin-top: 25px;
+  border-radius: 5px;
 }
 
 #row {
-	float: left;
-	width: 50%;
+  float: left;
+  width: 50%;
 }
 
-.column {
+#chat .column {
   float: left;
   width: 50%;
   padding: 5%;
@@ -77,41 +116,55 @@ h1 {
   background-color: #ffffff;
 }
 
-ul{
+#chat ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-ul li{
-  display:inline-block;
+#chat ul li {
+  display: inline-block;
   clear: both;
-  padding: 20px;
+  padding: 5px;
   border-radius: 30px;
   margin-bottom: 2px;
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.friend{
+#chat .friend,
+#chat .me {
+  margin-top: 6px;
+  max-width: 150px;
+  word-wrap: break-word;
+  line-height: 1.5;
+  border-radius: 5px;
+  padding: 10px 5px;
+  font-weight: normal;
+  letter-spacing: 1.2;
+  font-size: 13px;
+}
+
+#chat .friend {
   background: #eee;
   float: left;
 }
 
-.me{
+#chat .me {
   float: right;
-  background: #0084ff;
+  background: #755948;
   color: #fff;
 }
 
-.friend + .me{
+#chat .friend + .me {
   border-bottom-right-radius: 5px;
 }
 
-.me + .me{
+#chat .me + .me {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 
-.me:last-of-type {
-  border-bottom-right-radius: 30px;
+#chat .me:last-of-type {
+  border-bottom-right-radius: 15px;
+  margin-bottom: 20px;
 }
