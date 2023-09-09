@@ -76,10 +76,15 @@ function connect() {
                 };
                 webSocket.send(JSON.stringify(jsonObj));
             }
-          
-            if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager"))
+            let notify=document.getElementById(jsonObj.sender); 
+            if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager")){
+                //當訊息內容不是當前提聊天框 
+                notify.classList.add("visible");
+                notify.classList.remove("hidden");
                 return;
-            
+            }
+            notify.classList.add("hidden");
+            notify.classList.remove("visible"); 
             document.getElementById("area").appendChild(li);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }  
@@ -121,7 +126,11 @@ function refreshUserList(jsonObj) {
     for (var i = 0; i < users.length; i++) { 
         if (users[i] === self) { continue; }
         usersList.push(users[i].userId);
-        row.innerHTML += '<div id=' + i + ' class="column" name="friendName"  ><h2>' + users[i].userName + '</h2><input type="hidden" id="hiddenInput" value=' + users[i].userId + '></div>';
+        row.innerHTML += '<div id=' + i + ' class="column" name="friendName"  >' +
+        '<div id=' + users[i].userId + ' class="notification-dot hidden"></div>' + // 通知小点点
+        '<h2>' + users[i].userName + '</h2>' +
+        '<input type="hidden" id="hiddenInput" value=' + users[i].userId + '>' +
+    '</div>';
     } 
     addListener();
 }
@@ -133,6 +142,9 @@ function addListener() {
         // 使用 querySelector 或 getElementById 来获取 hidden input
         var inputElement = findInputElement(e.target);
         user = inputElement.value; 
+        let notify=document.getElementById(user); 
+        notify.classList.add("hidden");
+        notify.classList.remove("visible"); 
         updateFriendName(userName);
         var jsonObj = {
             "type": "history",
