@@ -1,6 +1,6 @@
 
 import { getAcDetails, getAllAc, updateAc } from "./callApi.js";
-import { createDataTable, createPagination } from "./pagination.js";
+import { createDataTable, createPagination } from "./pageRender.js";
 
 //修改活動
 async function showEditModal(activityId) {
@@ -166,22 +166,22 @@ async function showEditModal(activityId) {
             updateData.enrollLimit = enrollLimit;
         });
     });
-
     //處理圖片
     var activityImgOputs = document.querySelectorAll('#imageOutput');
     var activityImgInputs = document.querySelectorAll('#activityImg');
     activityImgInputs.forEach((activityImgInput) => {
+        //預設維之前的圖片
+        updateData.activityPicture = fetchData.activityPicture;
         activityImgInput.addEventListener('change', (e) => {
             let file = e.target.files[0];
-            console.log(file);
             if (file) {
 
                 toBase64(file).then((reslut) => {
                     //轉換成base64字串傳輸資料(這邊要解析格式)
                     let base64String = (reslut.split(',')[1]);
-                    console.log(base64String);
                     //建立預覽圖
                     activityImgOputs.forEach((activityImgOput) => {
+                        console.log(updateData);
                         activityImgOput.src = reslut;
                     })
                     updateData.activityPicture = base64String;
@@ -199,24 +199,6 @@ async function showEditModal(activityId) {
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
     });
-
-    const cancelBtns = document.querySelectorAll('#cancel');
-    cancelBtns.forEach((cancelBtn) => {
-        cancelBtn.addEventListener('click', function (e) {
-            activityImgOput.setAttribute('src', '');
-            postData = {
-                "title": "",
-                "content": "",
-                "startTime": "",
-                "endTime": "",
-                "activityTime": "",
-                "activityPicture": null,
-                "enrollLimit": "",
-            };
-            location.reload();
-        })
-    })
-
 
 
     let editComfirms = document.querySelectorAll('#editComfirm');
