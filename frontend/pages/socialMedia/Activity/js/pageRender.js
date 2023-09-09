@@ -1,4 +1,5 @@
 import { searchActivity } from "./callApi.js";
+import { showViewModal } from "./viewModal.js";
 // ------------------------- 建立活動清單  ------------------------- //
 
 async function createList(data) {
@@ -15,7 +16,7 @@ async function createList(data) {
             <div class="row g-0">
                 <!--card內容-->
                 <div class="col-md-5">
-                    <img src="../Activity/img/activity.jpeg" class="card-img img-fluid rounded-start">
+                    <img src="data:image/*;base64,${dataDetails.activityPicture}" alt="此活動沒有照片" class="card-img img-fluid rounded-start">
                 </div>
                 <div class="col-md-7 card-body d-flex flex-column">
                     <div class="h-100">
@@ -55,12 +56,22 @@ async function createList(data) {
             `;
     }
     active.innerHTML = dataList;
-    // d-flex flex-column
+
+    //查詢單一活動資訊監聽
+    const queryAcs = document.querySelectorAll('#checkDetails');
+    queryAcs.forEach((queryAc) => {
+        queryAc.addEventListener('click', async function (e) {
+            // 使用 dataset 屬性獲取 data-id 的值
+            let dataId = this.dataset.id;
+            //fetch獲取資料
+            await showViewModal(dataId);
+
+        });
+    });
 }
 // ------------------------- 建立活動分頁  ------------------------- //
 async function createPagination(data) {
     let pagination = document.querySelector(".pagination");
-    console.log(pagination);
     //建立分頁 -清空分頁
     pagination.innerHTML = "";
     // 總頁數
@@ -108,12 +119,24 @@ async function createHotList(data) {
         hotActive.innerHTML = dataList;
     }
 
+    //查詢單一活動資訊監聽
+    const queryHotAcs = document.querySelectorAll('#checkHot');
+    queryHotAcs.forEach((queryAc) => {
+        queryAc.addEventListener('click', async function (e) {
+            // 使用 dataset 屬性獲取 data-id 的值
+            let dataId = this.dataset.id;
+            //fetch獲取資料
+            await showViewModal(dataId);
+
+        });
+    });
+
 
 }
 
 
 // ------------------------- 建立活動關鍵字搜尋  ------------------------- //
-// list 和 page都不一樣
+// page為不同btn
 async function createSearchPagination(searchContent, data) {
     let hotPagination = document.querySelector('#hotPagination');
     //建立分頁 -清空分頁
@@ -155,14 +178,3 @@ async function createSearchPagination(searchContent, data) {
 
 
 export { createList, createPagination, createHotList, createSearchPagination };
-// //查詢單一活動資訊監聽
-// const queryAcs = document.querySelectorAll('#queryBtn');
-// queryAcs.forEach((queryAc) => {
-//     queryAc.addEventListener('click', async function (e) {
-//         // 使用 dataset 屬性獲取 data-id 的值
-//         let dataId = this.dataset.id;
-//         //fetch獲取資料
-//         await showViewModal(dataId);
-
-//     });
-// });
