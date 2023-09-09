@@ -178,15 +178,26 @@ function createPageButtons(response) {
 }
 
 function createResultTable(response) {
+  console.log(response);
   const resultTable_el = document.getElementById("resultTable");
   let seachTableHTML = ``;
   const managerData = response.body;
+  let theManagerAccount;
+  let managerAccountValue;
+  let managerPasswordValue;
+  let managerStateValue;
+  let updatManagerDataJson;
 
   // 遍历managerData数组
   managerData.forEach((manager) => {
     const managerAccount = manager.managerAccount;
     const managerCreated = manager.managerCreated;
     const managerState = manager.managerState === "開啟" ? "checked" : ``;
+    //更新管理員資料
+    theManagerAccount = managerAccount;
+    managerAccountValue = managerAccount;
+    managerPasswordValue = "";
+    managerStateValue = managerState === "checked" ? 1 : 0;
 
     // 创建表格行并添加到html中
     seachTableHTML += `
@@ -222,33 +233,70 @@ function createResultTable(response) {
       const managerAccount = event.target.getAttribute("data-managerAccount");
       const managerState = event.target.getAttribute("data-managerState");
       $("#lightboxOverlay").css("display", "flex");
-      console.log("test");
       createEditLightBox(managerAccount, managerState);
       checkAuthorities(managerAccount);
       console.log(`編輯的managerAccount是：${managerAccount}`);
     }
   });
 
-  //儲存編輯的管理員資料
-  const orgManagerAccountValue = $("#orgManagerAccount").val();
-  const managerAccountValue = $("#newManagerAccount").val();
-  const managerPasswordValue = $("#newManagerPassword").val();
-  const managerStateValue = $("#newManagerState").val();
-  console.log("orgManagerAccountValue:", orgManagerAccountValue);
-  console.log("managerAccountValue:", managerAccountValue);
-  console.log("managerPasswordValue:", managerPasswordValue);
-  console.log("managerStateValue:", managerStateValue);
-  //轉JSON
-  const elements = {
-    orgManagerAccount: orgManagerAccountValue,
-    managerAccount: managerAccountValue,
-    managerPassword: managerPasswordValue,
-    managerState: managerStateValue,
-  };
-  const jsonData = JSON.stringify(elements);
-  console.log(jsonData);
+  $(document).on("input", "#newManagerAccount", function () {
+    // 获取新的管理者帐号值
+    const newManagerAccountValue = $(this).val();
+    managerAccountValue = newManagerAccountValue;
+    console.log("New Manager Account Value:", managerAccountValue);
+    jsonData(
+      theManagerAccount,
+      managerAccountValue,
+      managerPasswordValue,
+      managerStateValue
+    );
+  });
+  $(document).on("input", "#newManagerPassword", function () {
+    // 获取新的管理者帐号值
+    const newManagerPassword = $(this).val();
+    managerPasswordValue = newManagerPassword;
+    console.log("New Manager Account Value:", managerPasswordValue);
+    jsonData(
+      theManagerAccount,
+      managerAccountValue,
+      managerPasswordValue,
+      managerStateValue
+    );
+  });
+  $(document).on("input", "#newManagerState", function () {
+    // 获取新的管理者帐号值
+    const newManagerStateChecked = $(this).prop("checked");
+    const newManagerState = newManagerStateChecked ? 1 : 0;
+    managerStateValue = newManagerState;
+    console.log("New Manager State Value:", managerStateValue);
+    jsonData(
+      theManagerAccount,
+      managerAccountValue,
+      managerPasswordValue,
+      managerStateValue
+    );
+  });
+
+  function jsonData(
+    theManagerAccount,
+    managerAccountValue,
+    managerPasswordValue,
+    managerStateValue
+  ) {
+    // 转JSON
+    const elements = {
+      orgManagerAccount: theManagerAccount,
+      managerAccount: managerAccountValue,
+      managerPassword: managerPasswordValue,
+      managerState: managerStateValue,
+    };
+    const jsonData = JSON.stringify(elements);
+    updatManagerDataJson = jsonData;
+    console.log(updatManagerDataJson);
+  }
+
   $(document).on("click", "#Edit_completeButton", function () {
-    updateManagerData(jsonData);
+    updateManagerData(updatManagerDataJson);
   });
 }
 
@@ -256,6 +304,7 @@ function updateManagerData(jsonData) {
   fetch(config.url + "/manager/manageManager", {
     method: "PUT",
     headers: {
+      Authorization_M: token,
       "Content-Type": "application/json",
     },
     body: jsonData,
@@ -263,7 +312,34 @@ function updateManagerData(jsonData) {
     .then((response) => response.json())
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        console.log(response);
+      }
+      return response.json(); // 解析响应的 JSON 数据（如果需要）
+    })
+    .then((data) => {
+      if (data.code === 200) {
+        console.log("save");
+      }
+    })
+    .catch((error) => {
+      // 处理请求失败或异常情况
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+
+function updateAuthorities(jsonData) {
+  fetch(config.url + "/manager/manageManager/authorities", {
+    method: "PUT",
+    headers: {
+      Authorization_M: token,
+      "Content-Type": "application/json",
+    },
+    body: jsonData,
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        console.log(response);
       }
       return response.json(); // 解析响应的 JSON 数据（如果需要）
     })
@@ -293,7 +369,6 @@ function checkAuthorities(account) {
     .then((response) => response.json())
     .then((responseData) => {
       var code = responseData.code;
-      console.log(responseData);
       if (code === 200) {
         const checkboxes = document.querySelectorAll(
           '#editLightBox input[type="checkbox"]'
@@ -369,7 +444,7 @@ function createEditLightBox(account, state) {
                 "
                 >帳號：</label
               >
-              <input id="orgManagerAccount" type="text" class="form-control form-control-sm" value="${account}" onfocus="javascript:if(this.value=='${account}')this.value=''";/>
+              <input id="orgManagerAccount" type="text" class="form-control form-control-sm" value="${account}" onfocus="javascript:if(this.value=="${account}")this.value=""";/>
             </div>
             <div
               style="
@@ -388,7 +463,7 @@ function createEditLightBox(account, state) {
                 "
                 >帳號：</label
               >
-              <input id="newManagerAccount" type="text" class="form-control form-control-sm" value="${account}" onfocus="javascript:if(this.value=='${account}')this.value=''";/>
+              <input id="newManagerAccount" type="text" class="form-control form-control-sm" value="${account}" onfocus="javascript:if(this.value=="${account}")this.value=""";/>
             </div>
             <div
               style="
