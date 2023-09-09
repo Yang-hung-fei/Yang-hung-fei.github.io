@@ -560,7 +560,7 @@
                                             <th>報名開始時間</th>
                                             <th>報名結束時間</th>
                                             <th>活動狀態
-                                                <select>
+                                                <select id="activityStatus">
                                                     <option value="2">所有活動</option>
                                                     <option value="0">執行中</option>
                                                     <option value="1">已取消</option>
@@ -659,7 +659,7 @@
                     </div>
 
                     <!-- 活動分頁管理  -->
-                    <nav aria-label="Page navigation" class="mt-5">
+                    <nav aria-label="Page navigation" class="mt-5" id="statusPagination">
                         <ul class="pagination justify-content-center">
                             <!-- <li class="page-item"><a class="page-link" id="prev" href="#">Previous</a></li>
                             <li class="page-item"><a class="page-link" href="#">1</a></li>
