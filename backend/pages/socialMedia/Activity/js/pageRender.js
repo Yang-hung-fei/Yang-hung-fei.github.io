@@ -1,5 +1,6 @@
 import { showEditModal } from "./editModal.js";
 import { showCancelModal } from "./cancelModal.js";
+import { getAcByStatus } from "./callApi.js";
 // ------------------------- 建立分頁  ------------------------- //
 // 更新資料表格和分頁
 async function createDataTable(data) {
@@ -90,5 +91,43 @@ async function createPagination(data) {
     }
 }
 
+// ------------------------- 建立活動狀態搜尋  ------------------------- //
+// page為不同btn
+async function createStatusPagination(status, data) {
+    let statusPagination = document.querySelector('#statusPagination');
+    //建立分頁 -清空分頁
+    statusPagination.innerHTML = "";
 
-export { createDataTable, createPagination };
+    let pagination = document.createElement("ul");
+    pagination.classList.add('pagination');
+    pagination.classList.add('justify-content-center');
+    statusPagination.append(pagination);
+    // 總頁數
+    let totalPages = await data.totalPage;
+    //預設為1
+    let currentPage = await data.curentPage;
+
+    // 創建分頁頁碼
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.classList.add("page-item");
+        if (i === currentPage + 1) {
+            pageItem.classList.add("active");
+        }
+        const pageLink = document.createElement("button");
+        pageLink.classList.add("page-link");
+        pageLink.textContent = i;
+        pageLink.setAttribute('data-page', i - 1);
+        pageItem.appendChild(pageLink);
+        pagination.appendChild(pageItem);
+
+    }
+    //改變活動狀態搜尋分頁
+    pagination.addEventListener('click', async (event) => {
+        let page = await event.target.getAttribute('data-page');
+        await getAcByStatus(status, page);
+    });
+}
+
+
+export { createDataTable, createPagination, createStatusPagination };

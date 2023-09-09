@@ -1,5 +1,5 @@
 import config from "../../../../../ipconfig.js";
-import { createDataTable, createPagination } from "./pageRender.js"
+import { createDataTable, createStatusPagination, createPagination } from "./pageRender.js"
 const hostUrl = config.url;
 const AcUrl = "/manager/activity";
 const createAcUrl = hostUrl + AcUrl;
@@ -133,7 +133,7 @@ async function getAllAc(page) {
 }
 
 // ------------------------- 查詢活動狀態  ------------------------- //
-async function getAcByStatus(page, status) {
+async function getAcByStatus(status, page) {
     let statusParams = new URLSearchParams({
         status: status
     });
@@ -142,8 +142,6 @@ async function getAcByStatus(page, status) {
         status: status
     });
     let newUrl = `${page === undefined ? getAcByStatusUrl + '?' + statusParams.toString() : getAcByStatusUrl + '?' + params.toString()}`;
-
-    console.log(newUrl);
     return fetch(newUrl, {
         method: "GET",
         headers: {
@@ -166,10 +164,9 @@ async function getAcByStatus(page, status) {
             return pageData;
 
         }).then(pageData => {
-            console.log(pageData);
             //create table data and pagination
             createDataTable(pageData);
-            createPagination(pageData);
+            createStatusPagination(status, pageData);
         })
         .catch(err => {
             console.error(err.message);

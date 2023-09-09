@@ -170,7 +170,7 @@ async function showEditModal(activityId) {
     var activityImgOputs = document.querySelectorAll('#imageOutput');
     var activityImgInputs = document.querySelectorAll('#activityImg');
     activityImgInputs.forEach((activityImgInput) => {
-        //預設維之前的圖片
+        //預設為之前的圖片
         updateData.activityPicture = fetchData.activityPicture;
         activityImgInput.addEventListener('change', (e) => {
             let file = e.target.files[0];
