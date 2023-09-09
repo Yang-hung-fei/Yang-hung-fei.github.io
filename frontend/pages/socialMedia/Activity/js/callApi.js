@@ -119,7 +119,7 @@ async function getActivityDetails(activityId) {
         .then(res => {
             return res.json();
         }).then(data => {
-            return data;
+            return data.message;
         })
         .catch(err => {
             console.error(err.message);
