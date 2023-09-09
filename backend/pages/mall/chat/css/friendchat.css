@@ -3,7 +3,8 @@
 	padding: 0px;
 }
 
-html, body {
+html,
+body {
 	font: 15px verdana, Times New Roman, arial, helvetica, sans-serif,
 		Microsoft JhengHei;
 	width: 90%;
@@ -70,48 +71,73 @@ h1 {
 }
 
 .column {
-  float: left;
-  width: 50%;
-  padding: 5%;
-  margin-bottom: 5px;
-  background-color: #ffffff;
+	float: left;
+	width: 50%;
+	padding: 5%;
+	margin-bottom: 5px;
+	background-color: #ffffff;
 }
 
-ul{
-  list-style: none;
-  margin: 0;
-  padding: 0;
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
-ul li{
-  display:inline-block;
-  clear: both;
-  padding: 20px;
-  border-radius: 30px;
-  margin-bottom: 2px;
-  font-family: Helvetica, Arial, sans-serif;
+ul li {
+	display: inline-block;
+	clear: both;
+	padding: 20px;
+	border-radius: 30px;
+	margin-bottom: 2px;
+	font-family: Helvetica, Arial, sans-serif;
 }
 
-.friend{
-  background: #eee;
-  float: left;
+.friend {
+	background: #eee;
+	float: left;
 }
 
-.me{
-  float: right;
-  background: #0084ff;
-  color: #fff;
+.me {
+	float: right;
+	background: #0084ff;
+	color: #fff;
 }
 
-.friend + .me{
-  border-bottom-right-radius: 5px;
+.friend+.me {
+	border-bottom-right-radius: 5px;
 }
 
-.me + .me{
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+.me+.me {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 .me:last-of-type {
-  border-bottom-right-radius: 30px;
+	border-bottom-right-radius: 30px;
 }
+
+/* 通知小点点样式 */
+.notification-dot {
+	position: absolute; /* 使用绝对定位 */
+	top: 30px; /* 将小点点上移，调整位置 */
+	right: 5px; /* 可以根据需要调整水平位置 */
+	width: 10px; /* 调整小点点的大小 */
+	height: 10px;
+	background-color: #ff0000; /* 红色 */
+	border-radius: 50%; /* 使小点点呈圆形 */
+  }
+  
+  /* 假设你的 .column 类用于样式化整个列 */
+  .column {
+	position: relative; /* 使用相对定位，使 .notification-dot 相对于 .column 定位 */
+	padding-top: 20px; /* 调整 .column 的顶部内边距，以留出空间给通知小点点 */
+  }
+
+.visible {
+	display: block; /* 或者其他适当的显示方式 */
+  }
+  
+  .hidden {
+	display: none; /* 隐藏元素 */
+  }
