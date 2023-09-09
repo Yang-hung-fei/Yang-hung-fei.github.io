@@ -43,9 +43,9 @@ function connect() {
     webSocket.onmessage = function (event) {
         var jsonObj = JSON.parse(event.data);
         if ("getIdentity" === jsonObj.type) { 
-            self = jsonObj.message;
-            //拿回使用者資訊後 拿回歷史紀錄
-
+            self = jsonObj.sender;
+            alert(self);
+            //拿回使用者資訊後 拿回歷史紀錄 
             var jsonHisObj = {
                 "type": "history",
                 "sender": self,
@@ -102,7 +102,7 @@ function sendMessage() {
         var jsonObj = {
             "type": "chat",
             "sender": self,
-            "receiver": "friend",
+            "receiver": "PdManager",
             "message": message
         };
         console.log(message);
@@ -110,25 +110,4 @@ function sendMessage() {
         inputMessage.value = "";
         inputMessage.focus();
     }
-}
-
-
-// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
-function addListener() {
-    var container = document.getElementById("row");
-    container.addEventListener("click", function (e) {
-        var friend = e.srcElement.textContent;
-        updateFriendName(friend);
-        var jsonObj = {
-            "type": "history",
-            "sender": self,
-            "receiver": friend,
-            "message": ""
-        };
-        webSocket.send(JSON.stringify(jsonObj));
-    });
-}
-
-function disconnect() {
-    webSocket.close();
-}
+} 
