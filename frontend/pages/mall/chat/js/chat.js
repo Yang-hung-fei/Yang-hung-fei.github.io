@@ -34,7 +34,7 @@ function connect() {
         var jsonObj = {
             "type": "getIdentity",
             "sender": "",
-            "receiver": "ProductManager",
+            "receiver": "PdManager",
             "message": ""
         };
         webSocket.send(JSON.stringify(jsonObj));
@@ -43,13 +43,12 @@ function connect() {
     webSocket.onmessage = function (event) {
         var jsonObj = JSON.parse(event.data);
         if ("getIdentity" === jsonObj.type) { 
-            self = jsonObj.sender;
-            alert(self);
+            self = jsonObj.sender; 
             //拿回使用者資訊後 拿回歷史紀錄 
             var jsonHisObj = {
                 "type": "history",
                 "sender": self,
-                "receiver": "ProductManager",
+                "receiver": "PdManager",
                 "message": ""
             };
             webSocket.send(JSON.stringify(jsonHisObj));
@@ -95,7 +94,7 @@ function sendMessage() {
     var message = inputMessage.value.trim();
 
     if (message === "") {
-        alert("Input a message");
+        swal ( "哎呀🤭" ,  "請輸入訊息" ,  "error" ); 
         inputMessage.focus();
     }
     else {

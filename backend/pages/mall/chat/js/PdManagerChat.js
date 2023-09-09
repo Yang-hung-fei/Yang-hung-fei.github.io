@@ -33,7 +33,7 @@ function connect() {
         console.log("Connect Success!");
         var jsonObj = {
             "type": "getUserList",
-            "sender": "ProductManager",
+            "sender": "PdManager",
             "receiver": "",
             "message": ""
         };
@@ -61,25 +61,30 @@ function connect() {
                 ul.appendChild(li);
             }
             messagesArea.scrollTop = messagesArea.scrollHeight;
-        } else if ("chat" === jsonObj.type) { 
+        } else if ("chat" === jsonObj.type) {  
             var li = document.createElement('li');
             jsonObj.sender === self ? li.className += 'me' : li.className += 'friend';
             li.innerHTML = jsonObj.message;
-            console.log(li); 
-            if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager"))
-                return;
-            if(!usersList.indexOf(jsonObj.sender)){
-                //重新刷新列表
+            console.log(li);   
+            if((usersList.indexOf(jsonObj.sender)===-1)&&!(jsonObj.sender==="PdManager")){ 
+               //重新刷新列表
                 var jsonObj = {
                     "type": "getUserList",
-                    "sender": "ProductManager",
+                    "sender": "PdManager",
                     "receiver": "",
                     "message": ""
                 };
                 webSocket.send(JSON.stringify(jsonObj));
             }
+            let notify=document.getElementById(jsonObj.sender);  
+            if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager")){
+                //當訊息內容不是當前提聊天框   
+                notify.classList.add("visible");
+                notify.classList.remove("hidden");
+                return;
+            }
             document.getElementById("area").appendChild(li);
-            messagesArea.scrollTop = messagesArea.scrollHeight;
+            messagesArea.scrollTop = messagesArea.scrollHeight;  
         }  
     };
 
@@ -93,10 +98,10 @@ function sendMessage() {
     var message = inputMessage.value.trim();
 
     if (message === "") {
-        alert("請輸入訊息");
+        swal ( "哎呀🤭" ,  "請輸入訊息" ,  "error" );
         inputMessage.focus();
-    } else if (user === "") {
-        alert("選擇一個客戶");
+    } else if (user === "") { 
+        swal ( "哎呀🤭" ,  "請選擇一位客戶" ,  "error" );
     } else {
         var jsonObj = {
             "type": "chat",
@@ -119,7 +124,11 @@ function refreshUserList(jsonObj) {
     for (var i = 0; i < users.length; i++) { 
         if (users[i] === self) { continue; }
         usersList.push(users[i].userId);
-        row.innerHTML += '<div id=' + i + ' class="column" name="friendName"  ><h2>' + users[i].userName + '</h2><input type="hidden" id="hiddenInput" value=' + users[i].userId + '></div>';
+        row.innerHTML += '<div id=' + i + ' class="column" name="friendName"  >' +
+        '<div id=' + users[i].userId + ' class="notification-dot hidden"></div>' + // 通知小点点
+        '<h2>' + users[i].userName + '</h2>' +
+        '<input type="hidden" id="hiddenInput" value=' + users[i].userId + '>' +
+    '</div>';
     } 
     addListener();
 }
@@ -131,6 +140,9 @@ function addListener() {
         // 使用 querySelector 或 getElementById 来获取 hidden input
         var inputElement = findInputElement(e.target);
         user = inputElement.value; 
+        let notify=document.getElementById(user); 
+        notify.classList.add("hidden");
+        notify.classList.remove("visible"); 
         updateFriendName(userName);
         var jsonObj = {
             "type": "history",
