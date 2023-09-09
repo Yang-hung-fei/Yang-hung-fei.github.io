@@ -57,27 +57,29 @@
   </head>
 
   <body>
-    <div class="row">
-      <div class="col-12">
-        <div class="card px-3 py-2" style="margin-bottom: 0">
-          <div style="display: flex; gap: 30px">
-            <div id="row" style="flex: 1"></div>
-            <div style="margin: 0 auto; flex: 3">
-              <h3 id="statusOutput" class="statusOutput"></h3>
-              <div id="messagesArea" class="panel message-area"></div>
-              <div class="panel input-area" style="display: flex">
-                <input
-                  id="message"
-                  class="text-field"
-                  type="text"
-                  placeholder="Message"
-                />
-                <input
-                  type="submit"
-                  id="sendMessage"
-                  class="button"
-                  value="Send"
-                />
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card p-5">
+            <div style="display: flex; gap: 30px">
+              <div id="row" style="flex: 1"></div>
+              <div style="margin: 0 auto; flex: 3">
+                <h3 id="statusOutput" class="statusOutput"></h3>
+                <div id="messagesArea" class="panel message-area"></div>
+                <div class="panel input-area" style="display: flex">
+                  <input
+                    id="message"
+                    class="text-field"
+                    type="text"
+                    placeholder="Message"
+                  />
+                  <input
+                    type="submit"
+                    id="sendMessage"
+                    class="button"
+                    value="Send"
+                  />
+                </div>
               </div>
             </div>
           </div>
