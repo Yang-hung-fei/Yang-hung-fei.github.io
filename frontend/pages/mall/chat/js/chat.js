@@ -34,7 +34,7 @@ function connect() {
         var jsonObj = {
             "type": "getIdentity",
             "sender": "",
-            "receiver": "ProductManager",
+            "receiver": "PdManager",
             "message": ""
         };
         webSocket.send(JSON.stringify(jsonObj));
@@ -48,7 +48,7 @@ function connect() {
             var jsonHisObj = {
                 "type": "history",
                 "sender": self,
-                "receiver": "ProductManager",
+                "receiver": "PdManager",
                 "message": ""
             };
             webSocket.send(JSON.stringify(jsonHisObj));

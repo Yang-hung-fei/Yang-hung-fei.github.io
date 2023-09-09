@@ -33,7 +33,7 @@ function connect() {
         console.log("Connect Success!");
         var jsonObj = {
             "type": "getUserList",
-            "sender": "ProductManager",
+            "sender": "PdManager",
             "receiver": "",
             "message": ""
         };
@@ -66,16 +66,19 @@ function connect() {
             jsonObj.sender === self ? li.className += 'me' : li.className += 'friend';
             li.innerHTML = jsonObj.message;
             console.log(li);  
-            if(usersList.indexOf(jsonObj.sender)==-1){ 
+            alert(usersList.indexOf(jsonObj.sender));
+            if(usersList.indexOf(jsonObj.sender)===-1){ 
+                alert("刷新列表");
                 //重新刷新列表
                 var jsonObj = {
                     "type": "getUserList",
-                    "sender": "ProductManager",
+                    "sender": "PdManager",
                     "receiver": "",
                     "message": ""
                 };
                 webSocket.send(JSON.stringify(jsonObj));
             }
+          
             if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager"))
                 return;
             
