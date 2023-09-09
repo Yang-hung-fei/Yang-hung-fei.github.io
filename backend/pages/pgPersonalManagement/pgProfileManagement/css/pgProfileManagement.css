@@ -251,8 +251,8 @@ body {
 }
 
 .bg-c-lite-green {
-      background: -webkit-gradient(linear, left top, right top, from(#5dccff), to(#041397));
-  background: linear-gradient(to right, #5addee, #6390f2);
+  background: -webkit-gradient(linear, left top, right top, from(#705f47), to(#222543));
+  background: linear-gradient(to right, #54717e, #222543);
 }
 
 .profile {
@@ -283,7 +283,7 @@ body {
 
 
 h6 {
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .card .card-block p {
@@ -292,7 +292,7 @@ h6 {
 
 @media only screen and (min-width: 1400px){
 p {
-  font-size: 14px;
+  font-size: 20px;
 }
 }
 
@@ -318,6 +318,7 @@ p {
 
 .m-b-10 {
   margin-bottom: 10px;
+  font-size: 16px;
 }
 
 .text-muted {
