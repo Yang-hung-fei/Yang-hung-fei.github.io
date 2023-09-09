@@ -61,14 +61,12 @@ function connect() {
                 ul.appendChild(li);
             }
             messagesArea.scrollTop = messagesArea.scrollHeight;
-        } else if ("chat" === jsonObj.type) { 
+        } else if ("chat" === jsonObj.type) {  
             var li = document.createElement('li');
             jsonObj.sender === self ? li.className += 'me' : li.className += 'friend';
             li.innerHTML = jsonObj.message;
-            console.log(li); 
-            if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager"))
-                return;
-            if(!usersList.indexOf(jsonObj.sender)){
+            console.log(li);  
+            if(usersList.indexOf(jsonObj.sender)==-1){ 
                 //重新刷新列表
                 var jsonObj = {
                     "type": "getUserList",
@@ -78,6 +76,9 @@ function connect() {
                 };
                 webSocket.send(JSON.stringify(jsonObj));
             }
+            if(!(jsonObj.sender===user)&&!(jsonObj.sender==="PdManager"))
+                return;
+            
             document.getElementById("area").appendChild(li);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }  
