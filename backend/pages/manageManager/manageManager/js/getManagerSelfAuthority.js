@@ -1,6 +1,6 @@
 import config from "/ipconfig.js";
 
-export async function getManagerAuthority(token) {
+export async function getManagerSelfAuthority(token) {
   try {
     const response = await fetch(config.url + "/manager/authorities", {
       method: "GET",
