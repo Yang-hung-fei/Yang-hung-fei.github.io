@@ -3,3 +3,21 @@
   top: 75px;
   right: 135px;
 }
+#notify {
+  position: relative; /* 需要设置相对定位 */
+  z-index: 1; /* 设置 z-index 以使其位于上层 */
+}
+
+/* 小点点样式 */
+.notification-dot {
+  position: absolute; /* 需要设置绝对定位 */
+  top: 20; /* 调整垂直位置 */
+  left: 15px; /* 调整水平位置 */
+  width: 10px; /* 调整小点点的大小 */
+  height: 10px;
+  right: 0;  
+  background-color: #ff0000; /* 红色 */
+  border-radius: 50%; /* 使小点点呈圆形 */
+  z-index: 2; /* 设置 z-index 以使其位于上层 */
+  visibility: hidden; /* 初始可见性为不可见 */
+}
