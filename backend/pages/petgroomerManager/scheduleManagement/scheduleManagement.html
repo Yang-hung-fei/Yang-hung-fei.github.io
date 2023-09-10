@@ -541,18 +541,54 @@
 								<div class="col-md-2" style="padding-right: 0;">
 
 								</div>
-								<div class="col-md-4" style="border-left: 3px solid gray;">
-									<h3>新增班表</h3>
-									<p>請勾選出勤時間段。<br>例：勾選4,5,6點，代表4點~6點出勤。</p>
+								<div class="col-md-5" style="border-left: 3px solid rgb(128, 128, 128);">
+									<h3>新增單筆班表</h3>
+									<span>請勾選出勤時間段。例：勾選4,5,6點，代表4點~6點出勤。</span>
 									<input type="text" id="dateInput" name="dateInput" class="form-control"
-										style="margin-bottom: 25px;" placeholder="請點擊選擇新增日期">
+										style="margin-bottom: 25px; width: 300px;" placeholder="請點擊選擇新增日期">
 									<div id="timeSlots" class="d-flex flex-wrap gap-3">
 										<!-- 時間槽將會在 JavaScript 中動態生成 -->
 									</div>
 									<button id="addNewScBtn" class="btn btn-secondary"
 										style="margin-left: 0px;">新增</button>
 								</div>
+
+
 							</div>
+							<div class="row">
+								<div class="col-md-7">
+								</div>
+								<div class="col-md-5" style="border-left: 3px solid gray;">
+									<h3>批次新增月份班表</h3><button id="cancelbatchInsertScheduleBtn" class="btn btn-secondary"
+									style="margin-left: 0px; margin-bottom: 20px;" hidden>取消批次新增</button>
+									<button id="batchBtn" class="btn btn-secondary"
+										style="margin-left: 0px;">我要批次新增</button>
+									
+									<div id="hiddenDiv" style="display: flex; align-items: center; margin-bottom: 10px;"
+										hidden>
+										
+										<select id="batchyearSelect" class="form-select"
+											style="max-width: 120px; margin-right: 10px; margin-bottom: 0; width: 200px;"></select><br>
+										<label for="batchyearSelect" class="form-label"
+											style="margin-top:2px; padding: 0 10px; margin-bottom: 0;">年</label>
+											<span id="batchMonthCheck" style="color: red; font-size: 5px;"></span>
+										<input id="batchmonth" name="month" type="number" min="1" max="12"
+											class="form-control"
+											style="max-width: 120px; margin-left: 5px; margin-bottom: 0;" value="1"
+											required>
+										<label for="batchmonth" class="form-label"
+											style="margin-top:2px; padding: 0 10px; margin-bottom: 0;">月</label>
+									</div>
+									<div id="batchTimeSlots" class="d-flex flex-wrap gap-3">
+										<!-- 時間槽將會在 JavaScript 中動態生成 -->
+									</div>
+									
+									<button id="batchInsertScheduleBtn" class="btn btn-secondary"
+										style="margin-left: 0px; margin-top: 20px;" hidden>送出批次新增</button>
+									
+								</div>
+							</div>
+
 							<div style="overflow-x: auto;overflow-y: auto;">
 								<div style="display: flex; align-content: center;">
 
