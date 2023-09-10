@@ -1,7 +1,7 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4"; // 使用Manager Token
+    const token = localStorage.getItem("Authorization_U"); // 使用Manager Token
+    // const token = ""; // 使用Manager Token
     const searchInput = document.getElementById("search");
     const limitSelect = document.querySelector("#limit");
     const sortSelect = document.querySelector("#sort");
@@ -173,7 +173,7 @@ window.addEventListener("load", () => {
         cardsList.classList.add("cards-list");
         function handleClick(porId) {
             setCookie("porId", porId, 600);
-            // 跳转
+            // 跳轉至單一作品集
             window.location.href = "YOUR_URL_HERE";
         }
 

@@ -124,8 +124,11 @@ function refreshUserList(jsonObj) {
     for (var i = 0; i < users.length; i++) { 
         if (users[i] === self) { continue; }
         usersList.push(users[i].userId);
+        let notReadList=jsonObj.notReadList; 
+        //判斷未讀
+        let isHidden=(notReadList.indexOf(users[i].userId )===-1)?"hidden":"visible";
         row.innerHTML += '<div id=' + i + ' class="column" name="friendName"  >' +
-        '<div id=' + users[i].userId + ' class="notification-dot hidden"></div>' + // 通知小点点
+        '<div id=' + users[i].userId + ' class="notification-dot '+isHidden+'"></div>' + // 通知小点点
         '<h2>' + users[i].userName + '</h2>' +
         '<input type="hidden" id="hiddenInput" value=' + users[i].userId + '>' +
     '</div>';

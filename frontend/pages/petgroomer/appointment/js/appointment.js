@@ -1,8 +1,8 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
     //Header Token
-    // const token = localStorage.getItem("Authorization_U");
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NDg3NzY0fQ.cnwBY2RnTE74GmMIbFUy9qOXY-DYrzyXDg-gQ18iFGM";
+    const token = localStorage.getItem("Authorization_U");
+    // const token = "";
 
 
     const pgNameSelect = document.getElementById('pgName');
