@@ -28,7 +28,13 @@ $(document).on("click", ".close", function () {
   $lightboxOverlay.hide();
 });
 
-$(document).on("click", "#Edit_completeButton", function () {
+$(document).on("click", "#Edit_updateAuthoritiesButton", function () {
+  $editLightBox.empty();
+  $addLightBox.hide();
+  $lightboxOverlay.hide();
+});
+
+$(document).on("click", "#Edit_updateDataButton", function () {
   $editLightBox.empty();
   $addLightBox.hide();
   $lightboxOverlay.hide();
@@ -338,8 +344,10 @@ function createResultTable(response) {
   }
 
   //送出修改的管理員資料及權限
-  $(document).on("click", "#Edit_completeButton", function () {
+  $(document).on("click", "#Edit_updateDataButton", function () {
     updateManagerData(updateManagerDataJson);
+  });
+  $(document).on("click", "#Edit_updateAuthoritiesButton", function () {
     const updateAuthritiesJson = jsonAuthrities(
       theManagerAccount,
       selectedAuthorities
@@ -681,14 +689,21 @@ function createEditLightBox(account, state) {
     </section>
     <div
       class="btnContain mt-4 mb-2"
-      style="display: flex; justify-content: center"
+      style="display: flex; justify-content: space-around; margin-left: 36px; margin-right: 36px;"
     >
       <button
-        class="btn btn-sm btn-dark"
+        class="btn btn-sm btn-outline-secondary"
         style="width: 180px"
-        id="Edit_completeButton"
+        id="Edit_updateDataButton"
       >
-        儲存
+        儲存資料
+      </button>
+      <button
+        class="btn btn-sm btn-outline-secondary"
+        style="width: 180px"
+        id="Edit_updateAuthoritiesButton"
+      >
+        儲存權限
       </button>
     </div>
   </div>
