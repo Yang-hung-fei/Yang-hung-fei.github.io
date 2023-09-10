@@ -1,0 +1,52 @@
+.user-card-full {
+    overflow: hidden;
+  }
+
+  .card .card-block p {
+    line-height: 25px;
+  }
+  
+  
+.card-block {
+    padding: 1.25rem;
+  }
+  
+
+
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+    box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+    border: none;
+    margin-bottom: 30px;
+  }
+
+  .card .card-block p {
+    line-height: 25px;
+  }
+
+  
+.user-card-full .social-link li {
+    display: inline-block;
+  }
+  
+  .user-card-full .social-link li a {
+    font-size: 20px;
+    margin: 0 10px 0 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+  
+
+#productmanage{   /*商品列表 | 編輯商品資訊 | 新增商品*/
+    /* border: 2px solid rgb(48, 149, 78); */
+    margin: 5px 0;
+    font-size: large;
+    font-weight: bold;
+    
+  }
+
+  .nav-title{
+    margin: 0 20px;
+  }

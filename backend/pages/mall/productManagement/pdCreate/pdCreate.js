@@ -1,4 +1,4 @@
-import config from "../../../../../ipconfig.js";
+import config from "../../../../../../ipconfig.js";
 window.addEventListener("load", () => {
     // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
     const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NjExMDQ4fQ.82ztaxrFP5BeOoSUoSP87iuPiU-oVBBeY83b78lD0lc";
@@ -118,7 +118,7 @@ window.addEventListener("load", () => {
                 } else {
                     Swal.fire({
                         icon: "error",
-                        title: "您非美容師",
+                        title: "您非商品管理員",
                         text: data.message
                     });
                 }

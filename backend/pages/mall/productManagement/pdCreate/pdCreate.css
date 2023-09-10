@@ -364,4 +364,14 @@ p {
   transition: all 0.3s ease-in-out;
 }
 
+#productmanage{   /*商品列表 | 編輯商品資訊 | 新增商品*/
+  /* border: 2px solid rgb(48, 149, 78); */
+  margin: 5px 0;
+  font-size: large;
+  font-weight: bold;
+  
+}
 
+.nav-title{
+  margin: 0 20px;
+}
