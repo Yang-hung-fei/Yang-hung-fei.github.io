@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:200');
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background-color: #F0E2DB;
+  font-size: 20px;
+  transition: 1s;
+}
+
+body.open{
+  animation: bg-change 1s 1;
+  background-color: #E5C59E;
+  transition: 1s;
+}
+@keyframes bg-change{
+  0%{
+      background-color: #F0E2DB;
+  }
+  100%{
+      background-color: #E5C59E;
+  }
+}
+.gift {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  transform-origin: 0% 0%;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: 1s;
+/*   animation: dukdik 0.5s infinite; */
+}
+.dukdik{
+  transform-origin: 0% 0%;
+  cursor: pointer;
+  animation: dukdik 0.5s infinite;
+}
+@keyframes dukdik {
+  0% {
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+  25%{
+    transform: rotate(1deg) translate(-50%, -50%);
+  }
+  50%{
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+  70%{
+    transform: rotate(-1deg) translate(-50%, -50%);
+  }
+  100%{
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+}
+.gift-top {
+  position: relative;
+  width: 110%;
+  height: 25%;
+  background: #F54537;
+  border-radius: 5px 5px 0 0;
+  transform: translate3d(-5%, 0, 0);
+  background-image: linear-gradient(to right, #F54537 0%, #F54537 44%, #FFC113 44%, #FFC113 56%, #F54537 56%, #F54537 100%);
+  transition: 1s;
+}
+.gift-top.boxOpen{
+  animation: box-open 1s;
+  opacity:0;
+}
+@keyframes box-open{
+  0%{
+    top:0px;
+    opacity:1;
+  }
+  100%{
+    top:-50px;
+    opacity:0;
+  }
+}
+.gift-top::before,
+.gift-top::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border: 10px solid #FFC113;
+    border-radius: 50% 50% 0 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-100%, -100%, 0) skew(10deg, 10deg);
+}
+
+.gift-top::after {
+  border-radius: 50% 50% 50% 0;
+  transform: translate3d(0, -100%, 0) skew(-10deg, -10deg);
+}
+
+.gift-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  color: #FFFFFF;
+  white-space: nowrap;
+  transform: translate3d(-50%, -50%, 0) scale(.5);
+  transform-origin: center center;
+  z-index: -1;
+  opacity:1;
+  transition: 5s;
+}
+
+.gift-box {
+  width: 100%;
+  height: 75%;
+  position:relative;
+  background-image: linear-gradient(to right, #D43130 0%, #D43130 45%, #FF900A 45%, #FF900A 55%, #D43130 55%, #D43130 100%);
+  border-radius: 0 0 5px 5px;
+  transition: 1s;
+}
+.gift-box.boxDown{
+  animation: box-down 1s; 
+   opacity:0; 
+}
+@keyframes box-down{
+  0%{
+    top:0px;
+    opacity:1;
+  }
+  100%{
+    top:50px;
+    opacity:0;
+  }  
+}
+
+
+
+.gift-container {
+  display: flex;
+  flex-direction: column; /* 將子元素垂直排列 */
+  align-items: center; /* 在主軸上居中對齊 */
+  justify-content: center; /* 在交叉軸上居中對齊 */
+}
+
+/* 如果需要增加間距，可以在按鈕之間添加一個 margin-top */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 75px; /* 自行調整間距大小 */
+}
+
+.wrap button {
+  margin-top: 15px; /* 自行調整按鈕之間的間距大小 */
+}
+
+.button {
+
+  width: 140px;
+  height: 45px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #dbc4b5;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #2EE59D;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
