@@ -186,6 +186,20 @@ window.addEventListener("load", () => {
     }
 
 
+    userPhInput.addEventListener("blur", function () {
+        // 手機號碼格式驗證
+        const phoneNumber = userPhInput.value;
+        const phoneNumberPattern = /^[0-9]{10}$/; // 台灣10碼
+        if (!phoneNumberPattern.test(phoneNumber)) {
+            const phCheck = document.getElementById("phCheck");
+            phCheck.innerText = '請輸入有效的手機號碼（10位數）';
+        } else {
+            const phCheck = document.getElementById("phCheck");
+            phCheck.innerText = '';
+        }
+    });
+
+
     //送出預約單:
     const commitButton = document.getElementById("commit");
     const pgaOptions = document.querySelectorAll('.form-check-input[name="pgaOption"]');

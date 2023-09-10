@@ -1,4 +1,4 @@
-import { createAc, cancelAc, updateAc, getAcDetails, getAllAc, getAcByStatus } from './callApi.js';
+import { getAllAc, getAcByStatus } from './callApi.js';
 import { showAddModal } from './addModal.js';
 // ------------------------- 頁面載入  ------------------------- //
 window.addEventListener('DOMContentLoaded', function () {
@@ -20,6 +20,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     })
+    // ------------------------- 搜尋活動狀態  ------------------------- //
+    const selectElement = document.getElementById('activityStatus');
+    selectElement.addEventListener('change', async function (e) {
+        //get value
+        let optionValue = e.target.value;
+        if (optionValue == 2) {
+            await getAllAc();
+        } else {
+            await getAcByStatus(optionValue);
+        }
+
+    })
+
 });
 
 

@@ -26,22 +26,35 @@
     />
 
     <!-- Libraries Stylesheet -->
-    <link href="../../lib/animate/animate.min.css" rel="stylesheet" />
+    <link href="/frontend/lib/animate/animate.min.css" rel="stylesheet" />
     <link
-      href="../../lib/owlcarousel/assets/owl.carousel.min.css"
+      href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css"
       rel="stylesheet"
     />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../css/frontendBootstrap.min.css" rel="stylesheet" />
+    <link href="/frontend/css/frontendBootstrap.min.css" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
     <link href="/frontend/css/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="/frontend/css/notify.css" />
     <link rel="stylesheet" href="/frontend/css/headerLogoutBtn.css" />
-    <link rel="stylesheet" href="./css/mainnav.css" />
-    <link rel="stylesheet" href="css/porfile.css" />
-    <link rel="stylesheet" href="css/sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="/frontend/pages/memberCentre/css/mainnav.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/frontend/pages/memberCentre/css/porfile.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/frontend/pages/memberCentre/css/sidebar.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/frontend/pages/memberCentre/css/pointButton.css"
+    />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </head>
 
@@ -61,7 +74,7 @@
       data-wow-delay="0.1s"
       style="background-color: #fefcec"
     >
-      <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
+      <a href="/index.html" class="navbar-brand ms-4 ms-lg-0">
         <img
           src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png"
           alt="LOGO"
@@ -78,7 +91,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="index.html" class="nav-item nav-link active">首頁</a>
+          <a href="/index.html" class="nav-item nav-link active">首頁</a>
           <a href="about.html" class="nav-item nav-link">關於我們</a>
           <a href="product.html" class="nav-item nav-link">寵物商城</a>
           <div class="nav-item dropdown">
@@ -163,10 +176,11 @@
 
     <div id="main" style="margin-top: 25px">
       <div>
+        <!-- Side Bar Start -->
         <aside id="sidebar" style="background-color: #fff">
           <ul id="chatroom">
             <li id="stornchat">
-              <a href="#">
+              <a href="/frontend/pages/mall/chat/chat.html">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="1em"
@@ -198,7 +212,7 @@
               </a>
             </li>
             <li id="activitychat">
-              <a href="#">
+              <a href="/frontend/pages/socialMedia/Chat/chat.html">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="1em"
@@ -215,7 +229,7 @@
             </li>
           </ul>
           <hr />
-          <a href="#">
+          <a href="/frontend/pages/memberCentre/memberCentre.html">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="1em"
@@ -233,27 +247,42 @@
             <ul>
               <li id="storn" class="title">寵物商城</li>
               <div class="menu">
-                <li><a href="#">購物車</a></li>
-                <li><a href="#">商品訂單</a></li>
+                <li>
+                  <a href="/frontend/pages/mall/order/cart.html">購物車</a>
+                </li>
+                <li>
+                  <a href="/frontend/pages/mall/order/memberCentreOrders.html"
+                    >商品訂單</a
+                  >
+                </li>
                 <li><a href="#">商品收藏</a></li>
               </div>
             </ul>
             <ul>
               <li id="storn" class="title">美容預約</li>
               <div class="menu">
-                <li><a href="#">預約紀錄</a></li>
+                <li>
+                  <a href="/frontend/pages/memberCentre/appointmentRecord.html"
+                    >預約紀錄</a
+                  >
+                </li>
                 <li><a href="#">作品收藏</a></li>
               </div>
             </ul>
             <ul>
               <li id="storn" class="title">活動社群</li>
               <div class="menu">
-                <li><a href="#">參與活動</a></li>
+                <li>
+                  <a href="/frontend/pages/socialMedia/Activity/activity.html"
+                    >參與活動</a
+                  >
+                </li>
                 <li><a href="#">貼文收藏</a></li>
               </div>
             </ul>
           </div>
         </aside>
+        <!-- Side Bar End -->
       </div>
 
       <div id="content">
@@ -349,12 +378,18 @@
               </span>
               <span id="point">
                 <div id="pointnumber"></div>
-                <p style="text-align: center; font-weight: bold" class="m-3">
+                <!-- <p style="text-align: center; font-weight: bold" class="m-3">
                   Point
-                </p>
-                <!-- <div id="getpoint">
-                  <button id="game">game</button>
-                </div> -->
+                </p> -->
+                <div id="getpoint">
+                  <a
+                    class="btn"
+                    id="game"
+                    href="/frontend/pages/memberCentre/game.html"
+                  >
+                    每日小遊戲
+                  </a>
+                </div>
               </span>
             </div>
           </header>

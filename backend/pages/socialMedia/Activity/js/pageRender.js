@@ -1,5 +1,6 @@
 import { showEditModal } from "./editModal.js";
 import { showCancelModal } from "./cancelModal.js";
+import { getAcByStatus } from "./callApi.js";
 // ------------------------- 建立分頁  ------------------------- //
 // 更新資料表格和分頁
 async function createDataTable(data) {
@@ -13,12 +14,15 @@ async function createDataTable(data) {
     // 建立資料表格
     if (fetchData !== undefined) {
         fetchData.forEach(dataDetails => {
+            //文字截斷
+            let content = dataDetails.content;
+            let truncateContent = content.substr(0, 10);
             // 建立資料
             dataList += `
                <tr>
                <td>${dataDetails.activityId}</td>
                <td>${dataDetails.title}</td>
-               <td>${dataDetails.content}</td>
+               <td>${truncateContent}...</td>
                <td>${dataDetails.activityTime}</td>
                <td>${dataDetails.enrollLimit}</td>
                <td>${dataDetails.peopleCount}</td>
@@ -30,8 +34,6 @@ async function createDataTable(data) {
                </td>
                <td>
                <button class="cancelBtn" id="cancelBtn" data-id="${dataDetails.activityId}"><i class="bi bi-trash3-fill"></i></button>
-               </td>
-               <td><button class="queryBtn" id="queryBtn" data-id="${dataDetails.activityId}"><i class="bi bi-eye-fill"></i></button>
                </td>
                </tr>`;
 
@@ -45,7 +47,6 @@ async function createDataTable(data) {
             // 使用 dataset 屬性獲取 data-id 的值
             let dataId = this.dataset.id;
             //fetch獲取資料
-            console.log("show your modal");
             await showEditModal(dataId);
 
         });
@@ -58,12 +59,11 @@ async function createDataTable(data) {
             // 使用 dataset 屬性獲取 data-id 的值
             let dataId = this.dataset.id;
             //fetch獲取資料
-            console.log(dataId);
-            console.log("show your modal");
             await showCancelModal(dataId);
 
         });
     });
+
 }
 async function createPagination(data) {
     let pagination = document.querySelector(".pagination");
@@ -91,5 +91,43 @@ async function createPagination(data) {
     }
 }
 
+// ------------------------- 建立活動狀態搜尋  ------------------------- //
+// page為不同btn
+async function createStatusPagination(status, data) {
+    let statusPagination = document.querySelector('#statusPagination');
+    //建立分頁 -清空分頁
+    statusPagination.innerHTML = "";
 
-export { createDataTable, createPagination };
+    let pagination = document.createElement("ul");
+    pagination.classList.add('pagination');
+    pagination.classList.add('justify-content-center');
+    statusPagination.append(pagination);
+    // 總頁數
+    let totalPages = await data.totalPage;
+    //預設為1
+    let currentPage = await data.curentPage;
+
+    // 創建分頁頁碼
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.classList.add("page-item");
+        if (i === currentPage + 1) {
+            pageItem.classList.add("active");
+        }
+        const pageLink = document.createElement("button");
+        pageLink.classList.add("page-link");
+        pageLink.textContent = i;
+        pageLink.setAttribute('data-page', i - 1);
+        pageItem.appendChild(pageLink);
+        pagination.appendChild(pageItem);
+
+    }
+    //改變活動狀態搜尋分頁
+    pagination.addEventListener('click', async (event) => {
+        let page = await event.target.getAttribute('data-page');
+        await getAcByStatus(status, page);
+    });
+}
+
+
+export { createDataTable, createPagination, createStatusPagination };
