@@ -6,6 +6,7 @@ let selectedRow;
 const token = localStorage.getItem("Authorization_U");
 //const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
 
+
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
      // 使用 DataTable 初始化函數
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// 發送GET請求獲取訂單數據
+// 發送GET請求查詢全部訂單數據
 function fetchUserOrders() {
     fetch(config.url + "/user/getUserOrders", {
         method: "GET",

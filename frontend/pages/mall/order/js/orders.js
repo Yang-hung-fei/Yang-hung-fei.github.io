@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(data => {
                                 console.log(data.message); // 可以根據需要進行處理
                                 Swal.fire("表單新增成功前往付款!");
-                                window.location.href = "./memberCenterOrders.html"
+                                window.location.href = "./thankOrder.html"
                             })
                             .catch(error => {
                                 console.error('Error deleting shopping cart:', error);
