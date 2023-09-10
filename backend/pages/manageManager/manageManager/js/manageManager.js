@@ -20,6 +20,8 @@ $(document).on("click", "#lightboxOverlay", function () {
   $editLightBox.empty();
   $addLightBox.hide();
   $lightboxOverlay.hide();
+  $("#setManagerAccount").val("");
+  $("#setManagerPassword").val("");
 });
 
 $(document).on("click", ".close", function () {
@@ -47,6 +49,11 @@ $(document).on("click", "#Add_completeButton", function () {
 });
 
 let token = localStorage.getItem("Authorization_M");
+
+$(document).on("click", "#mainAddManagerButton", function () {
+  $("#addLightBox").removeClass("d-none").show();
+  $lightboxOverlay.show();
+});
 
 // -------------------DataListener-------------------
 
@@ -90,6 +97,10 @@ function listenSearchInput() {
     searchURL({ search: inputElement.value });
   });
 }
+
+$("#Add_addManagerButton").on("click", () => {
+  addManager();
+});
 
 // -------------------Fetch-------------------
 
@@ -149,6 +160,92 @@ function searchmanagers(currentSearchURL) {
     // 捕获代码块内部的错误
     console.error("Error:", error);
   }
+}
+
+function addManager() {
+  const newSetManagerAccount = $("#setManagerAccount").val();
+  const newSetManagerPassword = $("#setManagerPassword").val();
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization_M: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      managerAccount: newSetManagerAccount,
+      managerPassword: newSetManagerPassword,
+    }),
+  };
+  console.log(requestOptions);
+
+  fetch(config.url + "/manager/manageManager", requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      $("#addManagerCompleteNotice").text(data.message);
+      if (data.code === 200) {
+        console.log("inv");
+        //Step2 input Data
+        $("#orgManagerAccount").val(newSetManagerAccount);
+        $("#newManagerAccount").val(newSetManagerAccount);
+        $("#newManagerPassword").val(newSetManagerPassword);
+        $("#Add_UpdateManagerData").on("click", () => {
+          addManagerSet(newSetManagerAccount, newSetManagerPassword);
+        });
+      } else if (data.code === 400) {
+        $("#addManagerCompleteNotice").css("color", "red");
+      } else if (data.code === 401) {
+        errorAuth();
+      }
+      $("#addManagerCompleteNotice").removeClass("invisible");
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+
+function addManagerSet(account, password) {
+  const state = $("#newManagerState").prop("checked") ? 1 : 0;
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      Authorization_M: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      orgManagerAccount: account,
+      managerAccount: account,
+      managerPassword: password,
+      managerState: state,
+    }),
+  };
+
+  fetch(config.url + "/manager/manageManager", requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      $("#addManagerCompleteNotice").text(data.message);
+      if (data.code === 200) {
+        console.log("inv");
+      } else if (data.code === 400) {
+        $("#addManagerCompleteNotice").css("color", "red");
+      } else if (data.code === 401) {
+        errorAuth();
+      }
+      $("#addManagerCompleteNotice").removeClass("invisible");
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+
+function errorAuth() {
+  swal({
+    title: "哎呀🤭",
+    text: "您尚未登入，請重新登入",
+    icon: "error",
+  }).then(() => {
+    localStorage.removeItem("Authorization_U");
+    window.location.href = "/backend/login.html"; // 替换为你要跳转的页面地址
+  });
 }
 
 // -------------------HTML-------------------
@@ -216,7 +313,7 @@ function createResultTable(response) {
             class="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
-            ${managerState}
+            ${managerState} disabled
           />
         </div>
       </td>
@@ -240,6 +337,10 @@ function createResultTable(response) {
       const managerState = event.target.getAttribute("data-managerState");
       $("#lightboxOverlay").css("display", "flex");
       createEditLightBox(managerAccount, managerState);
+
+      //儲存當前管理員帳號
+      theManagerAccount = managerAccount;
+      managerAccountValue = managerAccount;
 
       // 调用checkAuthorities，并提供一个回调函数来处理已勾选的选项数组
       checkAuthorities(managerAccount, function (selectedAuthorities) {
@@ -595,11 +696,12 @@ function createEditLightBox(account, state) {
               style="display: flex; gap: 30px"
             >
               <div class="left">
-                <div class="checkbox">
+                <div class="checkbox d-none">
                   <input
                     type="checkbox"
                     class="custom-control-input"
                     id="Edit_editingCheckManageManager"
+                    disabled
                   />
                   <label
                     class="custom-control-label"
