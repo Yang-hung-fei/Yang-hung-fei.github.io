@@ -175,6 +175,7 @@ function createPageButtons(response) {
   }
 }
 
+let selectedAuthorities = [];
 function createResultTable(response) {
   console.log(response);
   const resultTable_el = document.getElementById("resultTable");
@@ -239,6 +240,12 @@ function createResultTable(response) {
         console.log(selectedAuthorities);
         console.log(`編輯的managerAccount是：${managerAccount}`);
       });
+      //建立checkbox監聽器
+      const checkboxes = document.querySelectorAll(
+        '#editLightBox input[type="checkbox"]'
+      );
+      console.log("Number of checkboxes found:", checkboxes.length);
+      checkboxListener(checkboxes);
     }
   });
 
@@ -277,32 +284,28 @@ function createResultTable(response) {
       managerStateValue
     );
   });
-  //監聽使用者勾選的管理員權限
-  const checkboxes = document.querySelectorAll(
-    '#Edit_managerAuthorities input[type="checkbox"]'
-  );
-  checkboxes.forEach((checkbox) => {
-    console.log("check");
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked) {
-        // 如果复选框被勾选，将其标签文本添加到选定选项数组中
-        selectedAuthorities.push(
-          checkbox.nextElementSibling.textContent.trim()
-        );
-      } else {
-        // 如果复选框被取消勾选，从选定选项数组中移除其标签文本
-        const index = selectedAuthorities.indexOf(
-          checkbox.nextElementSibling.textContent.trim()
-        );
-        if (index !== -1) {
-          selectedAuthorities.splice(index, 1);
-        }
-      }
+  // 监听用户勾选的管理员权限
+  function checkboxListener(checkboxes) {
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        // 清空选定选项数组
+        selectedAuthorities = [];
 
-      // 打印选定的JSON数据
-      console.log(selectedAuthorities);
+        // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            const authorityText = cb.nextElementSibling.textContent.trim();
+            if (authorityText !== "") {
+              selectedAuthorities.push(authorityText);
+            }
+          }
+        });
+
+        // 打印选定的JSON数据
+        console.log(selectedAuthorities);
+      });
     });
-  });
+  }
 
   //根據使用者輸入轉存為JSON
   function jsonData(
@@ -323,10 +326,25 @@ function createResultTable(response) {
     console.log(updateManagerDataJson);
   }
 
+  function jsonAuthrities(account, authorities) {
+    const jsonObject = {
+      account: account,
+      authorities: authorities,
+    };
+
+    const jsonString = JSON.stringify(jsonObject);
+    console.log(jsonString);
+    return jsonString;
+  }
+
   //送出修改的管理員資料及權限
   $(document).on("click", "#Edit_completeButton", function () {
     updateManagerData(updateManagerDataJson);
-    updateAuthorities(selectedAuthorities);
+    const updateAuthritiesJson = jsonAuthrities(
+      theManagerAccount,
+      selectedAuthorities
+    );
+    updateAuthorities(updateAuthritiesJson);
   });
 }
 
@@ -344,7 +362,7 @@ function updateManagerData(jsonData) {
       if (!response.ok) {
         console.log(response);
       }
-      return response.json(); // 解析响应的 JSON 数据（如果需要）
+      return response;
     })
     .then((data) => {
       if (data.code === 200) {
@@ -357,14 +375,15 @@ function updateManagerData(jsonData) {
     });
 }
 
-function updateAuthorities(updateManagerDataJson) {
+function updateAuthorities(updateAuthritiesJson) {
+  console.log(updateAuthritiesJson);
   fetch(config.url + "/manager/manageManager/authorities", {
     method: "PUT",
     headers: {
       Authorization_M: token,
       "Content-Type": "application/json",
     },
-    body: updateManagerDataJson,
+    body: updateAuthritiesJson,
   })
     .then((response) => response.json())
     .then((data) => {
