@@ -1,11 +1,11 @@
 import config from "/ipconfig.js";
 import { createSidebarListMenu } from "/backend/js/sidebarMenu.js";
 import { showIndexBoard } from "/backend/js/showIndexBoard.js";
-import { getManagerAuthority } from "/backend/pages/manageManager/manageManager/js/getManagerAuthority.js";
+import { getManagerSelfAuthority } from "/backend/pages/manageManager/manageManager/js/getManagerSelfAuthority.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   let token = localStorage.getItem("Authorization_M");
-  let manager = await getManagerAuthority(token);
+  let manager = await getManagerSelfAuthority(token);
 
   //backend index.html show managerAccount name
   const managerAccount = manager.message.managerAccount;

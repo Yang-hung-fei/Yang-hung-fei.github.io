@@ -173,7 +173,7 @@ window.addEventListener("load", () => {
         cardsList.classList.add("cards-list");
         function handleClick(porId) {
             setCookie("porId", porId, 600);
-            // 跳转
+            // 跳轉至單一作品集
             window.location.href = "YOUR_URL_HERE";
         }
 
