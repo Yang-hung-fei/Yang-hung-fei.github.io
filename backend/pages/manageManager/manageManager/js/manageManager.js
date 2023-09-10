@@ -233,10 +233,12 @@ function createResultTable(response) {
       const managerState = event.target.getAttribute("data-managerState");
       $("#lightboxOverlay").css("display", "flex");
       createEditLightBox(managerAccount, managerState);
-      // checkAuthorities(managerAccount);
-      selectedAuthorities = checkAuthorities(managerAccount);
-      console.log(selectedAuthorities);
-      console.log(`編輯的managerAccount是：${managerAccount}`);
+
+      // 调用checkAuthorities，并提供一个回调函数来处理已勾选的选项数组
+      checkAuthorities(managerAccount, function (selectedAuthorities) {
+        console.log(selectedAuthorities);
+        console.log(`編輯的managerAccount是：${managerAccount}`);
+      });
     }
   });
 
@@ -280,6 +282,7 @@ function createResultTable(response) {
     '#Edit_managerAuthorities input[type="checkbox"]'
   );
   checkboxes.forEach((checkbox) => {
+    console.log("check");
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
         // 如果复选框被勾选，将其标签文本添加到选定选项数组中
@@ -379,7 +382,7 @@ function updateAuthorities(updateManagerDataJson) {
     });
 }
 
-function checkAuthorities(account) {
+function checkAuthorities(account, callback) {
   // 创建一个空的已勾選选项数组
   let selectedAuthorities = [];
 
@@ -417,13 +420,10 @@ function checkAuthorities(account) {
             selectedAuthorities.push(label);
           }
         });
-        // 在这里回傳已勾选的陣列
-        return selectedAuthorities;
+
+        // 在这里回调传递已勾选的陣列
+        callback(selectedAuthorities);
       }
-    })
-    .then((selectedAuthorities) => {
-      // 在整个 fetch 请求完成后输出数组内容
-      console.log(selectedAuthorities);
     })
     .catch((error) => {
       // 处理捕获的错误，包括网络错误等
