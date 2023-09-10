@@ -38,7 +38,7 @@
         <div class="sidebar-content js-simplebar">
           <a
             class="sidebar-brand"
-            href="/index.html"
+            href="/backend/index.html"
             style="padding: 10px 0 10px 10px"
           >
             <img
@@ -49,6 +49,51 @@
           </a>
 
           <ul id="sidebarLinks" class="sidebar-nav">
+            <li id="manager">
+              <ul>
+                <li class="sidebar-header">後台管理</li>
+                <li class="function">
+                  <ul>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link function-link"
+                        href="/backend/pages/homepage/homepagePicRoteList.html"
+                      >
+                        <i class="align-middle" data-feather="sliders"></i>
+                        <span class="align-middle">輪播圖管理</span>
+                      </a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link function-link"
+                        href="/backend/pages/homepage/homepageNewsList.html"
+                      >
+                        <i class="align-middle" data-feather="sliders"></i>
+                        <span class="align-middle">最新消息管理</span>
+                      </a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link function-link"
+                        href="/backend/pages/manageManager/manageManager/manageManager.html"
+                      >
+                        <i class="align-middle" data-feather="user"></i>
+                        <span class="align-middle">管理員管理</span>
+                      </a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link function-link"
+                        href="/backend/pages/manageManager/manageUser/manageUser.html"
+                      >
+                        <i class="align-middle" data-feather="log-in"></i>
+                        <span class="align-middle">會員帳號查詢</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
             <!-- menu -->
           </ul>
         </div>
@@ -70,9 +115,7 @@
                 >
                   <i class="align-middle" data-feather="settings"></i>
                 </a>
-                <span id="accountShow" class="text-dark py-3"
-                  >Charles Hall</span
-                >
+                <span id="accountShow" class="text-dark py-3"></span>
                 <button id="logout" class="btn btn-outline-dark mx-3">
                   登出
                 </button>
@@ -82,11 +125,15 @@
         </nav>
 
         <main class="content">
+          <div id="homepage">進入頁面要看到的東西。</div>
           <iframe
             src="/backend/pages/manageManager/manageManager/manageManager.html"
             name="mainframe"
+            class="d-none"
             id="mainframe"
             width="100%"
+            height="950px"
+            style="min-height: 850px"
             marginwidth="0"
             marginheight="0"
             scrolling="No"
@@ -151,25 +198,45 @@
     </div>
 
     <script src="/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/jquery/jquery-3.7.0.min.js"></script>
     <script src="/backend/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="/backend/js/sidebar.js"></script>
     <script src="/backend/js/sublistArrow.js"></script>
     <script>
       $(document).ready(function () {
-        // 使用事件委托处理通过 JavaScript 生成的链接
+        // 使用事件委託處理通過 JavaScript 生成的鏈接
         $("#sidebarLinks").on("click", ".function-link", function (e) {
           e.preventDefault(); // 阻止默认链接行为
           var newSrc = $(this).attr("href"); // 获取链接的 href 属性
-          $("#mainframe").attr("src", newSrc); // 设置 iframe 的 src 属性
-          resize();
+
+          // 移除之前的.active效果
+          $("#sidebarLinks .sidebar-item").removeClass("active");
+
+          // 为被点击的.sidebar-item添加.active
+          $(this).closest(".sidebar-item").addClass("active");
+
+          // 隐藏 homepage，显示 iframe
+          $("#homepage").addClass("d-none");
+          $("#mainframe").removeClass("d-none");
+
+          // 设置 iframe 的 src 属性
+          $("#mainframe").attr("src", newSrc);
+
+          // 立即调整 iframe 的高度
+          parent.document.getElementById("mainframe").height = 0;
+
+          // 监听 iframe 的载入事件，等待 iframe 加载完成
+          $("#mainframe").on("load", function () {
+            // 调整 iframe 的高度
+            parent.document.getElementById("mainframe").height =
+              this.contentWindow.document.body.scrollHeight;
+
+            // 立即将页面滚动到最上面，而不使用动画
+            $("html, body").scrollTop(0);
+          });
         });
       });
-      //body 根據 iframe 內容調整高度
-      function resize() {
-        parent.document.getElementById("mainframe").height =
-          document.body.scrollHeight + 100; //將子頁面高度傳到父頁面框架
-      }
     </script>
     <script>
       //登出按鈕

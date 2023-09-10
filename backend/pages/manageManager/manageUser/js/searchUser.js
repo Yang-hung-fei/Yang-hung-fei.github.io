@@ -98,11 +98,11 @@ function searchURL({
   const orderBy_selected = orderBy; // 使用传递的参数值或默认值
   const sort_selected = sort; // 使用传递的参数值或默认值
 
-  console.log("search_inputed:", search_inputed);
-  console.log("page_selected:", page_selected);
-  console.log("itemsPerPage:", itemsPerPage);
-  console.log("orderBy_selected:", orderBy_selected);
-  console.log("sort_selected:", sort_selected);
+  // console.log("search_inputed:", search_inputed);
+  // console.log("page_selected:", page_selected);
+  // console.log("itemsPerPage:", itemsPerPage);
+  // console.log("orderBy_selected:", orderBy_selected);
+  // console.log("sort_selected:", sort_selected);
 
   const url = new URL(config.url + "/manager/users");
   url.searchParams.append("search", search_inputed);

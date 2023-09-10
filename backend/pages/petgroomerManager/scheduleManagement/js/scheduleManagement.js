@@ -1,8 +1,8 @@
 import config from "../../../../../ipconfig.js";
 let tdElements = [];
 window.addEventListener("load", () => {
-    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4"; // 使用Manager Token
+    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjk0Njg4NzQxfQ.b5PO4UyeDrQApx3_CTXPtDvpN4-XKxWteiSqCa5AuPI"; // 使用Manager Token
     // 表格元素
     const calendarTable = document.getElementById('calendar');
     //error
@@ -41,12 +41,22 @@ window.addEventListener("load", () => {
 
     // const yearSelect = document.getElementById('year');
     const yearSelect = document.getElementById('yearSelect');
-    for (let year = 2020; year <= 2120; year++) {
+    for (let year = 2000; year <= 2120; year++) {
         const option = document.createElement('option');
         option.value = year;
         option.textContent = year;
         yearSelect.appendChild(option);
     }
+
+    const batchyearSelect = document.getElementById('batchyearSelect');
+    for (let year = 2023; year <= 2120; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        batchyearSelect.appendChild(option);
+    }
+
+
     const monthInput = document.getElementById('month');
 
     yearSelect.value = parseInt(currentYear);// 將年分設置到Input框中
@@ -57,8 +67,20 @@ window.addEventListener("load", () => {
 
     });
     monthInput.addEventListener('change', function () {
+        adjustMonthValue(monthInput);
         fetchGroomerSchedule(pgIdInput.value, parseInt(yearSelect.value), parseInt(monthInput.value));
     });
+
+    function adjustMonthValue(input) {
+        var value = parseInt(input.value, 10);
+
+        if (isNaN(value) || value < 1) {
+            input.value = 1;
+        } else if (value > 12) {
+            input.value = 12;
+        }
+    }
+
     fetchGroomer();
 
     //撈使用者美容師資料(token要改)
@@ -584,8 +606,11 @@ window.addEventListener("load", () => {
             });
         });
     }
+
+    //新增單筆班表
     const addNewScBtn = document.getElementById('addNewScBtn');
     addNewScBtn.addEventListener('click', function () {
+        const timeSlotsContainer = document.getElementById('timeSlots');
         const selectedDate = dateInput.value;
         const checkboxes = document.querySelectorAll('.form-check-input');
         let pgsState = '';
@@ -597,7 +622,7 @@ window.addEventListener("load", () => {
             pgsDate: selectedDate,
             pgsState: pgsState
         };
-        // 发送 POST 请求到服务器
+        // POST
         fetch(config.url + "/manager/insertNewSchedule", {
             method: 'POST',
             headers: {
@@ -615,6 +640,8 @@ window.addEventListener("load", () => {
                         text: data.message
                     });
                     fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+                    dateInput.value = null;
+                    timeSlotsContainer.innerHTML = '';
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -622,10 +649,167 @@ window.addEventListener("load", () => {
                         text: data.message
                     });
                     fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+                    dateInput.value = null;
+                    timeSlotsContainer.innerHTML = '';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     });
+
+
+    function generateBatchTimeSlots() {
+        const batchTimeSlotsContainer = document.getElementById('batchTimeSlots');
+        batchTimeSlotsContainer.innerHTML = ''; // 清空容器內容
+
+        for (let hour = 0; hour < 24; hour++) {
+            const timeSlot = document.createElement('div');
+            timeSlot.classList.add('time-slot');
+
+            const checkboxId = `checkbox-${hour}`;
+
+            const timeLabel = document.createElement('label');
+            timeLabel.classList.add('time-label', 'text-center');
+            timeLabel.textContent = `${hour}點`;
+            timeLabel.setAttribute('for', checkboxId);
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = '1';
+            checkbox.id = checkboxId;
+            checkbox.classList.add('batch-input');
+
+            // 添加條件，如果 hour 在 9 到 21 之間，則預先勾選複選框
+            if (hour >= 9 && hour <= 21) {
+                checkbox.checked = true;
+                checkbox.value = '0';
+            }
+
+            timeSlot.appendChild(timeLabel);
+            timeSlot.appendChild(checkbox);
+
+            batchTimeSlotsContainer.appendChild(timeSlot);
+        }
+    }
+
+    const batchBtn = document.getElementById('batchBtn');
+    //點擊批次新增出現
+    batchBtn.addEventListener('click', function () {
+        const hiddenDiv = document.getElementById('hiddenDiv');
+        batchBtn.hidden = true;
+        hiddenDiv.hidden = false;
+        const batchInsertScheduleBtn = document.getElementById('batchInsertScheduleBtn');
+        batchInsertScheduleBtn.hidden = false;
+        const cancelbatchInsertScheduleBtn = document.getElementById('cancelbatchInsertScheduleBtn');
+        cancelbatchInsertScheduleBtn.hidden = false;
+        generateBatchTimeSlots();
+    });
+    //取消批次新增
+    const cancelbatchInsertScheduleBtn = document.getElementById('cancelbatchInsertScheduleBtn');
+    cancelbatchInsertScheduleBtn.addEventListener('click', function () {
+        const hiddenDiv = document.getElementById('hiddenDiv');
+        batchBtn.hidden = false;
+        hiddenDiv.hidden = true;
+        const batchInsertScheduleBtn = document.getElementById('batchInsertScheduleBtn');
+        batchInsertScheduleBtn.hidden = true;
+        const cancelbatchInsertScheduleBtn = document.getElementById('cancelbatchInsertScheduleBtn');
+        cancelbatchInsertScheduleBtn.hidden = true;
+        const batchTimeSlotsContainer = document.getElementById('batchTimeSlots');
+        batchTimeSlotsContainer.innerHTML = ''; // 清空容器內容
+    });
+
+    const batchInsertScheduleBtn = document.getElementById('batchInsertScheduleBtn');
+    const batchmonth = document.getElementById('batchmonth');
+
+    batchmonth.addEventListener('blur', function () {
+        let value = parseInt(batchmonth.value);
+        if (isNaN(value) || value < 1 || value > 12) {
+            const batchMonthCheck = document.getElementById("batchMonthCheck");
+            batchMonthCheck.innerText = '無效的月份';
+            batchmonth.value = ''; // 清空输入框
+        } else {
+            const batchMonthCheck = document.getElementById("batchMonthCheck");
+            batchMonthCheck.innerText = '';
+        }
+    });
+
+
+    //批次新增班表
+    batchInsertScheduleBtn.addEventListener('click', function () {
+
+        Swal.fire({
+            title: '確定批次新增?',
+            text: `確定批次新增美容師ID:[ ${pgNameSelect.value} ]的${batchyearSelect.value}年${batchmonth.value}月班表?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '取消',
+            confirmButtonText: '確定新增!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                const batchyearSelect = document.getElementById('batchyearSelect');
+                const batchmonth = document.getElementById('batchmonth');
+                const checkboxes = document.querySelectorAll('.batch-input');
+                let pgsState = '';
+                checkboxes.forEach(checkbox => {
+                    pgsState += checkbox.value;
+                });
+                const requestData = {
+                    pgId: parseInt(pgIdInput.value),
+                    year: parseInt(batchyearSelect.value),
+                    month: parseInt(batchmonth.value),
+                    pgsState: pgsState
+                };
+                console.log(JSON.stringify(requestData));
+
+                // POST
+                fetch(config.url + "/manager/batchInsertSchedule", {
+                    method: 'POST',
+                    headers: {
+                        Authorization_M: token,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code === 200) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "批次新增班表成功",
+                                text: data.message
+                            });
+                            fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+                            dateInput.value = null;
+                            timeSlotsContainer.innerHTML = '';
+                            cancelbatchInsertScheduleBtn.click();
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "批次新增班表失敗",
+                                text: data.message
+                            });
+                            fetchGroomerSchedule(pgIdInput.value, yearSelect.value, monthInput.value);
+                            dateInput.value = null;
+                            timeSlotsContainer.innerHTML = '';
+                            cancelbatchInsertScheduleBtn.click();
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "批次新增班表失敗",
+                            text: data.message
+                        });
+                    });
+
+            }
+        })
+    });
+
+
+
 });

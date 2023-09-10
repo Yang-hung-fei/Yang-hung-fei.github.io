@@ -1,0 +1,78 @@
+#addLightBox button {
+  width: 73.33px;
+}
+
+#addLightBox .btnContain {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.container {
+  width: 100%;
+}
+
+.progressbar {
+  counter-reset: step;
+  position: relative; /* 添加相对定位 */
+}
+
+.progressbar li {
+  list-style: none;
+  display: inline-block;
+  width: 30.33%;
+  position: relative; /* 添加相对定位 */
+  text-align: center;
+  cursor: pointer;
+  color: #ddd;
+  font-weight: normal;
+}
+
+.progressbar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 30px;
+  height: 30px;
+  line-height: 25px;
+  border: 3px solid #ddd;
+  border-radius: 100%;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  background-color: #fff;
+  position: relative; /* 添加相对定位 */
+  z-index: 1; /* 设置z-index为正数，确保在内容之上 */
+}
+
+.progressbar li.completed:before {
+  content: "✔️"; /* 设置为✔️图标 */
+  /* 其他样式属性 */
+}
+
+.progressbar li:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1.5px;
+  background-color: #ddd;
+  top: 15px;
+  left: -50%;
+  z-index: 0; /* 设置z-index为0，确保在内容之下 */
+}
+
+.progressbar li:first-child:after {
+  content: none;
+}
+
+.progressbar li.active {
+  color: #222e3c;
+  font-weight: bold;
+}
+
+.progressbar li.active:before {
+  border-color: #222e3c;
+}
+
+.progressbar li.active + li:after {
+  background-color: #222e3c;
+}

@@ -25,12 +25,13 @@ export async function localLogin(email, password) {
       if (token) {
         backToRedirectUrl();
       } else {
-        await swalThenFadeOut("登入錯誤，請聯繫客服。");
+        swal("登入錯誤，請聯繫客服。");
       }
     } else if (code === 400) {
       console.log("Code 400 response:", data.message);
-      await swalThenFadeOut("帳號未註冊，或密碼錯誤。");
+      swal("帳號未註冊，或密碼錯誤。");
     } else {
+      swal(responseData.message);
       console.log("Unknown response code:", data.code);
     }
   }

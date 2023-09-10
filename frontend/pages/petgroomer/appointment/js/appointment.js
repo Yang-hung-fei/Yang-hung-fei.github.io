@@ -1,8 +1,8 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
     //Header Token
-    // const token = localStorage.getItem("Authorization_U");
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzNzM0ODgzfQ.MGVymnvxKaRZ9N7gGInQitt7q_zVoHxvt2n7hoPws6A";
+    const token = localStorage.getItem("Authorization_U");
+    // const token = "";
 
 
     const pgNameSelect = document.getElementById('pgName');
@@ -78,6 +78,11 @@ window.addEventListener("load", () => {
                     // 設定使用者名稱和電話
                     userNameInput.value = data.message.userName;
                     userPhInput.value = data.message.userPh;
+                }else{
+                    Swal.fire({
+                        icon: "error",
+                        title: data.message
+                    });
                 }
             });
     }
@@ -179,6 +184,20 @@ window.addEventListener("load", () => {
         const day = String(date.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
     }
+
+
+    userPhInput.addEventListener("blur", function () {
+        // 手機號碼格式驗證
+        const phoneNumber = userPhInput.value;
+        const phoneNumberPattern = /^[0-9]{10}$/; // 台灣10碼
+        if (!phoneNumberPattern.test(phoneNumber)) {
+            const phCheck = document.getElementById("phCheck");
+            phCheck.innerText = '請輸入有效的手機號碼（10位數）';
+        } else {
+            const phCheck = document.getElementById("phCheck");
+            phCheck.innerText = '';
+        }
+    });
 
 
     //送出預約單:

@@ -1,18 +1,27 @@
 import config from "../../ipconfig.js";
+// 创建一个新的 div 元素
+var nodifyImg = document.createElement("div"); 
+
+// 获取目标 div（根据 id）
+var notifyMenu = document.getElementById("notify");
+nodifyImg.className = "notification-dot";
+// 将新的 div 添加到目标 div 中
+notifyMenu.appendChild(nodifyImg);
+
 $(window).on("load", () => {
   let token = localStorage.getItem("Authorization_U");
-
+  var notificationDot = document.querySelector(".notification-dot");
   let connectUrl = (config.url).split('//')[1];
   if (token == null)
     return;
-  let url = 'ws://' + connectUrl + '/websocket?access_token=' + token;
+  let url = 'ws://' + connectUrl + '/websocket/userNotify?access_token=' + token;
   let webSocket = new WebSocket(url);
   webSocket.onopen = function () {
     console.log('創建連接。。。');
     getUserPerfile(token);
     webSocket.send("getHistory");
   }
-  webSocket.onmessage = function (event) {
+  webSocket.onmessage = function (event) { 
     let notifyMsg = JSON.parse(event.data);
     console.log(notifyMsg.msg);
     //若是獲得 點數 alert顯示
@@ -20,6 +29,8 @@ $(window).on("load", () => {
       swal(notifyMsg.msg);
       return;
     }
+    notificationDot.classList.add("visible");
+    notificationDot.classList.remove("hidden");
     let redirectUrl = "#";
     let imgBase64;
     switch (notifyMsg.notifyType) {
@@ -67,7 +78,10 @@ $(window).on("load", () => {
     // $('#messageArea').append('websocket已斷開\n');
   };
 
-
+  $("#notify").on("click",event=>{
+    notificationDot.classList.add("hidden");
+    notificationDot.classList.remove("visible");
+  })
 
 
   function getUserPerfile(token) {
