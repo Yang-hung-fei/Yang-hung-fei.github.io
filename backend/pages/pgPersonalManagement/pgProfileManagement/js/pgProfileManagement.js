@@ -1,7 +1,7 @@
 import config from "../../../../../ipconfig.js";
 window.addEventListener("load", () => {
-    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4";
+    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiZXhwIjoxNjk0MTgxNjcwfQ.RQddPyCnj9QS_eaFELGxMNyt7bFu8Hz1NmtEuPnL2v4";
     //塞入資訊
     const manId = document.getElementById('manId');
     const pgId = document.getElementById('pgId');
