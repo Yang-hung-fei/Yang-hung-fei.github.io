@@ -174,7 +174,7 @@ async function getUerJoinDetails(page) {
     let params = new URLSearchParams({
         page: page
     });
-    let joinUrl = page === undefined ? acUrl + "/joinList" : acUrl + "/joinList?" + params.toString();
+    let joinUrl = page == undefined ? acUrl + "/joinList" : acUrl + "/joinList?" + params.toString();
     return fetch(joinUrl, {
         method: "GET",
         headers: {
