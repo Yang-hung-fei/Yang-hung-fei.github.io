@@ -64,7 +64,7 @@ async function showSidebarListMenu(manager) {
             // 加载对应角色的菜单文件
             const response = await fetch("/backend/json/" + role.file);
             const roleMenus = await response.json();
-            console.log(roleMenus);
+            // console.log(roleMenus);
             // 根据菜单数据生成链接
             createSidebarListMenu(roleMenus);
           } catch (error) {

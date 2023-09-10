@@ -7,8 +7,8 @@ const getPointButton = document.getElementById("getPointButton"); //監聽取得
 const pointInput = document.getElementById("pointInput"); //監聽顯示點數欄位
 const userPoint = document.querySelector('#discount-amount');
 //Header Token
-//const token = localStorage.getItem("Authorization_U");
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
+const token = localStorage.getItem("Authorization_U");
+// const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
 document.addEventListener("DOMContentLoaded", ()=>{   
     updateCart();
     updateTotalAmount();
@@ -44,15 +44,31 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     }); 
         
-    //監聽刪除按鈕
+    // 監聽刪除按鈕
     tbody.addEventListener('click', event => {
         const target = event.target;
         if (target.classList.contains('fa-times')) {
             const row = target.closest('tr');
             const pdNo = row.querySelector('.remove-pr').getAttribute('data-pdNo');
-            deleteProduct(pdNo, row);
+
+            // 使用 SweetAlert2 彈窗確認刪除
+            Swal.fire({
+                title: '確認刪除商品',
+                text: '您確定要刪除這個商品嗎？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: '確定刪除'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 使用者確定刪除，執行刪除商品的函數
+                    deleteProduct(pdNo, row);
+                }
+            });
         }
     });
+
 
     updateButton.addEventListener('click', () => {
         updateCart();
@@ -167,9 +183,9 @@ function deleteProduct(pdNo, row) {
     .then(data => {
         if (data.code === 200) {
             // 從表格中移除該行
-            alert(data.message);
+            Swal.fire(data.message);
             tbody.removeChild(row);
-
+            updateTotalAmount(); 
         }
     })
     .catch(error => {
@@ -191,6 +207,7 @@ function updateTotalAmount() {
         }
     });
 
+
     // 在購物車頁面，當使用者輸入折扣金額時，呼叫以下函式
     const couponDiscountInput = document.getElementById('pointInput');
     const couponDiscount = parseFloat(couponDiscountInput.value);
@@ -202,7 +219,9 @@ function updateTotalAmount() {
 
     // 計算新的總金額（扣除折扣點數）
     const grandTotal = total - couponDiscount;
-   
+
+    
+    console.log(couponDiscount);
     // 更新總金額的顯示
     const totalPriceElement = document.querySelector('#total-amount');
     totalPriceElement.textContent = `$ ${total.toFixed(2)}`;
@@ -210,6 +229,7 @@ function updateTotalAmount() {
     // 更新 Grand Total 顯示
     const grandTotalElement = document.getElementById('grand-amount');
     grandTotalElement.textContent = `$ ${grandTotal.toFixed(2)}`
+
 }
 
 
@@ -309,72 +329,48 @@ function getUserPointAndUpdateUI() {
     });
 }
 
+
 // 綁定前往結帳按鈕點擊事件
 const checkoutButton = document.querySelector('.shopping-box a');
-checkoutButton.addEventListener('click', function () {
+checkoutButton.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // 檢查購物車中是否有商品
+    const cartRows = tbody.querySelectorAll('tr');
+    if (cartRows.length === 0) {
+        Swal.fire({
+            icon: 'error',
+            title: '購物車中沒有商品',
+            text: '請先加入商品到購物車再前往結帳。',
+        });
+        return;
+    }
+
+    // 確保點數輸入框不為空，如果為空，將其設置為0
     if (pointInput.value === '') {
         pointInput.value = '0';
     }
+
     const couponDiscount = parseFloat(pointInput.value);
     
+    // 計算實付金額
+    const totalAmount = parseFloat(document.querySelector('#total-amount').textContent.replace('$', ''));
+    const grandTotalAmount = parseFloat(document.querySelector('#grand-amount').textContent.replace('$', ''));
+    const paidAmount = grandTotalAmount - couponDiscount;
+
+    // 檢查實付金額是否小於0，如果是，彈出警告
+    if (paidAmount < 0) {
+        Swal.fire({
+            icon: 'error',
+            title: '實付金額小於0',
+            text: '無法前往結帳，請檢查點數或購物車內容。',
+        });
+        return;
+    }
+
+    console.log(couponDiscount);
     // 將折扣金額存儲到sessionStorage中
-    sessionStorage.setItem('couponDiscount', couponDiscount.toString());
+    sessionStorage.setItem('couponDiscount', couponDiscount);
+    // 如果一切正常，導航到結帳頁面
     window.location.href = "./orders.html";
 });
-
-
-
-$("#contactForm").validator().on("submit", function (event) {
-    if (event.isDefaultPrevented()) {
-        // handle the invalid form...
-        formError();
-        submitMSG(false, "Did you fill in the form properly?");
-    } else {
-        // everything looks good!
-        event.preventDefault();
-        submitForm();
-    }
-});
-
-function submitForm(){
-    // Initiate Variables With Form Content
-    var name = $("#name").val();
-    var email = $("#email").val();
-    var msg_subject = $("#msg_subject").val();
-    var message = $("#message").val();
-
-
-    $.ajax({
-        type: "POST",
-        url: "php/form-process.php",
-        data: "name=" + name + "&email=" + email + "&msg_subject=" + msg_subject + "&message=" + message,
-        success : function(text){
-            if (text == "success"){
-                formSuccess();
-            } else {
-                formError();
-                submitMSG(false,text);
-            }
-        }
-    });
-}
-
-function formSuccess(){
-    $("#contactForm")[0].reset();
-    submitMSG(true, "Message Submitted!")
-}
-
-function formError(){
-    $("#contactForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-        $(this).removeClass();
-    });
-}
-
-function submitMSG(valid, msg){
-    if(valid){
-        var msgClasses = "h3 text-center tada animated text-success";
-    } else {
-        var msgClasses = "h3 text-center text-danger";
-    }
-    $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
-}
