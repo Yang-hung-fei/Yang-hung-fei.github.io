@@ -233,7 +233,9 @@ function createResultTable(response) {
       const managerState = event.target.getAttribute("data-managerState");
       $("#lightboxOverlay").css("display", "flex");
       createEditLightBox(managerAccount, managerState);
+      // checkAuthorities(managerAccount);
       selectedAuthorities = checkAuthorities(managerAccount);
+      console.log(selectedAuthorities);
       console.log(`編輯的managerAccount是：${managerAccount}`);
     }
   });
@@ -419,6 +421,10 @@ function checkAuthorities(account) {
         return selectedAuthorities;
       }
     })
+    .then((selectedAuthorities) => {
+      // 在整个 fetch 请求完成后输出数组内容
+      console.log(selectedAuthorities);
+    })
     .catch((error) => {
       // 处理捕获的错误，包括网络错误等
       console.error("Fetch error:", error);
@@ -566,11 +572,11 @@ function createEditLightBox(account, state) {
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    id="Edit_editingCheckHomepage"
+                    id="Edit_editingCheckManageManager"
                   />
                   <label
                     class="custom-control-label"
-                    for="Edit_editingCheckHomepage"
+                    for="Edit_editingCheckManageManager"
                     >管理員管理</label
                   >
                 </div>
