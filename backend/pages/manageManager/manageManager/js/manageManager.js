@@ -108,8 +108,6 @@ function searchURL({ page = 1, size = 5 } = {}) {
 }
 
 function searchmanagers(currentSearchURL) {
-  // deleteTableContent();
-
   // 发送 HTTP GET 请求
   try {
     const response = fetch(currentSearchURL.toString(), {
@@ -186,7 +184,8 @@ function createResultTable(response) {
   let managerAccountValue;
   let managerPasswordValue;
   let managerStateValue;
-  let updatManagerDataJson;
+  let updateManagerDataJson;
+  let updateManagerAuthorityJson = {};
 
   // 遍历managerData数组
   managerData.forEach((manager) => {
@@ -239,8 +238,8 @@ function createResultTable(response) {
     }
   });
 
+  //監聽使用者輸入的管理員資料
   $(document).on("input", "#newManagerAccount", function () {
-    // 获取新的管理者帐号值
     const newManagerAccountValue = $(this).val();
     managerAccountValue = newManagerAccountValue;
     console.log("New Manager Account Value:", managerAccountValue);
@@ -252,7 +251,6 @@ function createResultTable(response) {
     );
   });
   $(document).on("input", "#newManagerPassword", function () {
-    // 获取新的管理者帐号值
     const newManagerPassword = $(this).val();
     managerPasswordValue = newManagerPassword;
     console.log("New Manager Account Value:", managerPasswordValue);
@@ -264,7 +262,6 @@ function createResultTable(response) {
     );
   });
   $(document).on("input", "#newManagerState", function () {
-    // 获取新的管理者帐号值
     const newManagerStateChecked = $(this).prop("checked");
     const newManagerState = newManagerStateChecked ? 1 : 0;
     managerStateValue = newManagerState;
@@ -276,7 +273,34 @@ function createResultTable(response) {
       managerStateValue
     );
   });
+  //監聽使用者勾選的管理員權限
+  function jsonAuthorities() {
+    var checkboxes = document.querySelectorAll(
+      "#Edit_managerAuthorities .custom-control-input"
+    );
+    checkboxes.forEach(function (checkbox) {
+      checkbox.addEventListener("change", function () {
+        // 获取复选框的 ID 和标签文本
+        var checkboxId = checkbox.id;
+        var label = checkbox.nextElementSibling.textContent;
 
+        // 根据复选框的选中状态更新 selectedFields 对象
+        if (checkbox.checked) {
+          selectedFields[checkboxId] = label;
+        } else {
+          delete selectedFields[checkboxId];
+        }
+
+        // 将 selectedFields 对象转换为 JSON 字符串
+        var jsonArray = JSON.stringify(selectedFields);
+
+        // 打印更新后的 JSON 数据
+        console.log(jsonArray);
+      });
+    });
+  }
+
+  //根據使用者輸入轉存為JSON
   function jsonData(
     theManagerAccount,
     managerAccountValue,
@@ -291,12 +315,14 @@ function createResultTable(response) {
       managerState: managerStateValue,
     };
     const jsonData = JSON.stringify(elements);
-    updatManagerDataJson = jsonData;
-    console.log(updatManagerDataJson);
+    updateManagerDataJson = jsonData;
+    console.log(updateManagerDataJson);
   }
 
+  //送出修改的管理員資料及權限
   $(document).on("click", "#Edit_completeButton", function () {
-    updateManagerData(updatManagerDataJson);
+    updateManagerData(updateManagerDataJson);
+    updateAuthorities();
   });
 }
 
@@ -338,6 +364,7 @@ function updateAuthorities(jsonData) {
   })
     .then((response) => response.json())
     .then((response) => {
+      console.log("updateAuthority");
       if (!response.ok) {
         console.log(response);
       }
@@ -346,6 +373,7 @@ function updateAuthorities(jsonData) {
     .then((data) => {
       if (data.code === 200) {
         console.log("save");
+        console.log(response);
       }
     })
     .catch((error) => {
