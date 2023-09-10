@@ -1,687 +1,571 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>每日小遊戲!</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="" name="keywords" />
-    <meta content="" name="description" />
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>每日小遊戲!</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="" name="keywords" />
+  <meta content="" name="description" />
 
-    <!-- Icon Font Stylesheet -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+    rel="stylesheet" />
 
-    <!-- Libraries Stylesheet -->
-    <link href="/frontend/lib/animate/animate.min.css" rel="stylesheet" />
-    <link
-      href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css"
-      rel="stylesheet"
-    />
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="/frontend/css/frontendBootstrap.min.css" rel="stylesheet" />
+  <!-- Libraries Stylesheet -->
+  <link href="/frontend/lib/animate/animate.min.css" rel="stylesheet" />
+  <link href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
 
-    <!-- Template Stylesheet -->
-    <link href="/frontend/css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/frontend/css/notify.css" />
-    <link rel="stylesheet" href="/frontend/css/headerLogoutBtn.css" />
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="/frontend/css/frontendBootstrap.min.css" rel="stylesheet" />
 
-    <!-- Flatpickr -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
-    <!--nav bar-->
-    <link rel="stylesheet" href="./css/mainnav.css" />
-    <link rel="stylesheet" href="./css/sidebar.css" />
-    <link rel="stylesheet" href="./css/porfile.css" />
+  <!-- Template Stylesheet -->
+  <link href="/frontend/css/main.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/css/notify.css" />
+  <link rel="stylesheet" href="/frontend/css/headerLogoutBtn.css" />
 
-    <link rel="stylesheet" href="css/game.css" />
-    <!-- sweetalert2 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
-      rel="stylesheet"
-    />
-  </head>
+  <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <!--nav bar-->
+  <link rel="stylesheet" href="./css/mainnav.css" />
+  <link rel="stylesheet" href="./css/sidebar.css" />
+  <link rel="stylesheet" href="./css/porfile.css" />
 
-  <body style="margin: 0; padding: 0">
-    <!-- Spinner Start -->
-    <div
-      id="spinner"
-      class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
-    >
-      <div class="spinner-border text-primary" role="status"></div>
-    </div>
-    <!-- Spinner End -->
+  <link rel="stylesheet" href="css/game.css" />
+  <!-- sweetalert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet" />
+</head>
 
-    <!-- Navbar Start -->
-    <nav
-      class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn"
-      data-wow-delay="0.1s"
-      style="background-color: #fefcec"
-    >
-      <a href="/index.html" class="navbar-brand ms-4 ms-lg-0">
-        <img
-          src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png"
-          alt="LOGO"
-          style="width: 300px"
-        />
-      </a>
-      <button
-        type="button"
-        class="navbar-toggler me-4"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarCollapse"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="/index.html" class="nav-item nav-link active">首頁</a>
-          <a
-            href="/frontend/pages/homepage/about.html"
-            class="nav-item nav-link"
-            >關於我們</a
-          >
-          <a
-            href="/frontend/pages/mall/mall/mall.html"
-            class="nav-item nav-link"
-            >寵物商城</a
-          >
-          <div class="nav-item dropdown">
-            <a
-              href="#"
-              class="nav-link dropdown-toggle"
-              data-bs-toggle="dropdown"
-              id="petGroomingDropdown"
-              >寵物美容專區</a
-            >
-            <div class="dropdown-menu m-0">
-              <a
-                href="/frontend/pages/petgroomer/pgListPage/pgListPage.html"
-                class="dropdown-item"
-                >查看美容師</a
-              >
-              <!-- <a href="feature.html" class="dropdown-item">作品集</a> -->
-              <a
-                href="/frontend/pages/petgroomer/appointment/appointment.html"
-                class="dropdown-item"
-                >預約寵物美容</a
-              >
-            </div>
+<body style="margin: 0; padding: 0">
+  <!-- Spinner Start -->
+  <div id="spinner"
+    class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+  <!-- Spinner End -->
+
+  <!-- Navbar Start -->
+  <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s"
+    style="background-color: #fefcec">
+    <a href="/index.html" class="navbar-brand ms-4 ms-lg-0">
+      <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png" alt="LOGO"
+        style="width: 300px" />
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+        <a href="/index.html" class="nav-item nav-link active">首頁</a>
+        <a href="/frontend/pages/homepage/about.html" class="nav-item nav-link">關於我們</a>
+        <a href="/frontend/pages/mall/mall/mall.html" class="nav-item nav-link">寵物商城</a>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="petGroomingDropdown">寵物美容專區</a>
+          <div class="dropdown-menu m-0">
+            <a href="/frontend/pages/petgroomer/pgListPage/pgListPage.html" class="dropdown-item">查看美容師</a>
+            <!-- <a href="feature.html" class="dropdown-item">作品集</a> -->
+            <a href="/frontend/pages/petgroomer/appointment/appointment.html" class="dropdown-item">預約寵物美容</a>
           </div>
-          <div class="nav-item dropdown">
-            <a
-              href="#"
-              class="nav-link dropdown-toggle"
-              data-bs-toggle="dropdown"
-              id="petCommunityDropdown"
-              >寵物社群</a
-            >
-            <div class="dropdown-menu m-0">
-              <!-- <a href="blog.html" class="dropdown-item">貼文交流</a> -->
-              <a
-                href="/frontend/pages/socialMedia/Activity/activity.html"
-                class="dropdown-item"
-                >寵物活動</a
-              >
-            </div>
-          </div>
-          <!-- <a href="contact.html" class="nav-item nav-link">聯絡我們</a> -->
         </div>
-        <div class="d-none d-lg-flex ms-2">
-          <div id="notifyContain">
-            <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
-              <small class="fa fa-inbox text-body"></small>
-            </div>
-            <div
-              class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-              aria-labelledby="alertsDropdown"
-              id="notifyMenu"
-              style="min-height: 50px"
-            >
-              <div class="list-group">
-                <!--這裡放通知-->
-              </div>
-            </div>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="petCommunityDropdown">寵物社群</a>
+          <div class="dropdown-menu m-0">
+            <!-- <a href="blog.html" class="dropdown-item">貼文交流</a> -->
+            <a href="/frontend/pages/socialMedia/Activity/activity.html" class="dropdown-item">寵物活動</a>
           </div>
-          <div id="userContain">
-            <div id="user" class="btn-sm-square bg-white rounded-circle ms-3">
-              <small
-                id="userIcon"
-                class="fa fa-user text-body"
-                style="position: absolute"
-              ></small>
-            </div>
-            <!-- Logout Button - Initially Hidden -->
-            <div
-              id="logoutButton"
-              class="floating-logout-button"
-              style="z-index: 999"
-            >
-              <button class="btn btn-link btn-sm">登出</button>
-            </div>
-          </div>
-          <a
-            id="shoppingCart"
-            class="btn-sm-square bg-white rounded-circle ms-3"
-            href=""
-          >
-            <small class="fa fa-shopping-bag text-body"></small>
-          </a>
         </div>
+        <!-- <a href="contact.html" class="nav-item nav-link">聯絡我們</a> -->
       </div>
-    </nav>
-    <!-- Navbar End -->
-    <script src="/frontend/js/notify.js"></script>
-    <script type="module" src="/frontend/js/btnUser.js"></script>
-    <script type="module" src="/frontend/js/header.js"></script>
-    <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <!-- Header JS -->
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <!--測欄位-->
-          <div>
-            <aside id="sidebar" style="background-color: #fff">
-              <ul id="chatroom">
-                <li id="stornchat">
-                  <a href="#">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="1em"
-                      viewBox="0 0 640 512"
-                    >
-                      <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                      <path
-                        d="M36.8 192H603.2c20.3 0 36.8-16.5 36.8-36.8c0-7.3-2.2-14.4-6.2-20.4L558.2 21.4C549.3 8 534.4 0 518.3 0H121.7c-16 0-31 8-39.9 21.4L6.2 134.7c-4 6.1-6.2 13.2-6.2 20.4C0 175.5 16.5 192 36.8 192zM64 224V384v80c0 26.5 21.5 48 48 48H336c26.5 0 48-21.5 48-48V384 224H320V384H128V224H64zm448 0V480c0 17.7 14.3 32 32 32s32-14.3 32-32V224H512z"
-                      />
-                    </svg>
-                    <span class="title">商城聊天室</span>
-                    <span class="notice"></span>
-                  </a>
-                </li>
-                <li id="gromerchat">
-                  <a href="#">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="1em"
-                      viewBox="0 0 640 512"
-                    >
-                      <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                      <path
-                        d="M64 131.9C64 112.1 80.1 96 99.9 96c9.5 0 18.6 3.8 25.4 10.5l16.2 16.2c-21 38.9-17.4 87.5 10.9 123L151 247c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L345 121c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-1.3 1.3c-35.5-28.3-84.2-31.9-123-10.9L170.5 61.3C151.8 42.5 126.4 32 99.9 32C44.7 32 0 76.7 0 131.9V448c0 17.7 14.3 32 32 32s32-14.3 32-32V131.9zM256 352a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-128a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-128a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm32-32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"
-                      />
-                    </svg>
-                    <span class="title">美容聊天室</span>
-                    <span class="notice"></span>
-                  </a>
-                </li>
-                <li id="activitychat">
-                  <a href="#">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="1em"
-                      viewBox="0 0 640 512"
-                    >
-                      <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                      <path
-                        d="M435.4 361.3l-89.7-6c-5.2-.3-10.3 1.1-14.5 4.2s-7.2 7.4-8.4 12.5l-22 87.2c-14.4 3.2-29.4 4.8-44.8 4.8s-30.3-1.7-44.8-4.8l-22-87.2c-1.3-5-4.3-9.4-8.4-12.5s-9.3-4.5-14.5-4.2l-89.7 6C61.7 335.9 51.9 307 49 276.2L125 228.3c4.4-2.8 7.6-7 9.2-11.9s1.4-10.2-.5-15L100.4 118c19.9-22.4 44.6-40.5 72.4-52.7l69.1 57.6c4 3.3 9 5.1 14.1 5.1s10.2-1.8 14.1-5.1l69.1-57.6c27.8 12.2 52.5 30.3 72.4 52.7l-33.4 83.4c-1.9 4.8-2.1 10.1-.5 15s4.9 9.1 9.2 11.9L463 276.2c-3 30.8-12.7 59.7-27.6 85.1zM256 48l.9 0h-1.8l.9 0zM56.7 196.2c.9-3 1.9-6.1 2.9-9.1l-2.9 9.1zM132 423l3.8 2.7c-1.3-.9-2.5-1.8-3.8-2.7zm248.1-.1c-1.3 1-2.7 2-4 2.9l4-2.9zm75.2-226.6l-3-9.2c1.1 3 2.1 6.1 3 9.2zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm14.1-325.7c-8.4-6.1-19.8-6.1-28.2 0L194 221c-8.4 6.1-11.9 16.9-8.7 26.8l18.3 56.3c3.2 9.9 12.4 16.6 22.8 16.6h59.2c10.4 0 19.6-6.7 22.8-16.6l18.3-56.3c3.2-9.9-.3-20.7-8.7-26.8l-47.9-34.8z"
-                      />
-                    </svg>
-                    <span class="title">活動聊天室</span>
-                    <span class="notice"></span>
-                  </a>
-                </li>
-              </ul>
-              <hr />
-              <a href="#">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="1em"
-                  viewBox="0 0 640 512"
-                >
-                  <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                  <path
-                    d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
-                  />
-                </svg>
-                <span class="title">個人資料</span>
-              </a>
-              <hr />
-              <div id="menu">
-                <ul>
-                  <li id="storn" class="title">寵物商城</li>
-                  <div class="menu">
-                    <li><a href="#">購物車</a></li>
-                    <li><a href="#">商品訂單</a></li>
-                    <li><a href="#">商品收藏</a></li>
-                  </div>
-                </ul>
-                <ul>
-                  <li id="storn" class="title">美容預約</li>
-                  <div class="menu">
-                    <li><a href="#">預約紀錄</a></li>
-                    <li><a href="#">作品收藏</a></li>
-                  </div>
-                </ul>
-                <ul>
-                  <li id="storn" class="title">活動社群</li>
-                  <div class="menu">
-                    <li><a href="#">參與活動</a></li>
-                    <li><a href="#">貼文收藏</a></li>
-                  </div>
-                </ul>
-              </div>
-            </aside>
+      <div class="d-none d-lg-flex ms-2">
+        <div id="notifyContain">
+          <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
+            <small class="fa fa-inbox text-body"></small>
           </div>
-
-          <!--測欄位結束-->
-        </div>
-        <div class="col-md-9" style="margin-top: 25px">
-          <!--小遊戲-->
-          <main id="container" style="border: 0px">
-            <div id="gray"></div>
-
-            <!--紀錄分數-->
-            <div id="fraction">0</div>
-            <!--時間進度條-->
-            <nav id="time"></nav>
-
-            <!--開始按鈕-->
-            <div id="startMenu">
-              <input id="start" type="button" value="開始遊戲" />
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown"
+            id="notifyMenu" style="min-height: 50px">
+            <div class="list-group">
+              <!--這裡放通知-->
             </div>
-            <!-- 結束按鈕
+          </div>
+        </div>
+        <div id="userContain">
+          <div id="user" class="btn-sm-square bg-white rounded-circle ms-3">
+            <small id="userIcon" class="fa fa-user text-body" style="position: absolute"></small>
+          </div>
+          <!-- Logout Button - Initially Hidden -->
+          <div id="logoutButton" class="floating-logout-button" style="z-index: 999">
+            <button class="btn btn-link btn-sm">登出</button>
+          </div>
+        </div>
+        <a id="shoppingCart" class="btn-sm-square bg-white rounded-circle ms-3" href="">
+          <small class="fa fa-shopping-bag text-body"></small>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar End -->
+  <script src="/frontend/js/notify.js"></script>
+  <script type="module" src="/frontend/js/btnUser.js"></script>
+  <script type="module" src="/frontend/js/header.js"></script>
+  <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- Header JS -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <!--測欄位-->
+        <div>
+          <aside id="sidebar" style="background-color: #fff">
+            <ul id="chatroom">
+              <li id="stornchat">
+                <a href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                    <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                      d="M36.8 192H603.2c20.3 0 36.8-16.5 36.8-36.8c0-7.3-2.2-14.4-6.2-20.4L558.2 21.4C549.3 8 534.4 0 518.3 0H121.7c-16 0-31 8-39.9 21.4L6.2 134.7c-4 6.1-6.2 13.2-6.2 20.4C0 175.5 16.5 192 36.8 192zM64 224V384v80c0 26.5 21.5 48 48 48H336c26.5 0 48-21.5 48-48V384 224H320V384H128V224H64zm448 0V480c0 17.7 14.3 32 32 32s32-14.3 32-32V224H512z" />
+                  </svg>
+                  <span class="title">商城聊天室</span>
+                  <span class="notice"></span>
+                </a>
+              </li>
+              <li id="gromerchat">
+                <a href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                    <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                      d="M64 131.9C64 112.1 80.1 96 99.9 96c9.5 0 18.6 3.8 25.4 10.5l16.2 16.2c-21 38.9-17.4 87.5 10.9 123L151 247c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L345 121c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-1.3 1.3c-35.5-28.3-84.2-31.9-123-10.9L170.5 61.3C151.8 42.5 126.4 32 99.9 32C44.7 32 0 76.7 0 131.9V448c0 17.7 14.3 32 32 32s32-14.3 32-32V131.9zM256 352a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-128a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-128a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm64 64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm32-32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
+                  </svg>
+                  <span class="title">美容聊天室</span>
+                  <span class="notice"></span>
+                </a>
+              </li>
+              <li id="activitychat">
+                <a href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                    <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                      d="M435.4 361.3l-89.7-6c-5.2-.3-10.3 1.1-14.5 4.2s-7.2 7.4-8.4 12.5l-22 87.2c-14.4 3.2-29.4 4.8-44.8 4.8s-30.3-1.7-44.8-4.8l-22-87.2c-1.3-5-4.3-9.4-8.4-12.5s-9.3-4.5-14.5-4.2l-89.7 6C61.7 335.9 51.9 307 49 276.2L125 228.3c4.4-2.8 7.6-7 9.2-11.9s1.4-10.2-.5-15L100.4 118c19.9-22.4 44.6-40.5 72.4-52.7l69.1 57.6c4 3.3 9 5.1 14.1 5.1s10.2-1.8 14.1-5.1l69.1-57.6c27.8 12.2 52.5 30.3 72.4 52.7l-33.4 83.4c-1.9 4.8-2.1 10.1-.5 15s4.9 9.1 9.2 11.9L463 276.2c-3 30.8-12.7 59.7-27.6 85.1zM256 48l.9 0h-1.8l.9 0zM56.7 196.2c.9-3 1.9-6.1 2.9-9.1l-2.9 9.1zM132 423l3.8 2.7c-1.3-.9-2.5-1.8-3.8-2.7zm248.1-.1c-1.3 1-2.7 2-4 2.9l4-2.9zm75.2-226.6l-3-9.2c1.1 3 2.1 6.1 3 9.2zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm14.1-325.7c-8.4-6.1-19.8-6.1-28.2 0L194 221c-8.4 6.1-11.9 16.9-8.7 26.8l18.3 56.3c3.2 9.9 12.4 16.6 22.8 16.6h59.2c10.4 0 19.6-6.7 22.8-16.6l18.3-56.3c3.2-9.9-.3-20.7-8.7-26.8l-47.9-34.8z" />
+                  </svg>
+                  <span class="title">活動聊天室</span>
+                  <span class="notice"></span>
+                </a>
+              </li>
+            </ul>
+            <hr />
+            <a href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                  d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+              </svg>
+              <span class="title">個人資料</span>
+            </a>
+            <hr />
+            <div id="menu">
+              <ul>
+                <li id="storn" class="title">寵物商城</li>
+                <div class="menu">
+                  <li><a href="#">購物車</a></li>
+                  <li><a href="#">商品訂單</a></li>
+                  <li><a href="#">商品收藏</a></li>
+                </div>
+              </ul>
+              <ul>
+                <li id="storn" class="title">美容預約</li>
+                <div class="menu">
+                  <li><a href="#">預約紀錄</a></li>
+                  <li><a href="#">作品收藏</a></li>
+                </div>
+              </ul>
+              <ul>
+                <li id="storn" class="title">活動社群</li>
+                <div class="menu">
+                  <li><a href="#">參與活動</a></li>
+                  <li><a href="#">貼文收藏</a></li>
+                </div>
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <!--測欄位結束-->
+      </div>
+      <div class="col-md-9" style="margin-top: 25px">
+        <!--小遊戲-->
+        <main id="container" style="border: 0px">
+          <div id="gray"></div>
+
+          <!--紀錄分數-->
+          <div id="fraction">0</div>
+          <!--時間進度條-->
+          <nav id="time"></nav>
+
+          <!--開始按鈕-->
+          <div id="startMenu">
+            <input id="start" type="button" value="開始遊戲" />
+          </div>
+          <!-- 結束按鈕
       <div id="overMenu">
           <input id="over" type="button" value="結束遊戲">
       </div> -->
-            <div id="totalFractionMenu">
-              <div id="totalFraction"></div>
-            </div>
-          </main>
+          <div id="totalFractionMenu">
+            <div id="totalFraction"></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s" style="background-color: #6f5242">
+    <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
+            alt="LOGO" style="width: 180px" />
+          <ul>
+            <li>A paradise for shopping</li>
+            <li>Plenty of groups for interaction</li>
+            <li>A comfortable space for grooming</li>
+          </ul>
+          <div class="d-flex pt-2">
+            <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-twitter"
+                target="_blank"></i></a>
+            <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-facebook-f"
+                target="_blank"></i></a>
+            <a class="btn btn-square btn-outline-light rounded-circle me-1"
+              href="https://www.youtube.com/@AllDogCat-rj8ov"><i class="fab fa-youtube" target="_blank"></i></a>
+            <a class="btn btn-square btn-outline-light rounded-circle me-0"
+              href="https://www.instagram.com/all_dog_cat_store/?hl=zh-tw"><i class="fab fa-linkedin-in"
+                target="_blank"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-light mb-4">Address</h4>
+          <p>
+            <i class="fa fa-map-marker-alt me-3"></i>330
+            桃園市中壢區復興路123號45樓
+          </p>
+          <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
+          <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-light mb-4">Quick Links</h4>
+          <a class="btn btn-link" href="/frontend/pages/homepage/about.html">About Us</a>
+          <!-- <a class="btn btn-link" href="">Contact Us</a> -->
+          <a class="btn btn-link" href="">Our Services</a>
+          <a class="btn btn-link" href="">Terms & Condition</a>
+          <!-- <a class="btn btn-link" href="">Support</a> -->
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-light mb-4">Newsletter</h4>
+          <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+          <div class="position-relative mx-auto" style="max-width: 400px">
+            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email" />
+            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">
+              SignUp
+            </button>
+          </div>
         </div>
       </div>
     </div>
-
-    <footer
-      class="container-fluid footer mt-5 pt-5 wow fadeIn"
-      data-wow-delay="0.1s"
-      style="background-color: #6f5242"
-    >
-      <div class="container py-5">
-        <div class="row g-5">
-          <div class="col-lg-3 col-md-6">
-            <img
-              src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
-              alt="LOGO"
-              style="width: 180px"
-            />
-            <ul>
-              <li>A paradise for shopping</li>
-              <li>Plenty of groups for interaction</li>
-              <li>A comfortable space for grooming</li>
-            </ul>
-            <div class="d-flex pt-2">
-              <a
-                class="btn btn-square btn-outline-light rounded-circle me-1"
-                href=""
-                ><i class="fab fa-twitter" target="_blank"></i
-              ></a>
-              <a
-                class="btn btn-square btn-outline-light rounded-circle me-1"
-                href=""
-                ><i class="fab fa-facebook-f" target="_blank"></i
-              ></a>
-              <a
-                class="btn btn-square btn-outline-light rounded-circle me-1"
-                href="https://www.youtube.com/@AllDogCat-rj8ov"
-                ><i class="fab fa-youtube" target="_blank"></i
-              ></a>
-              <a
-                class="btn btn-square btn-outline-light rounded-circle me-0"
-                href="https://www.instagram.com/all_dog_cat_store/?hl=zh-tw"
-                ><i class="fab fa-linkedin-in" target="_blank"></i
-              ></a>
-            </div>
+    <div class="container-fluid copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            &copy; <a href="#">All Dog Cat</a>, All Right Reserved.
           </div>
-          <div class="col-lg-3 col-md-6">
-            <h4 class="text-light mb-4">Address</h4>
-            <p>
-              <i class="fa fa-map-marker-alt me-3"></i>330
-              桃園市中壢區復興路123號45樓
-            </p>
-            <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
-            <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <h4 class="text-light mb-4">Quick Links</h4>
-            <a class="btn btn-link" href="/frontend/pages/homepage/about.html"
-              >About Us</a
-            >
-            <!-- <a class="btn btn-link" href="">Contact Us</a> -->
-            <a class="btn btn-link" href="">Our Services</a>
-            <a class="btn btn-link" href="">Terms & Condition</a>
-            <!-- <a class="btn btn-link" href="">Support</a> -->
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <h4 class="text-light mb-4">Newsletter</h4>
-            <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-            <div class="position-relative mx-auto" style="max-width: 400px">
-              <input
-                class="form-control bg-transparent w-100 py-3 ps-4 pe-5"
-                type="text"
-                placeholder="Your email"
-              />
-              <button
-                type="button"
-                class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
-              >
-                SignUp
-              </button>
-            </div>
+          <div class="col-md-6 text-center text-md-end">
+            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+            <br />Distributed By:
+            <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
           </div>
         </div>
       </div>
-      <div class="container-fluid copyright">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-              &copy; <a href="#">All Dog Cat</a>, All Right Reserved.
-            </div>
-            <div class="col-md-6 text-center text-md-end">
-              <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-              Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-              <br />Distributed By:
-              <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    </div>
+  </footer>
 
-    <!-- Back to Top -->
-    <a
-      href="#"
-      class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"
-      ><i class="bi bi-arrow-up"></i
-    ></a>
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/frontend/lib/wow/wow.min.js"></script>
-    <script src="/frontend/lib/easing/easing.min.js"></script>
-    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
-    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/frontend/lib/wow/wow.min.js"></script>
+  <script src="/frontend/lib/easing/easing.min.js"></script>
+  <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+  <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="/frontend/js/main.js"></script>
-    <!--sweetalert2-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <!-- Template Javascript -->
+  <script src="/frontend/js/main.js"></script>
+  <!--sweetalert2-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-    <script type="module">
-      import config from "../../../../ipconfig.js";
-      window.addEventListener("load", () => {
-        let dayKey = localStorage.getItem("gameKey");
+  <script type="module">
+    import config from "../../../../ipconfig.js";
+    window.addEventListener("load", () => {
 
-        if (dayKey === null || dayKey === undefined) {
-          Swal.fire({
-            title: "每日小遊戲!打擊老鼠拯救狗狗吧!",
-            html: `<h3 style="color:#fff;">遊戲規則：</h3>
+      function getCookie(key) {
+        const name = `${key}=`;
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
+        for (let i = 0; i < cookieArray.length; i++) {
+          let cookie = cookieArray[i];
+          while (cookie.charAt(0) === ' ') {
+            cookie = cookie.substring(1);
+          }
+          if (cookie.indexOf(name) === 0) {
+            return cookie.substring(name.length, cookie.length);
+          }
+        }
+        return "";
+      }
+
+      let gameKey = getCookie("gameKey");
+
+      if (gameKey === "") {
+        Swal.fire({
+          title: "每日小遊戲!打擊老鼠拯救狗狗吧!",
+          html: `<h3 style="color:#fff;">遊戲規則：</h3>
                 <p style="color:#fff;">請在時限內打擊老鼠，如果打到狗狗會扣分喔，要注意!<br>
                     打擊老鼠+10分<br>
                     打擊狗狗-10分<br>
                     分數:100分以上，會員點數+10。<br>
                     分數:70以上會員點數+3。</p>`,
-            background: "#997b66",
-          });
-        } else {
-          var containerDiv = document.getElementById("container");
-          setTimeout(function () {
+          background: "#997b66",
+        });
+      } else {
+        var containerDiv = document.getElementById("container");
+        setTimeout(function () {
+          window.location.href =
+            "/frontend/pages/memberCentre/memberCentre.html";
+        }, 1000);
+        containerDiv.hidden = true;
+        Swal.fire({
+          title: `您今日已玩過，請明天在來!`,
+          background: "#997b66",
+        }).then((result) => {
+          if (result.isConfirmed) {
             window.location.href =
               "/frontend/pages/memberCentre/memberCentre.html";
-          }, 1000);
-          containerDiv.hidden = true;
-          Swal.fire({
-            title: `您今日已玩過，請明天在來!`,
-            background: "#997b66",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href =
-                "/frontend/pages/memberCentre/memberCentre.html";
-            }
-          });
-        }
-      });
-    </script>
-
-    <script type="text/javascript">
-      function setLocalStorageWithExpiration(key, value, hours) {
-        const now = new Date();
-        const expirationTime = new Date(now.getTime() + hours * 60 * 60 * 1000);
-
-        const item = {
-          value: value,
-          expirationTime: expirationTime.getTime(),
-        };
-
-        localStorage.setItem(key, JSON.stringify(item));
-      }
-
-      //取得標籤元素
-      var containerDiv = document.getElementById("container");
-      var fractionDiv = document.getElementById("fraction");
-      var timeDiv = document.getElementById("time");
-      var startMenuDiv = document.getElementById("startMenu");
-      var overMenuDiv = document.getElementById("overMenu");
-      var totalFractionDiv = document.getElementById("totalFractionMenu");
-      var startBtn = document.getElementById("start");
-      var overBtn = document.getElementById("over");
-      var totalFraction = document.getElementById("totalFraction");
-      var grayDiv = document.getElementById("gray");
-
-      //Header Token
-      const token = localStorage.getItem("Authorization_U");
-      // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NDg3NzY0fQ.cnwBY2RnTE74GmMIbFUy9qOXY-DYrzyXDg-gQ18iFGM";
-
-      function fetchPoint(point) {
-        fetch("http://localhost:8080" + `/user/game?point=${point}`, {
-          method: "GET",
-          headers: {
-            Authorization_U: token,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.code === 200) {
-              console.log(data.message);
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "小遊戲失敗",
-                text: data.message,
-              });
-            }
-          });
-      }
-
-      //隱藏開始按鈕，開始計時
-      startBtn.onclick = function () {
-        //1隱藏開始按鈕
-        startMenuDiv.style.display = "none";
-
-        //2開始計時(w:180) 100ms
-        var timeDivWidth = 180;
-        var px = 180 / 180; //每0.1s -0.3px
-
-        var timeTask = setInterval(function () {
-          timeDivWidth = timeDivWidth - px;
-          timeDiv.style.width = timeDivWidth + "px";
-          if (timeDivWidth <= 0) {
-            //停止計時
-            clearInterval(timeTask);
-            //停止顯示循環
-            clearInterval(showImgsTask);
-            let point = 0;
-            if (score >= 100) {
-              Swal.fire({
-                title: `您的總分為： ${score} !會員點數+10點!`,
-                background: "#997b66",
-              });
-              point = 10;
-              fetchPoint(point);
-              setTimeout(function () {
-                history.back();
-              }, 3000);
-            } else if (score >= 70) {
-              Swal.fire({
-                title: `您的總分為：  ${score} !會員點數+3點!`,
-                background: "#997b66",
-              });
-              point = 3;
-              fetchPoint(point);
-              setTimeout(function () {
-                history.back();
-              }, 3000);
-            } else {
-              Swal.fire({
-                title: `您的總分為：  ${score} !請明天再接再厲!`,
-                background: "#997b66",
-              });
-              fetchPoint(point);
-              setTimeout(function () {
-                history.back();
-              }, 3000);
-            }
-
-            const now = new Date();
-            const midnight = new Date(
-              now.getFullYear(),
-              now.getMonth(),
-              now.getDate() + 1,
-              0,
-              0,
-              0
-            );
-            const hoursUntilMidnight =
-              (midnight.getTime() - now.getTime()) / (60 * 60 * 1000);
-
-            setLocalStorageWithExpiration("gameKey", 1, hoursUntilMidnight);
-
-            // totalFractionDiv.style.display = "block";
-            // totalFraction.innerHTML = " " < br > 恭喜獲得5$折價劵";
-            // grayDiv.style.display = "block";
           }
-        }, 100);
-        //3.顯示一隻動物
-        animalGoGoGo();
-      };
-      //紀錄分數
-      var score = 0;
-      var showImgsTask;
-
-      //將img顯示到洞口位置(9個洞)
-      var arrPos = [
-        ["98px", "115px"],
-        ["17px", "160px"],
-        ["15px", "221px"],
-        ["30px", "294px"],
-        ["122px", "274px"],
-        ["207px", "296px"],
-        ["200px", "212px"],
-        ["187px", "142px"],
-        ["100px", "192px"],
-      ];
-
-      function animalGoGoGo() {
-        showimg();
-        showImgsTask = setInterval("showimg()", 1000);
+        });
       }
+    });
+  </script>
 
-      function showimg() {
-        //1.創建img標籤
-        var img = document.createElement("img");
+  <script type="text/javascript">
+    function setCookieWithExpiration(key, value, hours) {
+      const now = new Date();
+      const expirationTime = new Date(now.getTime() + hours * 60 * 60 * 1000);
+      document.cookie = `${key}=${value}; expires=${expirationTime.toUTCString()}; path=/;`;
+    }
 
-        //將圖片放置進containerDiv 標籤
-        containerDiv.appendChild(img);
-        img.setAttribute("alt", "");
-        //將img顯示到洞口
-        var index = Math.floor(Math.random() * arrPos.length); //0~8
-        img.style.position = "absolute";
-        img.style.left = arrPos[index][0];
-        img.style.top = arrPos[index][1];
+    //取得標籤元素
+    var containerDiv = document.getElementById("container");
+    var fractionDiv = document.getElementById("fraction");
+    var timeDiv = document.getElementById("time");
+    var startMenuDiv = document.getElementById("startMenu");
+    var overMenuDiv = document.getElementById("overMenu");
+    var totalFractionDiv = document.getElementById("totalFractionMenu");
+    var startBtn = document.getElementById("start");
+    var overBtn = document.getElementById("over");
+    var totalFraction = document.getElementById("totalFraction");
+    var grayDiv = document.getElementById("gray");
 
-        //3.隨機產生可打/不可打圖檔
-        var imgIndex = Math.floor(Math.random() * 3); //0~2
-        var imgName = imgIndex % 2 == 0 ? "h" : "x";
-        var i = -1;
-        //4.讓圖片上升的過程(h--0,x0--x5)
-        var task = null;
-        var hideImgTask = null;
-        var showImgTask = setInterval(function () {
-          i++;
+    //Header Token
+    const token = localStorage.getItem("Authorization_U");
+    // const token = "";
 
-          img.src = "img/" + imgName + i + ".png";
-          if (i == 5) {
-            //已完全顯示停止
-            clearInterval(showImgTask);
-            //隱藏圖片，等待一定的時間後消失(500ms)。移除前要躲進去
-            task = setTimeout(function () {
-              hideImgTask = setInterval(function () {
-                i--;
-                img.src = "img/" + imgName + i + ".png";
-                if (i <= 0) {
-                  clearInterval(hideImgTask);
-                  img.remove();
-                }
-              }, 50);
-            }, 250);
-          }
-        }, 100);
-
-        //5.遊戲計分，點擊監聽
-        img.onclick = function () {
-          //a.清除任務，因任何階段皆可能點擊
-          clearInterval(showImgTask);
-          clearTimeout(task);
-          clearInterval(hideImgTask);
-          //b.顯示被打動畫
-          var j = 5;
-          var hitTask = setInterval(function () {
-            j++;
-            img.src = "img/" + imgName + j + ".png";
-            if (j > 9) {
-              clearInterval(hitTask);
-              img.remove();
-            }
-          }, 100);
-          //c.計分
-          if (imgName === "h") {
-            score += 10;
+    function fetchPoint(point) {
+      fetch("http://localhost:8080" + `/user/game?point=${point}`, {
+        method: "GET",
+        headers: {
+          Authorization_U: token,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.code === 200) {
+            console.log(data.message);
           } else {
-            score -= 10;
+            Swal.fire({
+              icon: "error",
+              title: "小遊戲失敗",
+              text: data.message,
+            });
           }
-          fractionDiv.innerHTML = score;
-        };
-      }
-    </script>
-  </body>
+        });
+    }
+
+    //隱藏開始按鈕，開始計時
+    startBtn.onclick = function () {
+      //1隱藏開始按鈕
+      startMenuDiv.style.display = "none";
+
+      //2開始計時(w:180) 100ms
+      var timeDivWidth = 180;
+      var px = 180 / 180; //每0.1s -0.3px
+
+      var timeTask = setInterval(function () {
+        timeDivWidth = timeDivWidth - px;
+        timeDiv.style.width = timeDivWidth + "px";
+        if (timeDivWidth <= 0) {
+          //停止計時
+          clearInterval(timeTask);
+          //停止顯示循環
+          clearInterval(showImgsTask);
+          let point = 0;
+          if (score >= 100) {
+            Swal.fire({
+              title: `您的總分為： ${score} !會員點數+10點!`,
+              background: "#997b66",
+            });
+            point = 10;
+            fetchPoint(point);
+            setTimeout(function () {
+              history.back();
+            }, 3000);
+          } else if (score >= 70) {
+            Swal.fire({
+              title: `您的總分為：  ${score} !會員點數+3點!`,
+              background: "#997b66",
+            });
+            point = 3;
+            fetchPoint(point);
+            setTimeout(function () {
+              history.back();
+            }, 3000);
+          } else {
+            Swal.fire({
+              title: `您的總分為：  ${score} !請明天再接再厲!`,
+              background: "#997b66",
+            });
+            fetchPoint(point);
+            setTimeout(function () {
+              history.back();
+            }, 3000);
+          }
+
+          const now = new Date();
+          const midnight = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1,
+            0,
+            0,
+            0
+          );
+          const hoursUntilMidnight =
+            (midnight.getTime() - now.getTime()) / (60 * 60 * 1000);
+
+          setCookieWithExpiration("gameKey", 1, hoursUntilMidnight);
+
+          // totalFractionDiv.style.display = "block";
+          // totalFraction.innerHTML = " " < br > 恭喜獲得5$折價劵";
+          // grayDiv.style.display = "block";
+        }
+      }, 100);
+      //3.顯示一隻動物
+      animalGoGoGo();
+    };
+    //紀錄分數
+    var score = 0;
+    var showImgsTask;
+
+    //將img顯示到洞口位置(9個洞)
+    var arrPos = [
+      ["98px", "115px"],
+      ["17px", "160px"],
+      ["15px", "221px"],
+      ["30px", "294px"],
+      ["122px", "274px"],
+      ["207px", "296px"],
+      ["200px", "212px"],
+      ["187px", "142px"],
+      ["100px", "192px"],
+    ];
+
+    function animalGoGoGo() {
+      showimg();
+      showImgsTask = setInterval("showimg()", 1000);
+    }
+
+    function showimg() {
+      //1.創建img標籤
+      var img = document.createElement("img");
+
+      //將圖片放置進containerDiv 標籤
+      containerDiv.appendChild(img);
+      img.setAttribute("alt", "");
+      //將img顯示到洞口
+      var index = Math.floor(Math.random() * arrPos.length); //0~8
+      img.style.position = "absolute";
+      img.style.left = arrPos[index][0];
+      img.style.top = arrPos[index][1];
+
+      //3.隨機產生可打/不可打圖檔
+      var imgIndex = Math.floor(Math.random() * 3); //0~2
+      var imgName = imgIndex % 2 == 0 ? "h" : "x";
+      var i = -1;
+      //4.讓圖片上升的過程(h--0,x0--x5)
+      var task = null;
+      var hideImgTask = null;
+      var showImgTask = setInterval(function () {
+        i++;
+
+        img.src = "img/" + imgName + i + ".png";
+        if (i == 5) {
+          //已完全顯示停止
+          clearInterval(showImgTask);
+          //隱藏圖片，等待一定的時間後消失(500ms)。移除前要躲進去
+          task = setTimeout(function () {
+            hideImgTask = setInterval(function () {
+              i--;
+              img.src = "img/" + imgName + i + ".png";
+              if (i <= 0) {
+                clearInterval(hideImgTask);
+                img.remove();
+              }
+            }, 50);
+          }, 250);
+        }
+      }, 100);
+
+      //5.遊戲計分，點擊監聽
+      img.onclick = function () {
+        //a.清除任務，因任何階段皆可能點擊
+        clearInterval(showImgTask);
+        clearTimeout(task);
+        clearInterval(hideImgTask);
+        //b.顯示被打動畫
+        var j = 5;
+        var hitTask = setInterval(function () {
+          j++;
+          img.src = "img/" + imgName + j + ".png";
+          if (j > 9) {
+            clearInterval(hitTask);
+            img.remove();
+          }
+        }, 100);
+        //c.計分
+        if (imgName === "h") {
+          score += 10;
+        } else {
+          score -= 10;
+        }
+        fractionDiv.innerHTML = score;
+      };
+    }
+  </script>
+</body>
+
 </html>
