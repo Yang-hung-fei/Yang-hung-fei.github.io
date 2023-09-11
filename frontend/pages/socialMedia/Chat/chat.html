@@ -98,33 +98,24 @@
             <div class="card-body">
                 <div class="row">
                     <div class="panel-container col-sm-12 col-md-4">
-                        <ul class="list-group list-group-flush">
-                            <div id="chatRoom"><i class="bi bi-door-open"></i>&nbsp;<b>聊天室列表</b></div>
-                            <li class="list-group-item">活動名稱</li>
-                            <li class="list-group-item">活動名稱</li>
-                            <li class="list-group-item">活動名稱</li>
-                            <li class="list-group-item">活動名稱</li>
-                            <li class="list-group-item">活動名稱</li>
+                        <div class="list-group list-group-flush chat-room">
+                            <div class="mt-2"><i class="bi bi-door-open"></i>&nbsp;<b>聊天室列表</b></div>
+                            <!--這邊放使用者活動清單-->
+                        </div>
+                        <ul class="list-group list-group-flush online-users">
+                            <div class="mt-2"><i class="bi bi-person"></i>&nbsp;<b>上線使用者</b></div>
+                            <!--這邊放使用者上線清單-->
                         </ul>
                         <ul class="list-group list-group-flush">
-                            <div id="onlineUser"><i class="bi bi-person"></i>&nbsp;<b>上線使用者</b></div>
-                            <li class="list-group-item">username</li>
-                            <li class="list-group-item">username</li>
-                            <li class="list-group-item">username</li>
-                            <li class="list-group-item">username</li>
-                            <li class="list-group-item">username</li>
+                            <div class="mt-2"><i class="bi bi-person"></i>&nbsp;<b>上線通知</b></div>
+                            <div class="notify-message">
+                                <!--這邊放使用者上線通知清單-->
+                            </div>
                         </ul>
                     </div>
-                    <div class="col-sm-12 col-md-8">
-                        <div class="d-flex justify-content-end my-3">
-                            <div class="card w-30 bg-success text-light">
-                                <div class="card-body">Hi</div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-md-start my-3">
-                            <div class="card w-30">
-                                <div class="card-body">Hi</div>
-                            </div>
+                    <div class="col-sm-12 col-md-8 right-panel" style="height: 650px; overflow-y: scroll;">
+                        <div class="container message-container">
+                            <!--這邊放聊天訊息-->
                         </div>
                     </div>
 
@@ -133,8 +124,10 @@
             <div class="card-footer">
                 <form action="#" id="chat-form">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="請輸入訊息">
-                        <button class="btn btn-success"><i class="bi bi-cursor"></i>&nbsp;發送</button>
+                        <input id="msg" type="text" class="form-control" placeholder="請輸入訊息">
+                        <button class="btn btn-success">
+                            <i class="bi bi-cursor"></i>&nbsp;發送
+                        </button>
                     </div>
                 </form>
             </div>

@@ -91,7 +91,7 @@ async function showViewModal(activityId) {
     leaveActivities.forEach((leaveAc) => {
         leaveAc.addEventListener('click', async function (e) {
             let data = await leaveActivity(id);
-            if (data.code == 400) {
+            if (data.code == 400 || data.code == 404) {
                 Swal.fire(`${data.message}`);
             } else {
                 Swal.fire(`${data.message}`);

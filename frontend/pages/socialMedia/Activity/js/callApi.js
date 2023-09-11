@@ -2,7 +2,7 @@ import { createList, createPagination, createHotList, createSearchPagination } f
 import config from '../../../../../ipconfig.js';
 const hostUrl = config.url;
 const acUrl = hostUrl + "/user/activity";
-const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjk0Nzg5MDk5fQ.-H3Ux2Qs3yrnZG0DMGhZ0ovIl99emrfXOSzz2WSFcvs";
+const userToken = localStorage.getItem("Authorization_U");
 
 // get hot activities
 async function getHotActivities() {
