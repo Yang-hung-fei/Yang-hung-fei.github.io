@@ -1,7 +1,7 @@
 import config from "../../../../../ipconfig.js";
 const hostUrl = config.url;
 const userColltUrl = hostUrl + "user/social/collection";
-const userToken = ""
+const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NjMwNjMwfQ.n7GVmpW_Bp7lv0ymXgu6DYOrNEV26JbidvipXJTabbA";
 
 //user create post collection
 async function createPostColl(postId) {
