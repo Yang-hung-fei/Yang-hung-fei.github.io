@@ -3,8 +3,8 @@ import { updateDiscountAmount } from './discount.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     //Header Token
-    //const token = localStorage.getItem("Authorization_U");
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
+    const token = localStorage.getItem("Authorization_U");
+    // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
 
     // 從localStorage中獲取折扣金額
     const storedCouponDiscount = sessionStorage.getItem('couponDiscount');
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(data => {
                                 console.log(data.message); // 可以根據需要進行處理
                                 Swal.fire("表單新增成功前往付款!");
-                                window.location.href = "./memberCentreOrders.html"
+                                window.location.href = "./thankOrder.html"
                             })
                             .catch(error => {
                                 console.error('Error deleting shopping cart:', error);

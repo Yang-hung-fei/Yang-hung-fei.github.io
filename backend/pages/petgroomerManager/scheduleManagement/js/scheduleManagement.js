@@ -1,8 +1,8 @@
 import config from "../../../../../ipconfig.js";
 let tdElements = [];
 window.addEventListener("load", () => {
-    // const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjk0Njg4NzQxfQ.b5PO4UyeDrQApx3_CTXPtDvpN4-XKxWteiSqCa5AuPI"; // 使用Manager Token
+    const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
+    // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjk0Njg4NzQxfQ.b5PO4UyeDrQApx3_CTXPtDvpN4-XKxWteiSqCa5AuPI"; // 使用Manager Token
     // 表格元素
     const calendarTable = document.getElementById('calendar');
     //error
