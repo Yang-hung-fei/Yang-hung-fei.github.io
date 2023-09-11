@@ -52,6 +52,10 @@ let token = localStorage.getItem("Authorization_M");
 
 $(document).on("click", "#mainAddManagerButton", function () {
   $("#addLightBox").removeClass("d-none").show();
+  $("#addLightBox").find("input").val("");
+  $("#step1Content").removeClass("d-none");
+  $("#step2Content").addClass("d-none");
+  $("#step3Content").addClass("d-none");
   $lightboxOverlay.show();
 });
 
@@ -196,16 +200,17 @@ function addManager() {
         $("#orgManagerAccount").val(newSetManagerAccount);
         $("#newManagerAccount").val(newSetManagerAccount);
         $("#newManagerPassword").val(newSetManagerPassword);
-        $("#Add_UpdateManagerData").on("click", () => {
+        $("#Add_addManagerButton").addClass("d-none");
+        $("#Add_addedManagerNextButton").removeClass("d-none");
+        $("#Add_addManagerButton").on("click", function () {
+          const newSetManagerAccount = $("#newManagerAccount").val(); // 重新获取值
+          const newSetManagerPassword = $("#newManagerPassword").val(); // 重新获取值
           addManagerSet(newSetManagerAccount, newSetManagerPassword);
         });
-        $("#Add_addManagerButton").on("click", function () {
-          $("#Add_addManagerButton").addClass("d-none");
-          $("#Add_addedManagerNextButton").remove("d-none");
-          $("#Add_addedManagerNextButton").on("click", function () {
-            $("#step2Content").removeClass("d-none");
-            $("#step1Content").addClass("d-none");
-          });
+        $("#Add_addedManagerNextButton").on("click", function () {
+          $("#step2Content").removeClass("d-none");
+          $("#step1Content").addClass("d-none");
+          updateProgressBar();
         });
       } else if (data.code === 400) {
         $("#addManagerCompleteNotice").css("color", "red");
@@ -220,79 +225,85 @@ function addManager() {
 }
 
 function addManagerSet(account, password) {
-  const state = $("#newManagerState").prop("checked") ? 1 : 0;
-  const requestOptions = {
-    method: "PUT",
-    headers: {
-      Authorization_M: token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      orgManagerAccount: account,
-      managerAccount: account,
-      managerPassword: password,
-      managerState: state,
-    }),
-  };
+  $("#Add_UpdateManagerData")
+    .off("click")
+    .on("click", function () {
+      const newSetManagerAccount = $("#newManagerAccount").val();
+      const newSetManagerPassword = $("#newManagerPassword").val();
+      performAddManagerSet(newSetManagerAccount, newSetManagerPassword);
+    });
 
-  fetch(config.url + "/manager/manageManager", requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      $("#setManagerCompleteNotice").text(data.message);
-      if (data.code === 200) {
-        console.log("inv");
-        $("#Add_UpdateManagerData").on("click", () => {
-          addManagerSet(newSetManagerAccount, newSetManagerPassword);
-        });
-        $("#Add_UpdateManagerData").on("click", function () {
+  function performAddManagerSet(account, password) {
+    const state = $("#newManagerState").prop("checked") ? 1 : 0;
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        Authorization_M: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orgManagerAccount: account,
+        managerAccount: account,
+        managerPassword: password,
+        managerState: state,
+      }),
+    };
+
+    console.log(requestOptions); // 确保在这里打印选项，应该包含正确的帐号和密码
+
+    fetch(config.url + "/manager/manageManager", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        $("#setManagerCompleteNotice").text(data.message);
+        if (data.code === 200) {
           $("#Add_UpdateManagerData").addClass("d-none");
-          $("#Add_UpdateManagerNextButton").remove("d-none");
+          $("#Add_UpdateManagerNextButton").removeClass("d-none");
           $("#Add_UpdateManagerNextButton").on("click", function () {
             $("#step3Content").removeClass("d-none");
             $("#step2Content").addClass("d-none");
+            updateProgressBar();
           });
-        });
-      } else if (data.code === 400) {
-        $("#setManagerCompleteNotice").css("color", "red");
-      } else if (data.code === 401) {
-        errorAuth();
-      }
-      $("#setManagerCompleteNotice").removeClass("invisible");
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
-    });
+        } else if (data.code === 400) {
+          $("#setManagerCompleteNotice").css("color", "red");
+        } else if (data.code === 401) {
+          errorAuth();
+        }
+        $("#setManagerCompleteNotice").removeClass("invisible");
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }
 }
 
 let selectAddAuthorities = [];
 function addManagerAuthorities() {
+  console.log("addManagerAuthorities called");
   const checkboxes = document.querySelectorAll(
     '#Add_managerAuthorities input[type="checkbox"]'
   );
   console.log("Number of checkboxes found:", checkboxes.length);
-  checkboxListener(checkboxes);
 
-  function checkboxListener(checkboxes) {
-    checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener("change", () => {
-        // 清空选定选项数组
-        selectAddAuthorities = [];
+  // 为每个复选框元素添加事件监听器
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      // 清空选定选项数组
+      selectAddAuthorities = [];
 
-        // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
-        checkboxes.forEach((cb) => {
-          if (cb.checked) {
-            const authorityText = cb.nextElementSibling.textContent.trim();
-            if (authorityText !== "") {
-              selectAddAuthorities.push(authorityText);
-            }
+      // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
+      checkboxes.forEach((cb) => {
+        if (cb.checked) {
+          const authorityText = cb.nextElementSibling.textContent.trim();
+          if (authorityText !== "") {
+            selectAddAuthorities.push(authorityText);
           }
-        });
-
-        // 打印选定的JSON数据
-        console.log(selectAddAuthorities);
+        }
       });
+
+      // 打印选定的JSON数据
+      console.log(selectAddAuthorities);
     });
-  }
+  });
 
   //帶入新增的管理員帳號, 權限陣列
   const newSetManagerAccount = $("#setManagerAccount").val();
@@ -898,6 +909,31 @@ function createEditLightBox(account, state) {
 }
 
 // -------------------步驟-------------------
+const stepContainers = document.querySelectorAll(".step-content");
+let currentStep = 0;
+
+stepContainers.forEach((container) => {
+  const prevButton = container.querySelector(".prevButton");
+  const nextButton = container.querySelector(".nextButton");
+  const fetchButton = container.querySelector(".fetch");
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      if (currentStep < stepContainers.length - 1) {
+        currentStep++;
+      }
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      if (currentStep > 0) {
+        // 显示上一个步骤
+        currentStep--;
+      }
+    });
+  }
+});
 
 function updateProgressBar() {
   stepContainers.forEach((stepContainer, stepIndex) => {
