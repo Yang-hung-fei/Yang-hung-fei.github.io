@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="./css/item.css" rel="stylesheet" />
-   
+    <link rel="stylesheet" href="./css/memberCenterOrders.css">
     <style>
       .current-page {
         background-color: #D0D0D0; /* 藍色背景，你可以根據需要自定義顏色 */
@@ -68,6 +68,7 @@
       height="200px"
     ></iframe>
 
+    
     <div id="main">
       <div style="margin-right: -10px;">
         <aside id="sidebar" style="background-color: #fff">
@@ -166,7 +167,7 @@
       <div> <!-- id="content" -->
           <!-- /* 預留 fixed 欄位空間，不需要就刪除 margin-top */ -->
 
-             
+            
           
             <div class="container-fluid px-4">
                 <h2 class="mt-4">會員訂單管理</h2>
@@ -199,18 +200,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        
+
       </div>
 
       
     </div>
-
+      
+    
     <footer
       class="container-fluid footer mt-0 pt-5 wow fadeIn"
       data-wow-delay="0.1s"
@@ -318,7 +319,7 @@
     <script src="../../../lib/easing/easing.min.js"></script>
     <script src="../../../lib/waypoints/waypoints.min.js"></script>
     <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
-    <script type="module" src="./js/memberCentreOrders.js"></script>
+    <script type="module" src="./js/memberCenterOrders.js"></script>
     <!-- Template Javascript -->
     <!--dataTable-->
     <script src="./js/jquery-3.7.1.min.js"></script>
@@ -329,7 +330,7 @@
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
-    <!-- <script>
+    <script>
       $(window).on("load", () => {
         const token = localStorage.getItem("Authorization_U");
         // token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts";
@@ -398,6 +399,6 @@
       photo_el.addEventListener("mouseover", () => {
         userPicEdit_btn.style.display = "block";
       });
-    </script> -->
+    </script>
   </body>
 </html>
