@@ -2,7 +2,7 @@
 //   url: 'http://localhost:8080' 
 // };
 const config = {
-  url: 'http://alldogcat.ddns.net:8080' 
+  url: 'https://alldogcat.ddns.net' 
 };
 
 export default config;
