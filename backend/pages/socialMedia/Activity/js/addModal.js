@@ -67,10 +67,13 @@ async function showAddModal() {
     document.body.append(modalWrap);
     let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
     modal.show();
-    const addComfirm = document.querySelector('#addComfirm');
-    addComfirm.addEventListener('click', async (e) => {
-        await addData();
+    const addComfirms = document.querySelectorAll('#addComfirm');
+    addComfirms.forEach((addComfirm) => {
+        addComfirm.addEventListener('click', async (e) => {
+            await addData();
+        })
     })
+
 
     // 輸入
     var activityImg;
@@ -91,42 +94,59 @@ async function showAddModal() {
         "activityPicture": activityImg,
         "enrollLimit": enrollLimit,
     };
-    const title = document.querySelector('#title');
-    title.addEventListener('input', (e) => {
-        titleValue = e.target.value;
-        postData.title = titleValue;
-    });
+    const titles = document.querySelectorAll('#title');
+    titles.forEach((title) => {
+        title.addEventListener('input', (e) => {
+            titleValue = e.target.value;
+            postData.title = titleValue;
+        });
+    })
 
-    const activityTimeInput = document.querySelector('#activityTime');
-    activityTimeInput.addEventListener('input', (e) => {
-        activityTime = e.target.value.toString().replace("T", " ") + ":00";
-        postData.activityTime = activityTime;
-    });
-
-    const activityContentInput = document.querySelector('#activityContent');
-    activityContentInput.addEventListener('input', (e) => {
-        activityContent = e.target.value;
-        postData.content = activityContent;
-    });
-
-    const startTimeInput = document.querySelector('#startTime');
-    startTimeInput.addEventListener('input', (e) => {
-        startTime = e.target.value;
-        postData.startTime = startTime;
-    });
+    const activityTimeInputs = document.querySelectorAll('#activityTime');
+    activityTimeInputs.forEach((activityTimeInput) => {
+        activityTimeInput.addEventListener('input', (e) => {
+            activityTime = e.target.value.toString().replace("T", " ") + ":00";
+            postData.activityTime = activityTime;
+        });
+    })
 
 
-    const endTimeInput = document.querySelector('#endTime');
-    endTimeInput.addEventListener('input', (e) => {
-        endTime = e.target.value;
-        postData.endTime = endTime;
+    const activityContentInputs = document.querySelectorAll('#activityContent');
+    activityContentInputs.forEach((activityContentInput) => {
+        activityContentInput.addEventListener('input', (e) => {
+            activityContent = e.target.value;
+            postData.content = activityContent;
+        });
+
+    })
+
+    const startTimeInputs = document.querySelectorAll('#startTime');
+    startTimeInputs.forEach((startTimeInput) => {
+        startTimeInput.addEventListener('input', (e) => {
+            startTime = e.target.value;
+            postData.startTime = startTime;
+        });
+    })
+
+
+    const endTimeInputs = document.querySelectorAll('#endTime');
+    endTimeInputs.forEach((endTimeInput) => {
+        endTimeInput.addEventListener('input', (e) => {
+            endTime = e.target.value;
+            postData.endTime = endTime;
+        });
+    })
+
+
+    const enrollLimitInputs = document.querySelectorAll('#enterLimit');
+    enrollLimitInputs.forEach((enrollLimitInput) => {
+        enrollLimitInput.addEventListener('input', (e) => {
+            enrollLimit = e.target.value;
+            postData.enrollLimit = enrollLimit;
+        });
     });
 
-    const enrollLimitInput = document.querySelector('#enterLimit');
-    enrollLimitInput.addEventListener('input', (e) => {
-        enrollLimit = e.target.value;
-        postData.enrollLimit = enrollLimit;
-    });
+
     var activityImgOputs = document.body.querySelectorAll('#imageOutput');
     var activityImgInputs = document.querySelectorAll('#activityImg');
     activityImgInputs.forEach((activityImgInput) => {
