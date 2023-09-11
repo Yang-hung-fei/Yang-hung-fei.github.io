@@ -218,22 +218,22 @@ async function editRotePic(picNo) {
 
 
 
-async function getOneRotePic() {
-    // 選取具有 "page-item active" 類別的元素
-    const activePageItem = document.querySelector('.page-item.active');
-    // 從選取的元素中獲取 data-page 屬性的值
-    const pageValue = activePageItem.querySelector('.page-link').getAttribute('data-page');
-    let data = await getAllRotePic(pageValue);
-    let pageData = {
-        //目前所在頁數(預設為0)
-        curentPage: await data.curentPage,
-        //一頁有幾筆資料
-        pageSize: await data.pageSize,
-        totalPage: await data.totalPage,
-        fetchData: await data.resList,
-    }
-    return pageData;
-}
+// async function getOneRotePic() {
+//     // 選取具有 "page-item active" 類別的元素
+//     const activePageItem = document.querySelector('.page-item.active');
+//     // 從選取的元素中獲取 data-page 屬性的值
+//     const pageValue = activePageItem.querySelector('.page-link').getAttribute('data-page');
+//     let data = await getAllRotePic(pageValue);
+//     let pageData = {
+//         //目前所在頁數(預設為0)
+//         curentPage: await data.curentPage,
+//         //一頁有幾筆資料
+//         pageSize: await data.pageSize,
+//         totalPage: await data.totalPage,
+//         fetchData: await data.resList,
+//     }
+//     return pageData;
+// }
 
 
 export { editRotePic };

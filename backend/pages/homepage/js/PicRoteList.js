@@ -132,24 +132,24 @@ async function updateRotePic(picNo, updateData) {
 }
 
 
-// ------------------------- 查詢單一Rote pic  ------------------------- //
-async function getOneRotePic(picNo) {
-    return fetch(getRotePicUrl + `/${picNo}`, {
-        method: "GET",
-        headers: {
-            "Authorization_M": token,
-            "Content-Type": "application/json"
-        },
-    })
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            return data.message;
-        })
-        .catch(err => {
-            console.error(err.message);
-        });
-}
+// // ------------------------- 查詢單一Rote pic  ------------------------- //
+// async function getOneRotePic(picNo) {
+//     return fetch(getRotePicUrl + `/${picNo}`, {
+//         method: "GET",
+//         headers: {
+//             "Authorization_M": token,
+//             "Content-Type": "application/json"
+//         },
+//     })
+//         .then(res => {
+//             return res.json();
+//         }).then(data => {
+//             return data.message;
+//         })
+//         .catch(err => {
+//             console.error(err.message);
+//         });
+// }
 
 
 
