@@ -102,6 +102,14 @@ $("#Add_addManagerButton").on("click", () => {
   addManager();
 });
 
+$("#Add_UpdateManagerData").on("click", () => {
+  addManagerSet();
+});
+
+$("#Add_UpdateManagerAuthorities").on("click", () => {
+  addManagerAuthorities();
+});
+
 // -------------------Fetch-------------------
 
 let currentSearchURL;
@@ -191,6 +199,14 @@ function addManager() {
         $("#Add_UpdateManagerData").on("click", () => {
           addManagerSet(newSetManagerAccount, newSetManagerPassword);
         });
+        $("#Add_addManagerButton").on("click", function () {
+          $("#Add_addManagerButton").addClass("d-none");
+          $("#Add_addedManagerNextButton").remove("d-none");
+          $("#Add_addedManagerNextButton").on("click", function () {
+            $("#step2Content").removeClass("d-none");
+            $("#step1Content").addClass("d-none");
+          });
+        });
       } else if (data.code === 400) {
         $("#addManagerCompleteNotice").css("color", "red");
       } else if (data.code === 401) {
@@ -222,19 +238,84 @@ function addManagerSet(account, password) {
   fetch(config.url + "/manager/manageManager", requestOptions)
     .then((response) => response.json())
     .then((data) => {
-      $("#addManagerCompleteNotice").text(data.message);
+      $("#setManagerCompleteNotice").text(data.message);
       if (data.code === 200) {
         console.log("inv");
+        $("#Add_UpdateManagerData").on("click", () => {
+          addManagerSet(newSetManagerAccount, newSetManagerPassword);
+        });
+        $("#Add_UpdateManagerData").on("click", function () {
+          $("#Add_UpdateManagerData").addClass("d-none");
+          $("#Add_UpdateManagerNextButton").remove("d-none");
+          $("#Add_UpdateManagerNextButton").on("click", function () {
+            $("#step3Content").removeClass("d-none");
+            $("#step2Content").addClass("d-none");
+          });
+        });
       } else if (data.code === 400) {
-        $("#addManagerCompleteNotice").css("color", "red");
+        $("#setManagerCompleteNotice").css("color", "red");
       } else if (data.code === 401) {
         errorAuth();
       }
-      $("#addManagerCompleteNotice").removeClass("invisible");
+      $("#setManagerCompleteNotice").removeClass("invisible");
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
     });
+}
+
+let selectAddAuthorities = [];
+function addManagerAuthorities() {
+  const checkboxes = document.querySelectorAll(
+    '#Add_managerAuthorities input[type="checkbox"]'
+  );
+  console.log("Number of checkboxes found:", checkboxes.length);
+  checkboxListener(checkboxes);
+
+  function checkboxListener(checkboxes) {
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        // 清空选定选项数组
+        selectAddAuthorities = [];
+
+        // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            const authorityText = cb.nextElementSibling.textContent.trim();
+            if (authorityText !== "") {
+              selectAddAuthorities.push(authorityText);
+            }
+          }
+        });
+
+        // 打印选定的JSON数据
+        console.log(selectAddAuthorities);
+      });
+    });
+  }
+
+  //帶入新增的管理員帳號, 權限陣列
+  const newSetManagerAccount = $("#setManagerAccount").val();
+  updateAuthorities(newSetManagerAccount, selectAddAuthorities);
+  const response = updateAuthorities(
+    newSetManagerAccount,
+    selectAddAuthorities
+  );
+
+  $("#setManagerAuthoritiesCompleteNotice").removeClass("invisible");
+  if (response.code === 200) {
+    $("#Add_UpdateManagerAuthorities").on("click", function () {
+      $("#addCompleteButton").on("click", function () {
+        $("#step3Content").addClass("d-none");
+        $("#completionPage").removeClass("d-none");
+      });
+    });
+  } else if (response.code === 400) {
+    $("#setManagerAuthoritiesCompleteNotice").css("color", "red");
+  } else if (response.code === 401) {
+    errorAuth();
+  }
+  $("#setManagerAuthoritiesCompleteNotice").text(data.message);
 }
 
 function errorAuth() {
@@ -499,9 +580,11 @@ function updateAuthorities(updateAuthritiesJson) {
       if (data.code === 200) {
         console.log("save");
         console.log(data);
+        return data;
       } else if (data.code === 400) {
         console.log(data.code);
         console.log(data);
+        return data;
       }
     })
     .catch((error) => {
@@ -812,4 +895,34 @@ function createEditLightBox(account, state) {
   `;
 
   editLightBox_el.innerHTML = editLightBoxHTML;
+}
+
+// -------------------步驟-------------------
+
+function updateProgressBar() {
+  stepContainers.forEach((stepContainer, stepIndex) => {
+    // 更新進度條
+    const progressBar = stepContainer.parentNode.querySelector(".progressbar");
+    if (progressBar) {
+      const steps = progressBar.querySelectorAll("li");
+
+      // 根據當前步驟索引更新進度條
+      steps.forEach((step, index) => {
+        if (index <= currentStep) {
+          step.classList.add("active");
+        } else {
+          step.classList.remove("active");
+        }
+      });
+    }
+
+    // 更新步驟內容的顯示/隱藏
+    if (stepIndex === currentStep) {
+      stepContainer.classList.remove("d-none"); // 使用classList.remove隐藏
+      stepContainer.classList.add("active");
+    } else {
+      stepContainer.classList.remove("active");
+      stepContainer.classList.add("d-none"); // 使用classList.add显示
+    }
+  });
 }
