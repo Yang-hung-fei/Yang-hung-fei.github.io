@@ -1,4 +1,6 @@
 import config from "../../../../ipconfig.js";
+import { searchRotePic } from "./searchRotePic.js";
+import { editRotePic } from "./editRotePic.js";
 
 // localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k");
 // let token = localStorage.getItem("Authorization_M");
@@ -8,7 +10,7 @@ const mainUrl = config.url;
 const picRoteUrl = "/manager/homepageManage";
 const updatePicRoteUrl = mainUrl + picRoteUrl;
 const getRotePicUrl = mainUrl + picRoteUrl;
-const getAllRotePicUrl = mainUrl + picRoteUrl + "/getAllRotePic";
+const getAllRotePicUrl = mainUrl + picRoteUrl + "/getRotePic";
 
 // ------------------------- 頁面載入  ------------------------- //
 window.addEventListener('load', function () {
@@ -30,6 +32,8 @@ editModal.addEventListener('show.bs.modal', async function (e) {
     document.getElementById('picRotStatus').value = fetchData.picRotStatus;
     document.getElementById('picRotStart').value = fetchData.picRotStart;
     document.getElementById('picRotEnd').value = fetchData.picRotEnd;
+
+    document.getElementById('pic').value = `data:image/*;base64,${fetchData.picBase64Data}`;
 
     /*
         // 定義函數格式化日期時間
@@ -205,13 +209,14 @@ function createDataTable(data) {
                <tr>
                <td>${dataDetails.picNo}</td>
                <td>${dataDetails.picLocateUrl}</td>
-               <td>${dataDetails.picRotStatus}</td>
-               <td>${dataDetails.picRotStart == 1 ? "上架中" : "已下架"}</td>
-               <td>${dataDetails.updateTime}</td>
+               <td>${dataDetails.pic}</td>
+               <td>${dataDetails.picRotStatus == 1 ? "上架中" : "已下架"}</td>
+               <td>${dataDetails.picRotStart}</td>             
+               <td>${dataDetails.picRotEnd}</td>
 
                <td><button class="btn btn-primary" type="button"
                style="background: #325aab;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;"
-               onclick="editRotePicByPicNo(${dataDetails.picNo})">修改</button>
+               onclick="editRotePic(${dataDetails.picNo})">修改</button>
                </td>
                <td>
                <button class="btn btn-danger" type="button"
@@ -247,3 +252,6 @@ function createDataTable(data) {
     }
 
 }
+
+// export { createDataTable, createPagination };
+// createPagination 會報錯，不知道為甚麼~

@@ -28,3 +28,16 @@ input {
     padding: 10px;
     font-size: 16px;
   }
+
+  
+/* 自定義深藍色按鈕樣式 */
+.btn.btn-primary {
+    background-color: #2D4472; 
+    border-color: #2D4472; 
+  }
+  
+  /* 自定義深藍色按鈕樣式 - 懸停時 */
+  .btn.btn-primary:hover {
+    background-color: #000088; /* 深藍色的深色 */
+    border-color: #000088; /* 深藍色的深色 */
+  }
