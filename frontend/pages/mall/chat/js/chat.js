@@ -24,9 +24,12 @@ function connect() {
 
     let token = localStorage.getItem("Authorization_U");
     let connectUrl = (config.url).split('//')[1];
-    if (token == null)
+    if (token == null){
+        errorConnect();
         return;
-    let url = 'ws://' + connectUrl + '/websocket/productMallChat?access_token=' + token;
+    }
+        
+    let url = 'wss://' + connectUrl + '/websocket/productMallChat?access_token=' + token;
     webSocket = new WebSocket(url);
     webSocket.onopen = function () {
         console.log("Connect Success!");
@@ -87,6 +90,9 @@ function connect() {
     webSocket.onclose = function (event) {
         console.log("Disconnected!");
     };
+    webSocket.onerror = function(event){
+        errorConnect();
+    }
 }
 
 function sendMessage() {
@@ -109,4 +115,14 @@ function sendMessage() {
         inputMessage.value = "";
         inputMessage.focus();
     }
+}
+function errorConnect(){
+    swal({
+        title: "哎呀🤭",
+        text: "您尚未登入，請重新登入",
+        icon: "error",
+      }).then((value) => {
+        localStorage.removeItem("Authorization_U");
+        window.location.href = "/frontend/pages/user/login.html"; // 替换为你要跳转的页面地址
+      });
 } 

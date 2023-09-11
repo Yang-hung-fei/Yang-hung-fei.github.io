@@ -181,7 +181,6 @@ async function showEditModal(activityId) {
                     let base64String = (reslut.split(',')[1]);
                     //建立預覽圖
                     activityImgOputs.forEach((activityImgOput) => {
-                        console.log(updateData);
                         activityImgOput.src = reslut;
                     })
                     updateData.activityPicture = base64String;

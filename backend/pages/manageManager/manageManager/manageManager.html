@@ -135,7 +135,7 @@
                   筆
                 </span>
               </div>
-              <table class="table mb-4">
+              <table class="table">
                 <thead>
                   <tr>
                     <th class="text-left">管理員帳號</th>
@@ -178,7 +178,7 @@
             </ul>
             <div class="step-content active" id="step1Content">
               <h5 class="h3 m-4" style="text-align: center">管理員帳號</h5>
-              <div id="managerData" class="mx-5 mb-4">
+              <div id="managerData" class="mx-5">
                 <div
                   style="
                     display: flex;
@@ -202,13 +202,7 @@
                     id="setManagerAccount"
                   />
                 </div>
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 15px;
-                  "
-                >
+                <div style="display: flex; align-items: center">
                   <label
                     class="form-label"
                     style="
@@ -219,8 +213,21 @@
                     "
                     >密碼：</label
                   >
-                  <input type="text" class="form-control form-control-sm" />
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="setManagerPassword"
+                  />
                 </div>
+              </div>
+              <div>
+                <p
+                  id="addManagerCompleteNotice"
+                  class="invisible"
+                  style="margin: 5px; text-align: center"
+                >
+                  提示
+                </p>
               </div>
               <div class="btnContain">
                 <button class="btn btn-dark fetch" id="Add_addManagerButton">
@@ -228,7 +235,7 @@
                 </button>
                 <button
                   class="nextButton btn btn-primary d-none"
-                  id="Add_addedManagerButton"
+                  id="Add_addedManagerNextButton"
                 >
                   下一步
                 </button>
@@ -236,7 +243,7 @@
             </div>
             <div class="step-content d-none" id="step2Content">
               <h5 class="h3 m-4" style="text-align: center">管理員狀態</h5>
-              <div id="Add_managerData" class="mx-5 mb-4">
+              <div id="Add_managerData" class="mx-5">
                 <div
                   style="
                     display: none;
@@ -305,6 +312,7 @@
                   <input
                     type="text"
                     class="form-control form-control-sm"
+                    id="newManagerPassword"
                     disabled
                   />
                 </div>
@@ -327,17 +335,30 @@
                       type="checkbox"
                       name="checkbox"
                       class="checkbox_inp"
+                      id="newManagerState"
                       checked
                     />
                     <span class="checkbox_mark"></span>
                   </label>
                 </div>
               </div>
+              <div>
+                <p
+                  id="setManagerCompleteNotice"
+                  class="invisible"
+                  style="margin: 5px; text-align: center"
+                >
+                  提示
+                </p>
+              </div>
               <div class="btnContain">
                 <button class="btn btn-dark fetch" id="Add_UpdateManagerData">
                   設置
                 </button>
-                <button class="nextButton btn btn-primary d-none">
+                <button
+                  class="nextButton btn btn-primary d-none"
+                  id="Add_UpdateManagerNextButton"
+                >
                   下一步
                 </button>
               </div>
@@ -422,6 +443,15 @@
                   </div>
                 </div>
               </div>
+              <div>
+                <p
+                  id="setManagerAuthoritiesCompleteNotice"
+                  class="invisible"
+                  style="margin: 5px; text-align: center"
+                >
+                  提示
+                </p>
+              </div>
               <div class="btnContain">
                 <button class="prevButton btn btn-outline-dark">上一步</button>
                 <button
@@ -430,7 +460,10 @@
                 >
                   設置
                 </button>
-                <button class="nextButton btn btn-primary d-none">
+                <button
+                  class="nextButton btn btn-primary d-none"
+                  id="addCompleteButton"
+                >
                   下一步
                 </button>
               </div>
@@ -472,7 +505,7 @@
       type="module"
       src="/backend/pages/manageManager/manageManager/js/manageManager.js"
     ></script>
-    <script src="/backend/pages/manageManager/manageManager/js/progressBar.js"></script>
+    <!-- <script src="/backend/pages/manageManager/manageManager/js/progressBar.js"></script> -->
     <script src="/backend/pages/manageManager/manageManager/js/sccessCheckMark.js"></script>
   </body>
 </html>

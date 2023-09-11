@@ -99,7 +99,7 @@ async function getAllAc(page) {
     let params = new URLSearchParams({
         page: page
     });
-    let newUrl = `${page === undefined || null ? getAllAcUrl : getAllAcUrl + '?' + params.toString()}`;
+    let newUrl = `${page == undefined || null ? getAllAcUrl : getAllAcUrl + '?' + params.toString()}`;
     return fetch(newUrl, {
         method: "GET",
         headers: {
@@ -141,7 +141,7 @@ async function getAcByStatus(status, page) {
         page: page,
         status: status
     });
-    let newUrl = `${page === undefined ? getAcByStatusUrl + '?' + statusParams.toString() : getAcByStatusUrl + '?' + params.toString()}`;
+    let newUrl = `${page == undefined || null ? getAcByStatusUrl + '?' + statusParams.toString() : getAcByStatusUrl + '?' + params.toString()}`;
     return fetch(newUrl, {
         method: "GET",
         headers: {
