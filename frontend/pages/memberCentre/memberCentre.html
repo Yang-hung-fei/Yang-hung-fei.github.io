@@ -55,6 +55,10 @@
       rel="stylesheet"
       href="/frontend/pages/memberCentre/css/pointButton.css"
     />
+    <link
+      rel="stylesheet"
+      href="/frontend/pages/memberCentre/css/userPicture.css"
+    />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </head>
 
@@ -292,23 +296,23 @@
           <header id="navbar">
             <div id="info" style="background-color: #fff">
               <span id="user">
-                <div id="photo">
-                  <button
-                    id="userPicEdit"
-                    style="z-index: 99999; display: none"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"
-                    >
-                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                      <path
-                        d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"
+                <span id="photo">
+                  <div class="avatar-container">
+                    <div class="avatar-image">
+                      <img
+                        id="userPic"
+                        src="預設的背景圖片URL"
+                        alt="背景图片"
                       />
-                    </svg>
-                  </button>
-                  <img id="userPic" />
-                </div>
+                      <input type="file" id="fileInput" style="display: none" />
+                      <label for="fileInput" class="file-input-label">
+                        <i class="fas fa-camera fa-5x"></i>
+                        <!-- 相机图标 -->
+                      </label>
+                    </div>
+                    <button id="changeAvatarButton">更換頭像</button>
+                  </div>
+                </span>
                 <div id="names" style="width: 250px">
                   <div>
                     <div id="editNameContain" style="display: none">
@@ -578,10 +582,14 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/wow/wow.min.js"></script>
-    <script src="../../lib/easing/easing.min.js"></script>
-    <script src="../../lib/waypoints/waypoints.min.js"></script>
-    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script
+      type="module"
+      src="/frontend/pages/memberCentre/js/userPicture.js"
+    ></script>
 
     <!-- Template Javascript -->
 
@@ -634,25 +642,16 @@
           });
       });
     </script>
-    <script src="../../js/main.js"></script>
-    <script type="module" src="../../js/getUserProfile.js"></script>
-    <script type="module" src="./js/editUserProfile.js"></script>
-    <script src="../user/js/address.js"></script>
+    <script src="/frontend/js/main.js"></script>
+    <script type="module" src="/frontend/js/getUserProfile.js"></script>
+    <script
+      type="module"
+      src="/frontend/pages/memberCentre/js/editUserProfile.js"
+    ></script>
+    <script src="/frontend/pages/user/js/address.js"></script>
     <script
       type="module"
       src="/frontend/pages/memberCentre/js/resetPassword.js"
     ></script>
-    <script>
-      const photo_el = document.getElementById("photo");
-      const userPicEdit_btn = document.getElementById("userPicEdit");
-
-      photo_el.addEventListener("mouseout", () => {
-        userPicEdit_btn.style.display = "none";
-      });
-
-      photo_el.addEventListener("mouseover", () => {
-        userPicEdit_btn.style.display = "block";
-      });
-    </script>
   </body>
 </html>

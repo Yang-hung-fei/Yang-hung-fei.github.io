@@ -1,5 +1,6 @@
 import { profile_els } from "../../../js/getUserProfile";
 import { getUserProfile } from "../../../js/getUserProfile";
+import base64Data from "./userPicture";
 
 const saveButtons = document.querySelectorAll(".save");
 saveButtons.forEach((button) => {
@@ -30,9 +31,13 @@ function editUserNickName() {
   });
 }
 
-//editUserPic
-const fileInput = document.getElementById("userPicEdit");
-const userPicImage = document.getElementById("userPic");
+$(document).ready(function () {
+  $("#userPicEdit").on("click", () => {
+    console.log(111);
+  });
+});
+
+// 當用戶選擇文件時觸發事件
 fileInput.addEventListener("change", (event) => {
   const selectedFile = event.target.files[0];
   if (selectedFile) {
