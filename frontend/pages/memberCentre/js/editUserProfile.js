@@ -1,8 +1,6 @@
 import { profile_els } from "../../../js/getUserProfile";
-import { getUserProfile } from '../../../js/getUserProfile'
-
-
-
+import { getUserProfile } from "../../../js/getUserProfile";
+import base64Data from "./userPicture";
 
 const saveButtons = document.querySelectorAll(".save");
 saveButtons.forEach((button) => {
@@ -33,16 +31,25 @@ function editUserNickName() {
   });
 }
 
-function editUserPic() {
-  const userPicElement = profile_els().userPic;
-
-  userPicElement.addEventListener("change", (event) => {
-    const selectedFile = event.target.files[0];
-    // 在这里处理用户头像的修改
+$(document).ready(function () {
+  $("#userPicEdit").on("click", () => {
+    console.log(111);
   });
-}
+});
 
-// ... 其他函数的定义
+// 當用戶選擇文件時觸發事件
+fileInput.addEventListener("change", (event) => {
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+    //TODO: 放回頁面呈現
+    // 這裡你可以處理用戶選擇的文件，例如顯示在圖片元素中
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      userPicImage.src = e.target.result;
+    };
+    reader.readAsDataURL(selectedFile);
+  }
+});
 
 function sentEditedData() {
   const token = localStorage.getItem("Authorization_U");
