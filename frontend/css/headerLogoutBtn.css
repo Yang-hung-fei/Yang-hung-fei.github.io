@@ -1,6 +1,7 @@
 /* Style for Floating Logout Button */
 #userContain {
   position: relative;
+  cursor: pointer;
 }
 .floating-logout-button {
   position: absolute;
@@ -21,8 +22,4 @@
 
 #logoutButton {
   z-index: 999;
-}
-
-.user {
-  cursor: pointer;
 }
