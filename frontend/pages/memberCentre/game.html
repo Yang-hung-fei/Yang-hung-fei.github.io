@@ -320,10 +320,8 @@
   <!--sweetalert2-->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-
-
-  <script type="text/javascript">
-
+  <script type="module">
+    import config from "../../../../ipconfig.js";
     window.addEventListener("load", () => {
       function getCookie(key) {
         const name = `${key}=`;
@@ -371,216 +369,215 @@
           }
         });
       }
-
-
-
-      function setCookieWithExpiration(key, value, hours) {
-        const now = new Date();
-        const expirationTime = new Date(now.getTime() + hours * 60 * 60 * 1000);
-        document.cookie = `${key}=${value}; expires=${expirationTime.toUTCString()}; path=/;`;
-      }
-
-      //取得標籤元素
-      var containerDiv = document.getElementById("container");
-      var fractionDiv = document.getElementById("fraction");
-      var timeDiv = document.getElementById("time");
-      var startMenuDiv = document.getElementById("startMenu");
-      var overMenuDiv = document.getElementById("overMenu");
-      var totalFractionDiv = document.getElementById("totalFractionMenu");
-      var startBtn = document.getElementById("start");
-      var overBtn = document.getElementById("over");
-      var totalFraction = document.getElementById("totalFraction");
-      var grayDiv = document.getElementById("gray");
-
-      //Header Token
-      const token = localStorage.getItem("Authorization_U");
-      // const token = "";
-
-      function fetchPoint(point) {
-        fetch("https://alldogcat.ddns.net" + `/user/game?point=${point}`, {
-          method: "GET",
-          headers: {
-            Authorization_U: token,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.code === 200) {
-              console.log(data.message);
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "小遊戲失敗",
-                text: data.message,
-              });
-            }
-          });
-      }
-
-      //隱藏開始按鈕，開始計時
-      startBtn.onclick = function () {
-        //1隱藏開始按鈕
-        startMenuDiv.style.display = "none";
-
-        //2開始計時(w:180) 100ms
-        var timeDivWidth = 180;
-        var px = 180 / 180; //每0.1s -0.3px
-
-        var timeTask = setInterval(function () {
-          timeDivWidth = timeDivWidth - px;
-          timeDiv.style.width = timeDivWidth + "px";
-          if (timeDivWidth <= 0) {
-            //停止計時
-            clearInterval(timeTask);
-            //停止顯示循環
-            clearInterval(showImgsTask);
-            let point = 0;
-            if (score >= 100) {
-              Swal.fire({
-                title: `您的總分為： ${score} !會員點數+10點!`,
-                background: "#997b66",
-              });
-              point = 10;
-              fetchPoint(point);
-              setTimeout(function () {
-                window.location.href =
-                  "/frontend/pages/memberCentre/memberCentre.html";
-              }, 1000);
-            } else if (score >= 70) {
-              Swal.fire({
-                title: `您的總分為：  ${score} !會員點數+3點!`,
-                background: "#997b66",
-              });
-              point = 3;
-              fetchPoint(point);
-              setTimeout(function () {
-                window.location.href =
-                  "/frontend/pages/memberCentre/memberCentre.html";
-              }, 1000);
-            } else {
-              Swal.fire({
-                title: `您的總分為：  ${score} !請明天再接再厲!`,
-                background: "#997b66",
-              });
-              fetchPoint(point);
-              setTimeout(function () {
-                window.location.href =
-                  "/frontend/pages/memberCentre/memberCentre.html";
-              }, 1000);
-            }
-
-            const now = new Date();
-            const midnight = new Date(
-              now.getFullYear(),
-              now.getMonth(),
-              now.getDate() + 1,
-              0,
-              0,
-              0
-            );
-            const hoursUntilMidnight =
-              (midnight.getTime() - now.getTime()) / (60 * 60 * 1000);
-
-            setCookieWithExpiration("gameKey", 1, hoursUntilMidnight);
-
-            // totalFractionDiv.style.display = "block";
-            // totalFraction.innerHTML = " " < br > 恭喜獲得5$折價劵";
-            // grayDiv.style.display = "block";
-          }
-        }, 100);
-        //3.顯示一隻動物
-        animalGoGoGo();
-      };
-      //紀錄分數
-      var score = 0;
-      var showImgsTask;
-
-      //將img顯示到洞口位置(9個洞)
-      var arrPos = [
-        ["98px", "115px"],
-        ["17px", "160px"],
-        ["15px", "221px"],
-        ["30px", "294px"],
-        ["122px", "274px"],
-        ["207px", "296px"],
-        ["200px", "212px"],
-        ["187px", "142px"],
-        ["100px", "192px"],
-      ];
-
-      function animalGoGoGo() {
-        showimg();
-        showImgsTask = setInterval("showimg()", 1000);
-      }
-
-      function showimg() {
-        //1.創建img標籤
-        var img = document.createElement("img");
-
-        //將圖片放置進containerDiv 標籤
-        containerDiv.appendChild(img);
-        img.setAttribute("alt", "");
-        //將img顯示到洞口
-        var index = Math.floor(Math.random() * arrPos.length); //0~8
-        img.style.position = "absolute";
-        img.style.left = arrPos[index][0];
-        img.style.top = arrPos[index][1];
-
-        //3.隨機產生可打/不可打圖檔
-        var imgIndex = Math.floor(Math.random() * 3); //0~2
-        var imgName = imgIndex % 2 == 0 ? "h" : "x";
-        var i = -1;
-        //4.讓圖片上升的過程(h--0,x0--x5)
-        var task = null;
-        var hideImgTask = null;
-        var showImgTask = setInterval(function () {
-          i++;
-
-          img.src = "img/" + imgName + i + ".png";
-          if (i == 5) {
-            //已完全顯示停止
-            clearInterval(showImgTask);
-            //隱藏圖片，等待一定的時間後消失(500ms)。移除前要躲進去
-            task = setTimeout(function () {
-              hideImgTask = setInterval(function () {
-                i--;
-                img.src = "img/" + imgName + i + ".png";
-                if (i <= 0) {
-                  clearInterval(hideImgTask);
-                  img.remove();
-                }
-              }, 50);
-            }, 250);
-          }
-        }, 100);
-
-        //5.遊戲計分，點擊監聽
-        img.onclick = function () {
-          //a.清除任務，因任何階段皆可能點擊
-          clearInterval(showImgTask);
-          clearTimeout(task);
-          clearInterval(hideImgTask);
-          //b.顯示被打動畫
-          var j = 5;
-          var hitTask = setInterval(function () {
-            j++;
-            img.src = "img/" + imgName + j + ".png";
-            if (j > 9) {
-              clearInterval(hitTask);
-              img.remove();
-            }
-          }, 100);
-          //c.計分
-          if (imgName === "h") {
-            score += 10;
-          } else {
-            score -= 10;
-          }
-          fractionDiv.innerHTML = score;
-        };
-      }
-
     });
+  </script>
+
+  <script type="text/javascript">
+    function setCookieWithExpiration(key, value, hours) {
+      const now = new Date();
+      const expirationTime = new Date(now.getTime() + hours * 60 * 60 * 1000);
+      document.cookie = `${key}=${value}; expires=${expirationTime.toUTCString()}; path=/;`;
+    }
+
+    //取得標籤元素
+    var containerDiv = document.getElementById("container");
+    var fractionDiv = document.getElementById("fraction");
+    var timeDiv = document.getElementById("time");
+    var startMenuDiv = document.getElementById("startMenu");
+    var overMenuDiv = document.getElementById("overMenu");
+    var totalFractionDiv = document.getElementById("totalFractionMenu");
+    var startBtn = document.getElementById("start");
+    var overBtn = document.getElementById("over");
+    var totalFraction = document.getElementById("totalFraction");
+    var grayDiv = document.getElementById("gray");
+
+    //Header Token
+    const token = localStorage.getItem("Authorization_U");
+    // const token = "";
+
+    function fetchPoint(point) {
+      fetch("https://alldogcat.ddns.net" + `/user/game?point=${point}`, {
+        method: "GET",
+        headers: {
+          Authorization_U: token,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.code === 200) {
+            console.log(data.message);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "小遊戲失敗",
+              text: data.message,
+            });
+          }
+        });
+    }
+
+    //隱藏開始按鈕，開始計時
+    startBtn.onclick = function () {
+      //1隱藏開始按鈕
+      startMenuDiv.style.display = "none";
+
+      //2開始計時(w:180) 100ms
+      var timeDivWidth = 180;
+      var px = 180 / 180; //每0.1s -0.3px
+
+      var timeTask = setInterval(function () {
+        timeDivWidth = timeDivWidth - px;
+        timeDiv.style.width = timeDivWidth + "px";
+        if (timeDivWidth <= 0) {
+          //停止計時
+          clearInterval(timeTask);
+          //停止顯示循環
+          clearInterval(showImgsTask);
+          let point = 0;
+          if (score >= 100) {
+            Swal.fire({
+              title: `您的總分為： ${score} !會員點數+10點!`,
+              background: "#997b66",
+            });
+            point = 10;
+            fetchPoint(point);
+            setTimeout(function () {
+              window.location.href =
+                "/frontend/pages/memberCentre/memberCentre.html";
+            }, 1000);
+          } else if (score >= 70) {
+            Swal.fire({
+              title: `您的總分為：  ${score} !會員點數+3點!`,
+              background: "#997b66",
+            });
+            point = 3;
+            fetchPoint(point);
+            setTimeout(function () {
+            window.location.href =
+              "/frontend/pages/memberCentre/memberCentre.html";
+          }, 1000);
+          } else {
+            Swal.fire({
+              title: `您的總分為：  ${score} !請明天再接再厲!`,
+              background: "#997b66",
+            });
+            fetchPoint(point);
+            setTimeout(function () {
+            window.location.href =
+              "/frontend/pages/memberCentre/memberCentre.html";
+          }, 1000);
+          }
+
+          const now = new Date();
+          const midnight = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1,
+            0,
+            0,
+            0
+          );
+          const hoursUntilMidnight =
+            (midnight.getTime() - now.getTime()) / (60 * 60 * 1000);
+
+          setCookieWithExpiration("gameKey", 1, hoursUntilMidnight);
+
+          // totalFractionDiv.style.display = "block";
+          // totalFraction.innerHTML = " " < br > 恭喜獲得5$折價劵";
+          // grayDiv.style.display = "block";
+        }
+      }, 100);
+      //3.顯示一隻動物
+      animalGoGoGo();
+    };
+    //紀錄分數
+    var score = 0;
+    var showImgsTask;
+
+    //將img顯示到洞口位置(9個洞)
+    var arrPos = [
+      ["98px", "115px"],
+      ["17px", "160px"],
+      ["15px", "221px"],
+      ["30px", "294px"],
+      ["122px", "274px"],
+      ["207px", "296px"],
+      ["200px", "212px"],
+      ["187px", "142px"],
+      ["100px", "192px"],
+    ];
+
+    function animalGoGoGo() {
+      showimg();
+      showImgsTask = setInterval("showimg()", 1000);
+    }
+
+    function showimg() {
+      //1.創建img標籤
+      var img = document.createElement("img");
+
+      //將圖片放置進containerDiv 標籤
+      containerDiv.appendChild(img);
+      img.setAttribute("alt", "");
+      //將img顯示到洞口
+      var index = Math.floor(Math.random() * arrPos.length); //0~8
+      img.style.position = "absolute";
+      img.style.left = arrPos[index][0];
+      img.style.top = arrPos[index][1];
+
+      //3.隨機產生可打/不可打圖檔
+      var imgIndex = Math.floor(Math.random() * 3); //0~2
+      var imgName = imgIndex % 2 == 0 ? "h" : "x";
+      var i = -1;
+      //4.讓圖片上升的過程(h--0,x0--x5)
+      var task = null;
+      var hideImgTask = null;
+      var showImgTask = setInterval(function () {
+        i++;
+
+        img.src = "img/" + imgName + i + ".png";
+        if (i == 5) {
+          //已完全顯示停止
+          clearInterval(showImgTask);
+          //隱藏圖片，等待一定的時間後消失(500ms)。移除前要躲進去
+          task = setTimeout(function () {
+            hideImgTask = setInterval(function () {
+              i--;
+              img.src = "img/" + imgName + i + ".png";
+              if (i <= 0) {
+                clearInterval(hideImgTask);
+                img.remove();
+              }
+            }, 50);
+          }, 250);
+        }
+      }, 100);
+
+      //5.遊戲計分，點擊監聽
+      img.onclick = function () {
+        //a.清除任務，因任何階段皆可能點擊
+        clearInterval(showImgTask);
+        clearTimeout(task);
+        clearInterval(hideImgTask);
+        //b.顯示被打動畫
+        var j = 5;
+        var hitTask = setInterval(function () {
+          j++;
+          img.src = "img/" + imgName + j + ".png";
+          if (j > 9) {
+            clearInterval(hitTask);
+            img.remove();
+          }
+        }, 100);
+        //c.計分
+        if (imgName === "h") {
+          score += 10;
+        } else {
+          score -= 10;
+        }
+        fractionDiv.innerHTML = score;
+      };
+    }
   </script>
 </body>
 
