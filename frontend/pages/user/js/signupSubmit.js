@@ -5,6 +5,9 @@ import config from "../../../../ipconfig.js";
 $("#submit").on("click", () => {
   let theuserData = getSignUpData();
 
+  $("#submit").attr("disabled", "disabled");
+  $("#submit").removeClass("btn--green");
+
   fetch(config.url + "/user/signUp", {
     method: "POST",
     headers: {
@@ -20,7 +23,11 @@ $("#submit").on("click", () => {
         console.log("code", code, ":", responseData.message);
 
         const delayTime = 5000; // 5秒 // 設定延遲時間（毫秒）
-        swal("註冊成功", `將在 ${delayTime / 1000} 秒後跳至登入頁面。`, "success"); // 顯示註冊成功的提示框
+        swal(
+          "註冊成功",
+          `將在 ${delayTime / 1000} 秒後跳至登入頁面。`,
+          "success"
+        ); // 顯示註冊成功的提示框
         const countdownElement = document.querySelector(".swal-text"); // 取得文字內的元素
         let countdown = Math.ceil(delayTime / 1000); // 開始倒數
         const countdownInterval = setInterval(() => {
@@ -30,8 +37,7 @@ $("#submit").on("click", () => {
           if (countdown <= 0) {
             clearInterval(countdownInterval);
             // 跳轉至首頁
-            window.location.href =
-              "/frontend/pages/user/login.html";
+            window.location.href = "/frontend/pages/user/login.html";
           }
         }, 1000); // 每秒更新一次倒數
 

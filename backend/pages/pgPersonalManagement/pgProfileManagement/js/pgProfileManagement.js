@@ -106,7 +106,7 @@ window.addEventListener("load", () => {
                     if (pg.pgGender === '男') {
                         newPgGender.value = '1';
                     } else if (pg.pgGender === '女') {
-                        selectElement.value = '0';
+                        newPgGender.value = '0';
                     }
 
                     // 設置預設日期

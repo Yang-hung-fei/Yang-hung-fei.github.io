@@ -2,7 +2,7 @@ import config from "/ipconfig.js";
 
 // 等待页面加载完毕后执行以下代码
 $(window).on("load", () => {
-  searchmanagers(searchURL());
+  searchmanagers(updateSearchParams());
 });
 
 $(document).ready(function () {
@@ -63,30 +63,18 @@ $(document).on("click", "#mainAddManagerButton", function () {
 // -------------------DataListener-------------------
 
 function listenPageLink() {
-  const pageLinks = $(".pagination .page-link");
-
-  pageLinks.on("click", function () {
-    const pageIndex = $(this).parent().index();
-    const pageCount = pageLinks.length - 3; // 减去首个和最后两个箭头按钮
-    let currentPage;
-
-    if (pageIndex === 0) {
-      currentPage = 1; // 第一个 .page-link 设置为1
-    } else if (pageIndex === pageCount + 2) {
-      currentPage = pageCount; // 最后一个 .page-link 设置为 pageCount
-    } else {
-      currentPage = pageIndex;
-    }
-
-    // 执行你的其他操作，例如更新 URL
-    searchURL({ page: currentPage });
+  $("body").on("click", "a.page-link", function (event) {
+    event.preventDefault();
+    const page = $(this).text();
+    console.log("Link clicked:", page);
+    updateSearchParams({ page: page });
   });
 }
 
 function listenItemsPerPage() {
   $("#page").on("change", function () {
     const selectedValue = $(this).val();
-    searchURL({ size: selectedValue });
+    updateSearchParams({ size: selectedValue });
   });
 }
 
@@ -94,12 +82,12 @@ function listenSearchInput() {
   var inputElement = $("#search");
   inputElement.keypress(function (event) {
     if (event.which === 13) {
-      searchURL({ search: inputElement.value });
+      updateSearchParams({ search: inputElement.value });
     }
   });
 
   $("#button-search").on("click", () => {
-    searchURL({ search: inputElement.value });
+    updateSearchParams({ search: inputElement.value });
   });
 }
 
@@ -117,24 +105,35 @@ $("#Add_UpdateManagerAuthorities").on("click", () => {
 
 // -------------------Fetch-------------------
 
+let currentSearchParams = {
+  page: 1,
+  size: 5,
+};
+
 let currentSearchURL;
-function searchURL({ page = 1, size = 5 } = {}) {
+function performSearch() {
   // 构建请求 URL，包括请求参数
   const search_inputed = document.getElementById("search").value;
-  const page_selected = page; // 使用传递的参数值或默认值
-  const itemsPerPage = size; // 使用传递的参数值或默认值
+  const { page, size } = currentSearchParams;
 
   console.log("search_inputed:", search_inputed);
-  console.log("page_selected:", page_selected);
-  console.log("itemsPerPage:", itemsPerPage);
+  console.log("page_selected:", page);
+  console.log("itemsPerPage:", size);
 
   const url = new URL(config.url + "/manager/manageManager");
   url.searchParams.append("search", search_inputed);
-  url.searchParams.append("page", page_selected);
-  url.searchParams.append("size", itemsPerPage);
+  url.searchParams.append("page", page);
+  url.searchParams.append("size", size);
 
   currentSearchURL = url;
   searchmanagers(currentSearchURL);
+}
+
+// 更新搜索参数的函数
+function updateSearchParams(newParams) {
+  currentSearchParams = { ...currentSearchParams, ...newParams };
+  // 调用 performSearch 更新搜索结果
+  performSearch();
 }
 
 function searchmanagers(currentSearchURL) {
