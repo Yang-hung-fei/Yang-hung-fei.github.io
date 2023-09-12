@@ -5,19 +5,22 @@ const userIcon = document.getElementById("user");
 const logoutButton = document.getElementById("logoutButton");
 const token = localStorage.getItem("Authorization_U");
 
-if (!token) {
-  $("#logoutButtonText").text("登入");
-} else {
-  $("#logoutButtonText").text("登出");
-}
-
-logoutButton.addEventListener("click", () => {
+$(document).ready(function () {
   if (!token) {
-    window.location.href = "/frontend/pages/user/login.html";
+    console.log(123);
+    $("#logoutButtonText").text("登入");
   } else {
-    localStorage.removeItem("Authorization_U");
-    backToRedirectUrl();
+    $("#logoutButtonText").text("登出");
   }
+
+  logoutButton.addEventListener("click", () => {
+    if (!token) {
+      window.location.href = "/frontend/pages/user/login.html";
+    } else {
+      localStorage.removeItem("Authorization_U");
+      backToRedirectUrl();
+    }
+  });
 });
 
 let timeoutId; // To store the timeout ID
