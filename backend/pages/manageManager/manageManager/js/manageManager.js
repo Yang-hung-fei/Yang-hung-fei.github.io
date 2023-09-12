@@ -22,6 +22,7 @@ $(document).on("click", "#lightboxOverlay", function () {
   $lightboxOverlay.hide();
   $("#setManagerAccount").val("");
   $("#setManagerPassword").val("");
+  $(".progressbar li:not(:first-child)").removeClass("active");
 });
 
 $(document).on("click", ".close", function () {
@@ -225,13 +226,13 @@ function addManager() {
 }
 
 function addManagerSet(account, password) {
-  $("#Add_UpdateManagerData")
-    .off("click")
-    .on("click", function () {
-      const newSetManagerAccount = $("#newManagerAccount").val();
-      const newSetManagerPassword = $("#newManagerPassword").val();
-      performAddManagerSet(newSetManagerAccount, newSetManagerPassword);
-    });
+  $("#Add_UpdateManagerData").off("click"); // 先取消绑定之前的点击事件
+
+  $("#Add_UpdateManagerData").on("click", function () {
+    const newSetManagerAccount = $("#newManagerAccount").val();
+    const newSetManagerPassword = $("#newManagerPassword").val();
+    performAddManagerSet(newSetManagerAccount, newSetManagerPassword);
+  });
 
   function performAddManagerSet(account, password) {
     const state = $("#newManagerState").prop("checked") ? 1 : 0;
@@ -277,56 +278,59 @@ function addManagerSet(account, password) {
 }
 
 let selectAddAuthorities = [];
-function addManagerAuthorities() {
-  console.log("addManagerAuthorities called");
-  const checkboxes = document.querySelectorAll(
-    '#Add_managerAuthorities input[type="checkbox"]'
-  );
-  console.log("Number of checkboxes found:", checkboxes.length);
+async function addManagerAuthorities() {
+  try {
+    console.log("addManagerAuthorities called");
+    const checkboxes = document.querySelectorAll(
+      '#Add_managerAuthorities input[type="checkbox"]'
+    );
+    console.log("Number of checkboxes found:", checkboxes.length);
 
-  // 为每个复选框元素添加事件监听器
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-      // 清空选定选项数组
-      selectAddAuthorities = [];
+    // 为每个复选框元素添加事件监听器
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        // 清空选定选项数组
+        selectAddAuthorities = [];
 
-      // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
-      checkboxes.forEach((cb) => {
-        if (cb.checked) {
-          const authorityText = cb.nextElementSibling.textContent.trim();
-          if (authorityText !== "") {
-            selectAddAuthorities.push(authorityText);
+        // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            const authorityText = cb.nextElementSibling.textContent.trim();
+            if (authorityText !== "") {
+              selectAddAuthorities.push(authorityText);
+            }
           }
-        }
-      });
+        });
 
-      // 打印选定的JSON数据
-      console.log(selectAddAuthorities);
-    });
-  });
-
-  //帶入新增的管理員帳號, 權限陣列
-  const newSetManagerAccount = $("#setManagerAccount").val();
-  updateAuthorities(newSetManagerAccount, selectAddAuthorities);
-  const response = updateAuthorities(
-    newSetManagerAccount,
-    selectAddAuthorities
-  );
-
-  $("#setManagerAuthoritiesCompleteNotice").removeClass("invisible");
-  if (response.code === 200) {
-    $("#Add_UpdateManagerAuthorities").on("click", function () {
-      $("#addCompleteButton").on("click", function () {
-        $("#step3Content").addClass("d-none");
-        $("#completionPage").removeClass("d-none");
+        // 打印选定的JSON数据
+        console.log(selectAddAuthorities);
       });
     });
-  } else if (response.code === 400) {
-    $("#setManagerAuthoritiesCompleteNotice").css("color", "red");
-  } else if (response.code === 401) {
-    errorAuth();
+
+    // 帶入新增的管理員帳號, 權限陣列
+    const newSetManagerAccount = $("#setManagerAccount").val();
+    const response = await updateAuthorities(
+      newSetManagerAccount,
+      selectAddAuthorities
+    );
+
+    $("#setManagerAuthoritiesCompleteNotice").removeClass("invisible");
+    if (response.code === 200) {
+      $("#Add_UpdateManagerAuthorities").on("click", function () {
+        $("#addCompleteButton").on("click", function () {
+          $("#step3Content").addClass("d-none");
+          $("#completionPage").removeClass("d-none");
+        });
+      });
+    } else if (response.code === 400) {
+      $("#setManagerAuthoritiesCompleteNotice").css("color", "red");
+    } else if (response.code === 401) {
+      errorAuth();
+    }
+    $("#setManagerAuthoritiesCompleteNotice").text(response.message);
+  } catch (error) {
+    console.error("An error occurred:", error);
   }
-  $("#setManagerAuthoritiesCompleteNotice").text(data.message);
 }
 
 function errorAuth() {
@@ -344,8 +348,27 @@ function errorAuth() {
 
 function createPageButtons(response) {
   const paginationElements = document.getElementsByClassName("pagination");
-  const responsePageSize = response.page;
+  const responsePageTotal = response.total;
+  const responsePageSize = response.size;
   let html = "";
+
+  // 如果总数据条数小于等于每页显示的数据条数，仍然显示一个分页按钮
+  if (responsePageTotal <= responsePageSize) {
+    html += `
+      <li class="page-item">
+        <a class="page-link" href="#">1</a>
+      </li>
+    `;
+
+    // Loop through all pagination elements and set their innerHTML
+    for (let i = 0; i < paginationElements.length; i++) {
+      paginationElements[i].innerHTML = html;
+    }
+    return;
+  }
+
+  // 计算总页数
+  const totalPages = Math.ceil(responsePageTotal / responsePageSize);
 
   // Create the "Previous" button
   html += `
@@ -356,7 +379,7 @@ function createPageButtons(response) {
     </li>
   `;
 
-  for (let i = 1; i <= responsePageSize; i++) {
+  for (let i = 1; i <= totalPages; i++) {
     html += `
       <li class="page-item">
         <a class="page-link" href="#">${i}</a>
@@ -577,31 +600,34 @@ function updateManagerData(jsonData) {
 }
 
 function updateAuthorities(updateAuthritiesJson) {
-  console.log(updateAuthritiesJson);
-  fetch(config.url + "/manager/manageManager/authorities", {
-    method: "PUT",
-    headers: {
-      Authorization_M: token,
-      "Content-Type": "application/json",
-    },
-    body: updateAuthritiesJson,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.code === 200) {
-        console.log("save");
-        console.log(data);
-        return data;
-      } else if (data.code === 400) {
-        console.log(data.code);
-        console.log(data);
-        return data;
-      }
+  return new Promise((resolve, reject) => {
+    console.log(updateAuthritiesJson);
+    fetch(config.url + "/manager/manageManager/authorities", {
+      method: "PUT",
+      headers: {
+        Authorization_M: token,
+        "Content-Type": "application/json",
+      },
+      body: updateAuthritiesJson,
     })
-    .catch((error) => {
-      // 处理请求失败或异常情况
-      console.error("There was a problem with the fetch operation:", error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.code === 200) {
+          console.log("save");
+          console.log(data);
+          resolve(data);
+        } else {
+          console.log(data.code);
+          console.log(data);
+          reject(data);
+        }
+      })
+      .catch((error) => {
+        // 处理请求失败或异常情况
+        console.error("There was a problem with the fetch operation:", error);
+        reject(error);
+      });
+  });
 }
 
 function checkAuthorities(account, callback) {
