@@ -225,13 +225,13 @@ function addManager() {
 }
 
 function addManagerSet(account, password) {
-  $("#Add_UpdateManagerData")
-    .off("click")
-    .on("click", function () {
-      const newSetManagerAccount = $("#newManagerAccount").val();
-      const newSetManagerPassword = $("#newManagerPassword").val();
-      performAddManagerSet(newSetManagerAccount, newSetManagerPassword);
-    });
+  $("#Add_UpdateManagerData").off("click"); // 先取消绑定之前的点击事件
+
+  $("#Add_UpdateManagerData").on("click", function () {
+    const newSetManagerAccount = $("#newManagerAccount").val();
+    const newSetManagerPassword = $("#newManagerPassword").val();
+    performAddManagerSet(newSetManagerAccount, newSetManagerPassword);
+  });
 
   function performAddManagerSet(account, password) {
     const state = $("#newManagerState").prop("checked") ? 1 : 0;
