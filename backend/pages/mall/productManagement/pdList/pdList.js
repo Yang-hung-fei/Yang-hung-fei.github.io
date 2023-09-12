@@ -2,6 +2,7 @@ import config from "../../../../../ipconfig.js";
 
 const token = localStorage.getItem("Authorization_M");
 let table;
+let currentPdNo;
 
 
 
@@ -118,7 +119,19 @@ function buildTable(newData) {
 
                     return data;
                 }
-            }
+            },
+            {
+                data: null,  //修改
+                targets: 4,
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        // 創建修改按鈕元素
+                        const detailButton = '<button type="button" class="custom-btn btn-3 update"><span style="color: #4F4F4F;"><strong>修改</strong></span></button>';
+                        return detailButton;
+                    }
+                    return data;
+                }
+            },
 
 
         ],
@@ -136,8 +149,8 @@ function buildTable(newData) {
 
     // 动态添加按钮点击事件监听器
     $('#PdCollectTable tbody').on('click', 'button.up-button', function () {
-        const pdNo = $(this).data('pdno'); // 获取按钮上的pdno属性值
-        
+        const pdNo = $(this).data('pdNo'); // 获取按钮上的pdno属性值
+
         Swal.fire({
             title: '確認?',
             text: "是否確定要上架!",
@@ -146,21 +159,21 @@ function buildTable(newData) {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: '確認'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              updateProductStatus(pdNo, 0); // 0 表示上架状态
-              Swal.fire(
-                '成功!',
-                '修改成功!!!',
-                'success'
-              )
+                updateProductStatus(pdNo, 0); // 0 表示上架状态
+                Swal.fire(
+                    '成功!',
+                    '修改成功!!!',
+                    'success'
+                )
             }
-          })
+        })
 
     });
 
     $('#PdCollectTable tbody').on('click', 'button.down-button', function () {
-        const pdNo = $(this).data('pdno'); // 获取按钮上的pdno属性值
+        const pdNo = $(this).data('pdNo'); // 获取按钮上的pdno属性值
 
         Swal.fire({
             title: '確認?',
@@ -170,21 +183,31 @@ function buildTable(newData) {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: '確認'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 updateProductStatus(pdNo, 1); // 0 表示上架状态
-              Swal.fire(
-                '成功!',
-                '修改成功!!!',
-                'success'
-              )
+                Swal.fire(
+                    '成功!',
+                    '修改成功!!!',
+                    'success'
+                )
             }
-          })
+        })
 
     });
+
+    //監聽修改按鈕
+    $('#PdCollectTable tbody').on('click', 'button.custom-btn.update', function (e) {
+        e.preventDefault();
+
+        updateModalEl.show();
+        // 获取所选行的数据
+        const rowData = table.row($(this).closest('tr')).data();
+        currentPdNo = rowData.pdNo;
+        updatePd(rowData.pdNo);
+    });
+
 }
-
-
 
 
 // 更新商品状态的函数
@@ -220,4 +243,62 @@ function updateProductStatus(pdNo, newStatus) {
             console.error('請求更新時發生錯誤:', error);
         });
 
-}
+
+    // const pdNo = document.getElementById('pdNo');
+    // const pdName = document.getElementById('pdName');
+    // const pdDescription = document.getElementById('Description');
+    // const pdPrice = document.getElementById('pdPrice');
+    // const pdStatus = document.getElementById('pdStatus');
+    // const pdPic = document.getElementById('pdPic');
+
+    const pdNameEl = document.querySelector('#pdName');
+    const pdDescriptionEl = document.querySelector('#pdDescription');
+    const pdPriceEl = document.querySelector('#pdPrice');
+    const pdStatusEL = document.querySelector('#pdStatus');
+    const pdPicEL = document.querySelector('#pdPic');
+
+    //顯示商品詳情modal
+    function update(pdNo) {
+        fetch(config.url + "/manager/getProduct?pdNo=" + pdNo, {
+            method: "GET",
+            headers: {
+                'Authorization_M': token,
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    const pdDetail = data.message[0]; // 取第一個
+                    fillDataInModal(pdDetail);
+                } else {
+                    Swal.fire("獲取失敗:" + data);
+                    console.error('獲取商品詳細訊息失敗:', data);
+                }
+            })
+            .catch(error => {
+                Swal.fire("錯誤:" + error);
+            });
+    }
+
+    //填入資料到Modal
+    function fillDataInModal(pdDetail) {
+        pdNameEl.value = pdDetail.pdName;
+        pdDescriptionEl.value = pdDetail.pdDescription;
+        pdPriceEl.value = pdDetail.pdPrice;
+        pdStatusEL.value = pdDetail.pdStatus;
+        pdPicEL.value = pdDetail.pdPic;
+    }
+
+    // 監聽管理員送出修改資訊
+    const confirmUpdateEl = document.querySelector('#confirmUpdate');
+    confirmUpdateEl.addEventListener("click", function (params) {
+        const ordNo = currentPdNo; // 根据你的逻辑获取 PdNo
+        const recipientName = recipientNameEl.value;
+        const recipientAddress = recipientAddressEl.value;
+        const recipientPhone = recipientPhoneEL.value;
+        const orderStatus = orderStatusEL.value;
+
+
+
+    }

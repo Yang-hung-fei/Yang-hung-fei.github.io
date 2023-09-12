@@ -59,11 +59,11 @@
 								style="width:100%">
 								<thead>
 									<tr>
-										<!-- data-priority="1" 為縮框時優先順序 -->
-										<th data-priority="4">商品編號</th>
-										<th data-priority="1">商品名稱</th>
-										<th data-priority="3">商品價格</th>
+										<th>商品編號</th>
+										<th>商品名稱</th>
+										<th>商品價格</th>
 										<th>商品狀態</th>
+										<th>修改</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -78,6 +78,49 @@
 			<!--主要內容 結束-->
 		</div>
 	</main>
+
+	<!-- 修改燈箱 -->
+	<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="exampleModalLabel">請填寫欲修改內容</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="mb-3">
+						<label for="pdName" class="col-form-label">名稱:</label>
+						<input type="text" class="form-control" id="pdName">
+					</div>
+					<div class="mb-3">
+						<label for="pdPrice" class="col-form-label">價格:</label>
+						<input type="text" class="form-control" id="pdPrice">
+					</div>
+					<div class="mb-3">
+						<label for="pdStatus" class="col-form-label">狀態:</label>
+						<select class="form-select" id="pdStatus">
+							<option value="0">上架</option>
+							<option value="1">下架</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="pdDescription" class="col-form-label">說明:</label>
+						<input type="text" class="form-control" id="pdDescription">
+					</div>
+					<div class="mb-3">
+						<label for="pdPic" class="col-form-label">圖片:</label>
+						<input type="text" class="form-control" id="pdPic">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+			  <button type="button" id="confirmUpdate" class="btn btn-primary">確認修改</button>
+			</div>
+		  </div>
+		</div>
+	</div>
 
 
 	<!--JS-->
