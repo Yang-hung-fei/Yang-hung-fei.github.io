@@ -333,72 +333,12 @@
     <script>
       $(window).on("load", () => {
         const token = localStorage.getItem("Authorization_U");
-        // token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjkzNTgwNjg3fQ.jic15MNqsEeChK7IY0lCgMd51p7bXniRWOgm6fZREts";
         if (!token) {
           window.location.href = "/frontend/pages/user/login.html";
         }
       });
     </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        document
-          .getElementById("editNameButton")
-          .addEventListener("click", function () {
-            document.getElementById("showNameContain").style.display = "none";
-            document.getElementById("editNameContain").style.display = "block";
-          });
-
-        document
-          .getElementById("saveNameButton")
-          .addEventListener("click", function () {
-            // 在這裡添加儲存名稱的程式碼
-            document.getElementById("editNameContain").style.display = "none";
-            document.getElementById("showNameContain").style.display = "block";
-
-            // 在這裡添加fetch名稱的程式碼
-          });
-
-        document
-          .getElementById("editNickNameButton")
-          .addEventListener("click", function () {
-            document.getElementById("showNickNameContain").style.display =
-              "none";
-            document.querySelector(".editNickNameContanin").style.display =
-              "block";
-          });
-
-        document
-          .getElementById("saveNickNameButton")
-          .addEventListener("click", function () {
-            // 在這裡添加儲存暱稱的程式碼
-            document.querySelector(".editNickNameContanin").style.display =
-              "none";
-            document.getElementById("showNickNameContain").style.display =
-              "block";
-
-            // 在這裡添加fetch暱稱的程式碼
-          });
-      });
-    </script>
     <script src="../../../js/main.js"></script>
-    <script type="module" src="../../../js/getUserProfile.js"></script>
-    <script type="module" src="../../memberCentre/js/editUserProfile.js"></script>
-    <script src="../../user/js/address.js"></script>
-    <script
-      type="module"
-      src="/frontend/pages/memberCentre/js/resetPassword.js"
-    ></script>
-    <script>
-      const photo_el = document.getElementById("photo");
-      const userPicEdit_btn = document.getElementById("userPicEdit");
 
-      photo_el.addEventListener("mouseout", () => {
-        userPicEdit_btn.style.display = "none";
-      });
-
-      photo_el.addEventListener("mouseover", () => {
-        userPicEdit_btn.style.display = "block";
-      });
-    </script>
   </body>
 </html>
