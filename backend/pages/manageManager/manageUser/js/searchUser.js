@@ -160,8 +160,27 @@ function searchUsers(currentSearchURL) {
 
 function createPageButtons(response) {
   const paginationElements = document.getElementsByClassName("pagination");
-  const responsePageSize = response.page;
+  const responsePageTotal = response.total;
+  const responsePageSize = response.size;
   let html = "";
+
+  // 如果总数据条数小于等于每页显示的数据条数，仍然显示一个分页按钮
+  if (responsePageTotal <= responsePageSize) {
+    html += `
+      <li class="page-item">
+        <a class="page-link" href="#">1</a>
+      </li>
+    `;
+
+    // Loop through all pagination elements and set their innerHTML
+    for (let i = 0; i < paginationElements.length; i++) {
+      paginationElements[i].innerHTML = html;
+    }
+    return;
+  }
+
+  // 计算总页数
+  const totalPages = Math.ceil(responsePageTotal / responsePageSize);
 
   // Create the "Previous" button
   html += `
@@ -172,7 +191,7 @@ function createPageButtons(response) {
     </li>
   `;
 
-  for (let i = 1; i <= responsePageSize; i++) {
+  for (let i = 1; i <= totalPages; i++) {
     html += `
       <li class="page-item">
         <a class="page-link" href="#">${i}</a>
