@@ -1,8 +1,7 @@
 import config from '../../../../../ipconfig.js';
 const hostUrl = config.url;
 const chatUrl = hostUrl + "/user/activity/chatroom";
-const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NzY4Mzg1fQ.jmM6NTEB9QE2Ozrn12XwXn0ccyGEy0Ur-wEfr-8kAwM";
-
+const userToken = localStorage.getItem("Authorization_U");
 // get chat list by roomId
 async function getChatList(roomId, page) {
     let newUrl;

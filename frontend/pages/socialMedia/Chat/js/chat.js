@@ -1,10 +1,9 @@
 import config from "../../../../../ipconfig.js";
 import { getChatList, getOnlinUser, getUserRoomList } from "./chatApi.js";
 const userToken = localStorage.getItem("Authorization_U");
-// const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NzYyMTY0fQ.d5PdUlJMrDVnu0DrgDxVMIpNG0kzHfGUV99SKfMKC2w";
 const hostUrl = (config.url).split('//')[1];
 const url = 'wss://' + hostUrl + '/websocket/activity?access_token=' + userToken;
-var webSocket = new WebSocket(url);
+var webSocket;
 var userId;
 var getUserStatus = true;
 var activityId;
@@ -29,6 +28,10 @@ window.addEventListener('DOMContentLoaded', async function (e) {
         console.log("disconnect");
     }
 
+    webSocket.onerror = function (event) {
+        errorConnect();
+    }
+
     //監聽使用者切換聊天室事件
     const roomsEls = document.querySelectorAll('.get-room');
     roomsEls.forEach(roomBtn => {
@@ -44,6 +47,12 @@ window.addEventListener('DOMContentLoaded', async function (e) {
 })
 
 function connectWebSocket() {
+    let token = userToken;
+    if (token == null) {
+        errorConnect();
+        return;
+    }
+    webSocket = new WebSocket(url);
     webSocket.onopen = function () {
         console.log("連結成功");
     }

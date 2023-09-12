@@ -8,7 +8,7 @@ const cancelAcurl = hostUrl + AcUrl + "/cancel";
 const getAcDetailsUrl = hostUrl + AcUrl;
 const getAllAcUrl = hostUrl + AcUrl + "/all";
 const getAcByStatusUrl = hostUrl + AcUrl + "/status"
-const activityManToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NDEwMjMyfQ.VY0ctjroAS7CBFnoM_pXurVmU1S6yUV2GW81iAK1MBY";
+const activityManToken = localStorage.getItem("Authorization_M");
 
 // ------------------------- 建立活動  ------------------------- //
 async function createAc(postData) {
