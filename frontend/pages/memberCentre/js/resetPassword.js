@@ -1,6 +1,8 @@
 import config from "../../../../ipconfig.js";
 
 $("#editPasswordBtn").on("click", function () {
+  $("#firstPassword").val("");
+  $("#secondPassword").val("");
   $("#DBPasseord").css("display", "none");
   $("#resetPassword").css("display", "block");
 });

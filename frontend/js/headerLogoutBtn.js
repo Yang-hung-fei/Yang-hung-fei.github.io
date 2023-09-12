@@ -7,7 +7,6 @@ const token = localStorage.getItem("Authorization_U");
 
 $(document).ready(function () {
   if (!token) {
-    console.log(123);
     $("#logoutButtonText").text("登入");
   } else {
     $("#logoutButtonText").text("登出");

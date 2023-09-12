@@ -1,4 +1,4 @@
-import config from "../../ipconfig.js";
+import config from "/ipconfig.js";
 
 $(window).on("load", () => {
   getUserProfile();
