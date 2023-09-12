@@ -125,6 +125,10 @@ function showDBuserProfile(data) {
 
   // TODO: 名稱欄位，顯示和編輯交換顯示
   // TODO: enter儲存，還有切換儲存按鈕svg
+
+  //將資料帶入名稱修改欄位
+  $("#inputNameEdit").val($("#userName").text());
+  $("#inputNickNameEdit").val($("#userNickName").text());
 }
 
 function addressShow(userAddress) {
