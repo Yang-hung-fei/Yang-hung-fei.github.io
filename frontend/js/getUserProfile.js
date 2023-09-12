@@ -30,21 +30,33 @@ var responseActions = {
   200: function (data) {
     var userInfo = data.message;
     console.log(userInfo);
-    if(userInfo.identityProvider === 'Local'){
-      $('#userPasswordDiv').css('display', 'flex');
-    }else{
-      $('#userPasswordDiv').css('display', 'none');
+    if (userInfo.identityProvider === "Local") {
+      $("#userPasswordDiv").css("display", "flex");
+    } else {
+      $("#userPasswordDiv").css("display", "none");
     }
     showDBuserProfile(userInfo);
   },
   401: function () {
     console.log("code 401: Unauthorized.");
-    revomeTokenThenLogin();
+    errorAuth();
+    setTimeout(revomeTokenThenLogin(), 1000);
   },
   default: function (data) {
     console.log("Unknown response code:", data.code);
   },
 };
+
+function errorAuth() {
+  swal({
+    title: "哎呀🤭",
+    text: "您尚未登入，請重新登入",
+    icon: "error",
+  }).then(() => {
+    localStorage.removeItem("Authorization_U");
+    window.location.href = "/backend/login.html"; // 替换为你要跳转的页面地址
+  });
+}
 
 function revomeTokenThenLogin() {
   localStorage.removeItem("Authorization_U");
