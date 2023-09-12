@@ -51,7 +51,7 @@ window.addEventListener("load", () => {
 									<label for="insertPgGender" style="font-size: 18px;">美容師性別</label>
 									<select id="insertPgGender" class="form-control">
 										<option value="1">男</option>
-										<option value="2">女</option>
+										<option value="0">女</option>
 									</select>
 
 									<label for="insertPgEmail" style="font-size: 18px; margin-top:10px;">Email</label>
