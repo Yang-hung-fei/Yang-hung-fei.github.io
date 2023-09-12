@@ -218,6 +218,7 @@ window.addEventListener("load", () => {
                     });
                     
                     if (dataTableInstance) {
+                        console.log('1111');
                         dataTableInstance.destroy();
                     }
                     fetchAndBuildTable();
@@ -229,6 +230,7 @@ window.addEventListener("load", () => {
                     });
                     
                     if (dataTableInstance) {
+                        console.log('222');
                         dataTableInstance.destroy();
                     }
                     fetchAndBuildTable();
