@@ -5,6 +5,8 @@ window.addEventListener("load", () => {
     //錯誤顯示用
     const errorDiv = document.getElementById("error");
 
+    var dataTableInstance; 
+
     // 一進入頁面呼叫
     fetchAndBuildTable();
 
@@ -23,7 +25,7 @@ window.addEventListener("load", () => {
                     errorDiv.innerHTML = "";
                     const rs = data.message;
 
-                    buildTable(rs);
+                    dataTableInstance = buildTable(rs);
                 } else if (data.code === 401) {
                     Swal.fire({
                         icon: "error",
@@ -94,7 +96,7 @@ window.addEventListener("load", () => {
             }
         });
         $('.table-container').css('overflow-x', 'auto');
-
+        return table;
 
     }
 
