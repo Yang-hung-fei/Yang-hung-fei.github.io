@@ -1,4 +1,4 @@
-import config from "../../ipconfig.js";
+import config from "/ipconfig.js";
 
 $(window).on("load", () => {
   getUserProfile();
@@ -30,21 +30,33 @@ var responseActions = {
   200: function (data) {
     var userInfo = data.message;
     console.log(userInfo);
-    if(userInfo.identityProvider === 'Local'){
-      $('#userPasswordDiv').css('display', 'flex');
-    }else{
-      $('#userPasswordDiv').css('display', 'none');
+    if (userInfo.identityProvider === "Local") {
+      $("#userPasswordDiv").css("display", "flex");
+    } else {
+      $("#userPasswordDiv").css("display", "none");
     }
     showDBuserProfile(userInfo);
   },
   401: function () {
     console.log("code 401: Unauthorized.");
-    revomeTokenThenLogin();
+    errorAuth();
+    setTimeout(revomeTokenThenLogin(), 1000);
   },
   default: function (data) {
     console.log("Unknown response code:", data.code);
   },
 };
+
+function errorAuth() {
+  swal({
+    title: "哎呀🤭",
+    text: "您尚未登入，請重新登入",
+    icon: "error",
+  }).then(() => {
+    localStorage.removeItem("Authorization_U");
+    window.location.href = "/backend/login.html"; // 替换为你要跳转的页面地址
+  });
+}
 
 function revomeTokenThenLogin() {
   localStorage.removeItem("Authorization_U");
@@ -79,9 +91,10 @@ function showDBuserProfile(data) {
   let userPic_base64 = data.userPic;
   elements.userPic.src = "data:image/png;base64," + userPic_base64;
   elements.pointnumber.textContent = data.userPoint;
-  // ... 其他设置元素内容的操作
+  elements.userBirthday.textContent = data.userBirthday;
 
   // 其他操作，如设置下拉框选项等
+  elements.userPhone.value = data.userPhone;
   let genderText = data.userGender;
   if (!genderText) {
     // 没有数据，将默认选项设置为"-"
@@ -97,13 +110,14 @@ function showDBuserProfile(data) {
     }
   }
 
-  var userBirthdayText = new Date(data.userBirthday);
-  var options = { year: "numeric", month: "2-digit", day: "2-digit" };
-  var dateString = userBirthdayText.toLocaleString("zh-TW", options);
-  var parts = dateString.split("/");
-  var formattedDate = parts[0] + "-" + parts[1] + "-" + parts[2];
-  elements.userBirthday.value = formattedDate;
-  elements.userPhone.value = data.userPhone;
+  if (data.userBirthday !== null) {
+    var userBirthdayText = new Date(data.userBirthday);
+    var options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    var dateString = userBirthdayText.toLocaleString("zh-TW", options);
+    var parts = dateString.split("/");
+    var formattedDate = parts[0] + "-" + parts[1] + "-" + parts[2];
+    elements.userBirthday.value = formattedDate;
+  }
 
   // 地址
   const userAddressData = data.userAddress;
@@ -116,9 +130,12 @@ function showDBuserProfile(data) {
 function addressShow(userAddress) {
   var userAddressInput = ""; // 默认值为空字符串
   if (userAddress) {
-    var cityMatch = userAddress.match(/^.{1,3}/);
-    var areaMatch = userAddress.match(/^.{4,6}/);
-    var userAddressInput = userAddress.substring(6);
+    var matchResult = userAddress.match(/^(.{1,3})(.{3,3})/);
+    if (matchResult) {
+      var cityMatch = matchResult[1]; // 匹配的前1到3个字符
+      var areaMatch = matchResult[2]; // 匹配的第4到6个字符
+      userAddressInput = userAddress.substring(6);
+    }
   }
 
   const city_el = document.getElementById("city");
@@ -143,7 +160,7 @@ function addressShow(userAddress) {
 
       // 遍历所有选项，设置目标选项为默认选中
       for (const option of city_el.options) {
-        if (option.textContent === cityMatch[0]) {
+        if (option.textContent === cityMatch) {
           option.selected = true;
           break; // 停止遍历，因为已经找到目标选项
         }
@@ -156,12 +173,19 @@ function addressShow(userAddress) {
       console.error("Error:", error);
     });
 
+  // 在第一层选择发生改变时调用第二层选择的处理逻辑
+  city_el.addEventListener("change", function () {
+    console.log("City Changed"); // 检查城市选择是否触发事件
+    areaSelectHandler();
+  });
+
   // 第二層選擇
   function areaSelectHandler() {
     const cityvalue = city_el.value;
     area_el.innerHTML = "";
     area_el.style.display = "inline";
 
+    // 异步加载区域选项
     fetch(
       "https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json"
     )
@@ -178,7 +202,7 @@ function addressShow(userAddress) {
         }
         // 遍历所有选项，设置目标选项为默认选中
         for (const option of area_el.options) {
-          if (option.textContent === areaMatch[0]) {
+          if (option.textContent === areaMatch) {
             option.selected = true;
             break; // 停止遍历，因为已经找到目标选项
           }
@@ -188,7 +212,4 @@ function addressShow(userAddress) {
         console.error("Error:", error);
       });
   }
-
-  // 在第一层选择发生改变时调用第二层选择的处理逻辑
-  city_el.addEventListener("change", areaSelectHandler);
 }

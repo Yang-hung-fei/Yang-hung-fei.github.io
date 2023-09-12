@@ -2,7 +2,7 @@ import config from "/ipconfig.js";
 
 // 等待页面加载完毕后执行以下代码
 $(window).on("load", () => {
-  searchUsers(searchURL());
+  searchUsers(updateSearchParams());
 });
 
 $(document).ready(function () {
@@ -15,30 +15,18 @@ $(document).ready(function () {
 // -------------------DataListener-------------------
 
 function listenPageLink() {
-  const pageLinks = $(".pagination .page-link");
-
-  pageLinks.on("click", function () {
-    const pageIndex = $(this).parent().index();
-    const pageCount = pageLinks.length - 3; // 减去首个和最后两个箭头按钮
-    let currentPage;
-
-    if (pageIndex === 0) {
-      currentPage = 1; // 第一个 .page-link 设置为1
-    } else if (pageIndex === pageCount + 2) {
-      currentPage = pageCount; // 最后一个 .page-link 设置为 pageCount
-    } else {
-      currentPage = pageIndex;
-    }
-
-    // 执行你的其他操作，例如更新 URL
-    searchURL({ page: currentPage });
+  $("body").on("click", "a.page-link", function (event) {
+    event.preventDefault();
+    const page = $(this).text();
+    console.log("Link clicked:", page);
+    updateSearchParams({ page: page });
   });
 }
 
 function listenItemsPerPage() {
   $("#page").on("change", function () {
     const selectedValue = $(this).val();
-    searchURL({ size: selectedValue });
+    updateSearchParams({ size: selectedValue });
   });
 }
 
@@ -46,12 +34,12 @@ function listenSearchInput() {
   var inputElement = $("#search");
   inputElement.keypress(function (event) {
     if (event.which === 13) {
-      searchURL({ search: inputElement.value });
+      updateSearchParams({ search: inputElement.value, page: 1 });
     }
   });
 
   $("#button-search").on("click", () => {
-    searchURL({ search: inputElement.value });
+    updateSearchParams({ search: inputElement.value, page: 1 });
   });
 }
 
@@ -79,40 +67,46 @@ function toggleSortOrder(orderBy) {
         ? "desc"
         : "asc"
       : "asc";
-  searchURL({ orderBy, sort: newSort });
+  updateSearchParams({ orderBy, sort: newSort, page: 1 });
 }
 
 // -------------------Fetch-------------------
 
-let currentSearchURL;
-function searchURL({
-  orderBy = "USER_NAME",
-  page = 1,
-  size = 5,
-  sort = "asc",
-} = {}) {
-  // 构建请求 URL，包括请求参数
-  const search_inputed = document.getElementById("search").value;
-  const page_selected = page; // 使用传递的参数值或默认值
-  const itemsPerPage = size; // 使用传递的参数值或默认值
-  const orderBy_selected = orderBy; // 使用传递的参数值或默认值
-  const sort_selected = sort; // 使用传递的参数值或默认值
+let currentSearchParams = {
+  orderBy: "USER_NAME",
+  page: 1,
+  size: 5,
+  sort: "asc",
+};
 
-  // console.log("search_inputed:", search_inputed);
-  // console.log("page_selected:", page_selected);
-  // console.log("itemsPerPage:", itemsPerPage);
-  // console.log("orderBy_selected:", orderBy_selected);
-  // console.log("sort_selected:", sort_selected);
+let currentSearchURL;
+function performSearch() {
+  // 获取搜索参数
+  const search_inputed = document.getElementById("search").value;
+  const { orderBy, page, size, sort } = currentSearchParams;
+
+  console.log("search_inputed:", search_inputed);
+  console.log("page_selected:", page);
+  console.log("itemsPerPage:", size);
+  console.log("orderBy_selected:", orderBy);
+  console.log("sort_selected:", sort);
 
   const url = new URL(config.url + "/manager/users");
   url.searchParams.append("search", search_inputed);
-  url.searchParams.append("page", page_selected);
-  url.searchParams.append("size", itemsPerPage);
-  url.searchParams.append("orderBy", orderBy_selected);
-  url.searchParams.append("sort", sort_selected);
+  url.searchParams.append("page", page);
+  url.searchParams.append("size", size);
+  url.searchParams.append("orderBy", orderBy);
+  url.searchParams.append("sort", sort);
 
   currentSearchURL = url;
   searchUsers(currentSearchURL);
+}
+
+// 更新搜索参数的函数
+function updateSearchParams(newParams) {
+  currentSearchParams = { ...currentSearchParams, ...newParams };
+  // 调用 performSearch 更新搜索结果
+  performSearch();
 }
 
 function searchUsers(currentSearchURL) {
@@ -160,8 +154,27 @@ function searchUsers(currentSearchURL) {
 
 function createPageButtons(response) {
   const paginationElements = document.getElementsByClassName("pagination");
-  const responsePageSize = response.page;
+  const responsePageTotal = response.total;
+  const responsePageSize = response.size;
   let html = "";
+
+  // 如果总数据条数小于等于每页显示的数据条数，仍然显示一个分页按钮
+  if (responsePageTotal <= responsePageSize) {
+    html += `
+      <li class="page-item">
+        <a class="page-link" href="#">1</a>
+      </li>
+    `;
+
+    // Loop through all pagination elements and set their innerHTML
+    for (let i = 0; i < paginationElements.length; i++) {
+      paginationElements[i].innerHTML = html;
+    }
+    return;
+  }
+
+  // 计算总页数
+  const totalPages = Math.ceil(responsePageTotal / responsePageSize);
 
   // Create the "Previous" button
   html += `
@@ -172,7 +185,7 @@ function createPageButtons(response) {
     </li>
   `;
 
-  for (let i = 1; i <= responsePageSize; i++) {
+  for (let i = 1; i <= totalPages; i++) {
     html += `
       <li class="page-item">
         <a class="page-link" href="#">${i}</a>

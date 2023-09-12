@@ -8,7 +8,7 @@ const cancelAcurl = hostUrl + AcUrl + "/cancel";
 const getAcDetailsUrl = hostUrl + AcUrl;
 const getAllAcUrl = hostUrl + AcUrl + "/all";
 const getAcByStatusUrl = hostUrl + AcUrl + "/status"
-const activityManToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NDEwMjMyfQ.VY0ctjroAS7CBFnoM_pXurVmU1S6yUV2GW81iAK1MBY";
+const activityManToken = localStorage.getItem("Authorization_M");
 
 // ------------------------- 建立活動  ------------------------- //
 async function createAc(postData) {
@@ -99,7 +99,7 @@ async function getAllAc(page) {
     let params = new URLSearchParams({
         page: page
     });
-    let newUrl = `${page === undefined || null ? getAllAcUrl : getAllAcUrl + '?' + params.toString()}`;
+    let newUrl = `${page == undefined || null ? getAllAcUrl : getAllAcUrl + '?' + params.toString()}`;
     return fetch(newUrl, {
         method: "GET",
         headers: {
@@ -141,7 +141,7 @@ async function getAcByStatus(status, page) {
         page: page,
         status: status
     });
-    let newUrl = `${page === undefined ? getAcByStatusUrl + '?' + statusParams.toString() : getAcByStatusUrl + '?' + params.toString()}`;
+    let newUrl = `${page == undefined || null ? getAcByStatusUrl + '?' + statusParams.toString() : getAcByStatusUrl + '?' + params.toString()}`;
     return fetch(newUrl, {
         method: "GET",
         headers: {

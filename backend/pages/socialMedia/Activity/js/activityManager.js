@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', function () {
         //get value
         let optionValue = e.target.value;
         if (optionValue == 2) {
-            await getAllAc();
+            location.reload();
         } else {
             await getAcByStatus(optionValue);
         }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>寵物活動</title>
+    <title>活動聊天室</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -30,13 +30,13 @@
 
     <!-- Template Stylesheet -->
     <link href="../../../../frontend/css/main.css" rel="stylesheet">
-    <link href="./css/activity.css" rel="stylesheet">
+    <link href="./css/chat.css" rel="stylesheet">
 </head>
 <style>
 
 </style>
 
-<body>
+<body class="bg-light">
     <!-- <iframe id="header" src="../../../../frontend/header.html" frameborder="0" width="100%" height="auto"></iframe> -->
     <!-- Spinner Start -->
     <div id="spinner"
@@ -87,51 +87,104 @@
 
     <!-- Navbar End -->
     <!--聊天室主要內容-->
+    <div class="container mt-5 mb-5">
+        <div class="card">
+            <div
+                class="card-header bg-success bg-gradient text-light d-flex justify-content-between align-items-center">
+                <h4><i class="bi bi-gear"></i>&nbsp;活動聊天室</h4>
+                <a href="../Activity/activity.html" class="text-light">離開此聊天室&nbsp;<i class="bi bi-arrow-right"></i></a>
 
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="panel-container col-sm-12 col-md-4">
+                        <div class="list-group list-group-flush chat-room">
+                            <div class="mt-2"><i class="bi bi-door-open"></i>&nbsp;<b>聊天室列表</b></div>
+                            <!--這邊放使用者活動清單-->
+                        </div>
+                        <ul class="list-group list-group-flush online-users">
+                            <div class="mt-2"><i class="bi bi-person"></i>&nbsp;<b>上線使用者</b></div>
+                            <!--這邊放使用者上線清單-->
+                        </ul>
+                        <ul class="list-group list-group-flush">
+                            <div class="mt-2"><i class="bi bi-person"></i>&nbsp;<b>上線通知</b></div>
+                            <div class="notify-message">
+                                <!--這邊放使用者上線通知清單-->
+                            </div>
+                        </ul>
+                    </div>
+                    <div class="col-sm-12 col-md-8 right-panel" style="height: 650px; overflow-y: scroll;">
+                        <div class="container message-container">
+                            <!--這邊放聊天訊息-->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-footer">
+                <form action="#" id="chat-form">
+                    <div class="input-group mb-3">
+                        <input id="msg" type="text" class="form-control" placeholder="請輸入訊息">
+                        <button class="btn btn-success">
+                            <i class="bi bi-cursor"></i>&nbsp;發送
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!--聊天室完畢-->
     <!-- Footer Start -->
-    <footer class="container-fluid footer mt-0 pt-5 wow fadeIn" data-wow-delay="0.1s"
-        style="background-color: #6F5242;">
+    <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s" style="background-color: #6f5242">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
-                        alt="LOGO" style="width: 180px;">
-                    <p>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed
-                        stet lorem sit clita</p>
+                        alt="LOGO" style="width: 180px" />
+                    <ul>
+                        <li>A paradise for shopping</li>
+                        <li>Plenty of groups for interaction</li>
+                        <li>A comfortable space for grooming</li>
+                    </ul>
                     <div class="d-flex pt-2">
                         <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-twitter"></i></a>
+                                class="fab fa-twitter" target="_blank"></i></a>
                         <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-0" href=""><i
-                                class="fab fa-linkedin-in"></i></a>
+                                class="fab fa-facebook-f" target="_blank"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-1"
+                            href="https://www.youtube.com/@AllDogCat-rj8ov"><i class="fab fa-youtube"
+                                target="_blank"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-0"
+                            href="https://www.instagram.com/all_dog_cat_store/?hl=zh-tw"><i class="fab fa-linkedin-in"
+                                target="_blank"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Address</h4>
-                    <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <p>
+                        <i class="fa fa-map-marker-alt me-3"></i>330
+                        桃園市中壢區復興路123號45樓
+                    </p>
+                    <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
+                    <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Quick Links</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="/frontend/pages/homepage/about.html">About Us</a>
+                    <!-- <a class="btn btn-link" href="">Contact Us</a> -->
                     <a class="btn btn-link" href="">Our Services</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
+                    <!-- <a class="btn btn-link" href="">Support</a> -->
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Newsletter</h4>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                    <div class="position-relative mx-auto" style="max-width: 400px">
                         <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text"
-                            placeholder="Your email">
-                        <button type="button"
-                            class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                            placeholder="Your email" />
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">
+                            SignUp
+                        </button>
                     </div>
                 </div>
             </div>
@@ -140,24 +193,33 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                        &copy; <a href="#">All Dog Cat</a>, All Right Reserved.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                         Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                        <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                        <br />Distributed By:
+                        <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
+
+
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
             class="bi bi-arrow-up"></i></a>
 
     <!--JS-->
-    <script type="module" src="./js/activity.js"></script>
+    <script type="module" src="./js/chat.js"></script>
+    <!-- Header JS -->
+    <script src="/frontend/js/notify.js"></script>
+    <script type="module" src="/frontend/js/btnUser.js"></script>
+    <script type="module" src="/frontend/js/header.js"></script>
+    <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

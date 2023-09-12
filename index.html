@@ -1,217 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>All Dog Cat - A paradise for your pets</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
 
-<head>
-  <meta charset="utf-8">
-  <title>All Dog Cat - A paradise for your pets</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="" name="keywords">
-  <meta content="" name="description">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Google Web Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
-    rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
 
-  <!-- Icon Font Stylesheet -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="frontend/lib/animate/animate.min.css" rel="stylesheet" />
+    <link
+      href="frontend/lib/owlcarousel/assets/owl.carousel.min.css"
+      rel="stylesheet"
+    />
 
-  <!-- Libraries Stylesheet -->
-  <link href="frontend/lib/animate/animate.min.css" rel="stylesheet">
-  <link href="frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="frontend/css/frontendBootstrap.min.css" rel="stylesheet" />
 
-  <!-- Customized Bootstrap Stylesheet -->
-  <link href="frontend/css/frontendBootstrap.min.css" rel="stylesheet">
+    <!-- Template Stylesheet -->
+    <link href="frontend/css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/frontend/css/notify.css" />
+    <link rel="stylesheet" href="/frontend/css/headerLogoutBtn.css" />
+  </head>
 
-  <!-- Template Stylesheet -->
-  <link href="frontend/css/main.css" rel="stylesheet">
-  <link rel="stylesheet" href="/frontend/css/notify.css" />
-  <link rel="stylesheet" href="/frontend/css/headerLogoutBtn.css" />
-</head>
+  <body style="margin: 0; padding: 0">
+    <!-- Spinner Start -->
+    <div
+      id="spinner"
+      class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+    >
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
 
-<body style="margin: 0; padding: 0; overflow: hidden">
-  <!-- Spinner Start -->
-  <div id="spinner"
-    class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-    <div class="spinner-border text-primary" role="status"></div>
-  </div>
-  <!-- Spinner End -->
-
-  <!-- Navbar Start -->
-  <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s"
-    style="background-color: #fefcec">
-    <a href="/index.html" class="navbar-brand ms-4 ms-lg-0">
-      <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png" alt="LOGO"
-        style="width: 300px" />
-    </a>
-    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="/index.html" class="nav-item nav-link active">首頁</a>
-        <a href="about.html" class="nav-item nav-link">關於我們</a>
-        <a href="product.html" class="nav-item nav-link">寵物商城</a>
-        <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="petGroomingDropdown">寵物美容專區</a>
-          <div class="dropdown-menu m-0">
-            <a href="blog.html" class="dropdown-item">查看美容師</a>
-            <a href="feature.html" class="dropdown-item">作品集</a>
-            <a href="testimonial.html" class="dropdown-item">預約寵物美容</a>
+    <!-- Navbar Start -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn"
+      data-wow-delay="0.1s"
+      style="background-color: #fefcec"
+    >
+      <a href="/index.html" class="navbar-brand ms-4 ms-lg-0">
+        <img
+          src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png"
+          alt="LOGO"
+          style="width: 300px"
+        />
+      </a>
+      <button
+        type="button"
+        class="navbar-toggler me-4"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarCollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="/index.html" class="nav-item nav-link active">首頁</a>
+          <a
+            href="/frontend/pages/homepage/about.html"
+            class="nav-item nav-link"
+            >關於我們</a
+          >
+          <a
+            href="/frontend/pages/mall/mall/mall.html"
+            class="nav-item nav-link"
+            >寵物商城</a
+          >
+          <div class="nav-item dropdown">
+            <a
+              href="#"
+              class="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              id="petGroomingDropdown"
+              >寵物美容專區</a
+            >
+            <div class="dropdown-menu m-0">
+              <a
+                href="/frontend/pages/petgroomer/pgListPage/pgListPage.html"
+                class="dropdown-item"
+                >查看美容師</a
+              >
+              <!-- <a href="feature.html" class="dropdown-item">作品集</a> -->
+              <a
+                href="/frontend/pages/petgroomer/appointment/appointment.html"
+                class="dropdown-item"
+                >預約寵物美容</a
+              >
+            </div>
           </div>
-        </div>
-        <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="petCommunityDropdown">寵物社群</a>
-          <div class="dropdown-menu m-0">
-            <a href="blog.html" class="dropdown-item">貼文交流</a>
-            <a href="feature.html" class="dropdown-item">寵物活動</a>
+          <div class="nav-item dropdown">
+            <a
+              href="#"
+              class="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              id="petCommunityDropdown"
+              >寵物社群</a
+            >
+            <div class="dropdown-menu m-0">
+              <!-- <a href="blog.html" class="dropdown-item">貼文交流</a> -->
+              <a
+                href="/frontend/pages/socialMedia/Activity/activity.html"
+                class="dropdown-item"
+                >寵物活動</a
+              >
+            </div>
           </div>
+          <a
+            href="/backend/index.html"
+            class="nav-item nav-link active"
+            style="background-color: #6f5242; color: #fff"
+            >管理後台</a
+          >
         </div>
-        <a href="contact.html" class="nav-item nav-link">聯絡我們</a>
+        <div class="d-none d-lg-flex ms-2">
+          <div id="notifyContain">
+            <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
+              <small class="fa fa-inbox text-body"></small>
+            </div>
+            <div
+              class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+              aria-labelledby="alertsDropdown"
+              id="notifyMenu"
+              style="min-height: 50px"
+            >
+              <div class="list-group">
+                <!--這裡放通知-->
+              </div>
+            </div>
+          </div>
+          <div id="userContain">
+            <div id="user" class="btn-sm-square bg-white rounded-circle ms-3">
+              <small
+                id="userIcon"
+                class="fa fa-user text-body"
+                style="position: absolute"
+              ></small>
+            </div>
+            <!-- Logout Button - Initially Hidden -->
+            <div
+              id="logoutButton"
+              class="floating-logout-button"
+              style="z-index: 999"
+            >
+              <button class="btn btn-link btn-sm" id="logoutButtonText">
+                登出
+              </button>
+            </div>
+          </div>
+          <a
+            id="shoppingCart"
+            class="btn-sm-square bg-white rounded-circle ms-3"
+            href=""
+          >
+            <small class="fa fa-shopping-bag text-body"></small>
+          </a>
+        </div>
       </div>
-      <div class="d-none d-lg-flex ms-2">
-        <div id="notifyContain">
-          <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
-            <small class="fa fa-inbox text-body"></small>
+    </nav>
+    <!-- Navbar End -->
+    <script src="/frontend/js/notify.js"></script>
+    <script type="module" src="/frontend/js/btnUser.js"></script>
+    <script type="module" src="/frontend/js/header.js"></script>
+    <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Header JS -->
+
+    <div>
+      <!-- 最小高度和灰底只是用來示意內容區域，設計時請刪除 -->
+
+      <!-- 寵物地圖-->
+      <figure class="text-center">
+        <blockquote class="blockquote">
+          <p class="h2">寵物美容專賣店</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">給您的寵物最好的選擇</figcaption>
+      </figure>
+      <div class="patStoreLocates container" style="max-width: 1250px; margin-left: 30px">
+        <div class="row">
+          <div class="col-sm text-center" style="max-width: 400px">
+            <div class="card" style="width: 23rem;  min-height: 585px;">
+              <div
+                id="map1"
+                class="card-img-top"
+                style="width: 100%; height: 300px"
+              ></div>
+              <div class="card-body">
+                <h5 class="card-title">貓職人</h5>
+                <p class="card-text">
+                  在我們的寵物店，我們奉獻給每一位寵物愛好者。
+                  提供高品質食品、創意玩具、護理產品等，滿足你寵物的每個需求。無論你有貓、狗、鳥還是小動物，我們都照顧周到。我們致力於創造一個溫馨的環境，為你的寵物提供無限的愛和關懷。
+                  來我們的店，與我們一起為你的寵物締造一段美好的時光！
+                </p>
+                <button id="navBtn1" type="button" class="btn btn-primary">
+                  導航
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown"
-            id="notifyMenu" style="min-height: 50px; z-index: 99999;">
-            <div class="list-group">
-              <!--這裡放通知-->
+
+          <div class="col-sm text-center" style="max-width: 400px">
+            <div class="card" style="width: 23rem; min-height: 585px;">
+              <div
+                id="map2"
+                class="card-img-top"
+                style="width: 100%; height: 300px"
+              ></div>
+              <div class="card-body">
+                <h5 class="card-title">寵孩子</h5>
+                <p class="card-text">
+                  疼愛您的寵物，就選擇我們！
+                  我們的寵物店提供多種頂級寵物食品、時尚配件、玩具和健康護理商品。不論您是貓、狗、鳥或小動物的主人，我們都致力於滿足您的需求。我們熱愛寵物，將提供無盡的關懷和愛。
+                  請來參觀我們的店，為您的毛絨絨家庭成員提供最好的！
+                </p>
+                <button id="navBtn2" type="button" class="btn btn-primary" style="margin-top: 21px">
+                  導航
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm text-center" style="max-width: 400px">
+            <div class="card" style="width: 23rem; min-height: 585px;">
+              <div
+                id="map3"
+                class="card-img-top"
+                style="width: 100%; height: 300px"
+              ></div>
+              <div class="card-body">
+                <h5 class="card-title">寵物樂園</h5>
+                <p class="card-text">
+                  探索我們的寵物天堂！我們的寵物店提供各種高品質食品、時尚配件、玩具和健康護理產品，讓您的寵物擁有最佳生活品質。無論您有貓、狗、鳥還是小動物，我們都滿足您的需求。我們熱愛寵物，致力於為每個毛茸茸的家庭成員提供愛與關懷。來我們的店體驗無與倫比的寵愛之旅！
+                </p>
+                <button id="navBtn3" type="button" class="btn btn-primary">
+                  導航
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        <div id="userContain">
-          <div id="user" class="btn-sm-square bg-white rounded-circle ms-3">
-            <small id="userIcon" class="fa fa-user text-body" style="position: absolute"></small>
-          </div>
-          <!-- Logout Button - Initially Hidden -->
-          <div id="logoutButton" class="floating-logout-button">
-            <button class="btn btn-link btn-sm">登出</button>
-          </div>
-        </div>
-        <a id="shoppingCart" class="btn-sm-square bg-white rounded-circle ms-3" href="">
-          <small class="fa fa-shopping-bag text-body"></small>
-        </a>
       </div>
     </div>
-  </nav>
-  <!-- Navbar End -->
-  <script src="/frontend/js/notify.js"></script>
-  <script type="module" src="/frontend/js/btnUser.js"></script>
-  <script type="module" src="/frontend/js/header.js"></script>
-  <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <!-- Header JS -->
-
-  <div>
-    <!-- 最小高度和灰底只是用來示意內容區域，設計時請刪除 -->
-
-    
-    <!-- 寵物地圖-->
-    <figure class="text-center">
-      <blockquote class="blockquote">
-        <p class="h2">寵物美容專賣店</p>
-      </blockquote>
-      <figcaption class="blockquote-footer">
-        給您的寵物最好的選擇
-      </figcaption>
-    </figure>
-    <div class="patStoreLocates container">
-      <div class="row ">
-        <div class="col-sm text-center">
-          <div class="card" style="width: 26rem;">
-            <div id="map1" class="card-img-top" style="width: 100%; height:300px;"></div>
-            <div class="card-body">
-              <h5 class="card-title">貓職人</h5>
-              <p class="card-text">
-                在我們的寵物店，我們奉獻給每一位寵物愛好者。
-                提供高品質食品、創意玩具、護理產品等，滿足你寵物的每個需求。無論你有貓、狗、鳥還是小動物，我們都照顧周到。我們致力於創造一個溫馨的環境，為你的寵物提供無限的愛和關懷。
-                來我們的店，與我們一起為你的寵物締造一段美好的時光！
-              </p>
-              <button id="navBtn1" type="button" class="btn btn-primary">導航</button>
-            </div>
-          </div>
-        
-        </div>
-
-
-        <div class="col-sm text-center">
-         <div class="card" style="width: 26rem;">
-            <div id="map2" class="card-img-top" style="width: 100%; height:300px;"></div>
-            <div class="card-body">
-              <h5 class="card-title">寵孩子</h5>
-              <p class="card-text">
-                疼愛您的寵物，就選擇我們！
-                我們的寵物店提供多種頂級寵物食品、時尚配件、玩具和健康護理商品。不論您是貓、狗、鳥或小動物的主人，我們都致力於滿足您的需求。我們熱愛寵物，將提供無盡的關懷和愛。
-                請來參觀我們的店，為您的毛絨絨家庭成員提供最好的！
-              </p>
-              <button id="navBtn2" type="button" class="btn btn-primary">導航</button>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col-sm text-center">
-          <div class="card" style="width: 26rem;">
-            <div id="map3" class="card-img-top" style="width: 100%; height:300px;"></div>
-            <div class="card-body">
-              <h5 class="card-title">寵物樂園</h5>
-              <p class="card-text">
-                探索我們的寵物天堂！我們的寵物店提供各種高品質食品、時尚配件、玩具和健康護理產品，讓您的寵物擁有最佳生活品質。無論您有貓、狗、鳥還是小動物，我們都滿足您的需求。我們熱愛寵物，致力於為每個毛茸茸的家庭成員提供愛與關懷。來我們的店體驗無與倫比的寵愛之旅！
-              </p>
-              <button id="navBtn3" type="button" class="btn btn-primary">導航</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      </main>
-
-    </div>
-    <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s"
-      style="background-color: #6F5242;">
+    <footer
+      class="container-fluid footer mt-5 pt-5 wow fadeIn"
+      data-wow-delay="0.1s"
+      style="background-color: #6f5242"
+    >
       <div class="container py-5">
         <div class="row g-5">
           <div class="col-lg-3 col-md-6">
-            <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
-              alt="LOGO" style="width: 180px;">
-            <p>A paradise for shopping </p>
-            <p>Plenty of groups for interaction</p>
-            <p>A comfortable space for grooming</p>
+            <img
+              src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
+              alt="LOGO"
+              style="width: 180px"
+            />
+            <ul>
+              <li>A paradise for shopping</li>
+              <li>Plenty of groups for interaction</li>
+              <li>A comfortable space for grooming</li>
+            </ul>
             <div class="d-flex pt-2">
-              <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-twitter"
-                  target="_blank"></i></a>
-              <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-facebook-f"
-                  target="_blank"></i></a>
-              <a class="btn btn-square btn-outline-light rounded-circle me-1"
-                href="https://www.youtube.com/@AllDogCat-rj8ov"><i class="fab fa-youtube" target="_blank"></i></a>
-              <a class="btn btn-square btn-outline-light rounded-circle me-0"
-                href="https://www.instagram.com/all_dog_cat_store/?hl=zh-tw"><i class="fab fa-linkedin-in"
-                  target="_blank"></i></a>
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-1"
+                href=""
+                ><i class="fab fa-twitter" target="_blank"></i
+              ></a>
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-1"
+                href=""
+                ><i class="fab fa-facebook-f" target="_blank"></i
+              ></a>
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-1"
+                href="https://www.youtube.com/@AllDogCat-rj8ov"
+                ><i class="fab fa-youtube" target="_blank"></i
+              ></a>
+              <a
+                class="btn btn-square btn-outline-light rounded-circle me-0"
+                href="https://www.instagram.com/all_dog_cat_store/?hl=zh-tw"
+                ><i class="fab fa-linkedin-in" target="_blank"></i
+              ></a>
             </div>
           </div>
           <div class="col-lg-3 col-md-6">
             <h4 class="text-light mb-4">Address</h4>
-            <p><i class="fa fa-map-marker-alt me-3"></i>330 桃園市中壢區復興路123號45樓</p>
+            <p>
+              <i class="fa fa-map-marker-alt me-3"></i>330
+              桃園市中壢區復興路123號45樓
+            </p>
             <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
             <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
           </div>
           <div class="col-lg-3 col-md-6">
             <h4 class="text-light mb-4">Quick Links</h4>
-            <a class="btn btn-link" href="">About Us</a>
-            <a class="btn btn-link" href="">Contact Us</a>
+            <a class="btn btn-link" href="/frontend/pages/homepage/about.html"
+              >About Us</a
+            >
+            <!-- <a class="btn btn-link" href="">Contact Us</a> -->
             <a class="btn btn-link" href="">Our Services</a>
             <a class="btn btn-link" href="">Terms & Condition</a>
-            <a class="btn btn-link" href="">Support</a>
+            <!-- <a class="btn btn-link" href="">Support</a> -->
           </div>
           <div class="col-lg-3 col-md-6">
             <h4 class="text-light mb-4">Newsletter</h4>
             <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-            <div class="position-relative mx-auto" style="max-width: 400px;">
-              <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-              <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+            <div class="position-relative mx-auto" style="max-width: 400px">
+              <input
+                class="form-control bg-transparent w-100 py-3 ps-4 pe-5"
+                type="text"
+                placeholder="Your email"
+              />
+              <button
+                type="button"
+                class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
+              >
+                SignUp
+              </button>
             </div>
           </div>
         </div>
@@ -225,7 +347,8 @@
             <div class="col-md-6 text-center text-md-end">
               <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
               Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-              <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+              <br />Distributed By:
+              <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
             </div>
           </div>
         </div>
@@ -233,12 +356,14 @@
     </footer>
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
-        class="bi bi-arrow-up"></i></a>
-
+    <a
+      href="#"
+      class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"
+      ><i class="bi bi-arrow-up"></i
+    ></a>
 
     <!-- JavaScript Libraries -->
-    <script type="module" src="/js/homePageGoogleMap.js"> </script>
+    <script type="module" src="/js/homePageGoogleMap.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
@@ -248,7 +373,5 @@
 
     <!-- Template Javascript -->
     <script src="frontend/js/main.js"></script>
-    <!-- JSP後端時，放置時戳，解決重新整理icon會消失的狀況 -->
-</body>
-
+  </body>
 </html>

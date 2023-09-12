@@ -1,8 +1,45 @@
-import { profile_els } from "../../../js/getUserProfile";
-import { getUserProfile } from '../../../js/getUserProfile'
+import { profile_els } from "/frontend/js/getUserProfile.js";
+import config from "/ipconfig.js";
 
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("editNameButton")
+    .addEventListener("click", function () {
+      $("#inputNameEdit").val("");
+      document.getElementById("showNameContain").style.display = "none";
+      document.getElementById("editNameContain").style.display = "block";
+    });
 
+  document
+    .getElementById("saveNameButton")
+    .addEventListener("click", function () {
+      // 在這裡添加儲存名稱的程式碼
+      document.getElementById("editNameContain").style.display = "none";
+      document.getElementById("showNameContain").style.display = "block";
 
+      // 在這裡添加fetch名稱的程式碼
+    });
+
+  document
+    .getElementById("editNickNameButton")
+    .addEventListener("click", function () {
+      $("#inputNickNameEdit").val("");
+      document.getElementById("showNickNameContain").style.display = "none";
+      document.querySelector(".editNickNameContanin").style.display = "block";
+    });
+
+  document
+    .getElementById("saveNickNameButton")
+    .addEventListener("click", function () {
+      // 在這裡添加儲存暱稱的程式碼
+      document.querySelector(".editNickNameContanin").style.display = "none";
+      document.getElementById("showNickNameContain").style.display = "block";
+
+      // 在這裡添加fetch暱稱的程式碼
+    });
+});
+
+//----------------
 
 const saveButtons = document.querySelectorAll(".save");
 saveButtons.forEach((button) => {
@@ -33,16 +70,25 @@ function editUserNickName() {
   });
 }
 
-function editUserPic() {
-  const userPicElement = profile_els().userPic;
-
-  userPicElement.addEventListener("change", (event) => {
-    const selectedFile = event.target.files[0];
-    // 在这里处理用户头像的修改
+$(document).ready(function () {
+  $("#userPicEdit").on("click", () => {
+    console.log(111);
   });
-}
+});
 
-// ... 其他函数的定义
+// 當用戶選擇文件時觸發事件
+fileInput.addEventListener("change", (event) => {
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+    //TODO: 放回頁面呈現
+    // 這裡你可以處理用戶選擇的文件，例如顯示在圖片元素中
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      userPicImage.src = e.target.result;
+    };
+    reader.readAsDataURL(selectedFile);
+  }
+});
 
 function sentEditedData() {
   const token = localStorage.getItem("Authorization_U");

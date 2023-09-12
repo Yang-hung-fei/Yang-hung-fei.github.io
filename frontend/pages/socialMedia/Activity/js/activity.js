@@ -1,4 +1,5 @@
 import { getAllActivities, getHotActivities, searchActivity } from "./callApi.js";
+import { joinAcModal } from "./joinModal.js"
 window.addEventListener('DOMContentLoaded', function () {
         getHotActivities();
         getAllActivities();
@@ -19,6 +20,11 @@ window.addEventListener('DOMContentLoaded', function () {
         const searchBtn = document.querySelector("#searchBtn");
         searchBtn.addEventListener('click', async function (e) {
                 await searchActivity(searchContent);
+        });
+
+        const queryJoinHistoryBtn = document.querySelector("#queryJoinList");
+        queryJoinHistoryBtn.addEventListener('click', async function (e) {
+                await joinAcModal();
         })
 
 });

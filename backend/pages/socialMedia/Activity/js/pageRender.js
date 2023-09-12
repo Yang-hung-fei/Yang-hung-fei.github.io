@@ -87,7 +87,6 @@ async function createPagination(data) {
         pageLink.setAttribute('data-page', i - 1);
         pageItem.appendChild(pageLink);
         pagination.appendChild(pageItem);
-
     }
 }
 
