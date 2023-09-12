@@ -22,3 +22,7 @@
 #logoutButton {
   z-index: 999;
 }
+
+.user {
+  cursor: pointer;
+}
