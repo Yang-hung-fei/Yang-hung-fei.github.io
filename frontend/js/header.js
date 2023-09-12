@@ -35,13 +35,14 @@ $(window).on("load", () => {
     let imgBase64;
     switch (notifyMsg.notifyType) {
       //todo 設定 對應url
-      case "Store":  
+      case "Store":
+        redirectUrl='/frontend/pages/mall/mall/mall.html';
         break;
       case "Activity":
-        redirectUrl = '#';
+        redirectUrl = '/frontend/pages/socialMedia/Activity/activity.html';
         break;
       case "Groomer":
-        redirectUrl = '#';
+        redirectUrl = '/frontend/pages/petgroomer/pgListPage/pgListPage.html';
         break;
     }
 
@@ -55,7 +56,7 @@ $(window).on("load", () => {
               <i class="text-warning" data-feather="bell"></i>
             </div>
             <div class="col-12 d-flex align-items-left"> 
-            <img src =`+ imgBase64 + ` class="mr-3" style="max-width: 70px; max-height: 70px; "/>
+            <img src =`+ imgBase64 + ` class="mr-3" style="max-width: 70px; max-height: 70px; margin-right:10px"/>
               <div class="text-muted small mt-1">`+ notifyMsg.msg + `
               </div> 
             </div>
