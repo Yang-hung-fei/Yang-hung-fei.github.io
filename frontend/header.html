@@ -122,7 +122,12 @@
               >
             </div>
           </div>
-          <!-- <a href="contact.html" class="nav-item nav-link">聯絡我們</a> -->
+          <a
+            href="/backend/index.html"
+            class="nav-item nav-link active"
+            style="background-color: #6f5242; color: #fff"
+            >管理後台</a
+          >
         </div>
         <div class="d-none d-lg-flex ms-2">
           <div id="notifyContain">
@@ -140,8 +145,8 @@
               </div>
             </div>
           </div>
-          <div id="userContain">
-            <div id="user" class="btn-sm-square bg-white rounded-circle ms-3">
+          <div id="userContain" class="ms-3">
+            <div id="user" class="btn-sm-square bg-white rounded-circle">
               <small
                 id="userIcon"
                 class="fa fa-user text-body"
@@ -154,7 +159,9 @@
               class="floating-logout-button"
               style="z-index: 999"
             >
-              <button class="btn btn-link btn-sm">登出</button>
+              <button class="btn btn-link btn-sm" id="logoutButtonText">
+                登出
+              </button>
             </div>
           </div>
           <a
