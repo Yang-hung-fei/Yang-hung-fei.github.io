@@ -3,14 +3,24 @@ import { backToRedirectUrl } from "/frontend/js/backToRedirectUrl.js";
 // Get the user and logout button elements
 const userIcon = document.getElementById("user");
 const logoutButton = document.getElementById("logoutButton");
+const token = localStorage.getItem("Authorization_U");
+
+if (!token) {
+  $("#logoutButtonText").text("登入");
+} else {
+  $("#logoutButtonText").text("登出");
+}
 
 logoutButton.addEventListener("click", () => {
-  localStorage.removeItem("Authorization_U");
-  backToRedirectUrl();
+  if (!token) {
+    window.location.href = "/frontend/pages/user/login.html";
+  } else {
+    localStorage.removeItem("Authorization_U");
+    backToRedirectUrl();
+  }
 });
 
 let timeoutId; // To store the timeout ID
-
 // Show the logout button when user icon is hovered
 userIcon.addEventListener("mouseover", () => {
   clearTimeout(timeoutId); // Clear any existing timeouts
