@@ -40,88 +40,88 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //----------------JSON----------------
 
-// 将所有元素存储在一个对象中
-const elements = profile_els();
-elements.userName = document.getElementById("inputNameEdit");
-elements.userNickName = document.getElementById("inputNickNameEdit");
-let userData = {};
+// // 将所有元素存储在一个对象中
+// const elements = profile_els();
+// elements.userName = document.getElementById("inputNameEdit");
+// elements.userNickName = document.getElementById("inputNickNameEdit");
+// let userData = {};
 
-// 监听所有元素的变化
-Object.keys(elements).forEach((key) => {
-  const element = elements[key];
+// // 监听所有元素的变化
+// Object.keys(elements).forEach((key) => {
+//   const element = elements[key];
 
-  // 添加事件监听器，当元素的值变化时触发
-  element.addEventListener("input", () => {
-    // 创建一个空的 JSON 对象，用于存储元素值
-    const json = {};
+//   // 添加事件监听器，当元素的值变化时触发
+//   element.addEventListener("input", () => {
+//     // 创建一个空的 JSON 对象，用于存储元素值
+//     const json = {};
 
-    // 遍历所有元素，将它们的值添加到 JSON 对象中
-    Object.keys(elements).forEach((elementKey) => {
-      if (elements[elementKey].tagName === "SELECT") {
-        // 如果是下拉式选择菜单，获取选中选项的文字内容
-        json[elementKey] =
-          elements[elementKey].options[elements[elementKey].selectedIndex].text;
-      } else {
-        // 否则获取元素的值
-        json[elementKey] = elements[elementKey].value;
-      }
-    });
+//     // 遍历所有元素，将它们的值添加到 JSON 对象中
+//     Object.keys(elements).forEach((elementKey) => {
+//       if (elements[elementKey].tagName === "SELECT") {
+//         // 如果是下拉式选择菜单，获取选中选项的文字内容
+//         json[elementKey] =
+//           elements[elementKey].options[elements[elementKey].selectedIndex].text;
+//       } else {
+//         // 否则获取元素的值
+//         json[elementKey] = elements[elementKey].value;
+//       }
+//     });
 
-    json.userAddress = `${json.city}${json.area}${json.userAddress}`;
-    // 删除 city、area 和 userAddress 属性
-    delete json.city;
-    delete json.area;
+//     json.userAddress = `${json.city}${json.area}${json.userAddress}`;
+//     // 删除 city、area 和 userAddress 属性
+//     delete json.city;
+//     delete json.area;
 
-    // 删除 pointnumber 属性
-    delete json.pointnumber;
+//     // 删除 pointnumber 属性
+//     delete json.pointnumber;
 
-    // 转换 date 到 timestamp
-    const date = new Date(json.userBirthday);
-    const userBirthday = date.getTime();
-    json.userBirthday = userBirthday;
+//     // 转换 date 到 timestamp
+//     const date = new Date(json.userBirthday);
+//     const userBirthday = date.getTime();
+//     json.userBirthday = userBirthday;
 
-    // 将 json 对象合并到 userData 对象中
-    Object.assign(userData, json);
+//     // 将 json 对象合并到 userData 对象中
+//     Object.assign(userData, json);
 
-    const jsonData = JSON.stringify(userData);
-    console.log(userData);
-  });
-});
+//     const jsonData = JSON.stringify(userData);
+//     console.log(userData);
+//   });
+// });
 
-//----------------照片----------------
+// //----------------照片----------------
 
-$(document).ready(function () {
-  $("#userPicEdit").on("click", () => {
-    console.log(111);
-  });
-});
+// $(document).ready(function () {
+//   $("#userPicEdit").on("click", () => {
+//     console.log(111);
+//   });
+// });
 
-// 在事件处理程序之前定义 reader
-const reader = new FileReader();
+// // 在事件处理程序之前定义 reader
+// const reader = new FileReader();
 
-// 当用户选择文件时触发事件
-fileInput.addEventListener("change", (event) => {
-  const selectedFile = event.target.files[0];
-  if (selectedFile) {
-    reader.onload = (e) => {
-      const base64Image = e.target.result; // 获取 Base64 编码的图像数据
+// // 当用户选择文件时触发事件
+// fileInput.addEventListener("change", (event) => {
+//   const selectedFile = event.target.files[0];
+//   if (selectedFile) {
+//     reader.onload = (e) => {
+//       const base64Image = e.target.result; // 获取 Base64 编码的图像数据
 
-      // 更新用户图像元素的 src 属性
-      const userPicImage = document.getElementById("userPic");
-      userPicImage.src = base64Image;
+//       // 更新用户图像元素的 src 属性
+//       const userPicImage = document.getElementById("userPic");
+//       userPicImage.src = base64Image;
 
-      // 更新 userData 对象中的 userPic 属性
-      userData.userPic = base64Image;
+//       // 更新 userData 对象中的 userPic 属性
+//       userData.userPic = base64Image;
 
-      // 将 userData 转换为 JSON 字符串
-      const userDataJSON = JSON.stringify(userData);
+//       // 将 userData 转换为 JSON 字符串
+//       const userDataJSON = JSON.stringify(userData);
 
-      // 可以在此处将 userDataJSON 发送到服务器或进行其他操作
-      console.log(userDataJSON);
-    };
-    reader.readAsDataURL(selectedFile);
-  }
-});
+//       // 可以在此处将 userDataJSON 发送到服务器或进行其他操作
+//       console.log(userDataJSON);
+//     };
+//     reader.readAsDataURL(selectedFile);
+//   }
+// });
 
 //----------------fetch----------------
 // 創建一個新的FormData對象
