@@ -128,9 +128,14 @@ function showDBuserProfile(data) {
 function addressShow(userAddress) {
   var userAddressInput = ""; // 默认值为空字符串
   if (userAddress) {
-    var cityMatch = userAddress.match(/^.{1,3}/);
-    var areaMatch = userAddress.match(/^.{4,6}/);
-    var userAddressInput = userAddress.substring(6);
+    var matchResult = userAddress.match(/^(.{1,3})(.{3,3})/);
+    if (matchResult) {
+      var cityMatch = matchResult[1]; // 匹配的前1到3个字符
+      var areaMatch = matchResult[2]; // 匹配的第4到6个字符
+      userAddressInput = userAddress.substring(6);
+      console.log("City Match:", cityMatch); // 匹配的完整城市信息
+      console.log("Area Match:", areaMatch); // 捕获的区域信息
+    }
   }
 
   const city_el = document.getElementById("city");
@@ -155,7 +160,7 @@ function addressShow(userAddress) {
 
       // 遍历所有选项，设置目标选项为默认选中
       for (const option of city_el.options) {
-        if (option.textContent === cityMatch[0]) {
+        if (option.textContent === cityMatch) {
           option.selected = true;
           break; // 停止遍历，因为已经找到目标选项
         }
@@ -168,12 +173,19 @@ function addressShow(userAddress) {
       console.error("Error:", error);
     });
 
+  // 在第一层选择发生改变时调用第二层选择的处理逻辑
+  city_el.addEventListener("change", function () {
+    console.log("City Changed"); // 检查城市选择是否触发事件
+    areaSelectHandler();
+  });
+
   // 第二層選擇
   function areaSelectHandler() {
     const cityvalue = city_el.value;
     area_el.innerHTML = "";
     area_el.style.display = "inline";
 
+    // 异步加载区域选项
     fetch(
       "https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json"
     )
@@ -190,7 +202,7 @@ function addressShow(userAddress) {
         }
         // 遍历所有选项，设置目标选项为默认选中
         for (const option of area_el.options) {
-          if (option.textContent === areaMatch[0]) {
+          if (option.textContent === areaMatch) {
             option.selected = true;
             break; // 停止遍历，因为已经找到目标选项
           }
@@ -200,7 +212,4 @@ function addressShow(userAddress) {
         console.error("Error:", error);
       });
   }
-
-  // 在第一层选择发生改变时调用第二层选择的处理逻辑
-  city_el.addEventListener("change", areaSelectHandler);
 }

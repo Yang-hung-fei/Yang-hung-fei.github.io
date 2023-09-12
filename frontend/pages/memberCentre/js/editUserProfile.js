@@ -1,6 +1,4 @@
 import { profile_els } from "../../../js/getUserProfile";
-import { getUserProfile } from "../../../js/getUserProfile";
-import base64Data from "./userPicture";
 
 const saveButtons = document.querySelectorAll(".save");
 saveButtons.forEach((button) => {
