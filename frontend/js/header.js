@@ -1,6 +1,6 @@
 import config from "../../ipconfig.js";
 // 创建一个新的 div 元素
-var nodifyImg = document.createElement("div"); 
+var nodifyImg = document.createElement("div");
 
 // 获取目标 div（根据 id）
 var notifyMenu = document.getElementById("notify");
@@ -21,7 +21,7 @@ $(window).on("load", () => {
     getUserPerfile(token);
     webSocket.send("getHistory");
   }
-  webSocket.onmessage = function (event) { 
+  webSocket.onmessage = function (event) {
     let notifyMsg = JSON.parse(event.data);
     console.log(notifyMsg.msg);
     //若是獲得 點數 alert顯示
@@ -36,7 +36,7 @@ $(window).on("load", () => {
     switch (notifyMsg.notifyType) {
       //todo 設定 對應url
       case "Store":
-        redirectUrl='/frontend/pages/mall/mall/mall.html';
+        redirectUrl = '/frontend/pages/mall/mall/mall.html';
         break;
       case "Activity":
         redirectUrl = '/frontend/pages/socialMedia/Activity/activity.html';
@@ -44,11 +44,14 @@ $(window).on("load", () => {
       case "Groomer":
         redirectUrl = '/frontend/pages/petgroomer/pgListPage/pgListPage.html';
         break;
+      case "Appointment":
+        redirectUrl = '/frontend/pages/memberCentre/appointmentRecord.html';
+        break;
     }
 
-    imgBase64 ="data:image/jpeg;base64,"+notifyMsg.image; 
+    imgBase64 = "data:image/jpeg;base64," + notifyMsg.image;
     console.log(imgBase64);
-    
+
     const newContent = `
         <a href="`+ redirectUrl + `" class="list-group-item">
           <div class="row g-0 align-items-center">
@@ -79,7 +82,7 @@ $(window).on("load", () => {
     // $('#messageArea').append('websocket已斷開\n');
   };
 
-  $("#notify").on("click",event=>{
+  $("#notify").on("click", event => {
     notificationDot.classList.add("hidden");
     notificationDot.classList.remove("visible");
   })
