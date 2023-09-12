@@ -3,7 +3,7 @@ import { getChatList, getOnlinUser, getUserRoomList } from "./chatApi.js";
 const userToken = localStorage.getItem("Authorization_U");
 // const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NzYyMTY0fQ.d5PdUlJMrDVnu0DrgDxVMIpNG0kzHfGUV99SKfMKC2w";
 const hostUrl = (config.url).split('//')[1];
-const url = 'ws://' + hostUrl + '/websocket/activity?access_token=' + userToken;
+const url = 'wss://' + hostUrl + '/websocket/activity?access_token=' + userToken;
 var webSocket = new WebSocket(url);
 var userId;
 var getUserStatus = true;
