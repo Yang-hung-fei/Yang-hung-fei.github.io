@@ -1,11 +1,16 @@
 
-import { getAllRotePic, getOneRotePic, updateNews } from "./PicRoteList.js";
-import { createDataTable, createPagination } from "./PicRoteList.js";
+// import {getOneRotePic, updateNews } from "./PicRoteList.js";//getAllRotePic
+// import { createDataTable, createPagination } from "./PicRoteList.js";
 
 //修改news
-async function editRotePic(picNo) {
+async function editRotePic(editButton) {
+    const row = editButton.closest("tr");
+
+    const picNo = row.querySelector("[name=picNo]").textContent;
+
+
     let id = await picNo;
-    let fetchData = await getAllRotePic(id);
+    // let fetchData = await getAllRotePic();
     let modalWrap = null;
     // if (modalWrap != null) {
     //     modalWrap.remove();
@@ -74,7 +79,7 @@ async function editRotePic(picNo) {
     modal.show();
 
     // 輸入
-   
+
     let picLocateUrl;
     let picRotStatus;
     let picRotStart;
@@ -82,13 +87,13 @@ async function editRotePic(picNo) {
     let pic;
 
     var updateData = {
-   
+
         "picLocateUrl": picLocateUrl,
         "picRotStatus": picRotStatus,
         "picRotStart": picRotStart,
         "picRotEnd": picRotEnd,
         "pic": pic,
-       
+
     };
 
     let picNos = document.querySelectorAll('#picNo');

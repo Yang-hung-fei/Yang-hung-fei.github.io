@@ -1,4 +1,4 @@
-import { getAllRotePic} from "./PicRoteList.js";
+// import { getAllRotePic} from "./PicRoteList.js";
 window.addEventListener('DOMContentLoaded', function () {
     getAllRotePic();
 

@@ -1,5 +1,5 @@
 import config from "../../../../ipconfig.js";
-import { searchRotePic } from "./searchRotePic.js";
+// import { searchRotePic } from "./searchRotePic.js";
 import { editRotePic } from "./editRotePic.js";
 
 // localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k");
@@ -129,6 +129,8 @@ async function updateRotePic(picNo, updateData) {
         .catch(err => {
             console.log(err.message);
         });
+
+        
 }
 
 
@@ -207,16 +209,16 @@ function createDataTable(data) {
         // 建立資料
         dataList += `
                <tr>
-               <td>${dataDetails.picNo}</td>
+               <td name="picNo">${dataDetails.picNo}</td>
                <td>${dataDetails.picLocateUrl}</td>
-               <td>${dataDetails.pic}</td>
+               <td style="width:200px;height:200px;"> <img src="data:image/*;base64,${dataDetails.pic}" alt="" class="" style="width:100%;height:100%;"></td>
                <td>${dataDetails.picRotStatus == 1 ? "上架中" : "已下架"}</td>
                <td>${dataDetails.picRotStart}</td>             
                <td>${dataDetails.picRotEnd}</td>
 
-               <td><button class="btn btn-primary" type="button"
+               <td><button class="btn btn-primary modify" type="button"
                style="background: #325aab;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;"
-               onclick="editRotePic(${dataDetails.picNo})">修改</button>
+               >修改</button>
                </td>
                <td>
                <button class="btn btn-danger" type="button"
@@ -251,7 +253,17 @@ function createDataTable(data) {
         pagination.appendChild(pageItem);
     }
 
+    const editButtons = tbody.querySelectorAll("tr > td > .modify");
+
+    editButtons.forEach((editButton) => {
+
+        editButton.addEventListener("click", () => {
+            editRotePic(editButton);
+        });
+    });
 }
 
 // export { createDataTable, createPagination };
 // createPagination 會報錯，不知道為甚麼~
+
+
