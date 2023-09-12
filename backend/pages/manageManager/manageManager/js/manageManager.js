@@ -2,7 +2,7 @@ import config from "/ipconfig.js";
 
 // 等待页面加载完毕后执行以下代码
 $(window).on("load", () => {
-  searchmanagers(searchURL());
+  searchmanagers(updateSearchParams());
 });
 
 $(document).ready(function () {
@@ -20,6 +20,9 @@ $(document).on("click", "#lightboxOverlay", function () {
   $editLightBox.empty();
   $addLightBox.hide();
   $lightboxOverlay.hide();
+  $("#setManagerAccount").val("");
+  $("#setManagerPassword").val("");
+  $(".progressbar li:not(:first-child)").removeClass("active");
 });
 
 $(document).on("click", ".close", function () {
@@ -28,7 +31,13 @@ $(document).on("click", ".close", function () {
   $lightboxOverlay.hide();
 });
 
-$(document).on("click", "#Edit_completeButton", function () {
+$(document).on("click", "#Edit_updateAuthoritiesButton", function () {
+  $editLightBox.empty();
+  $addLightBox.hide();
+  $lightboxOverlay.hide();
+});
+
+$(document).on("click", "#Edit_updateDataButton", function () {
   $editLightBox.empty();
   $addLightBox.hide();
   $lightboxOverlay.hide();
@@ -42,33 +51,30 @@ $(document).on("click", "#Add_completeButton", function () {
 
 let token = localStorage.getItem("Authorization_M");
 
+$(document).on("click", "#mainAddManagerButton", function () {
+  $("#addLightBox").removeClass("d-none").show();
+  $("#addLightBox").find("input").val("");
+  $("#step1Content").removeClass("d-none");
+  $("#step2Content").addClass("d-none");
+  $("#step3Content").addClass("d-none");
+  $lightboxOverlay.show();
+});
+
 // -------------------DataListener-------------------
 
 function listenPageLink() {
-  const pageLinks = $(".pagination .page-link");
-
-  pageLinks.on("click", function () {
-    const pageIndex = $(this).parent().index();
-    const pageCount = pageLinks.length - 3; // 减去首个和最后两个箭头按钮
-    let currentPage;
-
-    if (pageIndex === 0) {
-      currentPage = 1; // 第一个 .page-link 设置为1
-    } else if (pageIndex === pageCount + 2) {
-      currentPage = pageCount; // 最后一个 .page-link 设置为 pageCount
-    } else {
-      currentPage = pageIndex;
-    }
-
-    // 执行你的其他操作，例如更新 URL
-    searchURL({ page: currentPage });
+  $("body").on("click", "a.page-link", function (event) {
+    event.preventDefault();
+    const page = $(this).text();
+    console.log("Link clicked:", page);
+    updateSearchParams({ page: page });
   });
 }
 
 function listenItemsPerPage() {
   $("#page").on("change", function () {
     const selectedValue = $(this).val();
-    searchURL({ size: selectedValue });
+    updateSearchParams({ size: selectedValue });
   });
 }
 
@@ -76,35 +82,58 @@ function listenSearchInput() {
   var inputElement = $("#search");
   inputElement.keypress(function (event) {
     if (event.which === 13) {
-      searchURL({ search: inputElement.value });
+      updateSearchParams({ search: inputElement.value });
     }
   });
 
   $("#button-search").on("click", () => {
-    searchURL({ search: inputElement.value });
+    updateSearchParams({ search: inputElement.value });
   });
 }
 
+$("#Add_addManagerButton").on("click", () => {
+  addManager();
+});
+
+$("#Add_UpdateManagerData").on("click", () => {
+  addManagerSet();
+});
+
+$("#Add_UpdateManagerAuthorities").on("click", () => {
+  addManagerAuthorities();
+});
+
 // -------------------Fetch-------------------
 
+let currentSearchParams = {
+  page: 1,
+  size: 5,
+};
+
 let currentSearchURL;
-function searchURL({ page = 1, size = 5 } = {}) {
+function performSearch() {
   // 构建请求 URL，包括请求参数
   const search_inputed = document.getElementById("search").value;
-  const page_selected = page; // 使用传递的参数值或默认值
-  const itemsPerPage = size; // 使用传递的参数值或默认值
+  const { page, size } = currentSearchParams;
 
   console.log("search_inputed:", search_inputed);
-  console.log("page_selected:", page_selected);
-  console.log("itemsPerPage:", itemsPerPage);
+  console.log("page_selected:", page);
+  console.log("itemsPerPage:", size);
 
   const url = new URL(config.url + "/manager/manageManager");
   url.searchParams.append("search", search_inputed);
-  url.searchParams.append("page", page_selected);
-  url.searchParams.append("size", itemsPerPage);
+  url.searchParams.append("page", page);
+  url.searchParams.append("size", size);
 
   currentSearchURL = url;
   searchmanagers(currentSearchURL);
+}
+
+// 更新搜索参数的函数
+function updateSearchParams(newParams) {
+  currentSearchParams = { ...currentSearchParams, ...newParams };
+  // 调用 performSearch 更新搜索结果
+  performSearch();
 }
 
 function searchmanagers(currentSearchURL) {
@@ -145,12 +174,200 @@ function searchmanagers(currentSearchURL) {
   }
 }
 
+function addManager() {
+  const newSetManagerAccount = $("#setManagerAccount").val();
+  const newSetManagerPassword = $("#setManagerPassword").val();
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization_M: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      managerAccount: newSetManagerAccount,
+      managerPassword: newSetManagerPassword,
+    }),
+  };
+  console.log(requestOptions);
+
+  fetch(config.url + "/manager/manageManager", requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      $("#addManagerCompleteNotice").text(data.message);
+      if (data.code === 200) {
+        console.log("inv");
+        //Step2 input Data
+        $("#orgManagerAccount").val(newSetManagerAccount);
+        $("#newManagerAccount").val(newSetManagerAccount);
+        $("#newManagerPassword").val(newSetManagerPassword);
+        $("#Add_addManagerButton").addClass("d-none");
+        $("#Add_addedManagerNextButton").removeClass("d-none");
+        $("#Add_addManagerButton").on("click", function () {
+          const newSetManagerAccount = $("#newManagerAccount").val(); // 重新获取值
+          const newSetManagerPassword = $("#newManagerPassword").val(); // 重新获取值
+          addManagerSet(newSetManagerAccount, newSetManagerPassword);
+        });
+        $("#Add_addedManagerNextButton").on("click", function () {
+          $("#step2Content").removeClass("d-none");
+          $("#step1Content").addClass("d-none");
+          updateProgressBar();
+        });
+      } else if (data.code === 400) {
+        $("#addManagerCompleteNotice").css("color", "red");
+      } else if (data.code === 401) {
+        errorAuth();
+      }
+      $("#addManagerCompleteNotice").removeClass("invisible");
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+
+function addManagerSet(account, password) {
+  $("#Add_UpdateManagerData").off("click"); // 先取消绑定之前的点击事件
+
+  $("#Add_UpdateManagerData").on("click", function () {
+    const newSetManagerAccount = $("#newManagerAccount").val();
+    const newSetManagerPassword = $("#newManagerPassword").val();
+    performAddManagerSet(newSetManagerAccount, newSetManagerPassword);
+  });
+
+  function performAddManagerSet(account, password) {
+    const state = $("#newManagerState").prop("checked") ? 1 : 0;
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        Authorization_M: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orgManagerAccount: account,
+        managerAccount: account,
+        managerPassword: password,
+        managerState: state,
+      }),
+    };
+
+    console.log(requestOptions); // 确保在这里打印选项，应该包含正确的帐号和密码
+
+    fetch(config.url + "/manager/manageManager", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        $("#setManagerCompleteNotice").text(data.message);
+        if (data.code === 200) {
+          $("#Add_UpdateManagerData").addClass("d-none");
+          $("#Add_UpdateManagerNextButton").removeClass("d-none");
+          $("#Add_UpdateManagerNextButton").on("click", function () {
+            $("#step3Content").removeClass("d-none");
+            $("#step2Content").addClass("d-none");
+            updateProgressBar();
+          });
+        } else if (data.code === 400) {
+          $("#setManagerCompleteNotice").css("color", "red");
+        } else if (data.code === 401) {
+          errorAuth();
+        }
+        $("#setManagerCompleteNotice").removeClass("invisible");
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }
+}
+
+let selectAddAuthorities = [];
+async function addManagerAuthorities() {
+  try {
+    console.log("addManagerAuthorities called");
+    const checkboxes = document.querySelectorAll(
+      '#Add_managerAuthorities input[type="checkbox"]'
+    );
+    console.log("Number of checkboxes found:", checkboxes.length);
+
+    // 为每个复选框元素添加事件监听器
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        // 清空选定选项数组
+        selectAddAuthorities = [];
+
+        // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            const authorityText = cb.nextElementSibling.textContent.trim();
+            if (authorityText !== "") {
+              selectAddAuthorities.push(authorityText);
+            }
+          }
+        });
+
+        // 打印选定的JSON数据
+        console.log(selectAddAuthorities);
+      });
+    });
+
+    // 帶入新增的管理員帳號, 權限陣列
+    const newSetManagerAccount = $("#setManagerAccount").val();
+    const response = await updateAuthorities(
+      newSetManagerAccount,
+      selectAddAuthorities
+    );
+
+    $("#setManagerAuthoritiesCompleteNotice").removeClass("invisible");
+    if (response.code === 200) {
+      $("#Add_UpdateManagerAuthorities").on("click", function () {
+        $("#addCompleteButton").on("click", function () {
+          $("#step3Content").addClass("d-none");
+          $("#completionPage").removeClass("d-none");
+        });
+      });
+    } else if (response.code === 400) {
+      $("#setManagerAuthoritiesCompleteNotice").css("color", "red");
+    } else if (response.code === 401) {
+      errorAuth();
+    }
+    $("#setManagerAuthoritiesCompleteNotice").text(response.message);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
+function errorAuth() {
+  swal({
+    title: "哎呀🤭",
+    text: "您尚未登入，請重新登入",
+    icon: "error",
+  }).then(() => {
+    localStorage.removeItem("Authorization_U");
+    window.location.href = "/backend/login.html"; // 替换为你要跳转的页面地址
+  });
+}
+
 // -------------------HTML-------------------
 
 function createPageButtons(response) {
   const paginationElements = document.getElementsByClassName("pagination");
-  const responsePageSize = response.page;
+  const responsePageTotal = response.total;
+  const responsePageSize = response.size;
   let html = "";
+
+  // 如果总数据条数小于等于每页显示的数据条数，仍然显示一个分页按钮
+  if (responsePageTotal <= responsePageSize) {
+    html += `
+      <li class="page-item">
+        <a class="page-link" href="#">1</a>
+      </li>
+    `;
+
+    // Loop through all pagination elements and set their innerHTML
+    for (let i = 0; i < paginationElements.length; i++) {
+      paginationElements[i].innerHTML = html;
+    }
+    return;
+  }
+
+  // 计算总页数
+  const totalPages = Math.ceil(responsePageTotal / responsePageSize);
 
   // Create the "Previous" button
   html += `
@@ -161,7 +378,7 @@ function createPageButtons(response) {
     </li>
   `;
 
-  for (let i = 1; i <= responsePageSize; i++) {
+  for (let i = 1; i <= totalPages; i++) {
     html += `
       <li class="page-item">
         <a class="page-link" href="#">${i}</a>
@@ -175,6 +392,7 @@ function createPageButtons(response) {
   }
 }
 
+let selectedAuthorities = [];
 function createResultTable(response) {
   console.log(response);
   const resultTable_el = document.getElementById("resultTable");
@@ -209,7 +427,7 @@ function createResultTable(response) {
             class="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
-            ${managerState}
+            ${managerState} disabled
           />
         </div>
       </td>
@@ -233,10 +451,22 @@ function createResultTable(response) {
       const managerState = event.target.getAttribute("data-managerState");
       $("#lightboxOverlay").css("display", "flex");
       createEditLightBox(managerAccount, managerState);
-      // checkAuthorities(managerAccount);
-      selectedAuthorities = checkAuthorities(managerAccount);
-      console.log(selectedAuthorities);
-      console.log(`編輯的managerAccount是：${managerAccount}`);
+
+      //儲存當前管理員帳號
+      theManagerAccount = managerAccount;
+      managerAccountValue = managerAccount;
+
+      // 调用checkAuthorities，并提供一个回调函数来处理已勾选的选项数组
+      checkAuthorities(managerAccount, function (selectedAuthorities) {
+        console.log(selectedAuthorities);
+        console.log(`編輯的managerAccount是：${managerAccount}`);
+      });
+      //建立checkbox監聽器
+      const checkboxes = document.querySelectorAll(
+        '#editLightBox input[type="checkbox"]'
+      );
+      console.log("Number of checkboxes found:", checkboxes.length);
+      checkboxListener(checkboxes);
     }
   });
 
@@ -275,31 +505,28 @@ function createResultTable(response) {
       managerStateValue
     );
   });
-  //監聽使用者勾選的管理員權限
-  const checkboxes = document.querySelectorAll(
-    '#Edit_managerAuthorities input[type="checkbox"]'
-  );
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked) {
-        // 如果复选框被勾选，将其标签文本添加到选定选项数组中
-        selectedAuthorities.push(
-          checkbox.nextElementSibling.textContent.trim()
-        );
-      } else {
-        // 如果复选框被取消勾选，从选定选项数组中移除其标签文本
-        const index = selectedAuthorities.indexOf(
-          checkbox.nextElementSibling.textContent.trim()
-        );
-        if (index !== -1) {
-          selectedAuthorities.splice(index, 1);
-        }
-      }
+  // 监听用户勾选的管理员权限
+  function checkboxListener(checkboxes) {
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        // 清空选定选项数组
+        selectedAuthorities = [];
 
-      // 打印选定的JSON数据
-      console.log(selectedAuthorities);
+        // 遍历所有复选框，将勾选的复选框的标签文本添加到选定选项数组中
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            const authorityText = cb.nextElementSibling.textContent.trim();
+            if (authorityText !== "") {
+              selectedAuthorities.push(authorityText);
+            }
+          }
+        });
+
+        // 打印选定的JSON数据
+        console.log(selectedAuthorities);
+      });
     });
-  });
+  }
 
   //根據使用者輸入轉存為JSON
   function jsonData(
@@ -320,10 +547,27 @@ function createResultTable(response) {
     console.log(updateManagerDataJson);
   }
 
+  function jsonAuthrities(account, authorities) {
+    const jsonObject = {
+      account: account,
+      authorities: authorities,
+    };
+
+    const jsonString = JSON.stringify(jsonObject);
+    console.log(jsonString);
+    return jsonString;
+  }
+
   //送出修改的管理員資料及權限
-  $(document).on("click", "#Edit_completeButton", function () {
+  $(document).on("click", "#Edit_updateDataButton", function () {
     updateManagerData(updateManagerDataJson);
-    updateAuthorities(selectedAuthorities);
+  });
+  $(document).on("click", "#Edit_updateAuthoritiesButton", function () {
+    const updateAuthritiesJson = jsonAuthrities(
+      theManagerAccount,
+      selectedAuthorities
+    );
+    updateAuthorities(updateAuthritiesJson);
   });
 }
 
@@ -341,7 +585,7 @@ function updateManagerData(jsonData) {
       if (!response.ok) {
         console.log(response);
       }
-      return response.json(); // 解析响应的 JSON 数据（如果需要）
+      return response;
     })
     .then((data) => {
       if (data.code === 200) {
@@ -354,32 +598,38 @@ function updateManagerData(jsonData) {
     });
 }
 
-function updateAuthorities(updateManagerDataJson) {
-  fetch(config.url + "/manager/manageManager/authorities", {
-    method: "PUT",
-    headers: {
-      Authorization_M: token,
-      "Content-Type": "application/json",
-    },
-    body: updateManagerDataJson,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.code === 200) {
-        console.log("save");
-        console.log(data);
-      } else if (data.code === 400) {
-        console.log(data.code);
-        console.log(data);
-      }
+function updateAuthorities(updateAuthritiesJson) {
+  return new Promise((resolve, reject) => {
+    console.log(updateAuthritiesJson);
+    fetch(config.url + "/manager/manageManager/authorities", {
+      method: "PUT",
+      headers: {
+        Authorization_M: token,
+        "Content-Type": "application/json",
+      },
+      body: updateAuthritiesJson,
     })
-    .catch((error) => {
-      // 处理请求失败或异常情况
-      console.error("There was a problem with the fetch operation:", error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.code === 200) {
+          console.log("save");
+          console.log(data);
+          resolve(data);
+        } else {
+          console.log(data.code);
+          console.log(data);
+          reject(data);
+        }
+      })
+      .catch((error) => {
+        // 处理请求失败或异常情况
+        console.error("There was a problem with the fetch operation:", error);
+        reject(error);
+      });
+  });
 }
 
-function checkAuthorities(account) {
+function checkAuthorities(account, callback) {
   // 创建一个空的已勾選选项数组
   let selectedAuthorities = [];
 
@@ -417,13 +667,10 @@ function checkAuthorities(account) {
             selectedAuthorities.push(label);
           }
         });
-        // 在这里回傳已勾选的陣列
-        return selectedAuthorities;
+
+        // 在这里回调传递已勾选的陣列
+        callback(selectedAuthorities);
       }
-    })
-    .then((selectedAuthorities) => {
-      // 在整个 fetch 请求完成后输出数组内容
-      console.log(selectedAuthorities);
     })
     .catch((error) => {
       // 处理捕获的错误，包括网络错误等
@@ -568,11 +815,12 @@ function createEditLightBox(account, state) {
               style="display: flex; gap: 30px"
             >
               <div class="left">
-                <div class="checkbox">
+                <div class="checkbox d-none">
                   <input
                     type="checkbox"
                     class="custom-control-input"
                     id="Edit_editingCheckManageManager"
+                    disabled
                   />
                   <label
                     class="custom-control-label"
@@ -662,18 +910,80 @@ function createEditLightBox(account, state) {
     </section>
     <div
       class="btnContain mt-4 mb-2"
-      style="display: flex; justify-content: center"
+      style="display: flex; justify-content: space-around; margin-left: 36px; margin-right: 36px;"
     >
       <button
-        class="btn btn-sm btn-dark"
+        class="btn btn-sm btn-outline-secondary"
         style="width: 180px"
-        id="Edit_completeButton"
+        id="Edit_updateDataButton"
       >
-        儲存
+        儲存資料
+      </button>
+      <button
+        class="btn btn-sm btn-outline-secondary"
+        style="width: 180px"
+        id="Edit_updateAuthoritiesButton"
+      >
+        儲存權限
       </button>
     </div>
   </div>
   `;
 
   editLightBox_el.innerHTML = editLightBoxHTML;
+}
+
+// -------------------步驟-------------------
+const stepContainers = document.querySelectorAll(".step-content");
+let currentStep = 0;
+
+stepContainers.forEach((container) => {
+  const prevButton = container.querySelector(".prevButton");
+  const nextButton = container.querySelector(".nextButton");
+  const fetchButton = container.querySelector(".fetch");
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      if (currentStep < stepContainers.length - 1) {
+        currentStep++;
+      }
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      if (currentStep > 0) {
+        // 显示上一个步骤
+        currentStep--;
+      }
+    });
+  }
+});
+
+function updateProgressBar() {
+  stepContainers.forEach((stepContainer, stepIndex) => {
+    // 更新進度條
+    const progressBar = stepContainer.parentNode.querySelector(".progressbar");
+    if (progressBar) {
+      const steps = progressBar.querySelectorAll("li");
+
+      // 根據當前步驟索引更新進度條
+      steps.forEach((step, index) => {
+        if (index <= currentStep) {
+          step.classList.add("active");
+        } else {
+          step.classList.remove("active");
+        }
+      });
+    }
+
+    // 更新步驟內容的顯示/隱藏
+    if (stepIndex === currentStep) {
+      stepContainer.classList.remove("d-none"); // 使用classList.remove隐藏
+      stepContainer.classList.add("active");
+    } else {
+      stepContainer.classList.remove("active");
+      stepContainer.classList.add("d-none"); // 使用classList.add显示
+    }
+  });
 }

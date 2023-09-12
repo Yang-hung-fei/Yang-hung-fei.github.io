@@ -1,0 +1,67 @@
+/* 容器样式 */
+.avatar-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background-image: url("預設的背景圖片URL");
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%; /* 设置圆形 */
+  overflow: hidden; /* 隐藏溢出的部分 */
+}
+
+/* 图像样式 */
+.avatar-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 文件输入标签样式 */
+.file-input-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  /* 悬停时显示相机图标 */
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* 相机图标样式 */
+.camera-icon {
+  display: none;
+  font-size: 24px;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 更换头像按钮样式 */
+#changeAvatarButton {
+  display: block;
+  margin-top: 10px;
+}
+
+.fa-camera-alt:before,
+.fa-camera:before {
+  color: #fff;
+}

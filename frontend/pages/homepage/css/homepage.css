@@ -1,0 +1,14 @@
+.image-container {
+    max-width: 240px; /* 设置容器的最大宽度 */
+    max-height: 240px;
+    min-height: 240px; /* 设置容器的最大高度 */
+    display: inline-block; /* 让容器元素显示为行内块级元素 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+}
+
+.image-container img {
+    max-width: 100%; /* 设置图像的最大宽度为容器宽度 */
+    max-height: 100%; /* 设置图像的最大高度为容器高度 */
+    width: auto; /* 自动调整图像的宽度 */
+    height: auto; /* 自动调整图像的高度 */
+}

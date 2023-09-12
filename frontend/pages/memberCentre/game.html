@@ -126,7 +126,7 @@
           <aside id="sidebar" style="background-color: #fff">
             <ul id="chatroom">
               <li id="stornchat">
-                <a href="#">
+                <a href="/frontend/pages/mall/chat/chat.html">
                   <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
                     <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                     <path
@@ -148,7 +148,7 @@
                 </a>
               </li>
               <li id="activitychat">
-                <a href="#">
+                <a href="/frontend/pages/socialMedia/Chat/chat.html">
                   <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
                     <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                     <path
@@ -160,7 +160,7 @@
               </li>
             </ul>
             <hr />
-            <a href="#">
+            <a href="/frontend/pages/memberCentre/memberCentre.html">
               <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
                 <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <path
@@ -173,22 +173,30 @@
               <ul>
                 <li id="storn" class="title">寵物商城</li>
                 <div class="menu">
-                  <li><a href="#">購物車</a></li>
-                  <li><a href="#">商品訂單</a></li>
+                  <li>
+                    <a href="/frontend/pages/mall/order/cart.html">購物車</a>
+                  </li>
+                  <li>
+                    <a href="/frontend/pages/mall/order/memberCenterOrders.html">商品訂單</a>
+                  </li>
                   <li><a href="#">商品收藏</a></li>
                 </div>
               </ul>
               <ul>
                 <li id="storn" class="title">美容預約</li>
                 <div class="menu">
-                  <li><a href="#">預約紀錄</a></li>
+                  <li>
+                    <a href="/frontend/pages/memberCentre/appointmentRecord.html">預約紀錄</a>
+                  </li>
                   <li><a href="#">作品收藏</a></li>
                 </div>
               </ul>
               <ul>
                 <li id="storn" class="title">活動社群</li>
                 <div class="menu">
-                  <li><a href="#">參與活動</a></li>
+                  <li>
+                    <a href="/frontend/pages/socialMedia/Activity/activity.html">參與活動</a>
+                  </li>
                   <li><a href="#">貼文收藏</a></li>
                 </div>
               </ul>
@@ -200,9 +208,10 @@
       </div>
       <div class="col-md-9" style="margin-top: 25px">
         <!--小遊戲-->
-        <main id="container" style="border: 0px">
+        <main id="container" style="border: 0px; position: relative;">
+          <p style="position: absolute; top: 11px; left: 13px; color: #FFF;">總分：</p>
           <div id="gray"></div>
-
+          <p style="position: absolute; top: 60px; left: 13px; color: #FFF;">時間</p>
           <!--紀錄分數-->
           <div id="fraction">0</div>
           <!--時間進度條-->
@@ -217,7 +226,9 @@
           <input id="over" type="button" value="結束遊戲">
       </div> -->
           <div id="totalFractionMenu">
-            <div id="totalFraction"></div>
+            <div id="totalFraction">
+
+            </div>
           </div>
         </main>
       </div>
@@ -312,14 +323,13 @@
   <script type="module">
     import config from "../../../../ipconfig.js";
     window.addEventListener("load", () => {
-
       function getCookie(key) {
         const name = `${key}=`;
         const decodedCookie = decodeURIComponent(document.cookie);
-        const cookieArray = decodedCookie.split(';');
+        const cookieArray = decodedCookie.split(";");
         for (let i = 0; i < cookieArray.length; i++) {
           let cookie = cookieArray[i];
-          while (cookie.charAt(0) === ' ') {
+          while (cookie.charAt(0) === " ") {
             cookie = cookie.substring(1);
           }
           if (cookie.indexOf(name) === 0) {
@@ -350,7 +360,7 @@
         }, 1000);
         containerDiv.hidden = true;
         Swal.fire({
-          title: `您今日已玩過，請明天在來!`,
+          title: `您今日已玩過，請明天再來!`,
           background: "#997b66",
         }).then((result) => {
           if (result.isConfirmed) {
@@ -386,7 +396,7 @@
     // const token = "";
 
     function fetchPoint(point) {
-      fetch("http://localhost:8080" + `/user/game?point=${point}`, {
+      fetch("https://alldogcat.ddns.net" + `/user/game?point=${point}`, {
         method: "GET",
         headers: {
           Authorization_U: token,
@@ -432,8 +442,9 @@
             point = 10;
             fetchPoint(point);
             setTimeout(function () {
-              history.back();
-            }, 3000);
+              window.location.href =
+                "/frontend/pages/memberCentre/memberCentre.html";
+            }, 1000);
           } else if (score >= 70) {
             Swal.fire({
               title: `您的總分為：  ${score} !會員點數+3點!`,
@@ -442,8 +453,9 @@
             point = 3;
             fetchPoint(point);
             setTimeout(function () {
-              history.back();
-            }, 3000);
+            window.location.href =
+              "/frontend/pages/memberCentre/memberCentre.html";
+          }, 1000);
           } else {
             Swal.fire({
               title: `您的總分為：  ${score} !請明天再接再厲!`,
@@ -451,8 +463,9 @@
             });
             fetchPoint(point);
             setTimeout(function () {
-              history.back();
-            }, 3000);
+            window.location.href =
+              "/frontend/pages/memberCentre/memberCentre.html";
+          }, 1000);
           }
 
           const now = new Date();

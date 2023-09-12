@@ -1,10 +1,15 @@
-$(window).on("load",event=>{
-    $("#googlelogin").on("click",event=>{ 
+
+window.addEventListener("load", function () {
+    // $("#googlelogin").on("click",event=>{ 
+    //     onClickSignIn();
+    // })
+    const googleLoginButton = document.getElementById("googlelogin");
+
+    googleLoginButton.addEventListener("click", function (event) {
         onClickSignIn();
-    })
+    });
 
-});
-
+})
 let auth2;
 import config from "../../../../ipconfig.js";
 function renderButton() {
@@ -17,7 +22,7 @@ function renderButton() {
         });
     });
 }
- 
+
 function onSuccess(result) {
     authenticate(result.code)
         .then(res => {
@@ -39,27 +44,27 @@ function fadeIn() {
 function authenticate(code) {
 
     //TODO: 更改API網域
-    return axios.post(config.url+'/user/googleLogin', JSON.stringify({ code }), {
+    return axios.post(config.url + '/user/googleLogin', JSON.stringify({ code }), {
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(res => {
         let token = res.data.message;
-        console.log("token : " +token);
+        console.log("token : " + token);
         localStorage.setItem('Authorization_U', token);
         /**之後 跳轉頁 */
         //TODO: API取userProfile，有空值就跳會員中心
         window.location.href = '../../pages/memberCentre/memberCentre.html';
     });
 }
- 
+
 function onFailure(error) {
     fadeOut();
     console.log(error);
 }
 function onClickSignIn() {
     fadeIn();
-    if(auth2 ==null){
+    if (auth2 == null) {
         auth2 = gapi.auth2.init({
             client_id: '12649271170-0risrvfckuf08oe89uk0jfgltlm5t168.apps.googleusercontent.com',
             scope: 'profile email',
@@ -71,4 +76,3 @@ function onClickSignIn() {
         .then(onSuccess)
         .catch(onFailure);
 }
- 

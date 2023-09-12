@@ -2,7 +2,7 @@ import { createList, createPagination, createHotList, createSearchPagination } f
 import config from '../../../../../ipconfig.js';
 const hostUrl = config.url;
 const acUrl = hostUrl + "/user/activity";
-const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NjMwNjMwfQ.n7GVmpW_Bp7lv0ymXgu6DYOrNEV26JbidvipXJTabbA";
+const userToken = localStorage.getItem("Authorization_U");
 
 // get hot activities
 async function getHotActivities() {
@@ -148,15 +148,16 @@ async function joinActivity(joinReq) {
 }
 
 // leave activity
-async function leaveActivity(joinReq) {
-
-    return fetch(acUrl + "/leave", {
+async function leaveActivity(activityId) {
+    let params = new URLSearchParams({
+        activityId: activityId
+    });
+    return fetch(acUrl + `/leave?${params.toString()}`, {
         method: "PUT",
         headers: {
             Authorization_U: userToken,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(joinReq)
     })
         .then(res => {
             return res.json();
@@ -173,7 +174,7 @@ async function getUerJoinDetails(page) {
     let params = new URLSearchParams({
         page: page
     });
-    let joinUrl = page === undefined ? acUrl + "/joinList" : acUrl + "/joinList?" + params.toString();
+    let joinUrl = page == undefined ? acUrl + "/joinList" : acUrl + "/joinList?" + params.toString();
     return fetch(joinUrl, {
         method: "GET",
         headers: {

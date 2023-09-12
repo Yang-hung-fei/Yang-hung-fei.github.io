@@ -1,5 +1,5 @@
 
-import { getActivityDetails } from "./callApi.js";
+import { getActivityDetails, joinActivity, leaveActivity } from "./callApi.js";
 //使用者查詢活動
 async function showViewModal(activityId) {
     let id = await activityId;
@@ -58,6 +58,48 @@ async function showViewModal(activityId) {
 
     let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
     modal.show();
+
+    //監聽加入活動事件
+    const joinActivities = document.querySelectorAll('#joinAc');
+    joinActivities.forEach((joinAc) => {
+        joinAc.addEventListener('click', async function (e) {
+            const { value: number } = await Swal.fire({
+                title: '請輸入參加人數',
+                input: 'number',
+                showCancelButton: true,
+            })
+            if (number) {
+                let joinReq = {
+                    activityId: id,
+                    count: number
+                }
+                let data = await joinActivity(joinReq);
+                if (data.code == 400) {
+                    Swal.fire(`${data.message}`);
+                } else {
+                    Swal.fire(`參加人數為: ${number}`);
+                }
+                modal.hide();
+
+            }
+
+        });
+
+    });
+    //監聽退出活動事件
+    const leaveActivities = document.querySelectorAll('#leaveAc');
+    leaveActivities.forEach((leaveAc) => {
+        leaveAc.addEventListener('click', async function (e) {
+            let data = await leaveActivity(id);
+            if (data.code == 400 || data.code == 404) {
+                Swal.fire(`${data.message}`);
+            } else {
+                Swal.fire(`${data.message}`);
+            }
+            modal.hide();
+        });
+
+    });
 
 }
 

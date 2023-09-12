@@ -1,5 +1,7 @@
 import config from "../../../../ipconfig.js";
 
+
+
 window.addEventListener("load", () => {
 
 
@@ -13,7 +15,7 @@ window.addEventListener("load", () => {
         .then(response => response.json())
         .then(data => {
             if (data.code === 200) {
-                console.log(data.message.rs);
+                // console.log(data.message.rs);
                 renderProductList(data.message.rs);
             }
         });
@@ -41,7 +43,7 @@ window.addEventListener("load", () => {
                             <a id="viewDetailLink" class="text-body viewDetailLink" href="http://localhost:5500/frontend/pages/mall/productdetail/productdetail.html"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                         </small>
                         <small class="w-50 text-center py-2">
-                            <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                            <a class="text-body add-to-cart-link" href="#" data-product-id="${product.pdNo}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
                         </small>
                     </div>
                 </div>
@@ -57,15 +59,72 @@ window.addEventListener("load", () => {
             viewDetailLink.addEventListener("click", function (event) {
                 event.preventDefault();
                 // 在這裡執行你希望的操作，例如顯示商品詳細資訊
-                console.log("View detail link clicked for product: " + product.pdNo);
-
+                // console.log("View detail link clicked for product: " + product.pdNo);
 
                 localStorage.setItem("pdNo",product.pdNo);
                 window.location.href = "http://localhost:5500/frontend/pages/mall/productdetail/productdetail.html";
             });
 
+
+ 
+
+        });
+
+        
+        // 取得所有 Add to cart 連結
+        var addToCartLinks = document.querySelectorAll(".add-to-cart-link");
+        // 迭代所有 Add to cart 連結，為它們添加點擊事件監聽器
+        addToCartLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+                event.preventDefault(); // 防止連結默認行為 (例如導航到新頁面)
+                
+                // 取得產品編號 (在 data-product-id 屬性中)
+                var productId = link.getAttribute("data-product-id");
+                
+                const token = localStorage.getItem("Authorization_U");
+                console.log(productId);
+                // console.log(token);
+                if(!token){
+                    window.location.href ="../../user/login.html";
+                    console.log(productId);
+
+                }else{
+                    fetch(`${config.url}/user/addProduct?pdNo=${productId}`, {
+                        method: "POST",
+                        headers: {
+                            Authorization_U: token,
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code === 200) {
+                            // 更新成功，重新載入購物車
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                              })
+                        } else {
+                            //更新失敗，處理錯誤
+                            Swal.fire({
+                                icon: '錯誤',
+                                title: "錯誤",
+                                text: data.message,
+                              })
+                        }
+                    });
+                }
+
+                // 在這裡執行你希望的操作，例如將該產品添加到購物車
+                
+            });
         });
     }
+
+
 
 
 });

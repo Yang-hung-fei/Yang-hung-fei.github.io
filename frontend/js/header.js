@@ -1,6 +1,6 @@
 import config from "../../ipconfig.js";
 // 创建一个新的 div 元素
-var nodifyImg = document.createElement("div"); 
+var nodifyImg = document.createElement("div");
 
 // 获取目标 div（根据 id）
 var notifyMenu = document.getElementById("notify");
@@ -14,14 +14,14 @@ $(window).on("load", () => {
   let connectUrl = (config.url).split('//')[1];
   if (token == null)
     return;
-  let url = 'ws://' + connectUrl + '/websocket/userNotify?access_token=' + token;
+  let url = 'wss://' + connectUrl + '/websocket/userNotify?access_token=' + token;
   let webSocket = new WebSocket(url);
   webSocket.onopen = function () {
     console.log('創建連接。。。');
     getUserPerfile(token);
     webSocket.send("getHistory");
   }
-  webSocket.onmessage = function (event) { 
+  webSocket.onmessage = function (event) {
     let notifyMsg = JSON.parse(event.data);
     console.log(notifyMsg.msg);
     //若是獲得 點數 alert顯示
@@ -35,19 +35,23 @@ $(window).on("load", () => {
     let imgBase64;
     switch (notifyMsg.notifyType) {
       //todo 設定 對應url
-      case "Store":  
+      case "Store":
+        redirectUrl = '/frontend/pages/mall/mall/mall.html';
         break;
       case "Activity":
-        redirectUrl = '#';
+        redirectUrl = '/frontend/pages/socialMedia/Activity/activity.html';
         break;
       case "Groomer":
-        redirectUrl = '#';
+        redirectUrl = '/frontend/pages/petgroomer/pgListPage/pgListPage.html';
+        break;
+      case "Appointment":
+        redirectUrl = '/frontend/pages/memberCentre/appointmentRecord.html';
         break;
     }
 
-    imgBase64 ="data:image/jpeg;base64,"+notifyMsg.image; 
+    imgBase64 = "data:image/jpeg;base64," + notifyMsg.image;
     console.log(imgBase64);
-    
+
     const newContent = `
         <a href="`+ redirectUrl + `" class="list-group-item">
           <div class="row g-0 align-items-center">
@@ -55,7 +59,7 @@ $(window).on("load", () => {
               <i class="text-warning" data-feather="bell"></i>
             </div>
             <div class="col-12 d-flex align-items-left"> 
-            <img src =`+ imgBase64 + ` class="mr-3" style="max-width: 70px; max-height: 70px; "/>
+            <img src =`+ imgBase64 + ` class="mr-3" style="max-width: 70px; max-height: 70px; margin-right:10px"/>
               <div class="text-muted small mt-1">`+ notifyMsg.msg + `
               </div> 
             </div>
@@ -78,7 +82,7 @@ $(window).on("load", () => {
     // $('#messageArea').append('websocket已斷開\n');
   };
 
-  $("#notify").on("click",event=>{
+  $("#notify").on("click", event => {
     notificationDot.classList.add("hidden");
     notificationDot.classList.remove("visible");
   })

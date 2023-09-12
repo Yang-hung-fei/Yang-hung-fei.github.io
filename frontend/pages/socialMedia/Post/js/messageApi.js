@@ -1,10 +1,11 @@
 import config from "../../../../../ipconfig.js";
 const hostUrl = config.url;
 const userMesUrl = hostUrl + "/user/social/post";
+const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NjMwNjMwfQ.n7GVmpW_Bp7lv0ymXgu6DYOrNEV26JbidvipXJTabbA";
 
 // create message
 async function createMessage(postId, messageData) {
-    return fetch(userPostUrl + `${postId}/message`, {
+    return fetch(userMesUrl + `${postId}/message`, {
         method: "POST",
         headers: {
             Authorization_M: userToken,
@@ -24,7 +25,7 @@ async function createMessage(postId, messageData) {
 
 // edit message
 async function editMessage(messageId, messageData) {
-    return fetch(userPostUrl + `/message/${messageId}`, {
+    return fetch(userMesUrl + `/message/${messageId}`, {
         method: "PUT",
         headers: {
             Authorization_M: userToken,
@@ -44,7 +45,7 @@ async function editMessage(messageId, messageData) {
 
 //delete message
 async function deleteMessage(messageId) {
-    return fetch(userPostUrl + `/message/${messageId}`, {
+    return fetch(userMesUrl + `/message/${messageId}`, {
         method: "DELETE",
         headers: {
             Authorization_M: userToken,
@@ -63,7 +64,7 @@ async function deleteMessage(messageId) {
 
 //get one message details
 async function getMessage(messageId) {
-    return fetch(userPostUrl + `/message/${messageId}`, {
+    return fetch(userMesUrl + `/message/${messageId}`, {
         method: "GET",
         headers: {
             Authorization_M: userToken,
@@ -82,7 +83,7 @@ async function getMessage(messageId) {
 
 //get messages by postId 
 async function getMessagesByPostId(postId) {
-    return fetch(userPostUrl + `/${postId}/messages`, {
+    return fetch(userMesUrl + `/${postId}/messages`, {
         method: "GET",
         headers: {
             Authorization_M: userToken,
