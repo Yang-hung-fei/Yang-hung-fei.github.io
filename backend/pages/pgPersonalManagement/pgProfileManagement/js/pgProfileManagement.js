@@ -96,7 +96,7 @@ window.addEventListener("load", () => {
                     gender.textContent = pg.pgGender === null ? '無' : pg.pgGender;
                     appointments.textContent = (pg.numAppointments === null || pg.numAppointments === 0) ? '無' : pg.numAppointments;
 
-                    //修改預先放入
+                    // 修改預先放入
                     newPgName.value = pg.pgName;
                     newPgAddress.value = pg.pgAddress;
                     newPgPh.value = pg.pgPh;
