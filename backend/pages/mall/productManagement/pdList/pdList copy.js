@@ -1,8 +1,8 @@
 import config from "../../../../../ipconfig.js";
-
+// let table = new DataTable('#OrdersManTable');
 const token = localStorage.getItem("Authorization_M");
 let table;
-
+let currentOrdNo; // 儲存當前的 ordNo
 
 
 //一進頁面渲染
@@ -75,7 +75,6 @@ function buildTable(newData) {
                 data: "pdStatus",
                 targets: 3,
                 render: function (data, type, row) {
-                    // 修改动态生成按钮的代码
                     if (type === "display") {
                         // 创建一个按钮容器
                         const buttonsContainer = document.createElement("div");
@@ -112,10 +111,9 @@ function buildTable(newData) {
                         buttonsContainer.appendChild(upButton);
                         buttonsContainer.appendChild(downButton);
 
-                        // 返回按钮容器的 HTML 作为渲染结果
+                        
                         return buttonsContainer.outerHTML;
                     }
-
                     return data;
                 }
             }
@@ -132,63 +130,29 @@ function buildTable(newData) {
             }
         ]
 
+
+
     });
 
+}
+
+// 确保DOM已加载
+$(document).ready(function() {
     // 动态添加按钮点击事件监听器
     $('#PdCollectTable tbody').on('click', 'button.up-button', function () {
         const pdNo = $(this).data('pdno'); // 获取按钮上的pdno属性值
-        
-        Swal.fire({
-            title: '確認?',
-            text: "是否確定要上架!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '確認'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              updateProductStatus(pdNo, 0); // 0 表示上架状态
-              Swal.fire(
-                '成功!',
-                '修改成功!!!',
-                'success'
-              )
-            }
-          })
-
+        updateProductStatus(pdNo, 0); // 0 表示上架状态
     });
 
     $('#PdCollectTable tbody').on('click', 'button.down-button', function () {
         const pdNo = $(this).data('pdno'); // 获取按钮上的pdno属性值
-
-        Swal.fire({
-            title: '確認?',
-            text: "是否確定要下架!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '確認'
-          }).then((result) => {
-            if (result.isConfirmed) {
-                updateProductStatus(pdNo, 1); // 0 表示上架状态
-              Swal.fire(
-                '成功!',
-                '修改成功!!!',
-                'success'
-              )
-            }
-          })
-
+        updateProductStatus(pdNo, 1); // 1 表示下架状态
     });
-}
+});
 
 
-
-
-// 更新商品状态的函数
-function updateProductStatus(pdNo, newStatus) {
+ // 更新商品状态的函数
+ function updateProductStatus(pdNo, newStatus) {
     const updateStatusRequest = {
         pdNo: pdNo,
         pdStatus: newStatus
@@ -197,7 +161,7 @@ function updateProductStatus(pdNo, newStatus) {
     fetch(config.url + `/manager/updateOneProductStatus`, {
         method: 'PUT',
         headers: {
-            Authorization_M: token,
+            Authorization_M: token, 
             "Content-Type": "application/json"
         },
         body: JSON.stringify(updateStatusRequest)
@@ -211,7 +175,7 @@ function updateProductStatus(pdNo, newStatus) {
                 // 这里可以根据需要刷新数据表格等
                 console.log(data);
                 fetchAndBuildTable(); //重載入
-
+                
             } else {
                 console.error('商品狀態更新失敗');
             }

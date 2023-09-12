@@ -25,16 +25,24 @@ div.table-title {
   object-position: center;
   border: 2px solid #fff;
 }
-.modifyPic{
+.modifyPic {
+  border: 1px solid #ccc; /* 添加图片边框 */
+  padding: 10px;
+  width: 277px;
+  height: 277px;
+  object-position: center;
+}
+/* .modifyPic{
   width: 277px;
   height: 277px;
   object-fit: cover;
   object-position: center;
   border: 2px solid #fff;
-}
+} */
+
 label {
   font-size: 18px;
-  display: inline-block; /* 讓標籤顯示為區塊元素，以使每個標籤獨自佔據一行 */
+  display: inline-block;  /*讓標籤顯示為區塊元素，以使每個標籤獨自佔據一行 */
   margin-bottom: 10px; /* 設定底部間距 */
   margin-top: 10px;
   width: 100%; /* 使標籤佔據 100% 的寬度，達到統一寬度的效果 */

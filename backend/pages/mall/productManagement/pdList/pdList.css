@@ -1,42 +1,4 @@
-.user-card-full {
-    overflow: hidden;
-  }
 
-  .card .card-block p {
-    line-height: 25px;
-  }
-  
-  
-.card-block {
-    padding: 1.25rem;
-  }
-  
-
-
-
-.card {
-    border-radius: 5px;
-    -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
-    box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
-    border: none;
-    margin-bottom: 30px;
-  }
-
-  .card .card-block p {
-    line-height: 25px;
-  }
-
-  
-.user-card-full .social-link li {
-    display: inline-block;
-  }
-  
-  .user-card-full .social-link li a {
-    font-size: 20px;
-    margin: 0 10px 0 0;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-  }
   
 
 #productmanage{   /*商品列表 | 編輯商品資訊 | 新增商品*/
@@ -49,4 +11,30 @@
 
   .nav-title{
     margin: 0 20px;
+    text-decoration-line: none;
   }
+
+/* 按钮容器的样式 */
+.status-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100px; /* 调整容器宽度 */
+  margin: 0 auto; /* 居中显示 */
+}
+
+上架按钮的样式
+.up-button {
+  background-color: rgb(246, 255, 119);
+  /* 其他样式设置 */
+}
+
+下架按钮的样式
+.down-button {
+  background-color: rgb(175, 175, 175);
+  /* 其他样式设置 */
+}
+
+body {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
+}

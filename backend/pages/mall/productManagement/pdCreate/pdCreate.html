@@ -12,17 +12,17 @@
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
-
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
 	<title>商品管理查看商品</title>
 
-	<link href="../../../../css/sublist.css" rel="stylesheet">
-	<link href="../../../../css/app.css" rel="stylesheet">
+	<link href="/backend/css/sublist.css" rel="stylesheet">
+	<link href="/backend/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 	<!-- sweetalert2 -->
-	<!-- <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet"> -->
+	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="sweetalert2.min.css"> -->
 	<!-- Flatpickr -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<!--CSS-->
@@ -81,6 +81,7 @@
 						</ul>
 					</li>
 
+					<li id="authorities">
 					<li id="store">
 						<ul>
 							<li class="sidebar-header">
@@ -311,6 +312,7 @@
 						</ul>
 					</li>
 
+
 					<div id="sidebar-margin" style="height: 50px;"></div>
 				</ul>
 
@@ -524,10 +526,10 @@
 							</div>
 						</div>
 
-						<nav id="productmanage" >
+						<nav id="productmanage">
 							<a class="nav-title" href="../pdList/pdList.html">商品列表</a> |
 							<a class="nav-title" href="../pdupdate/pdUpdate.html">商品資訊</a> |
-							<a class="nav-title" >新增商品</a> <!--現在在這-->
+							<a class="nav-title">新增商品</a> <!--現在在這-->
 						</nav>
 
 						<div class="page-content page-container" id="page-content">
@@ -536,21 +538,23 @@
 									<div class="col-xl-12 col-md-12">
 										<div class="card user-card-full">
 											<div class="row m-l-0 m-r-0">
-																								
+
 												<div class="col-sm-12">
 													<div class="card-block">
 														<h6 class="m-b-20 p-b-5 b-b-default f-w-600"
 															style="font-size: 24px;">新增商品 </h6>
 														<div class="row">
 															<div class="col-sm-6">
-																<p class="m-b-10 f-w-600">名稱  <span id="pdNameCheck" style="font-size: 8px; color: red;"></span></p>
-																	<input type="text" id="newPdName"
-																		class="form-control  f-w-400" value="">
+																<p class="m-b-10 f-w-600">名稱 </p>
+																<input type="text" id="newPdName"
+																	class="form-control  f-w-400" value="">
 															</div>
 															<div class="col-sm-6">
-																<p class="m-b-10 f-w-600">說明  <span id="pdDescriptionCheck" style="font-size: 8px; color: red;"></span></p>
-																	<textarea id="newDescription" class="form-control f-w-400" cols="35" rows="5"></textarea>
-																	<!-- <input type="text"
+																<p class="m-b-10 f-w-600">說明 </p>
+																<textarea id="newDescription"
+																	class="form-control f-w-400" cols="35"
+																	rows="5"></textarea>
+																<!-- <input type="text"
 																		id="newDescription"
 																		class="form-control f-w-400" 
 																		value="" > -->
@@ -558,47 +562,119 @@
 														</div>
 														<div class="row">
 															<div class="col-sm-6">
-																<p class="m-b-10 f-w-600">價格</p>
-																	<input type="text" id="newPdPrice"
-																		class="form-control f-w-400"
-																		value="">
+																<p class="m-b-10 f-w-600">價格 <span id="priceCheck"
+																		style="font-size: 8px; color: red;"></span></p>
+																<input type="text" id="newPdPrice"
+																	class="form-control f-w-400" value="">
 															</div>
-															
+
 														</div>
 														<div class="row">
 															<div class="col-sm-6">
 																<p class="m-b-10 f-w-600">狀態</p>
-																	<select id="newPdStatus"
-																		class="form-control  f-w-400">
-																		<option value="1">下架</option>
-																		<option value="0">上架</option>
-																	</select>
+																<select id="newPdStatus" class="form-control  f-w-400">
+																	<option value="1">下架</option>
+																	<option value="0">上架</option>
+																</select>
 															</div>
 														</div>
+
 														<div class="row">
-														<div class="col-sm-12">
-															<label for="previewImage" class="p-b-5  b-b-default"
-																			style="font-size: 18px;">圖片</label>
-																		<!-- <img id="previewImage" alt="Pd-Image" class="modifyPic"
-																			style="max-height: 277px; max-width: 277px;"> -->
-																		<input type="file" id="newPdPic" accept="image/*"
-																			class="form-control" />
-																		<input type="file" id="newPdPic" accept="image/*"
-																			class="form-control" />
-																		<input type="file" id="newPdPic" accept="image/*"
-																			class="form-control" />
-																		<input type="file" id="newPdPic" accept="image/*"
-																			class="form-control" />
-																		<input type="file" id="newPdPic" accept="image/*"
-																			class="form-control" />
-																			<div class="col-sm-6 d-flex justify-content-end align-items-end">
-																				<button style="display: inline-block;height: 40px;"
-																					class="btn slot-button "
-																					id="commitModifyBtn">送出</button>
-																			</div>
+															<div class="col-sm-6">
+																<!-- 左側：上傳框 -->
+																<label for="newPdPics1" class="p-b-5 b-b-default"
+																	style="font-size: 18px;">圖片1</label>
+																<input type="file" id="newPdPics1" accept="image/*"
+																	class="form-control">
+																<!-- previewImages(input, index) -->
+															</div>
+															<div class="col-sm-6">
+																<!-- 右側：圖片預覽 -->
+																<div class="text-center"
+																	style="max-height: 277px; max-width: 277px;">
+																	<img id="previewImage1" alt="Pd-Image"
+																		class="modifyPic"
+																		style="max-height: 100%; max-width: 100%; display: none;">
+																</div>
+															</div>
+
+															<div class="col-sm-6">
+																<!-- 左側：上傳框 -->
+																<label for="newPdPics2" class="p-b-5 b-b-default"
+																	style="font-size: 18px;">圖片2</label>
+																<input type="file" id="newPdPics2" accept="image/*"
+																	class="form-control">
+															</div>
+															<div class="col-sm-6">
+																<!-- 右側：圖片預覽 -->
+																<div class="text-center"
+																	style="max-height: 277px; max-width: 277px;">
+																	<img id="previewImage2" alt="Pd-Image"
+																		class="modifyPic"
+																		style="max-height: 100%; max-width: 100%; display: none;">
+																</div>
+															</div>
+
+															<div class="col-sm-6">
+																<!-- 左側：上傳框 -->
+																<label for="newPdPics3" class="p-b-5 b-b-default"
+																	style="font-size: 18px;">圖片3</label>
+																<input type="file" id="newPdPics3" accept="image/*"
+																	class="form-control">
+															</div>
+															<div class="col-sm-6">
+																<!-- 右側：圖片預覽 -->
+																<div id="imagePreview3" class="text-center"
+																	style="max-height: 277px; max-width: 277px;">
+																	<img id="previewImage3" alt="Pd-Image"
+																		class="modifyPic"
+																		style="max-height: 100%; max-width: 100%; display: none;">
+																</div>
+															</div>
+
+															<div class="col-sm-6">
+																<!-- 左側：上傳框 -->
+																<label for="newPdPics4" class="p-b-5 b-b-default"
+																	style="font-size: 18px;">圖片4</label>
+																<input type="file" id="newPdPics4" accept="image/*"
+																	class="form-control">
+															</div>
+															<div class="col-sm-6">
+																<!-- 右側：圖片預覽 -->
+																<div id="imagePreview4" class="text-center"
+																	style="max-height: 277px; max-width: 277px;">
+																	<img id="previewImage4" alt="Pd-Image"
+																		class="modifyPic"
+																		style="max-height: 100%; max-width: 100%; display: none;">
+																</div>
+															</div>
+
+															<div class="col-sm-6">
+																<!-- 左側：上傳框 -->
+																<label for="newPdPics5" class="p-b-5 b-b-default"
+																	style="font-size: 18px;">圖片5</label>
+																<input type="file" id="newPdPics5" accept="image/*"
+																	class="form-control">
+															</div>
+															<div class="col-sm-6">
+																<!-- 右側：圖片預覽 -->
+																<div id="imagePreview5" class="text-center"
+																	style="max-height: 277px; max-width: 277px;">
+																	<img id="previewImage5" alt="Pd-Image"
+																		class="modifyPic"
+																		style="max-height: 100%; max-width: 100%; display: none;">
+																</div>
+															</div>
+
+
+															<div
+																class="col-sm-6 d-flex justify-content-end align-items-end">
+																<button style="display: inline-block;height: 40px;"
+																	class="btn slot-button " id="commitBtn">送出</button>
+															</div>
+
 														</div>
 													</div>
-														
 
 												</div>
 											</div>
@@ -644,21 +720,24 @@
 			</footer>
 		</div>
 	</div>
-	
+
 
 	<!--JS-->
+	<script type="module" src="/backend/js/sidebar.js"></script>
 	<script type="module" src="../pdCreate/pdCreate.js"></script>
+	<script src="/backend/js/sublistArrow.js"></script>
 	<!--sweetalert2-->
-	<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- Flatpickr -->
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-	<script src="../../../../jquery/jquery-3.2.1.min.js"></script>
+	<script src="../../../../../jquery/jquery-3.2.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
 	<!--Other-->
-	<script src="../../../../js/app.js"></script>
+	<script src="/backend/js/app.js"></script>
 </body>
 
 </html>
