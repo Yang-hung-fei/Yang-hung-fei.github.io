@@ -474,7 +474,7 @@ window.addEventListener("load", () => {
                         <label for="newPgGender" style="font-size: 18px;">美容師性別</label>  
                         <select id="newPgGender" class="form-control">
                             <option value="1" ${pgGender === '男' ? 'selected' : ''}>男</option>
-                            <option value="2" ${pgGender === '女' ? 'selected' : ''}>女</option>
+                            <option value="0" ${pgGender === '女' ? 'selected' : ''}>女</option>
                         </select>
                         <label for="newPgEmail" style="font-size: 18px;">Email&nbsp;&nbsp;&nbsp;<span id="emailCheck" for="emailCheck" style="color:yellow; font-size: 12px;"></span></label>
                         
