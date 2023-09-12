@@ -117,6 +117,9 @@ body {
     align-items: center;
     margin: 10px 0;
 }
+#quantity {
+    margin: 0 20px;
+}
 
 .quantity-button {
     background: none;
