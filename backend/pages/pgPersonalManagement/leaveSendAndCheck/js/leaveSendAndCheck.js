@@ -216,22 +216,22 @@ window.addEventListener("load", () => {
                         title: "送出假單成功",
                         text: data.message
                     });
-                    fetchAndBuildTable();
+                    
                     if (dataTableInstance) {
                         dataTableInstance.destroy();
                     }
-                    
+                    fetchAndBuildTable();
                 } else {
                     Swal.fire({
                         icon: "error",
                         title: "送出假單失敗",
                         text: data.message
                     });
-                    fetchAndBuildTable();
+                    
                     if (dataTableInstance) {
                         dataTableInstance.destroy();
                     }
-                    
+                    fetchAndBuildTable();
                 }
             })
             .catch(error => {
