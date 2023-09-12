@@ -91,9 +91,10 @@ function showDBuserProfile(data) {
   let userPic_base64 = data.userPic;
   elements.userPic.src = "data:image/png;base64," + userPic_base64;
   elements.pointnumber.textContent = data.userPoint;
-  // ... 其他设置元素内容的操作
+  elements.userBirthday.textContent = data.userBirthday;
 
   // 其他操作，如设置下拉框选项等
+  elements.userPhone.value = data.userPhone;
   let genderText = data.userGender;
   if (!genderText) {
     // 没有数据，将默认选项设置为"-"
@@ -109,13 +110,14 @@ function showDBuserProfile(data) {
     }
   }
 
-  var userBirthdayText = new Date(data.userBirthday);
-  var options = { year: "numeric", month: "2-digit", day: "2-digit" };
-  var dateString = userBirthdayText.toLocaleString("zh-TW", options);
-  var parts = dateString.split("/");
-  var formattedDate = parts[0] + "-" + parts[1] + "-" + parts[2];
-  elements.userBirthday.value = formattedDate;
-  elements.userPhone.value = data.userPhone;
+  if (data.userBirthday !== null) {
+    var userBirthdayText = new Date(data.userBirthday);
+    var options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    var dateString = userBirthdayText.toLocaleString("zh-TW", options);
+    var parts = dateString.split("/");
+    var formattedDate = parts[0] + "-" + parts[1] + "-" + parts[2];
+    elements.userBirthday.value = formattedDate;
+  }
 
   // 地址
   const userAddressData = data.userAddress;
@@ -133,8 +135,6 @@ function addressShow(userAddress) {
       var cityMatch = matchResult[1]; // 匹配的前1到3个字符
       var areaMatch = matchResult[2]; // 匹配的第4到6个字符
       userAddressInput = userAddress.substring(6);
-      console.log("City Match:", cityMatch); // 匹配的完整城市信息
-      console.log("Area Match:", areaMatch); // 捕获的区域信息
     }
   }
 
