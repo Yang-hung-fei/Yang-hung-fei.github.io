@@ -1,7 +1,7 @@
 import config from "../../../../../ipconfig.js";
 const hostUrl = config.url;
 const userPostUrl = hostUrl + "/user/social/post";
-const userToken = ""
+const userToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0NjMwNjMwfQ.n7GVmpW_Bp7lv0ymXgu6DYOrNEV26JbidvipXJTabbA";
 
 //create post
 async function createPost(postData) {
