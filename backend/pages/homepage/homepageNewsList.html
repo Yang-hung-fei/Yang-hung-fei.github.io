@@ -22,6 +22,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/newsList.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+
 
 </head>
 
@@ -42,7 +45,7 @@
                 </ul>
             </div>
         </nav>
-
+        
         <div class="main">
             <nav class="navbar navbar-expand navbar-light navbar-bg">
                 <a class="sidebar-toggle js-sidebar-toggle">
@@ -138,7 +141,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-5.jpg"
+                                                <img src="../../img/avatars/avatar-5.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -152,7 +155,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-2.jpg"
+                                                <img src="../../img/avatars/avatar-2.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="William Harris">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -166,7 +169,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-4.jpg"
+                                                <img src="../../img/avatars/avatar-4.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="Christina Mason">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -180,7 +183,7 @@
                                     <a href="#" class="list-group-item">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-2">
-                                                <img src="img/avatars/avatar-3.jpg"
+                                                <img src="../../img/avatars/avatar-3.jpg"
                                                     class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
                                             </div>
                                             <div class="col-10 ps-2">
@@ -231,31 +234,36 @@
 
 
                     <!-- 主要內容 -->
-                    
+
                     <div>
                         <div class="container-fluid">
                             <h2 class="text-dark mb-1" style="color: #2D4472; padding-left: 20px;">最新消息列表
                             </h2>
+                            <div class="col-lg-1 p-0 justify-content-md-end justify-content-center d-flex">
+                                <a href="./homepageNewsAndNewsPicAdd.html" class="btn btn-primary ml-auto" data-bs-toggle="modal">
+                                    <i class="bi bi-plus-square"></i>
+                                    <span>新增</span>
+                                </a>
+                            </div>
+
                             <div style="display: flex; justify-content: space-between; margin: 20px 20px;">
                                 <div>
-                                    <span style="display: inline-block; ">顯示</span>
-                                    <select class="form-select"
-                                        style="margin-right: 20px; display: inline-block;width: 80px;border-color: #a2b6df;">
-                                        <option value="3">3</option>
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
-                                        <option value="20">20</option>
+                                    <label for="limit">顯示</label>
+                                    <select name="limit" id="limit" style="font-size: 15px; margin-bottom: 20px;">
+                                        <option value="10" disabled selected>請選擇</option>
+                                        <option value="5" style="text-align: center;">5</option>
+                                        <option value="10" style="text-align: center;">10</option>
+                                        <option value="15" style="text-align: center;">15</option>
+                                        <option value="20" style="text-align: center;">20</option>
                                     </select>
                                     <span style="display: inline-block;">筆</span>
                                 </div>
                                 <div class="AlignRight ">
-                                    <i class="fas fa-search" style="display: inline-block;"></i>
+                                    <i class="fas fa-search" style="display: inline-block;" id="searchBtn"></i>
                                     <input type="text" style="border-color: #e5e5e7;">
                                 </div>
                             </div>
-
-                            
+                            <ul id="newsList"></ul>
 
                             <div class="card" style="margin: 20px;">
                                 <div class="card-body" style="box-shadow: 0px 0px 15px 0px rgba(166,124,82,0.13);">
@@ -263,92 +271,20 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 80px;color: #2D4472;">消息編號</th>
-                                                    <th style="width: 400px;color: #2D4472;">標題</th>
+                                                    <th style="width: 100px;color: #2D4472;">消息編號</th>
+                                                    <th style="width: 150px;color: #2D4472;">標題</th>
+                                                    <th style="width: 400px;color: #2D4472;">消息內容</th>
+                                                    <th style="width: 150px;color: #2D4472;">上架狀態</th>
                                                     <th style="width: 150px;color: #2D4472;">更新時間</th>
                                                     <th style="color: #2D4472;">修改</th>
                                                     <th style="color: #2D4472;">刪除</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="color: #325aab;">7001</td>
-                                                    <td style="color: #325aab;">罐頭特價</td>
-                                                    <td style="color: #325aab;">2023/08/30</td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color: #325aab;">7002</td>
-                                                    <td style="color: #325aab;">週五免運日<br></td>
-                                                    <td style="color: #325aab;">2023/08/30</td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color: #325aab;">7003</td>
-                                                    <td style="color: #325aab;">毛孩聚餐</td>
-                                                    <td style="color: #325aab;">2023/08/30</td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color: #325aab;">7004</td>
-                                                    <td style="color: #325aab;">寵物家具新上市</td>
-                                                    <td style="color: #325aab;">2023/08/30</td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color: #325aab;">7005</td>
-                                                    <td style="color: #325aab;">寵物市集</td>
-                                                    <td style="color: #325aab;">2023/08/30</td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color: #325aab;">7006</td>
-                                                    <td style="color: #325aab;">宅配免運方案實施中</td>
-                                                    <td style="color: #325aab;">2023/08/30</td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color: #325aab;">7007</td>
-                                                    <td style="color: #325aab;">寵物餐廳第一波聚餐</td>
-                                                    <td style="color: #325aab;">2023/08/30</td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
-                                                    </td>
-                                                    <td><button class="btn btn-primary" type="button"
-                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
-                                                    </td>
-                                                </tr>
+
+                                            <tbody id="dataTableList">
+                                                <!--列表在這裡動態插入 -->
                                             </tbody>
+
                                         </table>
                                     </div>
                                     <div class="row" style="height: 65px;">
@@ -386,6 +322,16 @@
                     </div>
 
                 </div>
+
+
+                <div id="editNewsByNewsNo">
+                    <!-- 這裡是editNews內容 -->
+                </div>
+
+
+
+
+
             </main>
 
             <footer class="footer">
@@ -419,15 +365,13 @@
         </div>
     </div>
 
-    <script src="../jquery/jquery-3.2.1.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/sublist.js"></script>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/sublistArrow.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="module" src="./js/onload.js"></script>
-    <script type="module" src="./js/testlist.js">
-        import * as functionsModule from '../functions.js';
-        loadMenuAndContent();
-    </script>
+    <script type="module" src="./js/NewsList.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
