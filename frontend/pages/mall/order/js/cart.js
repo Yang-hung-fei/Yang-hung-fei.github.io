@@ -258,7 +258,7 @@ function updateCartItemQuantity(pdNo, quantity) {
             updateRowTotal(pdNo, quantity);
 
             Swal.fire({
-                position: 'top-end',
+                position: 'top-center',
                 icon: 'success',
                 title: '更新數量成功!',
                 showConfirmButton: false,
