@@ -8,7 +8,8 @@ const pointInput = document.getElementById("pointInput"); //監聽顯示點數�
 const userPoint = document.querySelector('#discount-amount');
 //Header Token
 const token = localStorage.getItem("Authorization_U");
-// const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
+
+//一載入渲染
 document.addEventListener("DOMContentLoaded", ()=>{   
     updateCart();
     updateTotalAmount();
@@ -99,10 +100,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
     });
 });
 
+//更新購物車資訊
 updateButton.addEventListener('click', () => {
     updateCart();
 });
-
 
 //取得購物車資訊 記得更新token
 function updateCart() {
@@ -220,8 +221,7 @@ function updateTotalAmount() {
     // 計算新的總金額（扣除折扣點數）
     const grandTotal = total - couponDiscount;
 
-    
-    console.log(couponDiscount);
+    // console.log(couponDiscount);
     // 更新總金額的顯示
     const totalPriceElement = document.querySelector('#total-amount');
     totalPriceElement.textContent = `$ ${total.toFixed(2)}`;
@@ -232,7 +232,6 @@ function updateTotalAmount() {
 
 }
 
-
 // 處理數量變化事件
 function handleQuantityChange(event) {
     const pdNo = event.target.getAttribute('data-pdNo');
@@ -240,7 +239,6 @@ function handleQuantityChange(event) {
 
     updateCartItemQuantity(pdNo, newQuantity);
 }
-
 
 // 更新購物車中商品數量, 記得更新token 
 function updateCartItemQuantity(pdNo, quantity) {
@@ -291,9 +289,9 @@ function updateRowTotal(pdNo, quantity) {
     }
 }
 
-
+//取得點數
 getPointButton.addEventListener("click", () => {
-    getUserPointAndUpdateUI()
+    getUserPointAndUpdateUI();
 });
 
 //發送請求取得點數, 記得更新token 
@@ -329,12 +327,12 @@ function getUserPointAndUpdateUI() {
     });
 }
 
-
 // 綁定前往結帳按鈕點擊事件
 const checkoutButton = document.querySelector('.shopping-box a');
 checkoutButton.addEventListener('click', function (e) {
     e.preventDefault();
 
+    
     // 檢查購物車中是否有商品
     const cartRows = tbody.querySelectorAll('tr');
     if (cartRows.length === 0) {
@@ -359,7 +357,7 @@ checkoutButton.addEventListener('click', function (e) {
     const paidAmount = grandTotalAmount - couponDiscount;
 
     // 檢查實付金額是否小於0，如果是，彈出警告
-    if (paidAmount < 0) {
+    if (grandTotalAmount < 0) {
         Swal.fire({
             icon: 'error',
             title: '實付金額小於0',
