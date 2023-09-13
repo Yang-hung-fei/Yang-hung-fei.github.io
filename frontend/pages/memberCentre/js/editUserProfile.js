@@ -186,6 +186,8 @@ $(document).ready(function () {
         if (data.code === 200) {
           console.log(data);
           swal("修改成功", "", "success");
+        } else if (data.code === 401) {
+          errorAuth();
         } else {
           console.log(data);
           swal("修改失败");
@@ -207,4 +209,15 @@ $(document).ready(function () {
   fileInput.addEventListener("change", function () {
     saveData();
   });
+
+  function errorAuth() {
+    swal({
+      title: "哎呀🤭",
+      text: "您尚未登入，請重新登入",
+      icon: "error",
+    }).then((value) => {
+      localStorage.removeItem("Authorization_U");
+      window.location.href = "/frontend/pages/user/login.html"; // 替换为你要跳转的页面地址
+    });
+  }
 });
