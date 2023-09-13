@@ -85,14 +85,51 @@ $(document).ready(function () {
     const userAddressValue = `${cityValue}${areaValue}${addressDetailValue}`;
 
     // 检查必填字段是否为空
-    if (
-      !userNameValue ||
-      !userNickNameValue ||
-      !userAddressValue ||
-      !userPhoneValue
-    ) {
-      swal("必填字段不能為空。");
+    if (!userNameValue || !userNickNameValue) {
+      swal("請填寫名稱。");
       return; // 阻止继续执行
+    }
+
+    if (!userPhoneValue) {
+      const phoneNotice = $("#phoneNotice");
+      phoneNotice.text("請輸入電話號碼。");
+      phoneNotice.css("visibility", "visible");
+      if (!userAddress.value) {
+        $("#addressNotice").css("visibility", "visible");
+        return;
+      } else {
+        $("#addressNotice").css("visibility", "hidden");
+      }
+      return;
+    } else {
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(userPhoneValue)) {
+        const phoneNotice = $("#phoneNotice");
+        phoneNotice.text("電話號碼必須是 10 位數字。");
+        phoneNotice.css("visibility", "visible");
+        if (!userAddress.value) {
+          $("#addressNotice").css("visibility", "visible");
+          return;
+        } else {
+          $("#addressNotice").css("visibility", "hidden");
+        }
+        return;
+      } else {
+        $("#phoneNotice").css("visibility", "hidden");
+      }
+    }
+
+    if (!userAddress.value) {
+      $("#addressNotice").css("visibility", "visible");
+      return;
+    } else {
+      $("#addressNotice").css("visibility", "hidden");
+    }
+
+    if (!userPhoneValue && !userAddress.value) {
+      $("#phoneNotice").css("visibility", "visible");
+      $("#addressNotice").css("visibility", "visible");
+      return;
     }
 
     //送出資料，以數據為參數
@@ -125,6 +162,9 @@ $(document).ready(function () {
     if (userPhoneValue !== null) formData.append("userPhone", userPhoneValue);
     if (userBirthdayValue !== null)
       formData.append("userBirthday", userBirthdayValue);
+    if (userPicFile !== null) {
+    }
+    formData.append("userPic", userPicFile);
 
     console.log(formData.get("userName"));
     console.log(formData.get("userNickName"));
@@ -134,45 +174,25 @@ $(document).ready(function () {
     console.log(formData.get("userGender"));
     console.log(formData.get("userPic"));
 
-    //如果有圖片參數，就加入圖片，否則抓取原圖
-    if (userPicFile) {
-      formData.append("userPic", userPicFile);
-      saveData(formData);
-    } else {
-      const fileInput_el = document.getElementById("fileInput");
-      const userPic_el = document.getElementById("userPic");
-
-      //獲取使用者原圖
-      fileInput_el.addEventListener("change", function () {
-        const base64Data = userPic_el.src.split(",")[1]; // 从 userPic 图像标签中获取 base64 数据
-        const contentType = "image/jpg"; // 指定的图像类型
-        const blob = base64toBlob(base64Data, contentType); // 创建 Blob 对象
-        const fileName = "custom_image.jpg"; // 创建一个自定义的文件对象，指定文件名稱
-        const selectedFile = new File([blob], fileName, { type: contentType });
-        formData.append("userPic", selectedFile);
-        saveData(formData);
+    fetch(config.url + "/user/profile", {
+      method: "POST",
+      headers: {
+        Authorization_U: token,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.code === 200) {
+          console.log(data);
+          swal("修改成功", "", "success");
+        } else if (data.code === 401) {
+          errorAuth();
+        } else {
+          console.log(data);
+          swal("修改失败");
+        }
       });
-    }
-
-    function saveData(formData) {
-      fetch(config.url + "/user/profile", {
-        method: "POST",
-        headers: {
-          Authorization_U: token,
-        },
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.code === 200) {
-            console.log(data);
-            swal("修改成功", "", "success");
-          } else {
-            console.log(data);
-            swal("修改失败");
-          }
-        });
-    }
   }
 
   //監聽按鈕
@@ -190,20 +210,14 @@ $(document).ready(function () {
     saveData();
   });
 
-  // 将 base64 数据转换为 Blob 对象
-  function base64toBlob(base64Data, contentType) {
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-      const slice = byteCharacters.slice(offset, offset + 512);
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
+  function errorAuth() {
+    swal({
+      title: "哎呀🤭",
+      text: "您尚未登入，請重新登入",
+      icon: "error",
+    }).then((value) => {
+      localStorage.removeItem("Authorization_U");
+      window.location.href = "/frontend/pages/user/login.html"; // 替换为你要跳转的页面地址
+    });
   }
 });
