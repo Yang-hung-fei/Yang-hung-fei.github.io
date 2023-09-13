@@ -1,11 +1,12 @@
-import { profile_els } from "/frontend/js/getUserProfile.js";
 import config from "/ipconfig.js";
+import base64Data from "/frontend/pages/memberCentre/js/userPicture";
+import { profile_els } from "/frontend/js/getUserProfile.js";
 
+//----------------按鈕顯示/隱藏效果----------------
 document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("editNameButton")
     .addEventListener("click", function () {
-      $("#inputNameEdit").val("");
       document.getElementById("showNameContain").style.display = "none";
       document.getElementById("editNameContain").style.display = "block";
     });
@@ -23,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("editNickNameButton")
     .addEventListener("click", function () {
-      $("#inputNickNameEdit").val("");
       document.getElementById("showNickNameContain").style.display = "none";
       document.querySelector(".editNickNameContanin").style.display = "block";
     });
@@ -39,89 +39,75 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-//----------------
+// //監聽輸入欄位
+// const token = localStorage.getItem("Authorization_U");
+// const userName = document.getElementById("inputNameEdit");
+// const userNickName = document.getElementById("inputNickNameEdit");
+// //TODO: 處理地址
+// const city = document.getElementById("city");
+// const area = document.getElementById("area");
+// const addressDetail = document.getElementById("userAddress");
+// const userAddress = city + area + addressDetail;
+// const userPhone = document.getElementById("userPhone");
+// const userBirthday = document.getElementById("userBirthday");
+// const userGender = document.getElementById("userGender");
+// const userPic = base64Data;
 
-const saveButtons = document.querySelectorAll(".save");
-saveButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    sentEditedData(); // 调用发送 API 请求的函数
+const formData = new FormData();
+const elements = profile_els();
+elements.userName = document.getElementById("inputNameEdit");
+elements.userNickName = document.getElementById("inputNickNameEdit");
+elements.userPic = document.getElementById("fileInput");
+Object.keys(elements).forEach((key) => {
+  const element = elements[key];
+
+  // 添加事件监听器，当元素的值变化时触发
+  element.addEventListener("input", () => {
+    if (element.tagName === "SELECT") {
+      // 如果是下拉式选择菜单，获取选中选项的值并添加到formData
+      const selectedOption = element.options[element.selectedIndex];
+      formData.append(key, selectedOption.value);
+    } else {
+      // 否则获取元素的值并添加到formData
+      formData.append(key, element.value);
+    }
+
+    // 处理 userAddress
+    formData.set(
+      "userAddress",
+      `${elements.city.value}${elements.area.value}${elements.userAddress.value}`
+    );
+
+    // 删除不需要的属性（如果有的话）
+    const keysToDelete = ["city", "area", "pointnumber"];
+    keysToDelete.forEach((keyToDelete) => {
+      formData.delete(keyToDelete);
+    });
+
+    console.log(formData);
   });
 });
 
-userNameElement.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    // 在这里触发保存操作
-  }
-});
-
-function editUserNickName() {
-  const userNickNameElement = profile_els().userNickName;
-
-  userNickNameElement.addEventListener("input", (event) => {
-    // 在这里处理用户昵称的修改
-  });
-
-  userNickNameElement.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      // 在这里触发保存操作
+fetch(config.url + "/user/profile", {
+  method: "POST",
+  headers: {
+    Authorization_U: token,
+  },
+  body: formData,
+})
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.code === 200) {
+      Swal.fire({
+        icon: "success",
+        title: "修改成功",
+        text: data.message,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "修改失敗",
+        text: data.message,
+      });
     }
   });
-}
-
-$(document).ready(function () {
-  $("#userPicEdit").on("click", () => {
-    console.log(111);
-  });
-});
-
-// 當用戶選擇文件時觸發事件
-fileInput.addEventListener("change", (event) => {
-  const selectedFile = event.target.files[0];
-  if (selectedFile) {
-    //TODO: 放回頁面呈現
-    // 這裡你可以處理用戶選擇的文件，例如顯示在圖片元素中
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      userPicImage.src = e.target.result;
-    };
-    reader.readAsDataURL(selectedFile);
-  }
-});
-
-function sentEditedData() {
-  const token = localStorage.getItem("Authorization_U");
-  const newUserData = getEditedData();
-
-  fetch(config.url + "/user/profile", {
-    method: "POST",
-    headers: {
-      Authorization_U: token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newUserData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.code === 200) {
-        console.log("code", code, ":", data.message);
-        swal("修改成功", "", "success");
-      } else {
-        console.log("code", code, ":", data.message);
-        swal("修改失敗", "請確認資料格式");
-      }
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-    });
-}
-
-function getEditedData() {
-  const editedData = {
-    userName: profile_els().userName.value,
-    userNickName: profile_els().userNickName.value,
-    // ... 其他需要编辑的数据字段
-  };
-  return editedData;
-}

@@ -1,16 +1,12 @@
 import config from "../../../../../ipconfig.js";
-
 let dataTable; // 將 dataTable 定義在函數之外
 let selectedRow;
 //Header Token
 const token = localStorage.getItem("Authorization_U");
-//const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
-
 
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
      // 使用 DataTable 初始化函數
-
     fetchUserOrders();
 });
 
@@ -29,7 +25,7 @@ function fetchUserOrders() {
         if (data.message) {
             const orders = data.message;
             // 整理數據為DataTable可識別的格式
-            
+            console.log(orders);
             const formattedData = orders.map(order => [
                 order.ordNo,
                 order.ordCreate, // 訂單日期
@@ -152,7 +148,7 @@ function fetchUserOrders() {
                         render: function (data, type, row) {
                             if (type === 'display') {
                                 // 创建支付按钮元素
-                                const paymentButton = '<a href="#" class="btn-link payMoney-icon"><i class="fa-solid fa-money-bill"></i></a>';
+                                const paymentButton = '<a href="#" class="btn-link payMoney-icon" id="buttonContainer"><i class="fa-solid fa-money-bill"></i></a>';
                                 return paymentButton;
                             }
                             return data; // 其他情况返回原始数据
@@ -263,7 +259,8 @@ function fetchUserOrders() {
                     });
                 } else {
                     // 付款操作
-                    console.log(ordNo);
+                    checkIsPay(ordNo);
+                    
                 }
                 
             })
@@ -290,8 +287,9 @@ function deleteOrder(requestData, selectedRow) {
     .then(response => {
         if (response.ok) {
             Swal.fire('刪除成功!');
-            dataTable.row(selectedRow).remove().draw(); // 從DataTable中删除行
-            // location.reload();
+            //dataTable.row(selectedRow).remove(); // 從 DataTable 中移除並重新繪製
+            dataTable.row(selectedRow).remove().draw(false);
+            fetchUserOrders();
         } else {
             Swal.fire('刪除失敗!');
         }
@@ -426,3 +424,62 @@ function getOrderDetailByOrdNo(ordNo) {
     })
 }
 
+// 訂單付款
+function payForOrder(ordNo) {
+    // console.log(ordNo);
+    fetch(config.url+"/user/productMall/order/getPaymentForm?orderId="+ ordNo, {
+        method: "GET",
+        headers: {
+            "Authorization_U": token,  // 在標頭中帶入 Token
+            "Content-Type": "application/json"   // 如果需要，指定內容類型
+        }
+    }).then(response => response.json())
+        .then(res => {
+            console.log(res);
+            // if (res.code == 410) {
+            //     button.disabled = true;
+            //     button.textContent = "完成付款"; // 修改按鈕文字為 "完成付款"
+            //     return;
+            // }
+            // if (res.code != 200) {
+            //     swal(res.message);
+            //     return;
+            // }
+            var newWindow = window.open();
+            newWindow.document.write(res.message); // 插入表單 HTML 內容
+            newWindow.document.close();
+        })
+        .catch(error => {
+            console.error("Error fetching form:", error);
+        });
+}
+
+//確認是否完成付款
+function checkIsPay(ordNo) {
+    fetch(config.url+"/user/productMall/order?orderId="+ordNo, {
+        method: "GET",
+        headers: {
+            "Authorization_U": token,  // 在標頭中帶入 Token
+            "Content-Type": "application/json"   // 如果需要，指定內容類型
+        }
+    }).then(response => response.json())
+        .then(res => {
+            console.log(res);
+            if (res.code != 200)
+                swal(res.message);
+            if (res.message == "isPay") {
+                // button.disabled = true;
+                console.log(123);
+                alert("完成付款");
+                // button.textContent = "完成付款"; // 修改按鈕文字為 "完成付款"
+                return true;
+            }else if(res.message == "unPay"){
+                payForOrder(ordNo);
+            }
+
+        })
+        .catch(error => {
+            console.error("Error fetching form:", error);
+        });
+        return false;
+}
