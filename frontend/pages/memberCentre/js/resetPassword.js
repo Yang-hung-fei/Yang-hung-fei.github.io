@@ -54,7 +54,7 @@ function checkResetPassword() {
   const newPassword = firstPassword.value;
   const confirmPassword = secondPassword.value;
 
-  if (newPassword.length !== 6) {
+  if (newPassword.length < 6) {
     swal("密碼必須為至少6位數的英文數字。");
     cleanInput();
     return;
