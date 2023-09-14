@@ -437,9 +437,11 @@ function updateAuthorities(updateAuthritiesJson) {
           // TODO: 增加成功提示
           console.log(response);
           searchmanagers(currentSearchURL);
+          resolve(response);
         } else {
-          // TODO: 增加失敗提示
+          // 失敗情況
           console.log(response);
+          reject(response);
         }
       })
       .catch((error) => {
@@ -890,22 +892,25 @@ async function addManagerAuthorities() {
   );
   const response = await updateAuthorities(addManagerAuthorities);
 
-  // 顯示提示
   const setManagerAuthoritiesCompleteNotice = $(
     "#setManagerAuthoritiesCompleteNotice"
   );
-  setManagerAuthoritiesCompleteNotice.text(
-    response.message === "更新完成" ? "設置成功" : response.message
-  );
+
   if (response.code === 200) {
+    // TODO: 換下一頁
     // 將提示顏色設置為 black
     setManagerAuthoritiesCompleteNotice.css("color", "black");
-    //  隱藏 Step 3，顯示 complete page
-    $("#Add_UpdateManagerAuthorities").on("click", function () {
-      $("#addCompleteButton").on("click", function () {
-        $("#step3Content").addClass("d-none");
-        $("#completionPage").removeClass("d-none");
-      });
+    setManagerAuthoritiesCompleteNotice.text(
+      response.message === "更新完成" ? "設置成功" : response.message
+    );
+    setManagerAuthoritiesCompleteNotice.removeClass("invisible");
+    // 隱藏「設置 (管理員權限)」按鈕，顯示「下一步」按鈕
+    $("#Add_UpdateManagerAuthorities").addClass("d-none");
+    $("#addCompleteButton").removeClass("d-none");
+    //  隱藏 Step 3，顯示 complete page (點擊「設置」，之後點擊「下一步」)
+    $("#addCompleteButton").on("click", function () {
+      $("#step3Content").addClass("d-none");
+      $("#completionPage").removeClass("d-none");
     });
   } else if (response.code === 400) {
     // 將提示顏色設置為 red
@@ -913,7 +918,6 @@ async function addManagerAuthorities() {
   } else if (response.code === 401) {
     errorAuth();
   }
-  setManagerAuthoritiesCompleteNotice.removeClass("invisible");
 
   // 集結更新權限的 JSON (帳號 + 權限陣列)
   function jsonAuthrities(account, authorities) {
