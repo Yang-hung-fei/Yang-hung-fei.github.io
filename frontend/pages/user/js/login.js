@@ -30,11 +30,10 @@ $(window).on("load", () => {
       var response = grecaptcha.getResponse();
 
       // 檢查回應是否為空，表示未通過驗證
-      if (response.length === 0){
+      if (response.length === 0) {
         swal("失敗", "請通過機器人驗證", "error");
         return;
       }
-        
 
       // 顯示 fetch 前的燈箱
       $("div.overlay").fadeIn();
@@ -110,51 +109,50 @@ $(window).on("load", () => {
     });
   }
 
+  const passwordInput = document.getElementById("password");
+  const showPasswordToggle = document.getElementById("showPasswordToggle");
 
-  const passwordInput = document.getElementById('password');
-  const showPasswordToggle = document.getElementById('showPasswordToggle');
-
-  showPasswordToggle.addEventListener('click', () => {
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-      showPasswordToggle.classList.remove('fa-eye-slash');
-      showPasswordToggle.classList.add('fa-eye');
+  showPasswordToggle.addEventListener("click", function () {
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      showPasswordToggle.classList.remove("fa-eye-slash");
+      showPasswordToggle.classList.add("fa-eye");
     } else {
-      passwordInput.type = 'password';
-      showPasswordToggle.classList.remove('fa-eye');
-      showPasswordToggle.classList.add('fa-eye-slash');
+      passwordInput.type = "password";
+      showPasswordToggle.classList.remove("fa-eye");
+      showPasswordToggle.classList.add("fa-eye-slash");
     }
   });
   $("#email").on("change", (event) => {
     validateEmail();
-  })
+  });
   $("#password").on("change", (event) => {
     checkPasswordLength();
-  })
+  });
 
   function validateEmail() {
-    const emailInput = document.getElementById('email');
-    const emailError = document.getElementById('emailError');
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("emailError");
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     if (!emailPattern.test(emailInput.value)) {
-      emailError.textContent = '輸入的信箱無效';
+      emailError.textContent = "輸入的信箱無效";
     } else {
-      emailError.textContent = '';
+      emailError.textContent = "";
     }
   }
 
   function checkPasswordLength() {
-    var passwordInput = document.getElementById('password');
-    var passwordError = document.getElementById('passwordError');
+    var passwordInput = document.getElementById("password");
+    var passwordError = document.getElementById("passwordError");
     var password = passwordInput.value;
 
     if (password.length >= 6) {
       // 清除錯誤訊息，如果之前有顯示的話
-      passwordError.textContent = '';
+      passwordError.textContent = "";
     } else {
       // 顯示錯誤訊息
-      passwordError.textContent = '密碼長度至少需 6 個字';
+      passwordError.textContent = "密碼長度至少需 6 個字";
     }
   }
 });
