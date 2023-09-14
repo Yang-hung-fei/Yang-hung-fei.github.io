@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const notifyButton = document.getElementById("notify");
 
   notifyButton.addEventListener("click", function () {
-    notifyButton.css("z-index", "999");
     notificationDiv.classList.toggle("show");
   });
 
