@@ -430,7 +430,7 @@
                       <span id="showPassword"></span>
                       <button
                         id="editPasswordBtn"
-                        class="btn btn-primary save"
+                        class="btn btn-primary"
                         style="margin-left: 8px"
                       >
                         修改密碼
@@ -453,24 +453,39 @@
                 <div id="userGenderDiv">
                   <label for="userGender">性別</label>
                   <select name="userGender" id="userGender">
-                    <option value="尚未設定">-</option>
+                    <option
+                      value="尚未設定"
+                      style="background-color: #ededed"
+                      disabled
+                    >
+                      -
+                    </option>
                     <option value="男性">男性</option>
                     <option value="女性">女性</option>
                   </select>
                 </div>
-                <div class="notice">test</div>
                 <div id="userBirthdayDiv">
                   <label for="userBirthday">生日</label>
                   <input type="date" id="userBirthday" />
                 </div>
-                <div class="notice">test</div>
                 <div id="userPhoneDiv">
                   <label for="userPhone">電話</label>
+                  <span style="position: absolute; left: 15px; color: #f55f1a"
+                    >*</span
+                  >
                   <input type="phone" id="userPhone" />
+                  <span
+                    class="notice"
+                    style="color: #f55f1a; visibility: hidden"
+                    id="phoneNotice"
+                    >　此為必填欄位，請填寫電話。</span
+                  >
                 </div>
-                <div class="notice">test</div>
                 <div id="userAddressDiv">
                   <label for="userAddress">地址</label>
+                  <span style="position: absolute; left: 15px; color: #f55f1a"
+                    >*</span
+                  >
                   <select id="city" name="city">
                     <option disabled="disabled" selected="selected" value="">
                       縣市
@@ -483,7 +498,13 @@
                   </select>
                   <input type="text" id="userAddress" />
                 </div>
-                <div class="notice">test</div>
+                <div
+                  class="notice"
+                  style="margin-bottom: 20px; visibility: hidden"
+                  id="addressNotice"
+                >
+                  此為必填欄位，請填寫地址。
+                </div>
               </div>
               <div id="edit-info"></div>
               <button

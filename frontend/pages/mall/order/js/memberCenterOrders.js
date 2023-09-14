@@ -1,16 +1,12 @@
 import config from "../../../../../ipconfig.js";
-
 let dataTable; // 將 dataTable 定義在函數之外
 let selectedRow;
 //Header Token
 const token = localStorage.getItem("Authorization_U");
-//const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNjk0MTgwMzU2fQ.7B-Vmv6G_IOfZjiB0x5T4omKhNSbjYOAm30nbfVMZIk";
-
 
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
      // 使用 DataTable 初始化函數
-
     fetchUserOrders();
 });
 
@@ -29,7 +25,7 @@ function fetchUserOrders() {
         if (data.message) {
             const orders = data.message;
             // 整理數據為DataTable可識別的格式
-            
+            console.log(orders);
             const formattedData = orders.map(order => [
                 order.ordNo,
                 order.ordCreate, // 訂單日期
@@ -152,7 +148,7 @@ function fetchUserOrders() {
                         render: function (data, type, row) {
                             if (type === 'display') {
                                 // 创建支付按钮元素
-                                const paymentButton = '<a href="#" class="btn-link payMoney-icon"><i class="fa-solid fa-money-bill"></i></a>';
+                                const paymentButton = '<a href="#" class="btn-link payMoney-icon" id="buttonContainer"><i class="fa-solid fa-money-bill"></i></a>';
                                 return paymentButton;
                             }
                             return data; // 其他情况返回原始数据
@@ -217,26 +213,39 @@ function fetchUserOrders() {
                 selectedRow = dataTable.row($(this).closest('tr')).data();
                 const rowData = dataTable.row($(this).closest('tr')).data();
                 const ordNo = rowData[0]; // 訂單編號在第一列
-                // 在這裡處理刪除操作，你可以使用rowData中的數據
-                const requestData = {
-                    ordNo: ordNo,
-                    ordStatus: 6 // 设置订单状态为6，您可以根据需要修改
-                };
+                const ordPayStatus = rowData[6];
+                
+                if(ordPayStatus === 0){
+                    // 在這裡處理刪除操作，你可以使用rowData中的數據
+                    const requestData = {
+                        ordNo: ordNo,
+                        ordStatus: 6 // 狀態設為6,代表會員取消訂單
+                    };
 
-                Swal.fire({
-                    title: '請確認',
-                    text: '您確定要刪除這筆訂單嗎!?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: '確定刪除'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // 用户点击了"確定刪除"按钮，执行删除操作
-                        deleteOrder(requestData, selectedRow);
-                    }
-                });
+                    Swal.fire({
+                        title: '請確認',
+                        text: '您確定要刪除這筆訂單嗎!?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: '確定刪除'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // 點擊確定 刪除!
+                            deleteOrder(requestData, selectedRow);
+                        }
+                    });
+                }else{
+                    Swal.fire({
+                        title: '無法刪除',
+                        text: '此訂單已付款完成，無法刪除，若要刪除請聯絡管理員',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: '了解'
+                    });
+                }
+                
 
             });
 
@@ -263,7 +272,8 @@ function fetchUserOrders() {
                     });
                 } else {
                     // 付款操作
-                    console.log(ordNo);
+                    checkIsPay(ordNo);
+                    
                 }
                 
             })
@@ -290,8 +300,9 @@ function deleteOrder(requestData, selectedRow) {
     .then(response => {
         if (response.ok) {
             Swal.fire('刪除成功!');
-            dataTable.row(selectedRow).remove().draw(); // 從DataTable中删除行
-            // location.reload();
+            //dataTable.row(selectedRow).remove(); // 從 DataTable 中移除並重新繪製
+            dataTable.row(selectedRow).remove().draw(false);
+            fetchUserOrders();
         } else {
             Swal.fire('刪除失敗!');
         }
@@ -383,7 +394,7 @@ function getOrderDetailByOrdNo(ordNo) {
                     <p><strong>收件地址:</strong> <span id="recipientAddress">${orderDetail[0].recipientAddress}</span></p>
                     <p><strong>收件人電話:</strong> <span id="recipientPh">${orderDetail[0].recipientPh}</span></p>
                     <p><strong>評價狀態:</strong> <span id="evaluateStatus">${orderEvaluateStatus}</span></p>
-                    <p><strong>訂單完成時間:</strong> <span id="ordFinish">${formattedOrdFinish}</span></p>
+                    <p><strong>訂單付款時間:</strong> <span id="ordFinish">${formattedOrdFinish}</span></p>
                 </div>
                 `;
 
@@ -426,3 +437,62 @@ function getOrderDetailByOrdNo(ordNo) {
     })
 }
 
+// 訂單付款
+function payForOrder(ordNo) {
+    // console.log(ordNo);
+    fetch(config.url+"/user/productMall/order/getPaymentForm?orderId="+ ordNo, {
+        method: "GET",
+        headers: {
+            "Authorization_U": token,  // 在標頭中帶入 Token
+            "Content-Type": "application/json"   // 如果需要，指定內容類型
+        }
+    }).then(response => response.json())
+        .then(res => {
+            console.log(res);
+            // if (res.code == 410) {
+            //     button.disabled = true;
+            //     button.textContent = "完成付款"; // 修改按鈕文字為 "完成付款"
+            //     return;
+            // }
+            // if (res.code != 200) {
+            //     swal(res.message);
+            //     return;
+            // }
+            var newWindow = window.open();
+            newWindow.document.write(res.message); // 插入表單 HTML 內容
+            newWindow.document.close();
+        })
+        .catch(error => {
+            console.error("Error fetching form:", error);
+        });
+}
+
+//確認是否完成付款
+function checkIsPay(ordNo) {
+    fetch(config.url+"/user/productMall/order?orderId="+ordNo, {
+        method: "GET",
+        headers: {
+            "Authorization_U": token,  // 在標頭中帶入 Token
+            "Content-Type": "application/json"   // 如果需要，指定內容類型
+        }
+    }).then(response => response.json())
+        .then(res => {
+            console.log(res);
+            if (res.code != 200)
+                swal(res.message);
+            if (res.message == "isPay") {
+                // button.disabled = true;
+                console.log(123);
+                alert("完成付款");
+                // button.textContent = "完成付款"; // 修改按鈕文字為 "完成付款"
+                return true;
+            }else if(res.message == "unPay"){
+                payForOrder(ordNo);
+            }
+
+        })
+        .catch(error => {
+            console.error("Error fetching form:", error);
+        });
+        return false;
+}

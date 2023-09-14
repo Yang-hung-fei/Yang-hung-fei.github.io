@@ -36,6 +36,7 @@
         h2 {
             font-weight: bold;
         }
+
         .wave{
         position: relative;
         -webkit-box-reflect: below -5px linear-gradient(transparent, rgba(0,0,0,0.2));
@@ -51,6 +52,7 @@
         animation-delay: calc(0.1s * var(--i));
         }
 
+
         @keyframes animate
         {
             0%{
@@ -63,20 +65,144 @@
                 transform: translateY(0px);
             }
         }
+
+        .loading.hidden {
+            display: none;
+        }
+        /* Absolute Center Spinner */
+        .loading {
+        position: fixed;
+        z-index: 999;
+        height: 2em;
+        width: 2em;
+        overflow: show;
+        margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        }
+
+        /* Transparent Overlay */
+        .loading:before {
+        content: '';
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .6));
+        background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.6));
+        }
+
+        /* :not(:required) hides these rules from IE9 and below */
+        .loading:not(:required) {
+        /* hide "loading..." text */
+        font: 0/0 a;
+        color: transparent;
+        text-shadow: none;
+        background-color: transparent;
+        border: 0;
+        }
+
+        .loading:not(:required):after {
+        content: '';
+        display: block;
+        font-size: 10px;
+        width: 1em;
+        height: 1em;
+        margin-top: -0.5em;
+        -webkit-animation: spinner 150ms infinite linear;
+        -moz-animation: spinner 150ms infinite linear;
+        -ms-animation: spinner 150ms infinite linear;
+        -o-animation: spinner 150ms infinite linear;
+        animation: spinner 150ms infinite linear;
+        border-radius: 0.5em;
+        -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+        box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+        }
+
+        /* Animation */
+
+        @-webkit-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+        }
+        @-moz-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+        }
+        @-o-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+        }
+        @keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+        }
     </style>
 </head>
 
 <body>
     
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" role="status"></div>
-        </div>
+        </div> -->
         <!-- Spinner End -->
 
 
         <!-- Navbar Start -->
-        <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s" style="background-color: #FEFCEC;" >
+        <!-- <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s" style="background-color: #FEFCEC;" >
             
             <div class="top-bar row gx-0 align-items-center d-none d-lg-flex">
                 <div class="col-lg-6 px-5 text-start">
@@ -130,12 +256,14 @@
                     </div>
                 </div>
             </nav>
-        </div>
+        </div> -->
         <!-- Navbar End -->
 
+        <!-- Header -->
+        <iframe id="header" src="/frontend/header.html" width="100%" height="200px"></iframe>
 
         <!-- Page Header Start -->
-        <div class="container-fluid page-header mb-3 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container-fluid page-header mb-3 wow fadeIn" data-wow-delay="0.1s" style="margin-top: -250px;">
             <div class="container">
                 <div class="wave">
                     <span style="--i:1;">我</span>
@@ -158,6 +286,7 @@
         <!-- Page Header End -->
         
 
+        
 
         <!-- Start Cart  -->
         <div id="app">
@@ -300,10 +429,10 @@
                                         <hr class="mb-4">
                                         <div class="title"> <span>付款方式</span> </div>
                                         <div class="d-block my-3">
-                                            <div class="custom-control custom-radio">
+                                            <!-- <div class="custom-control custom-radio">
                                                 <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
                                                 <label class="custom-control-label" for="debit">貨到付款</label>
-                                            </div>
+                                            </div> -->
                                             <div class="custom-control custom-radio">
                                                 <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
                                                 <label class="custom-control-label" for="credit">信用卡付款</label>
@@ -426,11 +555,12 @@
             </div>
         </div>
         <!-- End Cart -->
-    
+
+        <div class="loading hidden">Loading&#8230;</div>
 
 
     <!-- Footer Start -->
-    <footer class="container-fluid footer mt-0 pt-5 wow fadeIn" data-wow-delay="0.1s"
+    <!-- <footer class="container-fluid footer mt-0 pt-5 wow fadeIn" data-wow-delay="0.1s"
     style="background-color: #6F5242;">
     <div class="container py-5">
         <div class="row g-5">
@@ -483,16 +613,118 @@
                     &copy; <a href="#">Your Site Name</a>, All Right Reserved.
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                     Designed By <a href="https://htmlcodex.com">HTML Codex</a>
                     <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
                 </div>
             </div>
         </div>
     </div>
-    </footer>
+    </footer> -->
+    <!-- <iframe id="footer" src="/frontend/footer.html" width="100%" height="625px"></iframe> -->
     <!-- Footer End -->
 
+    <footer
+    class="container-fluid footer mt-5 pt-5 wow fadeIn"
+    data-wow-delay="0.1s"
+    style="background-color: #6f5242"
+  >
+    <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <img
+            src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
+            alt="LOGO"
+            style="width: 180px"
+          />
+          <ul>
+            <li>A paradise for shopping</li>
+            <li>Plenty of groups for interaction</li>
+            <li>A comfortable space for grooming</li>
+          </ul>
+          <div class="d-flex pt-2">
+            <a
+              class="btn btn-square btn-outline-light rounded-circle me-1"
+              href=""
+              ><i class="fab fa-twitter" target="_blank"></i
+            ></a>
+            <a
+              class="btn btn-square btn-outline-light rounded-circle me-1"
+              href=""
+              ><i class="fab fa-facebook-f" target="_blank"></i
+            ></a>
+            <a
+              class="btn btn-square btn-outline-light rounded-circle me-1"
+              href="https://www.youtube.com/@AllDogCat-rj8ov"
+              ><i class="fab fa-youtube" target="_blank"></i
+            ></a>
+            <a
+              class="btn btn-square btn-outline-light rounded-circle me-0"
+              href="https://www.instagram.com/all_dog_cat_store/?hl=zh-tw"
+              ><i class="fab fa-linkedin-in" target="_blank"></i
+            ></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-light mb-4">Address</h4>
+          <p>
+            <i class="fa fa-map-marker-alt me-3"></i>330
+            桃園市中壢區復興路123號45樓
+          </p>
+          <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
+          <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-light mb-4">Quick Links</h4>
+          <a class="btn btn-link" href="/frontend/pages/homepage/about.html"
+            >About Us</a
+          >
+          <!-- <a class="btn btn-link" href="">Contact Us</a> -->
+          <a class="btn btn-link" href="">Our Services</a>
+          <a class="btn btn-link" href="">Terms & Condition</a>
+          <!-- <a class="btn btn-link" href="">Support</a> -->
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-light mb-4">Newsletter</h4>
+          <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+          <div class="position-relative mx-auto" style="max-width: 400px">
+            <input
+              class="form-control bg-transparent w-100 py-3 ps-4 pe-5"
+              type="text"
+              placeholder="Your email"
+            />
+            <button
+              type="button"
+              class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
+            >
+              SignUp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            &copy; <a href="#">All Dog Cat</a>, All Right Reserved.
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+            <br />Distributed By:
+            <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a
+        href="#"
+        class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"
+        ><i class="bi bi-arrow-up"></i
+    ></a>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>

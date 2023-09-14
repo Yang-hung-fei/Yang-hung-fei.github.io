@@ -1,6 +1,6 @@
 import config from "../../../../ipconfig.js";
 window.addEventListener("load", () => {
-        const pdNo = localStorage.getItem("pdNo"); // 使用Manager Token
+    const pdNo = localStorage.getItem("pdNo"); // 使用Manager Token
 
     all(pdNo);
 
@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
             const productImagesElement = document.querySelector('.product-images');
             const productDescriptionElement = document.querySelector('.product-description');
             const subpdpic = document.getElementById('subpdpic');
-
+            const mainImg = document.getElementById('mainImg');
             console.log(subpdpic);
             // 将产品数据填充到页面元素中
             productNameElement.textContent = productData.pdName;
@@ -45,19 +45,23 @@ window.addEventListener("load", () => {
             const div = document.createElement('div');
             div.className = 'subpdpic';
 
+            const imgElement = document.createElement('img');
+            imgElement.src = '';
+            imgElement.alt = 'Product Main Image';
+            productImagesElement.appendChild(imgElement);
             // 填充产品图片
             for (let i = 0; i < base64Images.length; i++) {
-                if (i === 0) {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = 'data:image/png;base64,' + base64Images[i];
-                    imgElement.alt = 'Product Main Image';
-                    productImagesElement.appendChild(imgElement);
-                } else {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = 'data:image/png;base64,' + base64Images[i];
-                    imgElement.alt = 'Product Sub Image';
-                    div.appendChild(imgElement);
-                }
+                // if (i === 0) {
+                const imgElement = document.createElement('img');
+                imgElement.src = 'data:image/png;base64,' + base64Images[i];
+                imgElement.alt = 'Product Sub Image';
+                div.appendChild(imgElement);
+                // } else {
+                //     const imgElement = document.createElement('img');
+                //     imgElement.src = 'data:image/png;base64,' + base64Images[i];
+                //     imgElement.alt = 'Product Sub Image';
+                //     div.appendChild(imgElement);
+                // }
             }
 
             productImagesElement.appendChild(div);
