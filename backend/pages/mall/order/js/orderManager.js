@@ -6,7 +6,6 @@ let table;
 let currentOrdNo; // 儲存當前的 ordNo
 //監聽modal
 let updateModalEl = new bootstrap.Modal(document.getElementById('updateModal'));
-
 //一進頁面渲染
 window.addEventListener("load", function () {
     fetchAndBuildTable();
@@ -305,7 +304,7 @@ function getOrderDetailByOrdNo(ordNo) {
                     <p><strong>收件地址:</strong> <span id="recipientAddress">${orderDetail[0].recipientAddress}</span></p>
                     <p><strong>收件人電話:</strong> <span id="recipientPh">${orderDetail[0].recipientPh}</span></p>
                     <p><strong>評價狀態:</strong> <span id="evaluateStatus">${orderEvaluateStatus}</span></p>
-                    <p><strong>訂單完成時間:</strong> <span id="ordFinish">${formattedOrdFinish}</span></p>
+                    <p><strong>訂單付款時間:</strong> <span id="ordFinish">${formattedOrdFinish}</span></p>
                 </div>
                 `;
 
