@@ -123,6 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
     //發送POST請求
     submitOrderBtnEl.addEventListener("click",function (e) {
         e.preventDefault();
+        // 顯示 loading 元素
+        const loadingElement = document.querySelector(".loading");
+        loadingElement.classList.remove("hidden"); // 移除 "hidden" 類，以顯示 loading
+
         //驗證相關
         const nameInput = document.getElementById("recipientName");
         const phoneInput = document.getElementById("recipientPh");
@@ -166,10 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
             orders: orders,
             detailList: detailList
         };
-
-        console.log(postData);
-        console.log(ordPick);
-
+        // console.log(postData);
+        // console.log(ordPick);
         // 發送 POST 請求到後端 API,記得更新token
         Swal.fire({
             title: '確定要提交訂單嗎？',
@@ -234,20 +236,26 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(response => response.json())
                             .then(data => {
                                 console.log(data.message); // 可以根據需要進行處理
+                                loadingElement.classList.add("hidden");
                                 Swal.fire("表單新增成功前往付款!");
                                 window.location.href = "./thankOrder.html"
                             })
                             .catch(error => {
+                                loadingElement.classList.add("hidden");
                                 console.error('Error deleting shopping cart:', error);
                             });
+                        }else{
+                            loadingElement.classList.add("hidden");
                         }
     
                     })
                     .catch(error => {
                         console.error('Error creating order:', error);
+                        loadingElement.classList.add("hidden");
                     });
                 } else {
                     // 使用者按下取消按鈕，不執行請求
+                    loadingElement.classList.add("hidden");
                     console.log('使用者取消了訂單提交。');
                 }
                 // console.log("表單驗證通過，執行提交操作。");
@@ -255,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
         });
 
-        })
+    });
 
 });
 

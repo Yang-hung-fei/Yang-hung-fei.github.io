@@ -11,7 +11,7 @@ var app = new Vue({
       },
       continueShopping: function() {
         // 在這裡處理 "繼續選購" 按鈕的點擊事件
-        window.location.href="../product/product.html";
+        window.location.href="../mall/mall.html";
       },
       viewOrders: function() {
         // 在這裡處理 "查看訂單" 按鈕的點擊事件
@@ -38,12 +38,19 @@ var app = new Vue({
         }) // 請替換為實際的 API 端點
         .then(response => {
             this.userPoint = response.data.message; // 將 API 回應中的點數賦值給用戶點數數據屬性
-            this.text = `您還剩餘 ${this.userPoint} 點`;
+            this.text = `您還剩餘 ${this.userPoint} 點折扣點數`;
             console.log(this.userPoint);
         })
         .catch(error => {
             console.error('獲取用戶點數時出錯：', error);
         });
+
+        // 禁止用戶返回上一頁
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            // 當用戶嘗試返回上一頁時，將其重新導向回感謝購買頁面
+            history.go(1);
+        };
     }
   });
 
