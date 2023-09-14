@@ -1,9 +1,10 @@
 import config from "../../../../ipconfig.js";
 
-let dataTable; // 將 dataTable 定義在函數之外
-
 //Header Token
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NjkwNDE4fQ.mQVsYsxqDbXVSEEcZV1vjnoJqhZjoZ8KB6SY9YhLZQQ";
+// const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NjkwNDE4fQ.mQVsYsxqDbXVSEEcZV1vjnoJqhZjoZ8KB6SY9YhLZQQ";
+const token = localStorage.getItem("Authorization_U");
+
+let dataTable; // 將 dataTable 定義在函數之外
 
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 發送GET請求獲取訂單數據
 function fetchProductCollectList() {
-    fetch(config.url + "/user/productcollectlist?userId=4", {   //這裡是改成${userid}嗎?
+    fetch(config.url + "/user/productcollectlist", {   
         method: "GET",
         headers: {
             Authorization_U: token,
@@ -32,7 +33,7 @@ function fetchProductCollectList() {
                     dataTable.clear().destroy();
                 }
 
-                  // 格式化数据为 DataTable 可识别的格式
+                  // 格式化数据为 DataTable 可识别的格式 !!!!!!!!!!!!!!!!!!!!!!!!!這裡有錯
                   const formattedData = productList.map(product => [
                     `<img src="data:image/png;base64,${product.base64Image}" alt="${product.pdName}" width="50">`,
                     product.pdName,
@@ -71,7 +72,7 @@ function fetchProductCollectList() {
     
     // 删除商品收藏
     function deleteProductFromCollect(productId) {
-        fetch(config.url + `/user/deleteproductcollect?userId=4&pdNo=${productId}`, {
+        fetch(config.url + "/user/deleteproductcollect", {  //路徑有問題
             method: 'DELETE',
             headers: {
                 'Authorization_U': token,

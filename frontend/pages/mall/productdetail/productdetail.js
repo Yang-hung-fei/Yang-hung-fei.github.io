@@ -66,6 +66,9 @@ window.addEventListener("load", () => {
 
             productImagesElement.appendChild(div);
 
+
+
+
             // 填充产品描述
             productDescriptionElement.innerHTML = productData.pdDescription;
         }

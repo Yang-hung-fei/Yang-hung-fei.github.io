@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgb(247, 245, 241);
-    
+
 }
 
 
@@ -85,16 +85,27 @@ body {
     height: auto;
 }
 
-.subpdpic {
-    display: flex;
-    justify-content: space-between;
-}
-
 .subpdpic img {
     display: flex;
     position: relative;
     max-width: 95px;
+    margin: 2.5px;
 }
+
+.subpdpic {
+    width: 400px;
+    height: auto;
+    margin: 100px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.subpdpic {
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+
 
 
 .product-info {
@@ -117,6 +128,7 @@ body {
     align-items: center;
     margin: 10px 0;
 }
+
 #quantity {
     margin: 0 20px;
 }
@@ -150,8 +162,8 @@ body {
     color: white;
     border: none;
     cursor: pointer;
-    width: 80%; 
-    text-align: center; 
+    width: 80%;
+    text-align: center;
 }
 
 .add-to-favorites {
@@ -180,11 +192,11 @@ body {
 }
 
 .product-description img {
-    max-width: 80%;    
-    margin-left: 100px; 
+    max-width: 80%;
+    margin-left: 100px;
 }
 
-.review-top{
+.review-top {
     justify-content: space-between;
 }
 
@@ -212,23 +224,30 @@ body {
 /* RWD */
 @media (max-width: 768px) {
     .product-info {
-        text-align: center; /* 将内容居中 */
+        text-align: center;
+        /* 将内容居中 */
     }
-    
+
     .quantity {
         display: flex;
-        flex-direction: column; /* 垂直排列数量组件 */
-        align-items: center; /* 在父容器中水平居中 */
-        margin-top: 10px; /* 适当的顶部间距 */
+        flex-direction: column;
+        /* 垂直排列数量组件 */
+        align-items: center;
+        /* 在父容器中水平居中 */
+        margin-top: 10px;
+        /* 适当的顶部间距 */
     }
 
     .quantity div {
         display: flex;
-        align-items: center; /* 在数量按钮之间对齐 */
-        margin-top: 5px; /* 适当的间距 */
+        align-items: center;
+        /* 在数量按钮之间对齐 */
+        margin-top: 5px;
+        /* 适当的间距 */
     }
 
     .quantity-button {
-        margin: 0 5px; /* 按钮间距 */
+        margin: 0 5px;
+        /* 按钮间距 */
     }
 }
