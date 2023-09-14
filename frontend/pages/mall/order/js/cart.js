@@ -372,3 +372,27 @@ checkoutButton.addEventListener('click', function (e) {
     // 如果一切正常，導航到結帳頁面
     window.location.href = "./orders.html";
 });
+
+//getOAuthCode
+const getOAuthCodeEl = document.querySelector('#getOAuthCode');
+getOAuthCodeEl.addEventListener("click", function () {
+    console.log(12);
+    fetch(config.url +'/customer/sendToOauth', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            // 如果需要在请求头中添加其他信息，可以在这里添加
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            // 重定向到OAuth URL
+            window.location.href = response.url;
+        } else {
+            console.error('获取OAuth授权码失败');
+        }
+    })
+    .catch(error => {
+        console.error('发生错误:', error);
+    });
+})
