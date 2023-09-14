@@ -32,7 +32,8 @@ window.addEventListener("load", () => {
             const productDescriptionElement = document.querySelector('.product-description');
             const subpdpic = document.getElementById('subpdpic');
             const mainImg = document.getElementById('mainImg');
-            console.log(subpdpic);
+            
+        
             // 将产品数据填充到页面元素中
             productNameElement.textContent = productData.pdName;
             productPriceElement.textContent = 'NT$' + productData.pdPrice;
@@ -45,29 +46,39 @@ window.addEventListener("load", () => {
             const div = document.createElement('div');
             div.className = 'subpdpic';
 
-            const imgElement = document.createElement('img');
-            imgElement.src = '';
-            imgElement.alt = 'Product Main Image';
-            productImagesElement.appendChild(imgElement);
+            const imgElementM = document.createElement('img');
+            imgElementM.src = '';
+            imgElementM.alt = 'Product Main Image';
+            productImagesElement.appendChild(imgElementM);
             // 填充产品图片
             for (let i = 0; i < base64Images.length; i++) {
-                // if (i === 0) {
+                
                 const imgElement = document.createElement('img');
                 imgElement.src = 'data:image/png;base64,' + base64Images[i];
                 imgElement.alt = 'Product Sub Image';
+
+
+
+                //監聽元素
+                imgElement.addEventListener('click',function(){
+                    imgElementM.src='data:image/png;base64,' + base64Images[i];
+                });
+
+                if(i ===0){
+                    imgElement.click();
+                }
+
                 div.appendChild(imgElement);
-                // } else {
+                // else {
                 //     const imgElement = document.createElement('img');
                 //     imgElement.src = 'data:image/png;base64,' + base64Images[i];
                 //     imgElement.alt = 'Product Sub Image';
                 //     div.appendChild(imgElement);
                 // }
             }
-
+           
             productImagesElement.appendChild(div);
-
-
-
+            
 
             // 填充产品描述
             productDescriptionElement.innerHTML = productData.pdDescription;

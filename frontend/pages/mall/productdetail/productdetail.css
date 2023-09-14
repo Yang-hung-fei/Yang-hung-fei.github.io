@@ -90,12 +90,12 @@ body {
     position: relative;
     max-width: 95px;
     margin: 2.5px;
-}
+    }
 
 .subpdpic {
     width: 400px;
     height: auto;
-    margin: 100px auto;
+    /* margin: 100px auto; */
     position: relative;
     overflow: hidden;
 }
@@ -196,58 +196,115 @@ body {
     margin-left: 100px;
 }
 
+.star {
+    font-size: x-large;
+    color: #ffcc00;
+    /* 星星的颜色，这里使用黄色 */
+    display: inline-block;
+    /* 使星星水平排列 */
+    /* margin-right: 1px;
+    星星之间的间距 */
+}
+
+.star-rating {
+    font-size: 25px;
+    /* 星星的大小 */
+}
+
+
 .review-top {
     justify-content: space-between;
 }
 
+
+
+
+/* 产品评价样式 */
 .product-reviews {
+    margin-top: 30px;
     padding: 20px;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+}
+
+.product-reviews h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
 .review {
-    border: 1px solid #ccc;
+    border: 1px solid #e0e0e0;
     padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+    /* 清除浮动 */
+}
+
+
+.review-info {
+    float: left;
+    /* 左浮动 */
+}
+
+.review-content {
+    overflow: hidden;
+    /* 清除浮动 */
+}
+
+
+.review p {
     margin-bottom: 10px;
 }
 
 .review-rating {
     font-size: 18px;
-    font-weight: bold;
-    display: inline-block;
+    color: #ffcc00;
     margin-right: 10px;
+    /* 添加间距，将评分和内容分开 */
 }
 
-.review-content {
-    display: inline-block;
+.add-review {
+    background-color: #cba042;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* RWD */
-@media (max-width: 768px) {
-    .product-info {
-        text-align: center;
-        /* 将内容居中 */
-    }
+.add-review:hover {
+    background-color: #ffa500;
+}
 
-    .quantity {
-        display: flex;
-        flex-direction: column;
-        /* 垂直排列数量组件 */
-        align-items: center;
-        /* 在父容器中水平居中 */
-        margin-top: 10px;
-        /* 适当的顶部间距 */
-    }
+.review-right {
+    width: 60px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column-reverse;
+    /* 垂直排列并反转顺序 */
+}
 
-    .quantity div {
-        display: flex;
-        align-items: center;
-        /* 在数量按钮之间对齐 */
-        margin-top: 5px;
-        /* 适当的间距 */
-    }
 
-    .quantity-button {
-        margin: 0 5px;
-        /* 按钮间距 */
-    }
+.bar-5 {
+    width: 50px;
+    /* 长条的宽度 */
+    background-color: #ffa500;
+    /* 长条的背景颜色 */
+    margin: 5px 0;
+    /* 上下边距，可根据需要调整 */
+}
+
+
+.review-right div {
+    width: 50px;
+    /* 长条的宽度 */
+    background-color: #f1f1f1;
+    /* 长条的背景颜色 */
+    margin: 5px 0;
+    /* 上下边距，可根据需要调整 */
 }

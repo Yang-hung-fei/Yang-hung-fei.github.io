@@ -4,8 +4,9 @@ import config from "../../../../ipconfig.js";
 
 window.addEventListener("load", () => {
 
+    let total;
 
-    fetch(config.url + "/customer/mall", {
+    fetch(config.url + "/customer/mall?limit=8&offset=0", {
         method: "GET"
         // headers: {
         //     Authorization_U: token,
@@ -13,10 +14,11 @@ window.addEventListener("load", () => {
         // }
     })
         .then(response => response.json())
-        .then(data => {
+        .then(data => {  
             if (data.code === 200) {
-                // console.log(data.message.rs);
-                renderProductList(data.message.rs);
+                // console.log(data.message.rs); v
+                total=data.message.total; 
+                renderProductList(data.message.rs);  
             }
         });
 
@@ -63,13 +65,31 @@ window.addEventListener("load", () => {
 
                 localStorage.setItem("pdNo",product.pdNo);
                 window.location.href = "http://localhost:5500/frontend/pages/mall/productdetail/productdetail.html";
-            });
-
-
- 
-
+            }); 
         });
 
+        let count = total-8;
+               
+        $("#more").on("click",()=>{
+            fetch(config.url + "/customer/mall?limit=" + count + "&offset=8", {
+                method: "GET"
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        console.log(data);
+                        //找到剛剛的productListContainer 往後append
+                        const otherPd = data.message.rs;
+                        if(otherPd.length === count){
+                            document.getElementById('more').style.display = 'none';
+                        }
+                        renderProductList(otherPd);
+                        console.log(otherPd);
+                    }
+                });
+                
+
+        })
         
         // 取得所有 Add to cart 連結
         var addToCartLinks = document.querySelectorAll(".add-to-cart-link");

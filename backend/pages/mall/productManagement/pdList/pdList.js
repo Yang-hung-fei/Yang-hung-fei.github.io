@@ -1,6 +1,8 @@
 import config from "../../../../../ipconfig.js";
 
 const token = localStorage.getItem("Authorization_M");
+// console.log(token);
+// const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk1MTEzMjMxfQ.452GXi57MCr7pIoFBqRlgN977kvF4Hqxlm9sz7Q8I9E';
 let table;
 let currentPdNo;
 let currentPdPicNo;
@@ -22,7 +24,7 @@ function fetchAndBuildTable() {
     fetch(config.url + `/manager/getallProduct`, {
         method: "GET",
         headers: {
-            Authorization_M: token, // 使用Manager Token
+            'Authorization_M': token, // 使用Manager Token
             "Content-Type": "application/json"
         }
     })
@@ -52,7 +54,7 @@ function buildTable(newData) {
 
     table = $("#PdCollectTable").DataTable({
         id: "PdCollectTable",
-        "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]],
+        "lengthMenu": [[-1, 5, 10, 15, 20], ["全部", 5, 10, 15, 20]],
         "processing": true,
         "destroy": true,
         "autoWidth": false
@@ -217,7 +219,7 @@ function updateProductStatus(pdNo, newStatus) {
     fetch(config.url + `/manager/updateOneProductStatus`, {
         method: 'PUT',
         headers: {
-            Authorization_M: token,
+            'Authorization_M': token,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(updateStatusRequest)
@@ -286,79 +288,82 @@ function fillDataInModal(pdDetail) {
     const arrayLength = pdDetail.base64Image.length;
 
     for (let i = 0; i < arrayLength; i++) {
+
         const imageContainer = document.createElement("div");
         const pdPicNo = pdDetail.pdPicNo[i]; // 获取 pdPicNo
         const pdOrderList = pdDetail.pdOrderList[i]; // 获取 pdOrderList
 
-        imageContainer.classList.add("image-container");
-        imageContainer.style.maxWidth = "200px";
-        imageContainer.style.width = "100%";
-        imageContainer.style.zIndex = '0';
-        imageContainer.style.position = 'relative';
-        imageContainer.setAttribute("attrPicId", pdPicNo);
-        imageContainer.setAttribute("attrPicOrder", pdOrderList);
+        if (i === 0 || pdOrderList > pdDetail.pdOrderList[i - 1]) {
+            imageContainer.classList.add("image-container");
+            imageContainer.style.maxWidth = "200px";
+            imageContainer.style.width = "100%";
+            imageContainer.style.zIndex = '0';
+            imageContainer.style.position = 'relative';
+            imageContainer.setAttribute("attrPicId", pdPicNo);
+            imageContainer.setAttribute("attrPicOrder", pdOrderList);
 
-        //建叉叉
-        const closeButton = document.createElement("span");
-        closeButton.classList.add("close-button");
-        closeButton.innerHTML = `<i class="fa-solid fa-circle-xmark" style="font-size: 20px;color: black;"></i>`;
-        closeButton.style.zIndex = "1";
-        closeButton.style.position = "absolute";
-        closeButton.style.top = "0";
-        closeButton.style.right = "0";
+            //建叉叉
+            const closeButton = document.createElement("span");
+            closeButton.classList.add("close-button");
+            closeButton.innerHTML = `<i class="fa-solid fa-circle-xmark" style="font-size: 20px;color: black;"></i>`;
+            closeButton.style.zIndex = "1";
+            closeButton.style.position = "absolute";
+            closeButton.style.top = "0";
+            closeButton.style.right = "0";
 
-        // 根据 pdOrderList 值来决定是否显示删除按钮
-        if (pdOrderList == 1) {
-            closeButton.style.display = "none"; // 如果 pdOrderList 不等于 1，隐藏删除按钮
-        }
+            // 根据 pdOrderList 值来决定是否显示删除按钮
+            if (pdOrderList == 1) {
+                closeButton.style.display = "none"; // 如果 pdOrderList 不等于 1，隐藏删除按钮
+            }
 
-        closeButton.addEventListener("click", function () {
-            // 获取要删除的图片的唯一标识符，比如 pdPicNo
-            const pdPicNo = imageContainer.getAttribute("attrPicId");
-            const picData = new FormData();
-            picData.append("pdPicNo", pdPicNo);
+            closeButton.addEventListener("click", function () {
+                // 获取要删除的图片的唯一标识符，比如 pdPicNo
+                const pdPicNo = imageContainer.getAttribute("attrPicId");
+                const picData = new FormData();
+                picData.append("pdPicNo", pdPicNo);
 
 
-            // 发送删除请求到后端
-            fetch(config.url + "/manager/deletePic?pdPicNo=" + pdPicNo, {
-                method: 'POST',
-                headers: {
-                    'Authorization_M': token,
-                },
-                body: picData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.code === 200) {
-                        // 删除成功后，从 DOM 中删除图片容器
-                        imageContainer.remove();
-                    } else {
-                        // 删除失败的处理逻辑
-                        Swal.fire(data.message);
-                    }
+                // 发送删除请求到后端
+                fetch(config.url + "/manager/deletePic?pdPicNo=" + pdPicNo, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization_M': token,
+                    },
+                    body: picData
                 })
-                .catch(error => {
-                    console.error('刪除商品圖片時發生錯誤:', error);
-                });
-        });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code === 200) {
+                            // 删除成功后，从 DOM 中删除图片容器
+                            imageContainer.remove();
+                        } else {
+                            // 删除失败的处理逻辑
+                            Swal.fire(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('刪除商品圖片時發生錯誤:', error);
+                    });
+            });
 
-        const img = document.createElement("img");
-        img.src = `data:image/png;base64,${pdDetail.base64Image[i]}`;
-        img.style.maxWidth = "200px";
-        img.style.width = "100%";
-        img.style.objectFit = "cover";
-        img.style.position = "relative";
-        img.style.marginTop = "5px";
+            const img = document.createElement("img");
+            img.src = `data:image/png;base64,${pdDetail.base64Image[i]}`;
+            img.style.maxWidth = "200px";
+            img.style.width = "100%";
+            img.style.objectFit = "cover";
+            img.style.position = "relative";
+            img.style.marginTop = "5px";
 
-        imageContainer.appendChild(closeButton);
-        // imageContainer.appendChild(editButton); // 添加修改按钮
-        // imageContainer.appendChild(fileInput); // 添加上传文件的输入框
-        imageContainer.appendChild(img);
+            imageContainer.appendChild(closeButton);
+            // imageContainer.appendChild(editButton); // 添加修改按钮
+            // imageContainer.appendChild(fileInput); // 添加上传文件的输入框
 
+            imageContainer.appendChild(img);
+        }
         pdPicDiv.appendChild(imageContainer);
 
-        
-        
+
+
 
         // //創建更換圖片按鈕
         // const editButton = document.createElement("button");
@@ -415,12 +420,12 @@ function fillDataInModal(pdDetail) {
         //     }
         // });
 
-        
+
     }
 
     //新增商品圖片
     const newPic = document.getElementById("newPic");
-    newPic.removeEventListener("change", previewPic); // 刪除舊事件監聽器
+    // newPic.removeEventListener("change", previewPic); // 刪除舊事件監聽器
     // newPic.addEventListener("change", previewPic);
     newPic.addEventListener("change", () => {
         // let pre = document.getElementById("previewPic")
@@ -456,49 +461,7 @@ function fillDataInModal(pdDetail) {
         addPic();
     });
 
-    function addPic() {
-        // const pdNo = currentPdNo;
-        // const pdPicNo = currentPdPicNo;
-        // const pdOrderList = currentPdOrderList;
 
-        const picData = new FormData();
-        picData.append("pdNo", currentPdNo);
-        picData.append("pdPicNo", currentPdPicNo);
-        picData.append("pdOrderList", currentPdOrderList);
-        console.log(picData);
-        
-        const selectedFile = newPic.files[0];
-        if (selectedFile) {
-            picData.append(`pdPic`, selectedFile);
-        }
-        fetch(config.url + "/manager/createPic", {
-            method: "POST",
-            body: picData,
-            headers: {
-                Authorization_M: token,
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.code === 200) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "新增成功",
-                        text: data.message,
-                    });
-                    clearForm();
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "新增失敗",
-                        text: data.message,
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }
 
     pdNameEl.value = pdDetail.pdName;
     pdDescriptionEl.value = pdDetail.pdDescription;
@@ -506,7 +469,51 @@ function fillDataInModal(pdDetail) {
     pdStatusEl.value = pdDetail.pdStatus;
 }
 
+function addPic() {
+    // const pdNo = currentPdNo;
+    // const pdPicNo = currentPdPicNo;
+    // const pdOrderList = currentPdOrderList;
+    const newPicc = document.getElementById("newPic");
+    const picData = new FormData();
+    picData.append("pdNo", currentPdNo);
+    picData.append("pdPicNo", currentPdPicNo);
+    picData.append("pdOrderList", currentPdOrderList);
+    console.log(picData);
 
+    const selectedFile = newPicc.files[0];
+    if (selectedFile) {
+        picData.append(`pdPic`, selectedFile);
+    }
+    fetch(config.url + "/manager/createPic", {
+        method: "POST",
+        body: picData,
+        headers: {
+            'Authorization_M': token,
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.code === 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "新增成功",
+                    text: data.message,
+                });
+                // fetchAndBuildTable();
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "新增失敗",
+                    text: data.message,
+                });
+                // fetchAndBuildTable();
+
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
 
 
 // 監聽管理員送出修改資訊
@@ -554,7 +561,7 @@ confirmUpdateEl.addEventListener("click", async function (params) {
                 // 更新前端页面上的订单信息，这里可以根据需要刷新整个表格或仅更新某一行
                 // 更新成功的处理逻辑
                 Swal.fire(data.message);
-                updateDataTableWithNewData();
+                // updateDataTableWithNewData();
             } else {
                 // 更新失败的处理逻辑
                 Swal.fire(data.message);
