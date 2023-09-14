@@ -37,7 +37,7 @@ $("#resetPasswordBtn").on("click", function () {
       var code = responseData.code;
       if (code === 200) {
         swal("修改成功", "", "success");
-      }
+      } else if (code === 401) errorAuth();
     })
     .catch((error) => {
       // 处理捕获的错误，包括网络错误等
@@ -45,6 +45,17 @@ $("#resetPasswordBtn").on("click", function () {
     });
 
   $("#DBPasseord").css("display", "block");
+
+  function errorAuth() {
+    swal({
+      title: "哎呀🤭",
+      text: "您尚未登入，請重新登入",
+      icon: "error",
+    }).then((value) => {
+      localStorage.removeItem("Authorization_U");
+      window.location.href = "/frontend/pages/user/login.html"; // 替换为你要跳转的页面地址
+    });
+  }
 });
 
 function checkResetPassword() {
@@ -54,7 +65,7 @@ function checkResetPassword() {
   const newPassword = firstPassword.value;
   const confirmPassword = secondPassword.value;
 
-  if (newPassword.length !== 6) {
+  if (newPassword.length < 6) {
     swal("密碼必須為至少6位數的英文數字。");
     cleanInput();
     return;

@@ -1,7 +1,6 @@
-import { profile_els } from "/frontend/js/getUserProfile.js";
 import config from "/ipconfig.js";
 
-//----------------修改名稱----------------
+//----------------按鈕顯示/隱藏效果----------------
 document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("editNameButton")
@@ -38,133 +37,187 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-//----------------JSON----------------
-
-// 将所有元素存储在一个对象中
-const elements = profile_els();
-elements.userName = document.getElementById("inputNameEdit");
-elements.userNickName = document.getElementById("inputNickNameEdit");
-let userData = {};
-
-// 监听所有元素的变化
-Object.keys(elements).forEach((key) => {
-  const element = elements[key];
-
-  // 添加事件监听器，当元素的值变化时触发
-  element.addEventListener("input", () => {
-    // 创建一个空的 JSON 对象，用于存储元素值
-    const json = {};
-
-    // 遍历所有元素，将它们的值添加到 JSON 对象中
-    Object.keys(elements).forEach((elementKey) => {
-      if (elements[elementKey].tagName === "SELECT") {
-        // 如果是下拉式选择菜单，获取选中选项的文字内容
-        json[elementKey] =
-          elements[elementKey].options[elements[elementKey].selectedIndex].text;
-      } else {
-        // 否则获取元素的值
-        json[elementKey] = elements[elementKey].value;
-      }
-    });
-
-    json.userAddress = `${json.city}${json.area}${json.userAddress}`;
-    // 删除 city、area 和 userAddress 属性
-    delete json.city;
-    delete json.area;
-
-    // 删除 pointnumber 属性
-    delete json.pointnumber;
-
-    // 转换 date 到 timestamp
-    const date = new Date(json.userBirthday);
-    const userBirthday = date.getTime();
-    json.userBirthday = userBirthday;
-
-    // 将 json 对象合并到 userData 对象中
-    Object.assign(userData, json);
-
-    const jsonData = JSON.stringify(userData);
-    console.log(userData);
-  });
-});
-
-//----------------照片----------------
+//----------------送出FormData----------------
 
 $(document).ready(function () {
-  $("#userPicEdit").on("click", () => {
-    console.log(111);
-  });
-});
-
-// 在事件处理程序之前定义 reader
-const reader = new FileReader();
-
-// 当用户选择文件时触发事件
-fileInput.addEventListener("change", (event) => {
-  const selectedFile = event.target.files[0];
-  if (selectedFile) {
-    reader.onload = (e) => {
-      const base64Image = e.target.result; // 获取 Base64 编码的图像数据
-
-      // 更新用户图像元素的 src 属性
-      const userPicImage = document.getElementById("userPic");
-      userPicImage.src = base64Image;
-
-      // 更新 userData 对象中的 userPic 属性
-      userData.userPic = base64Image;
-
-      // 将 userData 转换为 JSON 字符串
-      const userDataJSON = JSON.stringify(userData);
-
-      // 可以在此处将 userDataJSON 发送到服务器或进行其他操作
-      console.log(userDataJSON);
-    };
-    reader.readAsDataURL(selectedFile);
-  }
-});
-
-//----------------fetch----------------
-// 創建一個新的FormData對象
-const formData = new FormData();
-
-// 將JSON數據添加為form-data的字段
-for (const key in userData) {
-  if (userData.hasOwnProperty(key)) {
-    formData.append(key, userData[key]);
-  }
-}
-
-const saveButtons = document.querySelectorAll(".save");
-saveButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    sentEditedData(formData); // 调用发送 API 请求的函数
-  });
-});
-
-function sentEditedData(formData) {
-  console.log("userData before sending:", formData);
+  //監聽輸入欄位
   const token = localStorage.getItem("Authorization_U");
 
-  fetch(config.url + "/user/profile", {
-    method: "POST",
-    headers: {
-      Authorization_U: token,
-      "Content-Type": "application/json",
-    },
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      if (data.code === 200) {
-        console.log("code", code, ":", data.message);
-        swal("修改成功", "", "success");
+  // 要送出的資料
+  function saveData() {
+    const userName = document.getElementById("inputNameEdit");
+    const userNickName = document.getElementById("inputNickNameEdit");
+    const city = document.getElementById("city");
+    const area = document.getElementById("area");
+    const userAddress = document.getElementById("userAddress");
+    const userPhone = document.getElementById("userPhone");
+    const userBirthday = document.getElementById("userBirthday");
+    const userGender = document.getElementById("userGender");
+    const userPic = document.getElementById("fileInput");
+
+    // 获取表单数据并执行 fetch
+    const cityValue = city.options[city.selectedIndex].text.trim() || null;
+    const areaValue = area.options[area.selectedIndex].text.trim() || null;
+    const userGenderValue =
+      userGender.options[userGender.selectedIndex].text.trim() === "男性"
+        ? 1
+        : userGender.options[userGender.selectedIndex].text.trim() === "女性"
+        ? 0
+        : userGender.options[userGender.selectedIndex].text.trim() ===
+          "尚未設定"
+        ? 2
+        : null;
+
+    const userNameValue = userName.value.trim() || null;
+    const userNickNameValue = userNickName.value.trim() || null;
+    const addressDetailValue = userAddress.value.trim() || null;
+    const userPhoneValue = userPhone.value.trim() || null;
+    const userBirthdayValue = userBirthday.value.trim() || null;
+    const userPicFile = userPic.files[0] || null;
+    // 檢查圖片大小
+    const maxSizeInBytes = 3145728; // 3MB
+    if (userPicFile && userPicFile.size > maxSizeInBytes) {
+      // 文件超过限制大小，显示错误消息并清除文件输入框
+      alert("文件大小超過限制（最大3MB）。請選擇較小的文件。");
+      userPic.value = ""; // 清除文件输入框的值
+    }
+
+    const userAddressValue = `${cityValue}${areaValue}${addressDetailValue}`;
+
+    // 检查必填字段是否为空
+    if (!userNameValue || !userNickNameValue) {
+      swal("請填寫名稱。");
+      return; // 阻止继续执行
+    }
+
+    if (!userPhoneValue) {
+      const phoneNotice = $("#phoneNotice");
+      phoneNotice.text("請輸入電話號碼。");
+      phoneNotice.css("visibility", "visible");
+      if (!userAddress.value) {
+        $("#addressNotice").css("visibility", "visible");
+        return;
       } else {
-        console.log("code", code, ":", data.message);
-        swal("修改失敗", "請確認資料格式");
+        $("#addressNotice").css("visibility", "hidden");
       }
+      return;
+    } else {
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(userPhoneValue)) {
+        const phoneNotice = $("#phoneNotice");
+        phoneNotice.text("電話號碼必須是 10 位數字。");
+        phoneNotice.css("visibility", "visible");
+        if (!userAddress.value) {
+          $("#addressNotice").css("visibility", "visible");
+          return;
+        } else {
+          $("#addressNotice").css("visibility", "hidden");
+        }
+        return;
+      } else {
+        $("#phoneNotice").css("visibility", "hidden");
+      }
+    }
+
+    if (!userAddress.value) {
+      $("#addressNotice").css("visibility", "visible");
+      return;
+    } else {
+      $("#addressNotice").css("visibility", "hidden");
+    }
+
+    if (!userPhoneValue && !userAddress.value) {
+      $("#phoneNotice").css("visibility", "visible");
+      $("#addressNotice").css("visibility", "visible");
+      return;
+    }
+
+    //送出資料，以數據為參數
+    sendData(
+      userNameValue,
+      userNickNameValue,
+      userAddressValue,
+      userPhoneValue,
+      userBirthdayValue,
+      userGenderValue,
+      userPicFile
+    );
+  }
+
+  function sendData(
+    userNameValue,
+    userNickNameValue,
+    userAddressValue,
+    userPhoneValue,
+    userBirthdayValue,
+    userGenderValue,
+    userPicFile
+  ) {
+    //建立formdata文件，並將參數加入文件
+    const formData = new FormData();
+    formData.append("userName", userNameValue);
+    formData.append("userNickName", userNickNameValue);
+    formData.append("userAddress", userAddressValue);
+    formData.append("userGender", userGenderValue);
+    if (userPhoneValue !== null) formData.append("userPhone", userPhoneValue);
+    if (userBirthdayValue !== null)
+      formData.append("userBirthday", userBirthdayValue);
+    if (userPicFile !== null) {
+    }
+    formData.append("userPic", userPicFile);
+
+    console.log(formData.get("userName"));
+    console.log(formData.get("userNickName"));
+    console.log(formData.get("userAddress"));
+    console.log(formData.get("userPhone"));
+    console.log(formData.get("userBirthday"));
+    console.log(formData.get("userGender"));
+    console.log(formData.get("userPic"));
+
+    fetch(config.url + "/user/profile", {
+      method: "POST",
+      headers: {
+        Authorization_U: token,
+      },
+      body: formData,
     })
-    .catch((error) => {
-      console.error("Fetch error:", error);
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.code === 200) {
+          console.log(data);
+          swal("修改成功", "", "success");
+        } else if (data.code === 401) {
+          errorAuth();
+        } else {
+          console.log(data);
+          swal("修改失败");
+        }
+      });
+  }
+
+  //監聽按鈕
+  $("#saveNameButton").on("click", function () {
+    saveData();
+  });
+  $("#saveNickNameButton").on("click", function () {
+    saveData();
+  });
+  $("#edit-button").on("click", function () {
+    saveData();
+  });
+  // 上傳圖片就送出
+  fileInput.addEventListener("change", function () {
+    saveData();
+  });
+
+  function errorAuth() {
+    swal({
+      title: "哎呀🤭",
+      text: "您尚未登入，請重新登入",
+      icon: "error",
+    }).then((value) => {
+      localStorage.removeItem("Authorization_U");
+      window.location.href = "/frontend/pages/user/login.html"; // 替换为你要跳转的页面地址
     });
-}
+  }
+});

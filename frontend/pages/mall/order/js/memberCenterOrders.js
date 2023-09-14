@@ -213,26 +213,39 @@ function fetchUserOrders() {
                 selectedRow = dataTable.row($(this).closest('tr')).data();
                 const rowData = dataTable.row($(this).closest('tr')).data();
                 const ordNo = rowData[0]; // 訂單編號在第一列
-                // 在這裡處理刪除操作，你可以使用rowData中的數據
-                const requestData = {
-                    ordNo: ordNo,
-                    ordStatus: 6 // 设置订单状态为6，您可以根据需要修改
-                };
+                const ordPayStatus = rowData[6];
+                
+                if(ordPayStatus === 0){
+                    // 在這裡處理刪除操作，你可以使用rowData中的數據
+                    const requestData = {
+                        ordNo: ordNo,
+                        ordStatus: 6 // 狀態設為6,代表會員取消訂單
+                    };
 
-                Swal.fire({
-                    title: '請確認',
-                    text: '您確定要刪除這筆訂單嗎!?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: '確定刪除'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // 用户点击了"確定刪除"按钮，执行删除操作
-                        deleteOrder(requestData, selectedRow);
-                    }
-                });
+                    Swal.fire({
+                        title: '請確認',
+                        text: '您確定要刪除這筆訂單嗎!?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: '確定刪除'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // 點擊確定 刪除!
+                            deleteOrder(requestData, selectedRow);
+                        }
+                    });
+                }else{
+                    Swal.fire({
+                        title: '無法刪除',
+                        text: '此訂單已付款完成，無法刪除，若要刪除請聯絡管理員',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: '了解'
+                    });
+                }
+                
 
             });
 
@@ -381,7 +394,7 @@ function getOrderDetailByOrdNo(ordNo) {
                     <p><strong>收件地址:</strong> <span id="recipientAddress">${orderDetail[0].recipientAddress}</span></p>
                     <p><strong>收件人電話:</strong> <span id="recipientPh">${orderDetail[0].recipientPh}</span></p>
                     <p><strong>評價狀態:</strong> <span id="evaluateStatus">${orderEvaluateStatus}</span></p>
-                    <p><strong>訂單完成時間:</strong> <span id="ordFinish">${formattedOrdFinish}</span></p>
+                    <p><strong>訂單付款時間:</strong> <span id="ordFinish">${formattedOrdFinish}</span></p>
                 </div>
                 `;
 
