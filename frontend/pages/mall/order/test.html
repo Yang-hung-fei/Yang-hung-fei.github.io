@@ -1,11 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>hangge.com</title>
+    <script src="jquery-3.1.1.js"></script>
+    <script src="jquery.mousewheel.js"></script>
+    <style>
+      #cube {
+          width: 150px;
+          height: 150px;
+          position: absolute;
+          top: 10px;
+          left: 65px;
+          background: yellow;
+          opacity: 0.5;
+      }
+    </style>
+    <script type="text/javascript">
+      $(function() {
+        //使用on监听滚轮事件
+        $('#cube').on('mousewheel', function(event) {
+            //输出滚轮事件响应结果
+            console.log(event.deltaX, event.deltaY, event.deltaFactor);
+            //上下滚动时让鼠标垂直移动
+            var newTop = $(this).position().top - event.deltaY + "px";
+            $(this).css("top", newTop);
+            //左右滚动时让鼠标水平移动
+            var newLeft = $(this).position().left + event.deltaX + "px";
+            $(this).css("left", newLeft);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="cube"></div>
+  </body>
 </html>
