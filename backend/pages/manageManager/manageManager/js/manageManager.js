@@ -46,9 +46,7 @@ $(document).on("click", "#Edit_updateDataButton", function () {
 });
 
 $(document).on("click", "#Add_completeButton", function () {
-  $editLightBox.empty();
-  $addLightBox.hide();
-  $lightboxOverlay.hide();
+  location.reload();
 });
 
 // 關閉燈箱後回到第一步驟
@@ -58,6 +56,7 @@ $(document).on("click", "#mainAddManagerButton", function () {
   $("#step1Content").removeClass("d-none");
   $("#step2Content").addClass("d-none");
   $("#step3Content").addClass("d-none");
+  $("#completionPage").addClass("d-none");
   $lightboxOverlay.show();
 });
 
@@ -756,6 +755,16 @@ function addManager() {
   // 取得輸入值
   const newSetManagerAccount = $("#setManagerAccount").val();
   const newSetManagerPassword = $("#setManagerPassword").val();
+
+  // 輸入判斷
+  if (!newSetManagerAccount) {
+    alert("請填寫帳號。");
+    return;
+  } else if (!/^[a-zA-Z0-9]{6,}$/.test(newSetManagerAccount)) {
+    alert("請填寫 6 個以上的英文或數字。");
+    return;
+  }
+
   // 建立請求
   const requestOptions = {
     method: "POST",
@@ -897,7 +906,6 @@ async function addManagerAuthorities() {
   );
 
   if (response.code === 200) {
-    // TODO: 換下一頁
     // 將提示顏色設置為 black
     setManagerAuthoritiesCompleteNotice.css("color", "black");
     setManagerAuthoritiesCompleteNotice.text(
