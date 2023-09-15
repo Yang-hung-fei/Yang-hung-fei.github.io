@@ -253,7 +253,8 @@ function createResultTable(response) {
             class="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
-            ${managerState} disabled
+            data-managerAccount="${managerAccount}" data-managerCreated="${managerCreated}" data-managerState="${managerState}" 
+            ${managerState}
           />
         </div>
       </td>
@@ -269,12 +270,15 @@ function createResultTable(response) {
   // 将html添加到结果表格中
   resultTable_el.innerHTML = seachTableHTML;
 
-  // 監聽表格中的編輯按鈕點擊事件
+  // 監聽表格
   const parentElement = document.querySelector("table");
   parentElement.addEventListener("click", function (event) {
+    // 監聽表格中的編輯按鈕點擊事件
     if (event.target.classList.contains("editBtn")) {
+      // 取得建立表格時設定在編輯按鈕的資料
       const managerAccount = event.target.getAttribute("data-managerAccount");
       const managerState = event.target.getAttribute("data-managerState");
+      // 顯示燈箱容器，並動態生成當前管理員的編輯燈箱
       $("#lightboxOverlay").css("display", "flex");
       createEditLightBox(managerAccount, managerState);
 
@@ -294,8 +298,39 @@ function createResultTable(response) {
       console.log("Number of checkboxes found:", checkboxes.length);
       checkboxListener(checkboxes);
     }
+    // 監聽表格中的狀態開關
+    if (event.target.classList.contains("form-check-input")) {
+      // 取得建立表格時設定在checkbox狀態欄的資料
+      const managerAccount = event.target.getAttribute("data-managerAccount");
+
+      // 儲存當前管理員帳號
+      theManagerAccount = managerAccount;
+      // 儲存checkbox監聽狀態到管理員狀態
+      if (event.target.checked) {
+        managerAccountValue = "checked";
+      } else {
+        managerAccountValue = "";
+      }
+
+      console.log(theManagerAccount, managerAccountValue);
+      // 送出修改的資料
+      const elements = {
+        orgManagerAccount: theManagerAccount,
+        managerAccount: theManagerAccount,
+        managerPassword: "",
+        managerState: managerAccountValue,
+      };
+      const jsonData = JSON.stringify(elements);
+    }
   });
 
+  // 總之先集結 jsonData，在沒有設定密碼時也能更新
+  jsonData(
+    theManagerAccount,
+    managerAccountValue,
+    managerPasswordValue,
+    managerStateValue
+  );
   //更新管理員時，監聽使用者輸入的管理員資料
   $(document).on("input", "#newManagerAccount", function () {
     const newManagerAccountValue = $(this).val();
@@ -381,8 +416,6 @@ function createResultTable(response) {
   //送出修改的管理員資料及權限
   $(document).on("click", "#Edit_updateDataButton", function () {
     updateManagerData(updateManagerDataJson);
-  });
-  $(document).on("click", "#Edit_updateAuthoritiesButton", function () {
     const updateAuthritiesJson = jsonAuthrities(
       theManagerAccount,
       selectedAuthorities
@@ -392,6 +425,7 @@ function createResultTable(response) {
 }
 
 function updateManagerData(jsonData) {
+  console.log(jsonData);
   fetch(config.url + "/manager/manageManager", {
     method: "PUT",
     headers: {
@@ -732,14 +766,7 @@ function createEditLightBox(account, state) {
         style="width: 180px"
         id="Edit_updateDataButton"
       >
-        儲存資料
-      </button>
-      <button
-        class="btn btn-sm btn-outline-secondary"
-        style="width: 180px"
-        id="Edit_updateAuthoritiesButton"
-      >
-        儲存權限
+        儲存
       </button>
     </div>
   </div>
