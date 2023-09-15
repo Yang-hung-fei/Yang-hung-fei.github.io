@@ -173,6 +173,23 @@ async function openDeleteModal(newsNo) {
 
 }
 //=====================================================================
+function dateConvert(timestamp) {
+    // 使用Date物件來轉換timestamp為日期
+    const date = new Date(timestamp);
+
+    // 使用Date物件的方法取得年、月和日
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份是從0開始計算的，所以要加1
+    const day = String(date.getDate()).padStart(2, '0');
+
+    // 將年、月、日組合成格式化的日期字串
+    const formattedDate = `${year}-${month}-${day}`
+
+    return formattedDate;
+
+
+}
+
 async function openEditModal(newsNo) {
     let id = await newsNo;
     let modalWrap = null;
@@ -234,9 +251,8 @@ async function openEditModal(newsNo) {
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="updateTime">更新時間</label>
-                        <input type="datetime-local" class="form-control" placeholder="選擇日期..."
-                            name="updateTime" id="updateTime" value="${data.updateTime}" readonly="readonly">
+                        <label for="updateTime">更新日期</label>
+                        <p>${dateConvert(data.updateTime)}</p>
                     </div>
                     <div class="form-group">
                         <label for="newsPic">消息圖片</label>

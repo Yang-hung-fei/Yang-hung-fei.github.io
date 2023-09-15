@@ -1,7 +1,6 @@
 import config from '../../../../ipconfig.js';
 
-const homepageUrl = config.url;
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k";
+const homepageUrl = config.url+"/customer/homePage";
 
 // ------------------------- 頁面載入  ------------------------- //
 window.addEventListener('load', function () {
@@ -59,7 +58,7 @@ async function getNewsCont(newsNo) {
     return fetch(homepageUrl + `/${newsNo}`, {
         method: "GET",
         headers: {
-            "Authorization": token,
+             
             "Content-Type": "application/json"
         },
     })
@@ -77,7 +76,7 @@ async function getNews() {
     return fetch(homepageUrl + "", {
         method: "GET",
         headers: {
-            "Authorization": token,
+            
             "Content-Type": "application/json"
         },
     })
