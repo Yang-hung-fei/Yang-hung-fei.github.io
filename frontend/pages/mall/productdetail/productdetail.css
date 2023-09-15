@@ -164,16 +164,33 @@ body {
     cursor: pointer;
     width: 80%;
     text-align: center;
+    transition: background-color 0.3s; /* 添加过渡效果 */
+}
+
+/* 悬停状态下的按钮样式 */
+.add-to-cart:hover {
+    background-color: #cbac88; /* 鼠标悬停时的背景颜色 */
+    color: #fffdfd; /* 鼠标悬停时的文本颜色 */
+    font-weight: bold;
+    border: 2px solid #cbac88; /* 鼠标悬停时的边框颜色 */
 }
 
 .add-to-favorites {
     background-color: transparent;
     display: flex;
     align-items: center;
-    margin-left: 5px;
+    margin-left: 20px;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s; /* 添加过渡效果 */
 }
+
+.add-to-favorites:hover {
+    color: #fff;
+    
+}
+
+
 
 .add-to-favorites i {
     margin-right: 5px;

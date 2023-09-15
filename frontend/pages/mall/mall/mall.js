@@ -159,59 +159,59 @@ window.addEventListener("load", () => {
                         console.error(data.message);
                     }
                 });
-
-
-            // 取得所有 Add to cart 連結
-            var addToCartLinks = document.querySelectorAll(".add-to-cart-link");
-            // 迭代所有 Add to cart 連結，為它們添加點擊事件監聽器
-            addToCartLinks.forEach(function (link) {
-                link.addEventListener("click", function (event) {
-                    event.preventDefault(); // 防止連結默認行為 (例如導航到新頁面)
-
-                    // 取得產品編號 (在 data-product-id 屬性中)
-                    var productId = link.getAttribute("data-product-id");
-
-                    const token = localStorage.getItem("Authorization_U");
-                    console.log(productId);
-                    // console.log(token);
-                    if (!token) {
-                        window.location.href = "../../user/login.html";
-                        console.log(productId);
-
-                    } else {
-                        fetch(`${config.url}/user/addProduct?pdNo=${productId}`, {
-                            method: "POST",
-                            headers: {
-                                Authorization_U: token,
-                                "Content-Type": "application/json"
-                            }
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.code === 200) {
-                                    // 更新成功，重新載入購物車
-                                    Swal.fire({
-                                        position: 'top-center',
-                                        icon: 'success',
-                                        title: data.message,
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    })
-                                } else {
-                                    //更新失敗，處理錯誤
-                                    Swal.fire({
-                                        icon: '錯誤',
-                                        title: "錯誤",
-                                        text: data.message,
-                                    })
-                                }
-                            });
-                    }
-
-                    // 在這裡執行你希望的操作，例如將該產品添加到購物車
-
-                });
-            });
         }
+
+        // 取得所有 Add to cart 連結
+        var addToCartLinks = document.querySelectorAll(".add-to-cart-link");
+        // 迭代所有 Add to cart 連結，為它們添加點擊事件監聽器
+        addToCartLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+                event.preventDefault(); // 防止連結默認行為 (例如導航到新頁面)
+
+                // 取得產品編號 (在 data-product-id 屬性中)
+                var productId = link.getAttribute("data-product-id");
+
+                const token = localStorage.getItem("Authorization_U");
+                console.log(productId);
+                // console.log(token);
+                if (!token) {
+                    window.location.href = "../../user/login.html";
+                    console.log(productId);
+
+                } else {
+                    fetch(`${config.url}/user/addProduct?pdNo=${productId}`, {
+                        method: "POST",
+                        headers: {
+                            Authorization_U: token,
+                            "Content-Type": "application/json"
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.code === 200) {
+                                // 更新成功，重新載入購物車
+                                Swal.fire({
+                                    position: 'top-center',
+                                    icon: 'success',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            } else {
+                                //更新失敗，處理錯誤
+                                Swal.fire({
+                                    icon: '錯誤',
+                                    title: "錯誤",
+                                    text: data.message,
+                                })
+                            }
+                        });
+                }
+
+                // 在這裡執行你希望的操作，例如將該產品添加到購物車
+
+            });
+        });
+
     }
 });

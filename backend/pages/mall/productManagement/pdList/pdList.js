@@ -105,11 +105,11 @@ function buildTable(newData) {
 
                         // 根据商品状态设置按钮颜色
                         if (data === 0) {
-                            upButton.style.backgroundColor = "rgb(246, 255, 119)";
+                            upButton.style.backgroundColor = "rgb(247, 230, 144)";
                             downButton.style.backgroundColor = "rgb(175, 175, 175)";
                         } else if (data === 1) {
                             upButton.style.backgroundColor = "rgb(175, 175, 175)";
-                            downButton.style.backgroundColor = "rgb(246, 255, 119)";
+                            downButton.style.backgroundColor = "rgb(247, 230, 144)";
                         } else {
                             // 未知状态，可以根据需求设置默认样式
                             upButton.style.backgroundColor = "gray";
