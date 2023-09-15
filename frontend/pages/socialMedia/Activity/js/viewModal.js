@@ -77,7 +77,7 @@ async function showViewModal(activityId) {
                 if (data.code == 400) {
                     Swal.fire(`${data.message}`);
                 } else {
-                    Swal.fire(`參加人數為: ${number}`);
+                    Swal.fire(`參加人數為: ${number}，你已成功加入活動:")`);
                 }
                 modal.hide();
 
