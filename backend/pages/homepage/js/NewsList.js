@@ -3,196 +3,36 @@ import config from "../../../../ipconfig.js";
 
 // localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k");
 // let token = localStorage.getItem("Authorization_M");
-let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k";
+let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk1MDg3NDg0fQ.ssgitrbBy1ICjqRSyAvDMDUt7AIXm4z217TYynfMALI";
 
 const mainUrl = config.url;
 const newsUrl = "/manager/homepageManage";
-const updateNewsUrl = mainUrl + newsUrl;
-const getNewsDetailsUrl = mainUrl + newsUrl;
+const updateNewsUrl = mainUrl + newsUrl + "/editNews";
 const getAllNewsUrl = mainUrl + newsUrl + "/getAllNews";
+const deleteNewsUrl = mainUrl + newsUrl + "/deleteNewsByNewsNo";
 
-// ------------------------- 頁面載入  ------------------------- //
+
+
+// ----------------------------------------- 頁面載入 ----------------------------------------- //
 window.addEventListener('load', function () {
     getAllNews();
 
+});
 
 
-    // ------------------------- 事件驅動  ------------------------- //
-
-    const editModal = document.getElementById('editNewsByNewsNo');
-    editModal.addEventListener('click', async function (e) {
-        //當使用者點擊按鈕
-        let button = e.relatedTarget;
-        let newsNo = button.getAttribute('newsNo');
-        //fetch獲取資料
-        let fetchData = await getNewsDetails(newsNo);
-        document.getElementById('newsNo').value = fetchData.newsNo;
-        document.getElementById('newsTitle').value = fetchData.newsTitle;
-        document.getElementById('newsCont').value = fetchData.newsCont;
-        document.getElementById('newsStatus').value = fetchData.newsStatus;
-
-        // 定義函數格式化日期時間
-        function formatDateTime(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份從0開始，需要加1，並且補齊兩位
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            const seconds = String(date.getSeconds()).padStart(2, '0');
-
-            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        }
-
-        // 使用 Date 對象將時間戳轉換為日期和時間
-        let updateTime = new Date(fetchData.updateTime);
-        document.getElementById('updateTime').value = formatDateTime(updateTime);
-
-        console.log("fetchData.updateTime:", fetchData.updateTime);
-        console.log("updateTime:", updateTime);
-
-        let status = document.getElementById('newsStatus');
-        if (fetchData.newsStatus == 1) {
-            status.value = "上架中";
-        } else {
-            status.value = "已下架";
-        }
-
-        document.getElementById('editForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            let newsNo = document.getElementById('newsNo').value;
-            let newsTitle = document.getElementById('newsTitle').value;
-            let newsCont = document.getElementById('newsCont').value;
-            let newsStatus = document.getElementById('newsStatus').value;
-            let updateTime = document.getElementById('updateTime').value;
-
-            // 圖片轉換成字串
-            //   let newsPic = document.getElementById('newsPic').value;
-            // 處理時間格式
-            let newUpdateTime = updateTime.toString().replace("T", " ");
-            let updateData = {
-                "newsNo": newsNo,
-                "newsTitle": newsTitle,
-                "newsCont": newsCont,
-                "newsStatus": newsStatus,
-                "updateTime": newUpdateTime + ":00",
-                "newsPic": null,
-            };
-            let updateResult = await updateNews(newsNo, updateData);
-            console.log(updateResult);
-
-        });
-
-
-
-
-        // 在需要關閉模態的地方，例如更新成功後
-        if (updateResult != null) {
-            //   editModal.;
-        }
-    });
-
-
-
-
-
-
-    // ------------------------- 更新  ------------------------- //
-    async function updateNews(newsNo, updateData) {
-
-        return fetch(updateNewsUrl + `/${newsNo}`, {
-            method: "PUT",
-            headers: {
-                Authorization_M: token,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updateData)
-        })
-            .then(res => {
-                return res.json();
-            }).then(data => {
-                return data.message;
-            })
-            .catch(err => {
-                console.log(err.message);
-            });
-    }
-
-
-    // ------------------------- 查詢單一news  ------------------------- //
-    async function getOneNews(newsNo) {
-        return fetch(getNewsDetailsUrl + `/${newsNo}`, {
-            method: "GET",
-            headers: {
-                "Authorization_M": token,
-                "Content-Type": "application/json"
-            },
-        })
-            .then(res => {
-                return res.json();
-            }).then(data => {
-                return data.message;
-            })
-            .catch(err => {
-                console.error(err.message);
-            });
-    }
-
-
-
-    // ------------------------- 查詢all news  ------------------------- //
-    function getAllNews() {
-
-        fetch(getAllNewsUrl, {
-            method: "GET",
-            headers: {
-                "Authorization_M": token
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                let newsPageData = data.message;
-                let pageData = {
-                    //目前所在頁數(預設為0)
-                    curentPage: newsPageData.currentPageNumber + 1,
-                    //一頁有幾筆資料
-                    pageSize: newsPageData.pageSize,
-                    totalPage: newsPageData.totalPage,
-                    fetchData: newsPageData,
-                }
-                return pageData;
-
-            }).then(pageData => {
-                //create table data and pagination
-                createDataTable(pageData);
-
-            })
-        // .catch(err => {
-        //     console.error(err.message);
-        // });
-    }
-
-
-    // ------------------------- 建立分頁  ------------------------- //
-    // 更新資料表格和分頁
-    function createDataTable(data) {
-        // // 選擇分頁元素
-        let table = document.querySelector("#table");
-        let tbody = document.getElementById("dataTableList");
-        let pagination = document.querySelector(".pagination");
-        console.log(pagination);
-        // 清空tbody表格
-        tbody.innerHTML = "";
-        let dataList = '';
-        let fetchData = data.fetchData;
-
-
-
-        // 建立資料表格
-        fetchData.forEach(dataDetails => {
-            console.log(dataDetails.newsNo);
-            // 建立資料
-            dataList += `
+// ----------------------------------------- 建立分頁 -----------------------------------------//
+// 更新資料表格和分頁
+function createDataTable(data) {
+    // // 選擇分頁元素
+    let tbody = document.getElementById("dataTableList");
+    let pagination = document.querySelector(".pagination");
+    // 清空tbody表格
+    tbody.innerHTML = "";
+    let dataList = '';
+    // 建立資料表格
+    data.forEach(dataDetails => {
+        // 建立資料
+        dataList += `
                <tr>
                <td>${dataDetails.newsNo}</td>
                <td>${dataDetails.newsTitle}</td>
@@ -200,277 +40,440 @@ window.addEventListener('load', function () {
                <td>${dataDetails.newsStatus == 1 ? "上架中" : "已下架"}</td>
                <td>${dataDetails.updateTime}</td>
 
-               <td><button class="modify" type="button"
-               style="background: #325aab;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;"
-               value="${dataDetails.newsNo}">修改</button>
+               <td><button class="modify" type="button" data-id="${dataDetails.newsNo}" id="editBtn"
+               style="background: #325aab;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">
+               修改</button>
                </td>
                <td>
-               <button class="btn btn-danger" type="button"
-               style="background: #f44336; border-style: none; color: #ffffff; width: 60px; height: 30px; font-size: 14px;"
-               onclick="deleteNewsByNewsNo(${dataDetails.newsNo})">刪除</button>
+               <button class="delete" type="button" data-id="${dataDetails.newsNo}" id="deleteBtn"
+               style="background: #f44336; border-style: none; color: #ffffff; width: 60px; height: 30px; font-size: 14px">刪除</button>
                </td>
-               
-               
                </tr>`;
 
-               const modifyBtn=document.querySelectorAll(".modify");
-               
-               modifyBtn.forEach((btn) => {
-                btn.addEventListener("click", () => {
-                
-                  const newsNo = btn.value;
-                  editNewsByNewsNo(newsNo);
-                });
-              });
+    });
+    tbody.innerHTML = dataList;
+
+    const deleteBtns = document.querySelectorAll("#deleteBtn");
+    deleteBtns.forEach((btn) => {
+        btn.addEventListener('click', async function (e) {
+            let dataId = this.dataset.id;
+            await openDeleteModal(dataId);
+
+        })
+    })
+
+
+    const modifyBtns = document.querySelectorAll("#editBtn");
+
+    modifyBtns.forEach((btn) => {
+        btn.addEventListener("click", async function (e) {
+            let dataId = this.dataset.id;
+            await openEditModal(dataId);
+        });
+    });
+
+
+
+}
+
+async function createPagination(data) {
+    let pagination = document.querySelector(".pagination");
+    //建立分頁 -清空分頁
+    pagination.innerHTML = "";
+    // 總頁數
+    let totalPages = await data.totalPage;
+    //預設為1
+    let currentPage = await data.curentPage;
+
+    // 創建分頁頁碼
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.classList.add("page-item");
+        if (i === currentPage + 1) {
+            pageItem.classList.add("active");
+        }
+        const pageLink = document.createElement("button");
+        pageLink.classList.add("page-link");
+        pageLink.textContent = i;
+        pageLink.setAttribute('data-page', i - 1);
+        pageItem.appendChild(pageLink);
+        pagination.appendChild(pageItem);
+    }
+}
+
+
+// ----------------------------------------- Modal ----------------------------------------- //
+
+
+async function openDeleteModal(newsNo) {
+    let modalWrap = null;
+    modalWrap = document.createElement('div');
+    modalWrap.innerHTML = `
+    <div class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">刪除最新消息</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>確定要刪除此最新消息??</p>
+                <p class="text-danger"><small>取消後資料不會復原喔!!!</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">返回</button>
+                <a herf="#" type="button" id="deleteNews" data-id=${newsNo}
+                    class="btn btn-danger">確認刪除
+                </a>
+            </div>
+        </div>
+    </div>
+</div>`;
+    document.body.append(modalWrap);
+
+    let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+    modal.show();
+
+
+    const deleteBtn = document.querySelectorAll('#deleteNews');
+
+    deleteBtn.forEach(button => {
+        button.addEventListener('click', async function (e) {
+            // 在這個事件處理程序中，你可以獲取要刪除的元素的信息，然後執行刪除操作
+            const newsNo = e.target.getAttribute('data-id'); // 假設你使用了data-newsNo屬性來存儲新聞編號
+            // 調用刪除函數
+            let deleteResult = await deleteNews(newsNo);
+
+            if (deleteResult.code === 200) {
+                Swal.fire(
+                    {
+                        title: '刪除成功',
+                        icon: 'success',
+                        confirmButtonText: '了解', //　按鈕顯示文字
+                    }
+                ).then((result) => {
+                    if (result.isConfirmed) {
+                        // 選取具有 "page-item active" 類別的元素
+                        getAllNews();
+                    }
+                })
+            } else {
+                Swal.fire(
+                    {
+                        title: '刪除失敗',
+                        icon: 'error',
+                        confirmButtonText: '了解', //　按鈕顯示文字
+                    }
+                );
+            }
+            modal.hide();
 
         });
-        tbody.innerHTML = dataList;
+    });
 
-        async function createPagination(data) {
-            let pagination = document.querySelector(".pagination");
-            //建立分頁 -清空分頁
-            pagination.innerHTML = "";
-            // 總頁數
-            let totalPages = await data.totalPage;
-            //預設為1
-            let currentPage = await data.curentPage;
 
-            // 創建分頁頁碼
-            for (let i = 1; i <= totalPages; i++) {
-                const pageItem = document.createElement("li");
-                pageItem.classList.add("page-item");
-                if (i === currentPage + 1) {
-                    pageItem.classList.add("active");
-                }
-                const pageLink = document.createElement("button");
-                pageLink.classList.add("page-link");
-                pageLink.textContent = i;
-                pageLink.setAttribute('data-page', i - 1);
-                pageItem.appendChild(pageLink);
-                pagination.appendChild(pageItem);
-                console.log(pagination);
-            }
-        }
 
-        // console.log(editNewsByNewsNo);
-        console.log(createPagination);
+}
+//=====================================================================
+async function openEditModal(newsNo) {
+    let id = await newsNo;
+    let modalWrap = null;
+    modalWrap = document.createElement('div');
+    let dataList = await getOneNews(id);
+    let imageData = await getOneNewsPic(newsNo);
+    let data = dataList.message;
+    let image = imageData.message;
+    console.log(image);
+    console.log(data);
+    // <option selected>${data.newsStatus === 1 ? "上架" : "下架"}</option>
+    // <option value="0">下架</option>
+    // <option value="1">上架</option>
+    let selectOption;
+    if (data.newsStatus === 1) {
+        selectOption = `
+        <option value="1">上架</option>
+        <option value="0">下架</option>
+        `}
+    else {
+        selectOption = `
+            <option value="0">下架</option>
+            <option value="1">上架</option>
+            `}
 
-        //修改news
-        async function editNewsByNewsNo(newsNo) {
-            console.log('!!!!!!!!!!');
-            let id = await newsNo;
-            let fetchData = getAllNews(id);
-            let modalWrap = null;
-            // if (modalWrap != null) {
-            //     modalWrap.remove();
-            // }
-            modalWrap = document.createElement('div');
-            modalWrap.innerHTML = `
-                <div class="modal fade" tabindex="-1">
-                <div class="modal-dialog">
-                 <div class="modal-content">
-                 <form id="editNews">
-                        <div class="modal-header">
-                            <h4 class="modal-title">修改最新消息</h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">
+
+    if (selectOption !== undefined) {
+        modalWrap.innerHTML = `
+    <div class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">修改消息</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">
                         x
-                            </button>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="title">消息標題</label>
-                        <input type="text" class="form-control" name="newsTitle" id="newsTitle" value="${fetchData.newsTitle}">
+                        <label for="newsNo">消息編號</label>
+                        <input type="text" class="form-control" name="newsNo" id="newsNo" value="${data.newsNo}" readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <label for="title">消息編號</label>
-                        <input type="text" class="form-control" name="newsNo" id="newsNo" value="${fetchData.newsNo}">
+                        <label for="newsTitle">消息標題</label>
+                        <input type="text" class="form-control"
+                            name="newsTitle" id="newsTitle" value="${data.newsTitle}">
                     </div>
                     <div class="form-group">
                         <label for="newsCont">消息內容</label>
-                        <input type="datetime-local" class="form-control" placeholder="選擇日期..."
-                            name="newsCont" id="newsCont" value="${fetchData.newsCont}">
+                        <textarea style="height: 150px" class="form-control" name="newsCont" id="newsCont"
+                            >${data.newsCont}</textarea>
                     </div>
                     <div class="form-group">
-                        <label for="pic">消息圖片</label>
-                            <input type="file" class="form-control" name="pic" id="pic">
+                        <label for="newsStatus">上架狀態</label>
+                        <select class="form-select"
+                                style="margin-right: 20px; display: inline-block;width: 350px;border-color: #a2b6df;">
+                               ${selectOption}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateTime">更新時間</label>
+                        <input type="datetime-local" class="form-control" placeholder="選擇日期..."
+                            name="updateTime" id="updateTime" value="${data.updateTime}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="newsPic">消息圖片</label>
+                            <input type="file" class="form-control" name="newsPic" id="newsPic">
                         <div class="mt-3">
-                            <img id="imageOutput" src="data:image/*;base64,${fetchData.pic}" alt="此消息沒有照片" class="img-fluid"><br>
+                            <img id="imageOutput" src="data:image/*;base64,${image.newsPic}" alt="此消息沒有照片" class="img-fluid"><br>
                          </div>
                     </div>
-                    <div class="form-group">
-                        <label for="status">消息狀態</label>
-                        <input type="text" name="status" id="status" class="form-control"
-                            readonly="readonly" value="${fetchData.newsStatus === 0 ? "下架" : "上架"}">
-                    </div>
-                    <div class="form-group">
-                        <label for="updateTime">報名開始時間</label>
-                        <input class="form-control" name="updateTime" id="updateTime" type="date"
-                            placeholder="選擇日期.." value="${fetchData.updateTime}">
-                    </div>
-                    
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="close btn btn-default" data-bs-dismiss="modal">返回</button>
-                    <a herf="#" type="submit" id="editComfirm" onclick = "editData()" class="btn btn-success" >確認修改</a>
+                    <a herf="#" type="button" id="editConfirm" class="btn btn-success" >確認修改</a>
                 </div>
-                        </form>
-                    </div>
-                 </div>
-                </div>   
-                    `;
-
-
-            document.body.append(modalWrap);
-
-            let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
-            modal.show();
-
-            // 輸入
-
-            let newsTitle;
-            let newsCont;
-            let newsStatus;
-            let updateTime;
-            let pic;
-
-            var updateData = {
-
-                "newsTitle": newsTitle,
-                "newsCont": newsCont,
-                "newsStatus": newsStatus,
-                "updateTime": updateTime,
-                "pic": pic,
-
-            };
-
-            let newsNos = document.querySelectorAll('#newsNo');
-            newsNos.forEach((newsNoInput) => {
-                newsNo = fetchData.content;
-                updateData.content = newsNo;
-                newsNoInput.addEventListener('input', () => {
-                    newsNo = newsNoInput.value;
-                    updateData.content = newsNo;
-                });
-            });
-
-
-            let titleValueInputs = document.querySelectorAll('#title');
-            titleValueInputs.forEach((titleValueInput) => {
-                titleValue = fetchData.title;
-                updateData.title = titleValue;
-                titleValueInput.addEventListener('input', (e) => {
-                    titleValue = titleValueInput.value;
-                    updateData.title = titleValue;
-                });
-            });
-
-            let newsConts = document.querySelectorAll('#newsCont');
-            newsConts.forEach((newsContInput) => {
-                newsCont = fetchData.content;
-                updateData.content = newsCont;
-                newsContInput.addEventListener('input', () => {
-                    newsCont = newsContInput.value;
-                    updateData.content = newsCont;
-                });
-            });
-
-            let newsStatuss = document.querySelectorAll('#newsStatus');
-            newsStatuss.forEach((newsStatusInput) => {
-                newsStatus = fetchData.content;
-                updateData.content = newsStatus;
-                newsStatusInput.addEventListener('input', () => {
-                    newsStatus = newsStatusInput.value;
-                    updateData.content = newsStatus;
-                });
-            });
-
-            let updateTimeInputs = document.querySelectorAll('#updateTime');
-            updateTimeInputs.forEach((updateTimeInput) => {
-                updateTime = fetchData.updateTime;
-                updateData.updateTime = updateTime;
-                updateTimeInput.addEventListener('input', () => {
-                    let updateTimeValue = updateTimeInput.value;
-                    updateTime = updateTimeValue.toString().replace("T", " ") + ":00";
-                    updateData.updateTime = updateTime;
-
-                });
-            });
-
-            //處理圖片
-            var picOputs = document.querySelectorAll('#imageOutput');
-            var picInputs = document.querySelectorAll('#pic');
-            picInputs.forEach((picInput) => {
-                //預設為之前的圖片
-                updateData.pic = fetchData.pic;
-                picInput.addEventListener('change', (e) => {
-                    let file = e.target.files[0];
-                    if (file) {
-
-                        toBase64(file).then((reslut) => {
-                            //轉換成base64字串傳輸資料(這邊要解析格式)
-                            let base64String = (reslut.split(',')[1]);
-                            //建立預覽圖
-                            picOputs.forEach((picOput) => {
-                                console.log(updateData);
-                                picOput.src = reslut;
-                            })
-                            updateData.pic = base64String;
-                        }).catch(error => {
-                            console.log(error);
-                        });
-                    }
-                });
-            })
-
-
-            const toBase64 = file => new Promise((resolve, reject) => {
-                let reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-
-
-            let editComfirms = document.querySelectorAll('#editComfirm');
-            editComfirms.forEach((editComfirm) => {
-                editComfirm.onclick = () => {
-                    editData();
-                }
-            });
-
-
-            async function editData() {
-                let updateResult = await updateNews(newsNo, updateData);
-                if (updateResult.code === 200) {
-                    Swal.fire(
-                        {
-                            title: '更新成功',
-                            icon: 'success',
-                            confirmButtonText: '了解', //　按鈕顯示文字
-                        }
-                    ).then((result) => {
-                        if (result.isConfirmed) {
-                            let pageData = getOneNews();
-                            createDataTable(pageData);
-                            createPagination(pageData);
-                        }
-                    })
-                } else {
-                    Swal.fire(
-                        {
-                            title: '更新失敗',
-                            icon: 'error',
-                            confirmButtonText: '了解', //　按鈕顯示文字
-                        }
-                    );
-                }
-                modal.hide();
-
-            }
-
-        }
+            </form>
+        </div>
+    </div>
+</div>  
+`;
 
     }
-});
-// export { createDataTable, createPagination };
+
+    document.body.append(modalWrap);
+
+    let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+    modal.show();
+
+
+    let newsTitle;
+    let newsCont;
+    let newsStatus;
+
+    let updateData = {
+        "newsNo": newsNo,
+        "newsTitle": newsTitle,
+        "newsCont": newsCont,
+        "newsStatus": newsStatus
+
+    }
+    updateData.newsTitle = data.newsTitle;
+    updateData.newsCont = data.newsCont;
+    updateData.newsStatus = data.newsStatus;
+
+    const newsTitles = document.querySelectorAll("#newsTitle");
+
+    newsTitles.forEach((newsTitle) => {
+        newsTitle.addEventListener('input', (e) => {
+            let userInput = e.target.value;
+            updateData.newsTitle = userInput;
+            console.log(updateData);
+        })
+    })
+
+    const newsConts = document.querySelectorAll("#newsCont");
+    newsConts.forEach((newsCont) => {
+        newsCont.addEventListener('input', (e) => {
+            let userInput = e.target.value;
+            updateData.newsCont = userInput;
+            console.log(updateData);
+        })
+    })
+
+    const selectOptions = document.querySelectorAll(".form-select");
+    selectOptions.forEach((selectOption) => {
+        selectOption.addEventListener('change', (e) => {
+            let userInput = e.target.value;
+            updateData.newsStatus = userInput;
+            console.log(updateData);
+        })
+    })
+
+    console.log(updateData);
+
+    const editConfirmBtns = document.querySelectorAll("#editConfirm");
+    editConfirmBtns.forEach((editConfirm) => {
+        editConfirm.addEventListener('click', async function (e) {
+            let updateResult = await updateNews(updateData);
+
+            if (updateResult.code === 200) {
+                Swal.fire(
+                    {
+                        title: updateResult.message,
+                        icon: 'success',
+                        confirmButtonText: '了解', //　按鈕顯示文字
+                    }
+                ).then((result) => {
+                    if (result.isConfirmed) {
+                        // 選取具有 "page-item active" 類別的元素
+                        getAllNews();
+                    }
+                })
+            } else {
+                Swal.fire(
+                    {
+                        title: updateResult.message,
+                        icon: 'error',
+                        confirmButtonText: '了解', //　按鈕顯示文字
+                    }
+                );
+            }
+            modal.hide();
+        })
+    })
+
+
+}
+
+// ----------------------------------------- Modal ----------------------------------------- //
+
+
+
+// ----------------------------------------- api ----------------------------------------- //
+
+// ------------------------- 刪除  ------------------------- //
+async function deleteNews(newsNo) {
+    return fetch(deleteNewsUrl + `?newsNo=${newsNo}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization_M": token
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+
+
+
+// ------------------------- 更新  ------------------------- //
+async function updateNews(updateData) {
+
+    return fetch(updateNewsUrl, {
+        method: "PUT",
+        headers: {
+            Authorization_M: token,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData)
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+}
+
+
+// ------------------------- 查詢單一news  ------------------------- //
+
+// get newsCont
+async function getOneNews(newsNo) {
+    let params = new URLSearchParams({
+        newsNo: newsNo
+    });
+    return fetch(mainUrl + newsUrl + "/getOneNews?" + params.toString(), {
+        method: "GET",
+        headers: {
+            Authorization_M: token,
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+// ------------------------- 查詢all news  ------------------------- //
+function getAllNews() {
+
+    fetch(getAllNewsUrl, {
+        method: "GET",
+        headers: {
+            "Authorization_M": token
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            let newsPageData = data.message;
+            return newsPageData;
+        }).then(pageData => {
+            //create table data and pagination
+            createDataTable(pageData);
+
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+// ------------------------- 查詢單一newsPic  ------------------------- //
+
+// get one newsPic
+async function getOneNewsPic(newsNo) {
+    let params = new URLSearchParams({
+        newsNo: newsNo
+    });
+    return fetch(mainUrl + newsUrl + "/getOneNewsPic?" + params.toString(), {
+        method: "GET",
+        headers: {
+            Authorization_M: token,
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.error(err.message);
+        });
+}
+
+
+
+
+// ----------------------------------------- api ----------------------------------------- //
+
+
+
+
+
+
+
+
+
