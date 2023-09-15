@@ -1,7 +1,7 @@
 import config from "../../../../ipconfig.js";
 
 //把選擇檔案按鈕和預覽圖片連結
-localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk1MDg3NDg0fQ.ssgitrbBy1ICjqRSyAvDMDUt7AIXm4z217TYynfMALI");
+let token = localStorage.getItem("Authorization_M");
 window.addEventListener("load", function () {
     var picInput = document.getElementById("pic");
     var previewPic = document.getElementById("previewPic");

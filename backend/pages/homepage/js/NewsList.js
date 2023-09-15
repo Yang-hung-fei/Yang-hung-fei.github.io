@@ -1,10 +1,9 @@
 import config from "../../../../ipconfig.js";
 // import { editNewsByNewsNo } from "./editNewsByNewsNo.js";
 
-// localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k");
-// let token = localStorage.getItem("Authorization_M");
-let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk1MDg3NDg0fQ.ssgitrbBy1ICjqRSyAvDMDUt7AIXm4z217TYynfMALI";
-
+ 
+let token = localStorage.getItem("Authorization_M");
+ 
 const mainUrl = config.url;
 const newsUrl = "/manager/homepageManage";
 const updateNewsUrl = mainUrl + newsUrl + "/editNews";

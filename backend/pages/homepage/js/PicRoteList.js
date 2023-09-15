@@ -1,11 +1,8 @@
 import config from "../../../../ipconfig.js";
 // import { searchRotePic } from "./searchRotePic.js";
+let token = localStorage.getItem("Authorization_M");
 
-
-// localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k");
-// let token = localStorage.getItem("Authorization_M");
-let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk1MTEyMTY5fQ.sxUdslcIhLls03FW7kMolgBZkDTTeg5i0mGdxVDwkiA";
-
+ 
 const mainUrl = config.url;
 const picRoteUrl = "/manager/homepageManage";
 const updateRotePicUrl = mainUrl + picRoteUrl + "/editRotePicByPicNo";
