@@ -61,7 +61,7 @@ async function showCancelModal(activityId) {
         } else {
             Swal.fire(
                 {
-                    title: '取消失敗',
+                    title: cancelResult.message,
                     icon: 'error',
                     confirmButtonText: '了解', //　按鈕顯示文字
                 }
