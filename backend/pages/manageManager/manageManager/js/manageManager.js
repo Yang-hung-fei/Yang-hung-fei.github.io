@@ -135,36 +135,40 @@ function updateSearchParams(newParams) {
   performSearch();
 }
 
-//查詢管理員
 function searchmanagers(currentSearchURL) {
   try {
-    const response = fetch(currentSearchURL.toString(), {
-      method: "GET",
-      headers: {
-        Authorization_M: token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((managerData) => {
-        var code = managerData.code;
-        if (code === 200) {
-          //生成按鈕及表格
-          createPageButtons(managerData.message);
-          createResultTable(managerData.message);
-        } else {
-          // 处理响应错误
-        }
+    if (currentSearchURL) {
+      // 检查 currentSearchURL 是否存在
+      const response = fetch(currentSearchURL.toString(), {
+        method: "GET",
+        headers: {
+          Authorization_M: token,
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        // 输出服务器返回的文本
-        if (error instanceof Response) {
-          error.text().then((text) => {
-            console.error("Server response:", text);
-          });
-        }
-      });
+        .then((response) => response.json())
+        .then((managerData) => {
+          var code = managerData.code;
+          if (code === 200) {
+            // 生成按鈕及表格
+            createPageButtons(managerData.message);
+            createResultTable(managerData.message);
+          } else {
+            // 处理响应错误
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // 输出服务器返回的文本
+          if (error instanceof Response) {
+            error.text().then((text) => {
+              console.error("Server response:", text);
+            });
+          }
+        });
+    } else {
+      console.error("currentSearchURL is undefined or null");
+    }
   } catch (error) {
     console.error("Error:", error);
   }
