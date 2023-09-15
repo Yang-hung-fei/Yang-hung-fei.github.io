@@ -1,9 +1,10 @@
 import config from "../../../../ipconfig.js";
 
-let dataTable; // 將 dataTable 定義在函數之外
-
 //Header Token
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NjkwNDE4fQ.mQVsYsxqDbXVSEEcZV1vjnoJqhZjoZ8KB6SY9YhLZQQ";
+// const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0NjkwNDE4fQ.mQVsYsxqDbXVSEEcZV1vjnoJqhZjoZ8KB6SY9YhLZQQ";
+const token = localStorage.getItem("Authorization_U");
+
+let dataTable; // 將 dataTable 定義在函數之外
 
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 發送GET請求獲取訂單數據
 function fetchProductCollectList() {
-    fetch(config.url + "/user/productcollectlist?userId=4", {   //這裡是改成${userid}嗎?
+    fetch(config.url + "/user/productcollectlist", {   
         method: "GET",
         headers: {
             Authorization_U: token,
@@ -32,7 +33,7 @@ function fetchProductCollectList() {
                     dataTable.clear().destroy();
                 }
 
-                  // 格式化数据为 DataTable 可识别的格式
+                  // 格式化数据为 DataTable 
                   const formattedData = productList.map(product => [
                     `<img src="data:image/png;base64,${product.base64Image}" alt="${product.pdName}" width="50">`,
                     product.pdName,
@@ -54,7 +55,7 @@ function fetchProductCollectList() {
                         "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
                     }
                 });
-    
+
                 // 监听删除按钮的点击事件
                 $('#PdCollectTable tbody').on('click', 'button.delete-btn', function () {
                     const productId = $(this).data('product-id');
@@ -71,7 +72,7 @@ function fetchProductCollectList() {
     
     // 删除商品收藏
     function deleteProductFromCollect(productId) {
-        fetch(config.url + `/user/deleteproductcollect?userId=4&pdNo=${productId}`, {
+        fetch(config.url + `/user/deleteproductcollect?pdNo=${productId}`, {  
             method: 'DELETE',
             headers: {
                 'Authorization_U': token,
@@ -82,9 +83,9 @@ function fetchProductCollectList() {
             if (response.ok) {
                 // 删除成功，刷新表格
                 fetchProductCollectList();
-                Swal.fire('删除成功!');
+                Swal.fire('刪除成功!');
             } else {
-                Swal.fire('删除失败!');
+                Swal.fire('刪除失敗!');
             }
         })
         .catch(error => {

@@ -30,6 +30,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/backend/css/clock.css" />
   </head>
 
   <body onload="resize();">
@@ -51,46 +52,9 @@
           <ul id="sidebarLinks" class="sidebar-nav">
             <li id="manager">
               <ul>
-                <li class="sidebar-header">後台管理</li>
+                <li class="sidebar-header" id="backendManage">後台管理</li>
                 <li class="function">
-                  <ul>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/homepage/homepagePicRoteList.html"
-                      >
-                        <i class="align-middle" data-feather="sliders"></i>
-                        <span class="align-middle">輪播圖管理</span>
-                      </a>
-                    </li>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/homepage/homepageNewsList.html"
-                      >
-                        <i class="align-middle" data-feather="sliders"></i>
-                        <span class="align-middle">最新消息管理</span>
-                      </a>
-                    </li>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/manageManager/manageManager/manageManager.html"
-                      >
-                        <i class="align-middle" data-feather="user"></i>
-                        <span class="align-middle">管理員管理</span>
-                      </a>
-                    </li>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/manageManager/manageUser/manageUser.html"
-                      >
-                        <i class="align-middle" data-feather="log-in"></i>
-                        <span class="align-middle">會員帳號查詢</span>
-                      </a>
-                    </li>
-                  </ul>
+                  <ul id="functionLinks"></ul>
                 </li>
               </ul>
             </li>
@@ -125,7 +89,46 @@
         </nav>
 
         <main class="content">
-          <div id="homepage">進入頁面要看到的東西。</div>
+          <div id="homepage">
+            <div id="main-content">
+              <h1 class="h3 mb-3">首頁</h1>
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="card px-3 pb-4" style="margin-bottom: 0">
+                    <header
+                      class="card-header"
+                      style="background-color: transparent; border-bottom: none"
+                    >
+                      現在時間
+                    </header>
+                    <div style="margin: auto">
+                      <span class="clock"></span>
+                    </div>
+                  </div>
+                  <div class="card px-3 pb-4 my-4" style="margin-bottom: 0">
+                    <header
+                      class="card-header"
+                      style="background-color: transparent; border-bottom: none"
+                    ></header>
+                    <button
+                      class="btn btn-outline-dark btn-lg"
+                      style="
+                        width: 440px;
+                        margin: 20px auto;
+                        padding: 10px;
+                        font-size: 20px;
+                        font-weight: bold;
+                        border: 2px solid #222e3c;
+                      "
+                    >
+                      前往前台首頁
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <iframe
             src="/backend/pages/manageManager/manageManager/manageManager.html"
             name="mainframe"
@@ -202,6 +205,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="/backend/js/sidebar.js"></script>
     <script src="/backend/js/sublistArrow.js"></script>
+    <script src="/backend/js/clock.js"></script>
     <script>
       $(document).ready(function () {
         // 使用事件委託處理通過 JavaScript 生成的鏈接

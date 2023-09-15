@@ -210,7 +210,18 @@ function createResultTable(response) {
     const userName = user.userName;
     const userNickName = user.userNickName;
     const userPoint = user.userPoint;
-    const userBirthday = user.userBirthday || "尚未設定";
+    let userBirthday = user.userBirthday || "尚未設定";
+    // 變更日期格式 (timestamp to date)
+    if (userBirthday !== "尚未設定" && !isNaN(userBirthday)) {
+      const timestamp = parseInt(userBirthday); // 将字符串转换为整数
+      const date = new Date(timestamp);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      userBirthday = formattedDate;
+      console.log(formattedDate); // 显示转换后的日期，例如 "8/30/2023"
+    }
     const userCreated = user.userCreated;
     const userGender = user.userGender || "尚未設定";
     const userAddress = user.userAddress || "尚未設定";

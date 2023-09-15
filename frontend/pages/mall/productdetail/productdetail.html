@@ -1,55 +1,149 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>All Dog Cat</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
 
     <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="../../../lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../../css/frontendBootstrap.min.css" rel="stylesheet">
+        rel="stylesheet" />
 
     <!-- Icon Font Stylesheet -->
-    <script src="https://kit.fontawesome.com/9005963df6.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- 自己的 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="sweetalert2.min.css">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/frontend/lib/animate/animate.min.css" rel="stylesheet" />
+    <link href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/frontend/css/frontendBootstrap.min.css" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
-    <link href="../../../css/main.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../css/mainnav.css">
     <link rel="stylesheet" type="text/css" href="productdetail.css">
-
+    <link href="/frontend/css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/frontend/css/notify.css" />
+    <link rel="stylesheet" href="/frontend/css/headerLogoutBtn.css" />
+   
 </head>
 
-<body>
-    <div class="header">
-        <div class="header-content">All Dog Cat</div>
-        <div class="header-icons">
-            <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #a48d73;"></i>
-            <i class="fa-solid fa-cart-shopping fa-xl" style="color: #a48d73;"></i>
-            <i class="fa-regular fa-user fa-xl" style="color: #a48d73;"></i>
-
-        </div>
+<body style="margin: 0; padding: 0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" role="status"></div>
     </div>
+    <!-- Spinner End -->
 
-    <main class="inner">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s"
+        style="background-color: rgb(235, 225, 192);">
+        <a href="/index.html" class="navbar-brand ms-4 ms-lg-0">
+            <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png"
+                alt="LOGO" style="width: 300px" />
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div style="width: 100%;"></div>
+            <div class="navbar-nav ms-auto p-4 p-lg-0" style="display: none;">
+                <a href="/index.html" class="nav-item nav-link active">首頁</a>
+                <a href="/frontend/pages/homepage/about.html" class="nav-item nav-link">關於我們</a>
+                <a href="/frontend/pages/mall/mall/mall.html" class="nav-item nav-link">寵物商城</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                        id="petGroomingDropdown">寵物美容專區</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="/frontend/pages/petgroomer/pgListPage/pgListPage.html" class="dropdown-item">查看美容師</a>
+                        <!-- <a href="feature.html" class="dropdown-item">作品集</a> -->
+                        <a href="/frontend/pages/petgroomer/appointment/appointment.html"
+                            class="dropdown-item">預約寵物美容</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                        id="petCommunityDropdown">寵物社群</a>
+                    <div class="dropdown-menu m-0">
+                        <!-- <a href="blog.html" class="dropdown-item">貼文交流</a> -->
+                        <a href="/frontend/pages/socialMedia/Activity/activity.html" class="dropdown-item">寵物活動</a>
+                    </div>
+                </div>
+                <a href="/backend/index.html" class="nav-item nav-link active"
+                    style="background-color: #6f5242; color: #fff">管理後台</a>
+            </div>
+            <div class="d-none d-lg-flex ms-2">
+                <div id="notifyContain">
+                    <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
+                        <small class="fa fa-inbox text-body"></small>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown"
+                        id="notifyMenu" style="min-height: 50px">
+                        <div class="list-group">
+                            <!--這裡放通知-->
+                        </div>
+                    </div>
+                </div>
+                <div id="userContain" class="ms-3">
+                    <div id="user" class="btn-sm-square bg-white rounded-circle">
+                        <small id="userIcon" class="fa fa-user text-body" style="position: absolute"></small>
+                    </div>
+                    <!-- Logout Button - Initially Hidden -->
+                    <div id="logoutButton" class="floating-logout-button" style="z-index: 999">
+                        <button class="btn btn-link btn-sm" id="logoutButtonText">
+                            登出
+                        </button>
+                    </div>
+                </div>
+                <a
+            id="shoppingCart"
+            class="btn-sm-square bg-white rounded-circle ms-3"
+            href="/frontend/pages/mall/order/cart.html"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 666 602"
+            >
+              <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+              <path
+                fill="#555"
+                d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6
+              32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5
+              53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24
+              10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4
+              54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0
+              1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1
+              0-96z"
+              />
+            </svg>
+          </a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <script src="/frontend/js/notify.js"></script>
+    <script type="module" src="/frontend/js/btnUser.js"></script>
+    <script type="module" src="/frontend/js/header.js"></script>
+    <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Header JS -->
+
+    <main class="inner" style="margin: 40px;">
         <div class="top-title">
             <div>
-                <a class="home" href="#">
+                <a class="home" href="../../homepage/homepage.html">
                     首頁 >
                 </a>
-                <a class="title" href="#">
+                <a class="title" href="../mall/mall.html">
                     寵物商城
                 </a>
 
@@ -59,17 +153,20 @@
         <div id="product-data">
             <div class="product-detail">
 
-                <div class="product-images">
-                    
+                <div class="product-images" style="width: 400px;">
 
-                    <!-- 其他图片缩略图等 -->
-                    <!-- <div class="subpdpic" id="subpdpic"> -->
-                        <!-- <img src="img/貓砂1.jpg" alt="Product Sub Image">
-                        <img src="img/貓砂2.jpg" alt="Product Sub Image">
-                        <img src="img/貓砂3.jpg" alt="Product Main Image"> -->
-                        <!-- <img src="img/貓砂4.jpg" alt="Product Sub Image"> -->
+                    <!-- <img id="showImg" src="" alt=""> -->
 
                     <!-- </div> -->
+                    <!-- 其他图片缩略图等 -->
+                    <!-- <div class="sub">
+                        <div class="subpdpic" id="subpdpic"> -->
+                    <!-- <img src="img/貓砂1.jpg" alt="Product Sub Image">
+                        <img src="img/貓砂2.jpg" alt="Product Sub Image">
+                        <img src="img/貓砂3.jpg" alt="Product Main Image"> -->
+                    <!-- <img src="img/貓砂4.jpg" alt="Product Sub Image"> -->
+                    <!-- </div>
+                    </div> -->
                 </div>
 
                 <div class="product-info">
@@ -77,13 +174,13 @@
                     <p class="product-price">NT$250</p>
                     <div class="quantity">
                         <p>購買數量</p>
-                        
+
                         <input type="number" id="quantity" value="1" min="1">
-                    
+
                     </div>
                     <div class="buttons">
                         <button class="add-to-cart">加入購物車</button>
-                        <button class="add-to-favorites"><i class="fa-regular fa-heart fa-2xl"
+                        <button class="add-to-favorites"><i class="fa-solid fa-heart fa-2xl"
                                 style="color: #a58e73;"></i></button>
                     </div>
 
@@ -119,76 +216,100 @@
 
             <div class="review-top">
                 <div class="review-left">
-                    <div>星星總評分放這裡(幾顆星)</div>
+                    <div class="star-rating">
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                      </div>
+                    
+                    <div style="font-size: larger; font-weight: bold;" >5.0分</div>
                     <div>1個評價</div>
-                    <div>5.0分</div>
                     <button class="add-review">寫評論</button>
                 </div>
 
                 <!-- 統計長條圖 -->
                 <div class="review-right">
-                    <div>5分</div>
-                    <div>4分</div>
-                    <div>3分</div>
-                    <div>2分</div>
-                    <div>1分</div>
+                    <div class="bar">1分</div>
+                    <div class="bar">2分</div>
+                    <div class="bar">3分</div>
+                    <div class="bar">4分</div>
+                    <div class="bar-5">5分</div>
                 </div>
+                
             </div>
 
             <div class="review">
-                <p>User123</p>
-                <div class="review-rating">5顆星</div>
+                <div class="review-info">
+                    <p style="font-size: larger; font-weight: bold;">Robert</p>
+                </div>
+                <div class="star-rating">
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                  </div>
                 <div class="review-content">
-                    <p>This product is great! I love it!</p>
+                    <p>Pidan咖啡混合貓砂是優質之選。不僅有效掩蓋異味，還能出色吸收，保持貓砂盆乾淨。它的環保特點讓我放心，極力推薦其他貓主人使用。</p>
                 </div>
             </div>
             <!-- 更多評價 -->
         </div>
     </main>
 
-    <!-- Footer Start -->
-    <footer class="container-fluid footer mt-0 pt-5 wow fadeIn" data-wow-delay="0.1s"
-        style="background-color: #6F5242;">
+
+    <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s" style="background-color: #6f5242">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
-                        alt="LOGO" style="width: 180px;">
-                    <p>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed
-                        stet lorem sit clita</p>
+                        alt="LOGO" style="width: 180px" />
+                    <ul>
+                        <li>A paradise for shopping</li>
+                        <li>Plenty of groups for interaction</li>
+                        <li>A comfortable space for grooming</li>
+                    </ul>
                     <div class="d-flex pt-2">
                         <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-twitter"></i></a>
+                                class="fab fa-twitter" target="_blank"></i></a>
                         <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-0" href=""><i
-                                class="fab fa-linkedin-in"></i></a>
+                                class="fab fa-facebook-f" target="_blank"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-1"
+                            href="https://www.youtube.com/@AllDogCat-rj8ov"><i class="fab fa-youtube"
+                                target="_blank"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-0"
+                            href="https://www.instagram.com/all_dog_cat_store/?hl=zh-tw"><i class="fab fa-linkedin-in"
+                                target="_blank"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Address</h4>
-                    <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <p>
+                        <i class="fa fa-map-marker-alt me-3"></i>330
+                        桃園市中壢區復興路123號45樓
+                    </p>
+                    <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
+                    <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Quick Links</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="/frontend/pages/homepage/about.html">About Us</a>
+                    <!-- <a class="btn btn-link" href="">Contact Us</a> -->
                     <a class="btn btn-link" href="">Our Services</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
+                    <!-- <a class="btn btn-link" href="">Support</a> -->
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Newsletter</h4>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                    <div class="position-relative mx-auto" style="max-width: 400px">
                         <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text"
-                            placeholder="Your email">
-                        <button type="button"
-                            class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                            placeholder="Your email" />
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">
+                            SignUp
+                        </button>
                     </div>
                 </div>
             </div>
@@ -197,29 +318,40 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                        &copy; <a href="#">All Dog Cat</a>, All Right Reserved.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                         Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                        <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                        <br />Distributed By:
+                        <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    <!-- Footer End -->
-
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
             class="bi bi-arrow-up"></i></a>
 
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
 
+    <!-- 自己的 -->
 
-    <script src="script.js"></script>
-    <!-- Template Javascript -->
+    <script src="https://kit.fontawesome.com/9005963df6.js" crossorigin="anonymous"></script>
     <script type="module" src="productdetail.js"></script>
+    <script type="module" src="../../../js/cartButton.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    
+
+    <!-- Template Javascript -->
+    <script src="/frontend/js/main.js"></script>
 </body>
 
 </html>

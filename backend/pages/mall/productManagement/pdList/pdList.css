@@ -1,4 +1,41 @@
+button {
+  margin: 2px;
+}
 
+.custom-btn {
+  width: 60px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  display: inline-block;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    5px 5px 10px 0px rgba(0,0,0,.1),
+    2px 2px 5px 0px rgba(0,0,0,.1);
+  }
+
+
+.btn-3{
+  color:gray;
+  background-color: whitesmoke;
+  width: 60px;
+    height: 40px;
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+
+.btn-3:hover{
+  background: transparent;
+  border: 1px solid gainsboro;
+ box-shadow: none;
+}
+
+#pdPicDiv > img{
+  /* display: inline; */
+  width: 200px;
+  height: 200px;
+}
   
 
 #productmanage{   /*商品列表 | 編輯商品資訊 | 新增商品*/
@@ -13,6 +50,8 @@
     margin: 0 20px;
     text-decoration-line: none;
   }
+
+
 
 /* 按钮容器的样式 */
 .status-buttons {
@@ -34,6 +73,10 @@
   background-color: rgb(175, 175, 175);
   /* 其他样式设置 */
 }
+
+/* .modal-body{
+  background-color: rgba(225, 224, 224, 0.758);
+} */
 
 body {
   font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
