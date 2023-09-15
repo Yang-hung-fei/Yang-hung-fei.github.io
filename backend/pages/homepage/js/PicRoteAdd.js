@@ -1,7 +1,7 @@
 import config from "../../../../ipconfig.js";
 
 //把選擇檔案按鈕和預覽圖片連結
-localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0NjgwMzQ3fQ.zAe7mBf5Bcg00KiYAdKk05pmviYQSzh1Nh0S0PqtD1k");
+localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk1MDg3NDg0fQ.ssgitrbBy1ICjqRSyAvDMDUt7AIXm4z217TYynfMALI");
 window.addEventListener("load", function () {
     var picInput = document.getElementById("pic");
     var previewRotePic = document.getElementById("previewRotePic");
