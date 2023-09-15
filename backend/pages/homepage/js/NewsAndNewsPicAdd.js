@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("Code 200???");
 
                     }
-                    //   alert('最新消息文字存檔成功!');
+                      alert('最新消息文字存檔成功!');
                     let newsNo = responseData.message;
 
 

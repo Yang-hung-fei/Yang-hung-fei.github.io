@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     let data = await getRotePic();
     await createRotePic(data);
     await getHomepageNewsPic();
+    await getNewActivities();
 
 });
 
@@ -129,7 +130,7 @@ async function createHomepageNewsPic(data) {
         `;
 
         //<td><a href="./frontend/pages/homepage/homepageNewsCont.html?newsNo=${dataDetails.newsNo}" type="button" class="getOneNews" style="outline:none; border:none; background: transparent;">${dataDetails.newsTitle}</a></td>
-        
+
 
     });
     homepageNewsPic.innerHTML = dataList;
@@ -139,12 +140,48 @@ async function createHomepageNewsPic(data) {
 }
 
 
+// =====================最新活動清單=====================
+
+async function createHomepageActivity(data) {
+    let acList = await data.message;
+    console.log(acList);
+    let dataList = '';
+    let activityNews = document.querySelector(".activityNews");
+    // 清空表格
+    activityNews.innerHTML = "";
+    acList.forEach(dataDetails => {
+        //文字截斷
+        let content = dataDetails.activityContent;
+        let truncateContent = content.substr(0, 10);
+        dataList += `
+        <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="product-item">
+          <div class="position-relative bg-light overflow-hidden">
+            <img class="img-fluid w-100" src="data:image/*;base64,${dataDetails.activityPicture}" alt="">
+            <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+              New</div>
+          </div>
+          <div class="text-center p-4">
+            <a class="d-block h5 mb-2" href="">${dataDetails.activityTitle}</a>
+            <p>${truncateContent}...</p>
+          </div>
+          <div class="d-flex border-top">
+
+          </div>
+        </div>
+      </div>
+        `;
+    });
+    activityNews.innerHTML = dataList;
+
+}
+
 
 async function getNews() {
     return fetch(hostUrl + homepageUrl + "/getAllNews", {
         method: "GET",
         headers: {
-      
+
             "Content-Type": "application/json"
         },
     })
@@ -187,7 +224,7 @@ async function getRotePic() {
     return fetch(hostUrl + homepageUrl + "/getRotePic", {
         method: "GET",
         headers: {
-          
+
             "Content-Type": "application/json"
         },
     })
@@ -218,7 +255,7 @@ async function getHomepageNewsPic() {
     return fetch(hostUrl + homepageUrl + "/getHomepageNewsPic", {
         method: "GET",
         headers: {
-      
+
             "Content-Type": "application/json"
         },
     })
@@ -233,4 +270,22 @@ async function getHomepageNewsPic() {
         });;
 }
 
+// get activities
+async function getNewActivities() {
+    return fetch(hostUrl + homepageUrl + "/getNewActivities", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            return res.json();
+        }).then(async data => {
+            console.log(data);
+            await createHomepageActivity(data);
+            return data;
+        }).catch(err => {
+            console.error(err.message);
+        });;
 
+}
