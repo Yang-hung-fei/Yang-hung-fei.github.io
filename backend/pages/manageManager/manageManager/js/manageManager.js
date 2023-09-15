@@ -220,8 +220,10 @@ function createPageButtons(response) {
   }
 }
 
+// 用以防止動態生成按鈕的冒泡
+let editButtonHandler = null;
+let editTogglingCheckboxHandler = null;
 // 根據查詢結果建立表格
-let selectedAuthorities = [];
 function createResultTable(response) {
   console.log(response);
   const resultTable_el = document.getElementById("resultTable");
@@ -278,53 +280,91 @@ function createResultTable(response) {
   const parentElement = document.querySelector("table");
   parentElement.addEventListener("click", function (event) {
     // 監聽表格中的編輯按鈕點擊事件
-    if (event.target.classList.contains("editBtn")) {
-      // 取得建立表格時設定在編輯按鈕的資料
-      const managerAccount = event.target.getAttribute("data-managerAccount");
-      const managerState = event.target.getAttribute("data-managerState");
-      // 顯示燈箱容器，並動態生成當前管理員的編輯燈箱
-      $("#lightboxOverlay").css("display", "flex");
-      createEditLightBox(managerAccount, managerState);
+    if (editButtonHandler === null) {
+      editButtonHandler = function (event) {
+        if (event.target.classList.contains("editBtn")) {
+          // 处理编辑按钮点击事件的代码
+          const managerAccount = event.target.getAttribute(
+            "data-managerAccount"
+          );
+          const managerState = event.target.getAttribute("data-managerState");
 
-      //儲存當前管理員帳號
-      theManagerAccount = managerAccount;
-      managerAccountValue = managerAccount;
+          // 解绑事件处理程序
+          document.removeEventListener("click", editButtonHandler);
 
-      // 调用checkAuthorities，并提供一个回调函数来处理已勾选的选项数组
-      checkAuthorities(managerAccount, function (selectedAuthorities) {
-        console.log(selectedAuthorities);
-        console.log(`編輯的managerAccount是：${managerAccount}`);
-      });
-      //建立checkbox監聽器
-      const checkboxes = document.querySelectorAll(
-        '#editLightBox input[type="checkbox"]'
-      );
-      console.log("Number of checkboxes found:", checkboxes.length);
-      checkboxListener(checkboxes);
-    }
-    // 監聽表格中的狀態開關
-    if (event.target.classList.contains("form-check-input")) {
-      // 取得建立表格時設定在checkbox狀態欄的資料
-      const managerAccount = event.target.getAttribute("data-managerAccount");
+          // 重新绑定点击编辑按钮的事件处理程序
+          createResultTable(response);
 
-      // 儲存當前管理員帳號
-      theManagerAccount = managerAccount;
-      // 儲存checkbox監聽狀態到管理員狀態
-      if (event.target.checked) {
-        managerAccountValue = "checked";
-      } else {
-        managerAccountValue = "";
-      }
+          // 顯示燈箱容器，並動態生成當前管理員的編輯燈箱
+          $("#lightboxOverlay").css("display", "flex");
+          createEditLightBox(managerAccount, managerState);
 
-      console.log(theManagerAccount, managerAccountValue);
-      // 送出修改的資料
-      const elements = {
-        orgManagerAccount: theManagerAccount,
-        managerAccount: theManagerAccount,
-        managerPassword: "",
-        managerState: managerAccountValue,
+          //儲存當前管理員帳號
+          theManagerAccount = managerAccount;
+          managerAccountValue = managerAccount;
+
+          // 调用checkAuthorities，并提供一个回调函数来处理已勾选的选项数组
+          checkAuthorities(managerAccount, function (selectedAuthorities) {
+            console.log(selectedAuthorities);
+            console.log(`編輯的managerAccount是：${managerAccount}`);
+          });
+          //建立checkbox監聽器
+          const checkboxes = document.querySelectorAll(
+            '#editLightBox input[type="checkbox"]'
+          );
+          console.log("Number of checkboxes found:", checkboxes.length);
+          checkboxListener(checkboxes);
+
+          // 绑定点击编辑按钮的事件处理程序
+          document.addEventListener("click", editButtonHandler);
+        }
       };
-      const jsonData = JSON.stringify(elements);
+
+      document.addEventListener("click", editButtonHandler);
+    }
+
+    // 監聽表格中的狀態開關
+    if (editTogglingCheckboxHandler === null) {
+      editTogglingCheckboxHandler = function (event) {
+        if (event.target.classList.contains("form-check-input")) {
+          // 处理编辑按钮点击事件的代码
+          const managerAccount = event.target.getAttribute(
+            "data-managerAccount"
+          );
+
+          // 解绑事件处理程序
+          document.removeEventListener("click", editTogglingCheckboxHandler);
+
+          // 重新绑定点击编辑按钮的事件处理程序
+          createResultTable(response);
+
+          // 儲存當前管理員帳號
+          theManagerAccount = managerAccount;
+          // 儲存checkbox監聽狀態到管理員狀態
+          if (event.target.checked) {
+            managerAccountValue = "1";
+          } else {
+            managerAccountValue = "0";
+          }
+
+          console.log(theManagerAccount, managerAccountValue);
+          // 送出修改的資料
+          const elements = {
+            orgManagerAccount: theManagerAccount,
+            managerAccount: theManagerAccount,
+            managerPassword: "",
+            managerState: managerAccountValue,
+          };
+          const jsonData = JSON.stringify(elements);
+          updateManagerData(jsonData);
+          searchmanagers(currentSearchURL);
+
+          // 绑定点击编辑按钮的事件处理程序
+          document.addEventListener("click", editTogglingCheckboxHandler);
+        }
+      };
+
+      document.addEventListener("click", editTogglingCheckboxHandler);
     }
   });
 
@@ -458,6 +498,7 @@ function updateManagerData(jsonData) {
 
 // 更新既有管理員的權限
 function updateAuthorities(updateAuthritiesJson) {
+  console.log(updateAuthritiesJson);
   return new Promise((resolve, reject) => {
     console.log(updateAuthritiesJson);
     fetch(config.url + "/manager/manageManager/authorities", {
