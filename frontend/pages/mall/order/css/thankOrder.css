@@ -147,11 +147,11 @@ body.open{
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 75px; /* 自行調整間距大小 */
+  margin-top: 100px; /* 自行調整間距大小 */
 }
 
 .wrap button {
-  margin-top: 15px; /* 自行調整按鈕之間的間距大小 */
+  margin-top: 10px; /* 自行調整按鈕之間的間距大小 */
 }
 
 .button {

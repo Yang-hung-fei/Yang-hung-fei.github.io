@@ -1,8 +1,7 @@
 import config from '../../../../ipconfig.js';
 
 const hostUrl = config.url;
-const homepageManageUrl = "/manager/homepageManage";
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk0OTM3MDY0fQ.gvRrlefI0HBr9nnjzkG9cTbqG6CmjbWBqCXNFgrIiiY";
+const homepageUrl = "/customer/homePage";
 
 
 async function onLoad() {
@@ -11,17 +10,32 @@ async function onLoad() {
     const newsNo = urlParams.get('newsNo');
     let fetchData = await getNewsCont(newsNo);
     let data = fetchData.message;
-    document.getElementById('newsContent').innerHTML = "";
+    document.getElementById('newsContent').innerHTML = ""; 
     let dataList = ` 
-     
+
         <p>${data.newsTitle}</p>
-        <p>${data.updateTime}</p>
+        <p>${dateConvert(data.updateTime)}</p>
         <p>${data.newsCont}</p>
         `;
     document.getElementById('newsContent').innerHTML = dataList;
 
 }
+function dateConvert(timestamp) {
+    // 使用Date物件來轉換timestamp為日期
+    const date = new Date(timestamp);
 
+    // 使用Date物件的方法取得年、月和日
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份是從0開始計算的，所以要加1
+    const day = String(date.getDate()).padStart(2, '0');
+
+    // 將年、月、日組合成格式化的日期字串
+    const formattedDate = `${year}-${month}-${day}`
+
+    return formattedDate;
+
+
+}
 // ------------------------- 頁面載入  ------------------------- //
 window.addEventListener('DOMContentLoaded', onLoad);
 
@@ -31,10 +45,10 @@ async function getNewsCont(newsNo) {
     let params = new URLSearchParams({
         newsNo: newsNo
     });
-    return fetch(hostUrl + homepageManageUrl + "/getOneNews?" + params.toString(), {
+    return fetch(hostUrl + homepageUrl + "/getOneNews?" + params.toString(), {
         method: "GET",
         headers: {
-            Authorization_M: token,
+
             "Content-Type": "application/json"
         },
     })

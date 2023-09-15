@@ -123,6 +123,12 @@ async function getOnlinUserLists(activityId) {
     userOnlineList.map(user => {
         dataList += ` <li class="list-group-item">${user.username}</li>`
     });
+
+    //刷新清單
+    while (onlineUserListElement.childNodes.length > 3) {
+        //移除最後一個元素
+        onlineUserListElement.removeChild(onlineUserListElement.lastChild);
+    }
     onlineUserListElement.innerHTML += dataList;
 
 }
@@ -141,10 +147,20 @@ async function getUserRoomLists() {
     userRoomList.map(data => {
         dataList += ` <a href="#" class="list-group-item get-room" data-id="${data.roomId}">${data.roomName}</a>`
     });
+
+    //刷新清單
+    while (userRoomListElement.childNodes.length > 3) {
+        //移除最後一個元素
+        userRoomListElement.removeChild(userRoomListElement.lastChild);
+    }
     userRoomListElement.innerHTML += dataList;
+
+
 
     //這邊幫使用者預設第一個房間的聊天清單
     await getUserRoomMessageLists(userRoomList[0].roomId);
+    //預設目前上線的使用者清單
+    getOnlinUserLists(userRoomList[0].roomId);
 }
 
 
