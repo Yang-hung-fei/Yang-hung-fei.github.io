@@ -42,7 +42,7 @@ window.addEventListener("load", () => {
                     </div>
                     <div class="d-flex border-top">
                         <small class="w-50 text-center border-end py-2">
-                            <a id="viewDetailLink" class="text-body viewDetailLink" href="`+config.url+`/frontend/pages/mall/productdetail/productdetail.html"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                            <a id="viewDetailLink" class="text-body viewDetailLink" href="`+ config.url + `/frontend/pages/mall/productdetail/productdetail.html"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                         </small>
                         <small class="w-50 text-center py-2">
                             <a class="text-body add-to-cart-link" href="#" data-product-id="${product.pdNo}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
@@ -123,6 +123,17 @@ window.addEventListener("load", () => {
                     // 处理API响应，渲染搜索结果等操作
                     if (data.code === 200) {
                         const searchResults = data.message.rs;
+
+                        if (searchResults.length === 0) {
+                            // 如果找不到搜索结果，显示 "找不到.jpg"
+                            const notFoundImage = document.createElement("div");
+                            notFoundImage.classList.add("unknow");
+                            notFoundImage.style.width = "100%";
+                            notFoundImage.innerHTML = `
+                        <img src="./img/找不到.jpg" alt="找不到.jpg">
+                    `;
+                            productListContainer.appendChild(notFoundImage);
+                        }
                         searchResults.forEach(product => {
                             // 创建一个用于显示搜索结果的元素，例如一个 <div> 或 <li>
                             const productItem = document.createElement("div");
@@ -130,24 +141,24 @@ window.addEventListener("load", () => {
                             productItem.setAttribute("data-wow-delay", "0.1s");
 
                             productItem.innerHTML = `
-                            <div class="product-item">
-                            <div class="position-relative bg-light overflow-hidden">
-                                <img class="img-fluid w-100" src="data:image/jpeg;base64,${product.base64Image}" alt="${product.pdName}">
-                                <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>
-                            </div>
-                            <div class="text-center p-4">
-                                <a class="d-block h5 mb-2" name="${product.pdNo}">${product.pdName}</a>
-                                <span class="text-primary me-1">$${product.pdPrice}</span>
-                            </div>
-                            <div class="d-flex border-top">
-                                <small class="w-50 text-center border-end py-2">
-                                    <a id="viewDetailLink" class="text-body viewDetailLink" href="http://localhost:5500/frontend/pages/mall/productdetail/productdetail.html"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
-                                </small>
-                                <small class="w-50 text-center py-2">
-                                    <a class="text-body add-to-cart-link" href="#" data-product-id="${product.pdNo}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
-                                </small>
-                            </div>
-                        </div>
+                                <div class="product-item">
+                                <div class="position-relative bg-light overflow-hidden">
+                                    <img class="img-fluid w-100" src="data:image/jpeg;base64,${product.base64Image}" alt="${product.pdName}">
+                                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>
+                                </div>
+                                <div class="text-center p-4">
+                                    <a class="d-block h5 mb-2" name="${product.pdNo}">${product.pdName}</a>
+                                    <span class="text-primary me-1">$${product.pdPrice}</span>
+                                </div>
+                                <div class="d-flex border-top">
+                                    <small class="w-50 text-center border-end py-2">
+                                        <a id="viewDetailLink" class="text-body viewDetailLink" href="http://localhost:5500/frontend/pages/mall/productdetail/productdetail.html"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                                    </small>
+                                    <small class="w-50 text-center py-2">
+                                        <a class="text-body add-to-cart-link" href="#" data-product-id="${product.pdNo}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                    </small>
+                                    </div>
+                                </div>
                     `;
 
                             // 将结果添加到商品列表容器中

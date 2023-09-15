@@ -46,7 +46,7 @@ function buildTable(newData) {
       
     table = $("#OrdersManTable").DataTable({
             id: "OrdersManTable",
-            "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]],
+            "lengthMenu": [[10, 5, 15, 20, -1], [10, 5, 15, 20, "全部"]],
                 "processing": true,
                 "destroy": true,
                 "autoWidth": false

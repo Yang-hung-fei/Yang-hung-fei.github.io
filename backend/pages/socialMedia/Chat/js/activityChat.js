@@ -107,6 +107,9 @@ async function getAllRoomLists() {
     }
     userRoomListElement.innerHTML += dataList;
 
+    //這邊幫使用者預設第一個房間的聊天清單
+    await getRoomMessage(userRoomList[0].roomId);
+
 }
 
 async function getRoomMessage(roomId) {
