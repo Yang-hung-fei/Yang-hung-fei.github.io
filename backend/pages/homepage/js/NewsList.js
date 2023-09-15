@@ -3,7 +3,6 @@ import config from "../../../../ipconfig.js";
 
  
 let token = localStorage.getItem("Authorization_M");
- 
 const mainUrl = config.url;
 const newsUrl = "/manager/homepageManage";
 const updateNewsUrl = mainUrl + newsUrl + "/editNews";
