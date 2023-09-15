@@ -204,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 addressError.style.display = "none";
             }
 
+            loadingElement.classList.add("hidden");
             if (isValid) {
                 // 執行提交操作
                 if (result.isConfirmed) {
