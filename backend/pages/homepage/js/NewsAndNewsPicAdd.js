@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (code === 200) {
 
                     //    var token = responseData.message;
-                    localStorage.setItem("Authorization_M", token);
+                   
                     //    console.log(token);
                     if (token) {
                         console.log("token存在");
