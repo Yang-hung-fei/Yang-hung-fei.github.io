@@ -33,7 +33,7 @@ function fetchProductCollectList() {
                     dataTable.clear().destroy();
                 }
 
-                  // 格式化数据为 DataTable 可识别的格式 !!!!!!!!!!!!!!!!!!!!!!!!!這裡有錯
+                  // 格式化数据为 DataTable 
                   const formattedData = productList.map(product => [
                     `<img src="data:image/png;base64,${product.base64Image}" alt="${product.pdName}" width="50">`,
                     product.pdName,
@@ -55,7 +55,7 @@ function fetchProductCollectList() {
                         "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
                     }
                 });
-    
+
                 // 监听删除按钮的点击事件
                 $('#PdCollectTable tbody').on('click', 'button.delete-btn', function () {
                     const productId = $(this).data('product-id');
@@ -72,7 +72,7 @@ function fetchProductCollectList() {
     
     // 删除商品收藏
     function deleteProductFromCollect(productId) {
-        fetch(config.url + "/user/deleteproductcollect", {  //路徑有問題
+        fetch(config.url + `/user/deleteproductcollect?pdNo=${productId}`, {  
             method: 'DELETE',
             headers: {
                 'Authorization_U': token,
@@ -83,9 +83,9 @@ function fetchProductCollectList() {
             if (response.ok) {
                 // 删除成功，刷新表格
                 fetchProductCollectList();
-                Swal.fire('删除成功!');
+                Swal.fire('刪除成功!');
             } else {
-                Swal.fire('删除失败!');
+                Swal.fire('刪除失敗!');
             }
         })
         .catch(error => {

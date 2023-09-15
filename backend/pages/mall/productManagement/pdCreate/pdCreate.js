@@ -2,7 +2,8 @@ import config from "../../../../../ipconfig.js";
 
 window.addEventListener("load", () => {
     const token = localStorage.getItem("Authorization_M"); // 使用Manager Token
-    // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNjk0OTMyMTQyfQ.Mz9CNmNFfH9QQVRDTJXD6EPkw14jz64Qc0m-vgb2IWQ";
+    // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjk1MTEzMjMxfQ.452GXi57MCr7pIoFBqRlgN977kvF4Hqxlm9sz7Q8I9E';
+
     // 驗證是否為商品管理員
     if (!token) {
         Swal.fire({
@@ -127,7 +128,7 @@ window.addEventListener("load", () => {
             method: "POST",
             body: formData,
             headers: {
-                Authorization_M: token,
+                "Authorization_M": token,
             },
         })
             .then((response) => response.json())
