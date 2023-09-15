@@ -44,50 +44,6 @@ async function fetchManagerData(token) {
   });
 }
 
-{
-  /* <li class="sidebar-header" id="backendManage">後台管理</li>
-                <li class="function">
-                  <ul>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/homepage/homepagePicRoteList.html"
-                      >
-                        <i class="align-middle" data-feather="sliders"></i>
-                        <span class="align-middle">輪播圖管理</span>
-                      </a>
-                    </li>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/homepage/homepageNewsList.html"
-                      >
-                        <i class="align-middle" data-feather="sliders"></i>
-                        <span class="align-middle">最新消息管理</span>
-                      </a>
-                    </li>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/manageManager/manageManager/manageManager.html"
-                      >
-                        <i class="align-middle" data-feather="user"></i>
-                        <span class="align-middle">管理員管理</span>
-                      </a>
-                    </li>
-                    <li class="sidebar-item">
-                      <a
-                        class="sidebar-link function-link"
-                        href="/backend/pages/manageManager/manageUser/manageUser.html"
-                      >
-                        <i class="align-middle" data-feather="log-in"></i>
-                        <span class="align-middle">會員帳號查詢</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li> */
-}
-
 // 根據管理員的「後台管理權限」，顯示可用連結在 sidebar
 async function showSidebarManageBackendLinkes(manager) {
   // 权限数组
