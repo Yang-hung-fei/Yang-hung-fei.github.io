@@ -1,7 +1,7 @@
 import config from "../../../../ipconfig.js";
 
 //把選擇檔案按鈕和預覽圖片連結
-localStorage.setItem("Authorization_M", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkzOTgwNzc3fQ.2tiXKDGkG1CBEOdl1tnjQokBizDRdPVK6cXDbqDrO24");
+
 window.addEventListener("load", function () {
     var picInput = document.getElementById("pic");
     var previewPic = document.getElementById("previewPic");
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (code === 200) {
 
              //    var token = responseData.message;
-                    localStorage.setItem("Authorization_M", token);
+                   
                 //    console.log(token);
                     if (token) {
                         console.log("token存在"); 

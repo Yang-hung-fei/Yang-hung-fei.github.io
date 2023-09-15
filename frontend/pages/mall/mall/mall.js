@@ -42,7 +42,7 @@ window.addEventListener("load", () => {
                     </div>
                     <div class="d-flex border-top">
                         <small class="w-50 text-center border-end py-2">
-                            <a id="viewDetailLink" class="text-body viewDetailLink" href="http://localhost:5500/frontend/pages/mall/productdetail/productdetail.html"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                            <a id="viewDetailLink" class="text-body viewDetailLink" href="`+config.url+`/frontend/pages/mall/productdetail/productdetail.html"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                         </small>
                         <small class="w-50 text-center py-2">
                             <a class="text-body add-to-cart-link" href="#" data-product-id="${product.pdNo}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
