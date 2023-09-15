@@ -2,7 +2,7 @@ import config from '../../../../../ipconfig.js';
 const hostUrl = (config.url).split('//')[1];
 import { getChatList, getAllRoomList } from './chatApi.js'
 const managerToken = localStorage.getItem("Authorization_M");
-const url = 'wss://' + hostUrl + '/websocket/activity?access_token=' + managerToken;
+const url = 'ws://' + hostUrl + '/websocket/activity?access_token=' + managerToken;
 var webSocket;
 var activityId;
 var userId = "0";
