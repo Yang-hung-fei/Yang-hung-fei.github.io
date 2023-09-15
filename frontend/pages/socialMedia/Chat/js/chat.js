@@ -62,7 +62,7 @@ function connectWebSocket() {
         console.log(messageObj);
         //處理通知訊息 && 從這邊拿到userId
         const inMyRoom = messageObj.roomId === activityId;
-        if (messageObj.message.includes("已經上線了") && inMyRoom) {
+        if (messageObj.message.includes("已經上線了")) {
             //只執行一次
             if (getUserStatus) {
                 userId = messageObj.userId;
