@@ -49,11 +49,11 @@ function sendCaptchaRequest(baseUrl, formData) {
       var code = responseData.code;
       if (code === 200) {
         const btn_getchptcha = document.getElementById("chptcha_btn");
+        btn_getchptcha.disabled = true;
+        btn_getchptcha.classList.remove("btn--green");
+        
         let countDown = 60;
         let intervalId;
-
-        btn_getchptcha.classList.remove("btn--green");
-        btn_getchptcha.disabled = true;
         countDown = 60;
         intervalId = setInterval(() => {
           countDown--;

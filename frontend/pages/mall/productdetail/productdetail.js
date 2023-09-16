@@ -155,7 +155,7 @@ window.addEventListener("load", () => {
                                 Swal.fire({
                                     position: 'top-center',
                                     icon: 'success',
-                                    title: data.message,
+                                    title: "已加入收藏!",
                                     showConfirmButton: false,
                                     timer: 1500
                                 })

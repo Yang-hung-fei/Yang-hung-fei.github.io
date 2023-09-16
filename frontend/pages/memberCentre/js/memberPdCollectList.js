@@ -83,9 +83,19 @@ function fetchProductCollectList() {
             if (response.ok) {
                 // 删除成功，刷新表格
                 fetchProductCollectList();
-                Swal.fire('刪除成功!');
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: "刪除成功!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             } else {
-                Swal.fire('刪除失敗!');
+                Swal.fire({
+                    icon: '錯誤',
+                    title: "刪除失敗!",
+                    text: data.message,
+                });
             }
         })
         .catch(error => {
