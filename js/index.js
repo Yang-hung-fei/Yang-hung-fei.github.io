@@ -53,10 +53,10 @@ function createDataTable(data) {
 
 async function createRotePic(data) {
     let onList = await data;
-    console.log(onList);
+    // console.log(onList);
     let dataList = '';
     let firstPic = onList.shift();
-    console.log(firstPic);
+    // console.log(firstPic);
 
     let carouselList = document.getElementById("carouselList");
 
@@ -116,6 +116,7 @@ async function createHomepageNewsPic(data) {
     homepageNewsPic.innerHTML = "";
 
     homepageNewsPicList.forEach(dataDetails => {
+
         dataList += `
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="bg-white text-center h-100 p-4 p-xl-5">
@@ -130,8 +131,6 @@ async function createHomepageNewsPic(data) {
         `;
 
         //<td><a href="./frontend/pages/homepage/homepageNewsCont.html?newsNo=${dataDetails.newsNo}" type="button" class="getOneNews" style="outline:none; border:none; background: transparent;">${dataDetails.newsTitle}</a></td>
-
-
     });
     homepageNewsPic.innerHTML = dataList;
 
@@ -144,7 +143,7 @@ async function createHomepageNewsPic(data) {
 
 async function createHomepageActivity(data) {
     let acList = await data.message;
-    console.log(acList);
+    // console.log(acList);
     let dataList = '';
     let activityNews = document.querySelector(".activityNews");
     // 清空表格
@@ -232,7 +231,7 @@ async function getRotePic() {
             return res.json();
         }).then(data => {
 
-            console.log(data);
+            // console.log(data);
             //0 下架 1 上架
             let dataList = data.message;
             //上架清單
@@ -263,8 +262,18 @@ async function getHomepageNewsPic() {
             return res.json();
         }).then(data => {
             console.log(data);
-            createHomepageNewsPic(data);
-            return data;
+            let dataList = data.message;
+            //上架清單
+            let onList = [];
+            let dataLength = 3;
+            dataList.forEach((e) => {
+                if (e.newsStatus === 1 && onList.length <= dataLength) {
+                    onList.push(e);
+                }
+                createHomepageNewsPic(data);
+                console.log(data);
+            });
+            return onList;
         }).catch(err => {
             console.error(err.message);
         });;
@@ -281,7 +290,7 @@ async function getNewActivities() {
         .then(res => {
             return res.json();
         }).then(async data => {
-            console.log(data);
+            // console.log(data);
             await createHomepageActivity(data);
             return data;
         }).catch(err => {
