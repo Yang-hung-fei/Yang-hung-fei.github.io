@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 if (code === 200) {
 
-                                    alert('存檔成功!');
+                                    alert('圖片存檔成功!');
                                     location.reload();
                                 } else {
                                     console.log("aaa")
