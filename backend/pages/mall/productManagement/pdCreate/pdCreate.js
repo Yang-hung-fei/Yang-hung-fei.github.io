@@ -16,6 +16,20 @@ window.addEventListener("load", () => {
         return; // 不繼續執行下面的代碼
     }
 
+    // 移出商品名稱輸入框時進行驗證商品名稱不可為空
+    const newPdName = document.getElementById("newPdName");
+    newPdName.addEventListener("blur", function () {
+        // 商品名稱不可為空驗證
+        const pdName = newPdName.value; // Corrected variable name
+        if (pdName.trim() === "") { // Check if the trimmed value is empty
+            const nameCheck = document.getElementById("nameCheck");
+            nameCheck.innerText = '不可為空';
+        } else {
+            const nameCheck = document.getElementById("nameCheck");
+            nameCheck.innerText = '';
+        }
+    });
+
     // 預設商品狀態為下架
     const newPdStatus = document.getElementById("newPdStatus");
     newPdStatus.value = "1";
@@ -28,7 +42,7 @@ window.addEventListener("load", () => {
         const pdPricePattern = /^[0-9]+$/; // 只可輸入正整数
         if (!pdPricePattern.test(pdPrice)) {
             const priceCheck = document.getElementById("priceCheck");
-            priceCheck.innerText = '格式錯誤，只可輸入數字';
+            priceCheck.innerText = '請輸入數字';
         } else {
             const priceCheck = document.getElementById("priceCheck");
             priceCheck.innerText = '';
@@ -42,32 +56,32 @@ window.addEventListener("load", () => {
     const newPdPics5 = document.getElementById("newPdPics5");
 
     newPdPics1.addEventListener('change', (event) => {
-        let pre1 =document.getElementById("previewImage1")
-        pre1.hidden=false;
+        let pre1 = document.getElementById("previewImage1")
+        pre1.hidden = false;
         previewImages(1);
 
     });
     newPdPics2.addEventListener('change', (event) => {
-        let pre2 =document.getElementById("previewImage2")
-        pre2.hidden=false;
+        let pre2 = document.getElementById("previewImage2")
+        pre2.hidden = false;
         previewImages(2);
 
     });
     newPdPics3.addEventListener('change', (event) => {
-        let pre3 =document.getElementById("previewImage3")
-        pre3.hidden=false;
+        let pre3 = document.getElementById("previewImage3")
+        pre3.hidden = false;
         previewImages(3);
 
     });
     newPdPics4.addEventListener('change', (event) => {
-        let pre4 =document.getElementById("previewImage4")
-        pre4.hidden=false;
+        let pre4 = document.getElementById("previewImage4")
+        pre4.hidden = false;
         previewImages(4);
 
     });
     newPdPics5.addEventListener('change', (event) => {
-        let pre5 =document.getElementById("previewImage5")
-        pre5.hidden=false;
+        let pre5 = document.getElementById("previewImage5")
+        pre5.hidden = false;
         previewImages(5);
 
     });
@@ -105,8 +119,35 @@ window.addEventListener("load", () => {
 
     // 送出修改
     commitBtn.addEventListener("click", () => {
-        addProduct();
+        if (validateForm()) {
+            addProduct();
+        }
     });
+
+    function validateForm() {
+        const pdName = newPdName.value;
+        const pdPrice = newPdPrice.value;
+
+        // 商品名稱不可為空
+        if (pdName.trim() === "") {
+            Swal.fire({
+                icon: "error",
+                title: "錯誤",
+                text: "商品名稱不可為空",
+            });
+            return false;
+        }
+
+        // 商品價格不可為空
+        if (pdPrice.trim() === "") {
+            Swal.fire({
+                icon: "error",
+                title: "錯誤",
+                text: "商品價格不可為空",
+            });
+            return false;
+        }
+    }
 
     function addProduct() {
         const formData = new FormData();
@@ -165,21 +206,21 @@ window.addEventListener("load", () => {
         document.getElementById("newPdPics4").value = "";
         document.getElementById("newPdPics5").value = "";
 
-        let pre1 =document.getElementById("previewImage1")
+        let pre1 = document.getElementById("previewImage1")
         pre1.src = "";
-        pre1.hidden=true;
-        let pre2 =document.getElementById("previewImage2")
+        pre1.hidden = true;
+        let pre2 = document.getElementById("previewImage2")
         pre2.src = "";
-        pre2.hidden=true;
-        let pre3 =document.getElementById("previewImage3")
+        pre2.hidden = true;
+        let pre3 = document.getElementById("previewImage3")
         pre3.src = "";
-        pre3.hidden=true;
-        let pre4 =document.getElementById("previewImage4")
+        pre3.hidden = true;
+        let pre4 = document.getElementById("previewImage4")
         pre4.src = "";
-        pre4.hidden=true;
-        let pre5 =document.getElementById("previewImage5")
+        pre4.hidden = true;
+        let pre5 = document.getElementById("previewImage5")
         pre5.src = "";
-        pre5.hidden=true;
+        pre5.hidden = true;
 
         // 清空文件
         newPdPics.forEach((input) => {
