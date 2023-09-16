@@ -4,7 +4,7 @@ window.addEventListener("load", () => {
     // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiZXhwIjoxNjk0NzYzMzU2fQ.etrmCBBDXS4k4XKwSZXxsz71HBMQbSM9kc-7S71ehH8"; // 使用Manager Token
     //錯誤顯示用
     const errorDiv = document.getElementById("error");
-
+    var dataTableInstance;
     // 一進入頁面呼叫
     fetchAndBuildTable();
 
@@ -105,6 +105,7 @@ window.addEventListener("load", () => {
                 }
             }
         });
+        dataTableInstance = table;
 
         $('.table-container').css('overflow-x', 'auto');
         $('.table-fill tbody').on('click', '.finish', function (event) {
@@ -186,6 +187,9 @@ window.addEventListener("load", () => {
                         title: "假單審核失敗",
                         text: data.message
                     });
+                    if (dataTableInstance) {
+                        dataTableInstance.destroy();
+                    }
                     fetchAndBuildTable();
                 }
             });

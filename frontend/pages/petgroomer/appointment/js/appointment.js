@@ -259,6 +259,7 @@ window.addEventListener("load", () => {
                         title: '預約成功!',
                         text: `${data.message}`,
                     })
+                    pgNameSelect.innerHTML='';
                     fetchGroomer();
                 } else {
                     Swal.fire({
@@ -266,6 +267,8 @@ window.addEventListener("load", () => {
                         title: '預約失敗!',
                         text: `${data.message}`,
                     })
+                    pgNameSelect.innerHTML='';
+
                     fetchGroomer();
                 }
             });
