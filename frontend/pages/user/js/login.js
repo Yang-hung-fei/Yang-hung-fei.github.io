@@ -1,16 +1,16 @@
 import config from "../../../../ipconfig.js";
 import { backToRedirectUrl } from "../../../js/backToRedirectUrl.js";
 
-$(window).on("load", () => {
+window.addEventListener("load", function() {
   const token = localStorage.getItem("Authorization_U");
 
   if (token) {
     window.location.href = "/frontend/pages/memberCentre/memberCentre.html";
   } else {
-    $("#localLogin").on("click", async (event) => {
+    document.getElementById("localLogin").addEventListener("click", async function(event) {
       event.preventDefault(); // 阻止表單的預設行為
-      var emailText = $("#email").val();
-      var password = $("#password").val();
+      var emailText = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
 
       if (emailText === "" || password === "") {
         swal("請輸入信箱及密碼。");
@@ -25,7 +25,7 @@ $(window).on("load", () => {
         return; // 如果有錯誤，中斷程式碼執行
       }
 
-      //機器人驗證
+      // 機器人驗證
       // 取得 reCAPTCHA 驗證的回應 token
       var response = grecaptcha.getResponse();
 
@@ -36,19 +36,20 @@ $(window).on("load", () => {
       }
 
       // 顯示 fetch 前的燈箱
-      $("div.overlay").fadeIn();
+      document.querySelector("div.overlay").style.display = "block";
 
       try {
         await localLogin(emailText, password);
 
         // 在 localLogin 完成後，關閉燈箱
-        $("div.overlay").fadeOut();
+        document.querySelector("div.overlay").style.display = "none";
       } catch (error) {
         console.error("Error:", error);
-        $("div.overlay").fadeOut();
+        document.querySelector("div.overlay").style.display = "none";
       }
     });
   }
+
   function checkPassword(password) {
     if (password.length < 6) {
       return "密碼長度不足。";
@@ -93,9 +94,9 @@ $(window).on("load", () => {
   async function swalThenFadeOut(message) {
     await swal({
       text: message,
-      onAfterClose: () => {
+      onAfterClose: function() {
         console.log("afterclose");
-        $("div.overlay").fadeOut();
+        document.querySelector("div.overlay").style.display = "none";
       },
       buttons: {
         confirm: {
@@ -112,7 +113,7 @@ $(window).on("load", () => {
   const passwordInput = document.getElementById("password");
   const showPasswordToggle = document.getElementById("showPasswordToggle");
 
-  showPasswordToggle.addEventListener("click", function () {
+  showPasswordToggle.addEventListener("click", function() {
     if (passwordInput.type === "password") {
       passwordInput.type = "text";
       showPasswordToggle.classList.remove("fa-eye-slash");
@@ -123,10 +124,12 @@ $(window).on("load", () => {
       showPasswordToggle.classList.add("fa-eye-slash");
     }
   });
-  $("#email").on("change", (event) => {
+
+  document.getElementById("email").addEventListener("change", function() {
     validateEmail();
   });
-  $("#password").on("change", (event) => {
+
+  document.getElementById("password").addEventListener("change", function() {
     checkPasswordLength();
   });
 
@@ -156,6 +159,7 @@ $(window).on("load", () => {
     }
   }
 });
+
 export function checkEmail(emailText) {
   // Check email format
   var emailRegex =

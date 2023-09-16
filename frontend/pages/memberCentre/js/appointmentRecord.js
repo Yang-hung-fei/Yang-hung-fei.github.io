@@ -195,15 +195,15 @@ window.addEventListener("load", () => {
                     Swal.fire({
                         icon: "success",
                         title: "訂單狀態已修改",
-                        text: data.message
                     });
                     fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
                 } else {
                     Swal.fire({
                         icon: "error",
                         title: "修改失敗",
-                        text: data.message
                     });
+                    fetchAndBuildTable(itemsPerPage, sortSelect.value, currentPage);
+
                 }
             });
     }
