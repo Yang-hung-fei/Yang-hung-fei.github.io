@@ -263,8 +263,16 @@ async function getHomepageNewsPic() {
             return res.json();
         }).then(data => {
             console.log(data);
-            createHomepageNewsPic(data);
-            return data;
+            let dataList = data.message;
+            //上架清單
+            let onList = [];
+            let dataLength = 2;
+            dataList.forEach((e) => {
+                if (e.newsStatus === 1 && onList.length <= dataLength) {
+                    onList.push(e);
+                }createHomepageNewsPic(data);
+            });
+            return onList;
         }).catch(err => {
             console.error(err.message);
         });;
