@@ -14,7 +14,7 @@ $(window).on("load", () => {
       var password = $("#password").val();
 
       if (accountText === "" || password === "") {
-        swal("請輸入信箱及密碼。");
+        swal("請輸入帳號及密碼。");
         return;
       }
 
