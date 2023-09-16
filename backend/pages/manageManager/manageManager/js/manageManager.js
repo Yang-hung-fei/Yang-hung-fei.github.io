@@ -135,36 +135,40 @@ function updateSearchParams(newParams) {
   performSearch();
 }
 
-//查詢管理員
 function searchmanagers(currentSearchURL) {
   try {
-    const response = fetch(currentSearchURL.toString(), {
-      method: "GET",
-      headers: {
-        Authorization_M: token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((managerData) => {
-        var code = managerData.code;
-        if (code === 200) {
-          //生成按鈕及表格
-          createPageButtons(managerData.message);
-          createResultTable(managerData.message);
-        } else {
-          // 处理响应错误
-        }
+    if (currentSearchURL) {
+      // 检查 currentSearchURL 是否存在
+      const response = fetch(currentSearchURL.toString(), {
+        method: "GET",
+        headers: {
+          Authorization_M: token,
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        // 输出服务器返回的文本
-        if (error instanceof Response) {
-          error.text().then((text) => {
-            console.error("Server response:", text);
-          });
-        }
-      });
+        .then((response) => response.json())
+        .then((managerData) => {
+          var code = managerData.code;
+          if (code === 200) {
+            // 生成按鈕及表格
+            createPageButtons(managerData.message);
+            createResultTable(managerData.message);
+          } else {
+            // 处理响应错误
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // 输出服务器返回的文本
+          if (error instanceof Response) {
+            error.text().then((text) => {
+              console.error("Server response:", text);
+            });
+          }
+        });
+    } else {
+      console.error("currentSearchURL is undefined or null");
+    }
   } catch (error) {
     console.error("Error:", error);
   }
@@ -216,8 +220,10 @@ function createPageButtons(response) {
   }
 }
 
+// 用以防止動態生成按鈕的冒泡
+let editButtonHandler = null;
+let editTogglingCheckboxHandler = null;
 // 根據查詢結果建立表格
-let selectedAuthorities = [];
 function createResultTable(response) {
   console.log(response);
   const resultTable_el = document.getElementById("resultTable");
@@ -253,7 +259,8 @@ function createResultTable(response) {
             class="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
-            ${managerState} disabled
+            data-managerAccount="${managerAccount}" data-managerCreated="${managerCreated}" data-managerState="${managerState}" 
+            ${managerState}
           />
         </div>
       </td>
@@ -269,33 +276,105 @@ function createResultTable(response) {
   // 将html添加到结果表格中
   resultTable_el.innerHTML = seachTableHTML;
 
-  // 監聽表格中的編輯按鈕點擊事件
+  // 監聽表格
   const parentElement = document.querySelector("table");
   parentElement.addEventListener("click", function (event) {
-    if (event.target.classList.contains("editBtn")) {
-      const managerAccount = event.target.getAttribute("data-managerAccount");
-      const managerState = event.target.getAttribute("data-managerState");
-      $("#lightboxOverlay").css("display", "flex");
-      createEditLightBox(managerAccount, managerState);
+    // 監聽表格中的編輯按鈕點擊事件
+    if (editButtonHandler === null) {
+      editButtonHandler = function (event) {
+        if (event.target.classList.contains("editBtn")) {
+          // 处理编辑按钮点击事件的代码
+          const managerAccount = event.target.getAttribute(
+            "data-managerAccount"
+          );
+          const managerState = event.target.getAttribute("data-managerState");
 
-      //儲存當前管理員帳號
-      theManagerAccount = managerAccount;
-      managerAccountValue = managerAccount;
+          // 解绑事件处理程序
+          document.removeEventListener("click", editButtonHandler);
 
-      // 调用checkAuthorities，并提供一个回调函数来处理已勾选的选项数组
-      checkAuthorities(managerAccount, function (selectedAuthorities) {
-        console.log(selectedAuthorities);
-        console.log(`編輯的managerAccount是：${managerAccount}`);
-      });
-      //建立checkbox監聽器
-      const checkboxes = document.querySelectorAll(
-        '#editLightBox input[type="checkbox"]'
-      );
-      console.log("Number of checkboxes found:", checkboxes.length);
-      checkboxListener(checkboxes);
+          // 重新绑定点击编辑按钮的事件处理程序
+          createResultTable(response);
+
+          // 顯示燈箱容器，並動態生成當前管理員的編輯燈箱
+          $("#lightboxOverlay").css("display", "flex");
+          createEditLightBox(managerAccount, managerState);
+
+          //儲存當前管理員帳號
+          theManagerAccount = managerAccount;
+          managerAccountValue = managerAccount;
+
+          // 调用checkAuthorities，并提供一个回调函数来处理已勾选的选项数组
+          checkAuthorities(managerAccount, function (selectedAuthorities) {
+            console.log(selectedAuthorities);
+            console.log(`編輯的managerAccount是：${managerAccount}`);
+          });
+          //建立checkbox監聽器
+          const checkboxes = document.querySelectorAll(
+            '#editLightBox input[type="checkbox"]'
+          );
+          console.log("Number of checkboxes found:", checkboxes.length);
+          checkboxListener(checkboxes);
+
+          // 绑定点击编辑按钮的事件处理程序
+          document.addEventListener("click", editButtonHandler);
+        }
+      };
+
+      document.addEventListener("click", editButtonHandler);
+    }
+
+    // 監聽表格中的狀態開關
+    if (editTogglingCheckboxHandler === null) {
+      editTogglingCheckboxHandler = function (event) {
+        if (event.target.classList.contains("form-check-input")) {
+          // 处理编辑按钮点击事件的代码
+          const managerAccount = event.target.getAttribute(
+            "data-managerAccount"
+          );
+
+          // 解绑事件处理程序
+          document.removeEventListener("click", editTogglingCheckboxHandler);
+
+          // 重新绑定点击编辑按钮的事件处理程序
+          createResultTable(response);
+
+          // 儲存當前管理員帳號
+          theManagerAccount = managerAccount;
+          // 儲存checkbox監聽狀態到管理員狀態
+          if (event.target.checked) {
+            managerAccountValue = "1";
+          } else {
+            managerAccountValue = "0";
+          }
+
+          console.log(theManagerAccount, managerAccountValue);
+          // 送出修改的資料
+          const elements = {
+            orgManagerAccount: theManagerAccount,
+            managerAccount: theManagerAccount,
+            managerPassword: "",
+            managerState: managerAccountValue,
+          };
+          const jsonData = JSON.stringify(elements);
+          updateManagerData(jsonData);
+          searchmanagers(currentSearchURL);
+
+          // 绑定点击编辑按钮的事件处理程序
+          document.addEventListener("click", editTogglingCheckboxHandler);
+        }
+      };
+
+      document.addEventListener("click", editTogglingCheckboxHandler);
     }
   });
 
+  // 總之先集結 jsonData，在沒有設定密碼時也能更新
+  jsonData(
+    theManagerAccount,
+    managerAccountValue,
+    managerPasswordValue,
+    managerStateValue
+  );
   //更新管理員時，監聽使用者輸入的管理員資料
   $(document).on("input", "#newManagerAccount", function () {
     const newManagerAccountValue = $(this).val();
@@ -381,8 +460,6 @@ function createResultTable(response) {
   //送出修改的管理員資料及權限
   $(document).on("click", "#Edit_updateDataButton", function () {
     updateManagerData(updateManagerDataJson);
-  });
-  $(document).on("click", "#Edit_updateAuthoritiesButton", function () {
     const updateAuthritiesJson = jsonAuthrities(
       theManagerAccount,
       selectedAuthorities
@@ -392,6 +469,7 @@ function createResultTable(response) {
 }
 
 function updateManagerData(jsonData) {
+  console.log(jsonData);
   fetch(config.url + "/manager/manageManager", {
     method: "PUT",
     headers: {
@@ -420,6 +498,7 @@ function updateManagerData(jsonData) {
 
 // 更新既有管理員的權限
 function updateAuthorities(updateAuthritiesJson) {
+  console.log(updateAuthritiesJson);
   return new Promise((resolve, reject) => {
     console.log(updateAuthritiesJson);
     fetch(config.url + "/manager/manageManager/authorities", {
@@ -732,14 +811,7 @@ function createEditLightBox(account, state) {
         style="width: 180px"
         id="Edit_updateDataButton"
       >
-        儲存資料
-      </button>
-      <button
-        class="btn btn-sm btn-outline-secondary"
-        style="width: 180px"
-        id="Edit_updateAuthoritiesButton"
-      >
-        儲存權限
+        儲存
       </button>
     </div>
   </div>
