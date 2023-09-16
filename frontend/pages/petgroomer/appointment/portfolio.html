@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>All Dog Cat - A paradise for your pets</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/frontend/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/frontend/css/frontendBootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/frontend/css/main.css" rel="stylesheet">
+    <link href="./css/all.css" rel="stylesheet">
+    <link href="./css/custom.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+
+    <!-- appointment Stylesheet -->
+    <link href="/frontend/pages/petgroomer/appointment/css/appointment.css" rel="stylesheet">
+
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- sweetalert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script type="module" src="./js/jquery-3.7.0.min.js"></script>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <script src="js/jquery-3.7.0.min.js"></script>
+    <script type="text/javascript">
+        function sendMessage(obj) {
+            var uid = $("#pgId").val();
+            var chatText = $("#chatText").val();
+            console.log('sendMessage chatText ' + chatText);
+            const param = {
+                pgId: uid,
+                userId: 1,
+                chatText: chatText,
+                chatStatus: "2"
+            };
+            let objParam = JSON.stringify(param);
+            console.log('sendMessage objParam ' + objParam);
+            $.ajax({
+                url: 'http://localhost:8080/chat/insert',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                timeout: 5000,//超时
+                data: objParam,
+                contentType: "application/json",
+                //请求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    $("#chatText").val("");
+                    getChatList(objParam);
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+        }
+        function chatClick(obj) {
+            var uid = $(obj).attr("data-url");
+            $("#pgId").val(uid);
+            console.log('chatClick ' + uid);
+            const param = {
+                pgId: uid,
+                userId: 1
+            };
+            let objParam = JSON.stringify(param);
+            // $('#myModal').modal('show');
+            getChatList(objParam);
+        }
+        function getChatList(objParam) {
+            $.ajax({
+                url: 'http://localhost:8080/chat/list',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                timeout: 5000,//超时
+                data: objParam,
+                contentType: "application/json",
+                //请求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    const chatList = data.rs;
+                    $("#chatContent").empty();
+                    var choices = "";
+                    var choice1 = '<div style="background-color:white;width:600px;height:298px;border:0.5px solid grey;"><div style="overflow-y:scroll;width:100%;height:100%;">';
+                    choices += choice1;
+                    $.each(chatList, function (n, value) {
+                        if (value.chatStatus === '2') {
+                            var choice =
+                                '<div style="margin-top:20px; display: flex; justify-content: flex-end;">' +
+                                '<div style="display:flex;">' +
+                                '<div>' +
+                                '<div style="color:grey;text-align:right;margin-right:10px;font-size:13px;">' + value.userName + '</div>' +
+                                '<div style="font-size:13px;background-color:#eaeaea;padding:10px;">' + value.chatText + '</div>' +
+                                '</div>' +
+                                '<div style="margin-right:5px;"> <img src="./img/1_PG.png" style="width: 30px; height: 30px; border-radius: 50%;"></div>' +
+                                '</div>' +
+                                '</div>';
+                            choices += choice;
+                        }
+                        if (value.chatStatus === '1') {
+                            var choice = '<div style="display: flex; justify-content: flex-start;">' +
+                                '<div style="display:flex;margin-left:5px;">' +
+                                '<div style="margin-right:5px;"> <img src="./img/1_PG.png" style="width: 30px; height: 30px; border-radius: 50%;"></div>' +
+                                '<div style="font-size:13px;">' +
+                                '<div style="color:grey;text-align:left;">美容师 ' + value.pgName + '</div>' +
+                                '<div style="background-color:#eaeaea;padding:10px;margin-top:2px;">' + value.chatText + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                            choices += choice;
+                        }
+                    });
+                    $("#chatContent").append(choices);
+                    $("#chatContent").append('</div></div>');
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+            $('#myModal').modal('show');
+        }
+        function addCollect(obj) {
+            var uid = $(obj).attr("data-url");
+            console.log('addCollect ' + uid);
+            const param = {
+                porId: uid,
+                userId: 1
+            };
+            let objParam = JSON.stringify(param);
+            $.ajax({
+                url: 'http://localhost:8080/collect/insert',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                timeout: 5000,//超时
+                data: objParam,
+                contentType: "application/json",
+                //请求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    window.location.href = "/frontend/pages/petgroomer/appointment/portfolio.html";
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+        }
+        function deleteCollect(obj) {
+            var uid = $(obj).attr("data-url");
+            console.log('deleteCollect ' + uid);
+            const param = {
+                porId: uid,
+                userId: 1
+            };
+            let objParam = JSON.stringify(param);
+            $.ajax({
+                url: 'http://localhost:8080/collect/delete',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                timeout: 5000,//超时
+                data: objParam,
+                contentType: "application/json",
+                //请求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    window.location.href = "/frontend/pages/petgroomer/appointment/portfolio.html";
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+        }
+        function nextPage(obj) {
+            var pageSize = 10;
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            let page = $("#page").html();
+            if (currentPage == page) {
+                return;
+            }
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": Number(currentPage) + 1,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+            $("#currentPage").html(Number(currentPage) + 1);
+        }
+
+        function lastPage(obj) {
+            var pageSize = 10;
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            if (currentPage == "1") {
+                return;
+            }
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": Number(currentPage) - 1,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+            $("#currentPage").html(Number(currentPage) - 1);
+        }
+
+        function list(jsonParam) {
+            $.ajax({
+                url: 'http://localhost:8080/portfolio/list',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                timeout: 5000,//超时
+                data: jsonParam,
+                contentType: "application/json",
+                //请求成功
+                success: function (data) {
+                    const portfolios = data.rs;
+                    $("#content").empty();
+                    var choices = "";
+                    $.each(portfolios, function (n, value) {
+                        if (value.collect === '0') {
+                            var choice = '<div class="col-md-4">' +
+                                '<div class="border rounded p-3 position-relative" style="height:500px;">' +
+                                '<img src="data:image/jpeg;base64,' + value.porPic + '" class="img-1"  style="width: 100%; height: 300px; max-height: 322.66px;margin-bottom:10px;">' +
+                                '<h4>' + value.porTitle + '</h4>' +
+                                '<h5>美容师：' + value.pgName + '</h4>' +
+                                '<p>' + value.porText + '</p>' +
+                                '<div style="float:right;font-size:25px;margin-right:20px;"><button onclick="addCollect(this)" class="btn btn-default" data-url="' + value.porId + '"><i class="bi bi-heart"></i></button></div>' +
+                                '</div></div>';
+                            choices += choice;
+                        }
+                        if (value.collect === '1') {
+                            var choice = '<div class="col-md-4">' +
+                                '<div class="border rounded p-3 position-relative" style="height:500px;">' +
+                                '<img src="data:image/jpeg;base64,' + value.porPic + '" class="img-1"  style="width: 100%; height: 300px; max-height: 322.66px;margin-bottom:10px;">' +
+                                '<h4>' + value.porTitle + '</h4>' +
+                                '<h5>美容师：' + value.pgName + '</h4>' +
+                                '<p>' + value.porText + '</p>' +
+                                '<div style="float:right;font-size:25px;margin-right:20px;"><button onclick="deleteCollect(this)" class="btn btn-default" data-url="' + value.porId + '"><i class="bi bi-heart-fill"></i></button></div>' +
+                                '</div></div>';
+                            choices += choice;
+                        }
+                    });
+                    $("#content").append(choices);
+                    $("#page").html(data.page);
+                },
+                error: function (e) {
+                    console.log("e:" + e);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s"
+        style="background-color: #fefcec">
+        <a href="/index.html" class="navbar-brand ms-4 ms-lg-0">
+            <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133660002532466748/LOGO3-2.png"
+                alt="LOGO" style="width: 300px" />
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="/index.html" class="nav-item nav-link active">首頁</a>
+                <a href="/frontend/pages/homepage/about.html" class="nav-item nav-link">關於我們</a>
+                <a href="/frontend/pages/mall/mall/mall.html" class="nav-item nav-link">寵物商城</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                        id="petGroomingDropdown">寵物美容專區</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="/frontend/pages/petgroomer/pgListPage/pgListPage.html" class="dropdown-item">查看美容師</a>
+                        <!-- <a href="feature.html" class="dropdown-item">作品集</a> -->
+                        <a href="/frontend/pages/petgroomer/appointment/appointment.html"
+                            class="dropdown-item">預約寵物美容</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                        id="petCommunityDropdown">寵物社群</a>
+                    <div class="dropdown-menu m-0">
+                        <!-- <a href="blog.html" class="dropdown-item">貼文交流</a> -->
+                        <a href="/frontend/pages/socialMedia/Activity/activity.html" class="dropdown-item">寵物活動</a>
+                    </div>
+                </div>
+                <a href="/backend/index.html" class="nav-item nav-link active"
+                    style="background-color: #6f5242; color: #fff">管理後台</a>
+            </div>
+            <div class="d-none d-lg-flex ms-2">
+                <div id="notifyContain">
+                    <div id="notify" class="btn-sm-square bg-white rounded-circle ms-3">
+                        <small class="fa fa-inbox text-body"></small>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown"
+                        id="notifyMenu" style="min-height: 50px">
+                        <div class="list-group">
+                            <!--這裡放通知-->
+                        </div>
+                    </div>
+                </div>
+                <div id="userContain" class="ms-3">
+                    <div id="user" class="btn-sm-square bg-white rounded-circle">
+                        <small id="userIcon" class="fa fa-user text-body" style="position: absolute"></small>
+                    </div>
+                    <!-- Logout Button - Initially Hidden -->
+                    <div id="logoutButton" class="floating-logout-button" style="z-index: 999">
+                        <button class="btn btn-link btn-sm" id="logoutButtonText">
+                            登出
+                        </button>
+                    </div>
+                </div>
+                <a id="shoppingCart" class="btn-sm-square bg-white rounded-circle ms-3" href="">
+                    <small class="fa fa-shopping-bag text-body"></small>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <script src="/frontend/js/notify.js"></script>
+    <script type="module" src="/frontend/js/btnUser.js"></script>
+    <script type="module" src="/frontend/js/header.js"></script>
+    <script type="module" src="/frontend/js/headerLogoutBtn.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Header JS -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width:640px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">聊天框</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div id="chatContent">
+                            <!-- 聊天信息 -->
+                            <div style="background-color:white;width:600px;height:298px;border:0.5px solid grey;">
+                                <div style="overflow-y:scroll;width:100%;height:100%;">
+                                    <div style="margin-bottom: 10px;">
+                                        <div>
+                                            <div style="margin-top:20px; display: flex; justify-content: flex-end;">
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: flex-start;">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 發送信息 -->
+                        <div style="background-color:white;width:600px;height:198px;border:0.5px solid grey;">
+                            <div style="text-align:left;">
+                                <div style="display:flex;margin-top:3px;">
+                                    <div style="margin-left:10px;">
+                                        <img src="./img/关注.png" style="width: 25px; height: 25px;">
+                                    </div>
+                                    <div style="margin-left:10px;"> <img src="./img/图片.png"
+                                            style="width: 25px; height: 25px;"></div>
+                                    <div style="margin-left:10px;"> <img src="./img/icon_笑脸-线.png"
+                                            style="width: 25px; height: 25px;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-top:10px;margin-bottom: 10px;">
+                                <textarea class="form-control" id="chatText" rows="3"></textarea>
+                            </div>
+                            <div style="display: none;">
+                                <div>
+                                    <input type="text" id="pgId" placeholder="">
+                                </div>
+                            </div>
+                            <div style="text-align:right;margin-top:10px;">
+                                <div style="margin-right:10px;"><button type="button" class="btn btn-warning"
+                                        onclick="sendMessage(this)">發送</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">發送</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 15px;">
+        <div class="row" id="content">
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用邊框和圆角来模擬缩略圖效果 -->
+                    <img src="./img/0_PG.jpg" class="img-1"
+                        style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail類来添加邊框 -->
+                    <h4>狗狗洗澡</h4>
+                    <p>狗狗洗澡服務內容包含 剪+磨指甲、拔耳毛、耳朵清潔、剃腳底毛 / 腹部毛 / 肛門毛
+                        、擠肛門腺、梳毛吹整、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 ) 、眼周圍毛小修、腳圍毛小修。<br>
+                        ※以上服務實際依照毛孩狀況評估作業!</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio0" value="0" checked>
+                        <label class="form-check-label" for="radio0">選擇</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用邊框和圆角来模擬缩略圖效果 -->
+                    <img src="./img/1_PG.png" class="img-2"
+                        style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>狗狗半手剪 (洗澡+剃毛)</h4>
+                    <p>狗狗半手剪服務內容包含： 包含洗澡、基本美容、使用電剪身體剃毛(2,3,6mm)、手剪頭尾造型。<br>
+                        ※以上服務實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio1" value="1">
+                        <label class="form-check-label" for="radio1">選擇</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/2_PG.png" class="img-3"
+                        style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>全手剪(洗澡+全身手剪造型)</h4>
+                    <p>狗狗全手剪服務內容包含 洗澡、基本美容、全程使用剪刀手修，留毛的長度可依照需求客製。<br>
+                        ※適合長毛狗狗 (ex:博美、貴賓、瑪爾、狐狸...等)<br>
+                        ※此服務須久站，幼犬及年邁老犬不建議<br>
+                        ※實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio2" value="2">
+                        <label class="form-check-label" for="radio2">選擇</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/3_PG.jpg" class="img-4"
+                        style="width: 100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>貓咪洗澡</h4>
+                    <p>貓貓洗澡-包含剪指甲、耳朵清潔、剃腳底毛、擠肛門腺、三道溫和洗 ( 清潔 & 功能洗 & 潤絲 )梳毛吹整、腳圍毛小修。 <br>
+                        ※實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio3" value="3">
+                        <label class="form-check-label" for="radio3">選擇</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 position-relative" style="height:600px;"> <!-- 使用边框和圆角来模拟缩略图效果 -->
+                    <img src="./img/4_PG.jpg" class="img-5"
+                        style="width:100%; max-width: 322.66px; max-height: 322.66px;"> <!-- 使用img-thumbnail类来添加边框 -->
+                    <h4>貓咪大美容</h4>
+                    <p>貓貓大美容服務-包含洗澡、電剪身體剃毛(2mm)、手剪圓頭造型、獅子尾造型、腳靴。<br>
+                        ※實際依照毛孩狀況評估作業</p>
+                    <div class="form-check position-absolute bottom-0 end-0">
+                        <input type="radio" class="form-check-input" name="pgaOption" id="radio4" value="4">
+                        <label class="form-check-label" for="radio4">選擇</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <ul class="pagination justify-content-center custom-pagination">
+                <li class="page-item" style="color: #325aab;">
+                    <button type="button" class="btn btn-default" style="width: 100px;margin-right:10px;"
+                        onclick="lastPage(this)">上一页
+                    </button>
+                </li>
+                <li class="page-item" style="color: #325aab;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span>
+                        第</span><span id="currentPage">1</span><span>页&nbsp;&nbsp;共</span>
+                    <span id="page">3</span><span>页</span>
+                    </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                </li>
+                <li class="page-item" style="color: #325aab;">
+                    <button type="button" class="btn btn-default" style="width: 100px;margin-right:10px;"
+                        onclick="nextPage(this)">下一页
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- -->
+
+    <!-- Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- JS -->
+    <script type="module" src="./js/portfolioList.js"></script>
+    <!--sweetalert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <!--主要內容 結束-->
+
+    <!-- footer -->
+    <footer class="container-fluid footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s"
+        style="background-color: #6F5242;">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1133655324889452667/LOGO2-2.png"
+                        alt="LOGO" style="width: 180px;">
+                    <p>A paradise for shopping </p>
+                    <p>Plenty of groups for interaction</p>
+                    <p>A comfortable space for grooming</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
+                                class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-0" href=""><i
+                                class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Address</h4>
+                    <p><i class="fa fa-map-marker-alt me-3"></i>330 桃園市中壢區復興路123號45樓</p>
+                    <p><i class="fa fa-phone-alt me-3"></i>+886 345 6789</p>
+                    <p><i class="fa fa-envelope me-3"></i>alldogcat29@gmail.com</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Quick Links</h4>
+                    <a class="btn btn-link" href="">About Us</a>
+                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="">Our Services</a>
+                    <a class="btn btn-link" href="">Terms & Condition</a>
+                    <a class="btn btn-link" href="">Support</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Newsletter</h4>
+                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text"
+                            placeholder="Your email">
+                        <button type="button"
+                            class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a href="#">All Dog Cat</a>, All Right Reserved.
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                        <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+            class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/frontend/js/main.js"></script>
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- JSP後端時，放置時戳，解決重新整理icon會消失的狀況 -->
+</body>
+
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
+
+    <title>AllDogCat Manager</title>
+
+    <link href="../../css/sublist.css" rel="stylesheet">
+    <link href="../../css/app.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../homepage/css/newsList.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+        rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- <script type="module" src="./js/jquery-3.7.0.min.js"></script>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <script src="js/jquery-3.7.0.min.js"></script> -->
+    <script type="module" src="./js/PortfolioChatList.js"></script>
+    <script type="text/javascript">
+        function sendMessage(obj) {
+            // var uid = $("#userId").val();
+            var chatText = $("#chatText").val();
+            console.log('sendMessage chatText ' + chatText);
+            const param = {
+                pgId: 1,
+                userId: 1,
+                chatText: chatText,
+                chatStatus: "2"
+            };
+            let objParam = JSON.stringify(param);
+            console.log('sendMessage objParam ' + objParam);
+            $.ajax({
+                url: 'http://localhost:8080/chat/insert',//地址
+                dataType: 'json',//數據類型
+                type: 'POST',//類型
+                timeout: 5000,//超時
+                data: objParam,
+                contentType: "application/json",
+                //請求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    $("#chatText").val("");
+                    getChatList(objParam);
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+        }
+        function chatClick(obj) {
+            // var uid = $(obj).attr("data-url");
+            // $("#userId").val(uid);
+            // console.log('chatClick ' + uid);
+            const param = {
+                pgId: 1,
+                userId: 1
+            };
+            let objParam = JSON.stringify(param);
+            window.location.href = "/backend/pages/pgChat/homepagePortfolioChat.html";
+            // $('#myModal').modal('show');
+            // getChatList(objParam);
+        }
+        function getChatList(objParam) {
+            $.ajax({
+                url: 'http://localhost:8080/chat/list',//地址
+                dataType: 'json',//數據類型
+                type: 'POST',//類型
+                timeout: 5000,//超時
+                data: objParam,
+                contentType: "application/json",
+                //請求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    const chatList = data.rs;
+                    $("#chatContent").empty();
+                    var choices = "";
+                    var choice1 = '<div style="background-color:white;width:600px;height:298px;border:0.5px solid grey;"><div style="overflow-y:scroll;width:100%;height:100%;">';
+                    choices += choice1;
+                    $.each(chatList, function (n, value) {
+                        if (value.chatStatus === '1') {
+                            var choice =
+                                '<div style="margin-top:20px; display: flex; justify-content: flex-end;">' +
+                                '<div style="display:flex;">' +
+                                '<div>' +
+                                '<div style="color:grey;text-align:right;margin-right:10px;font-size:13px;">' + value.pgName + '</div>' +
+                                '<div style="font-size:13px;background-color:#eaeaea;padding:10px;">' + value.chatText + '</div>' +
+                                '</div>' +
+                                '<div style="margin-right:5px;"> <img src="./img/1_PG.png" style="width: 30px; height: 30px; border-radius: 50%;"></div>' +
+                                '</div>' +
+                                '</div>';
+                            choices += choice;
+                        }
+                        if (value.chatStatus === '2') {
+                            var choice = '<div style="display: flex; justify-content: flex-start;">' +
+                                '<div style="display:flex;margin-left:5px;">' +
+                                '<div style="margin-right:5px;"> <img src="./img/1_PG.png" style="width: 30px; height: 30px; border-radius: 50%;"></div>' +
+                                '<div style="font-size:13px;">' +
+                                '<div style="color:grey;text-align:left;">用户 ' + value.userName + '</div>' +
+                                '<div style="background-color:#eaeaea;padding:10px;margin-top:2px;">' + value.chatText + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                            choices += choice;
+                        }
+                    });
+                    $("#chatContent").append(choices);
+                    $("#chatContent").append('</div></div>');
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+            $('#myModal').modal('show');
+        }
+
+        function portfolioUpdate(obj) {
+            var uid = $(obj).attr("data-url");
+            console.log('portfolioUpdate ' + uid);
+            window.location.href = "/backend/pages/homepage/homepagePortfolioEdit.html?uid=" + uid;
+        }
+
+        function nextPage(obj) {
+            var pageSize = $("#pageSize").val();
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            let page = $("#page").html();
+            if (currentPage == page) {
+                return;
+            }
+            let search = $("#search").val();
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": Number(currentPage) + 1,
+                "search": search,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+            $("#currentPage").html(Number(currentPage) + 1);
+        }
+
+        function lastPage(obj) {
+            var pageSize = $("#pageSize").val();
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            if (currentPage == "1") {
+                return;
+            }
+            let search = $("#search").val();
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": Number(currentPage) - 1,
+                "search": search,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+            $("#currentPage").html(Number(currentPage) - 1);
+        }
+
+        function search(obj) {
+            var pageSize = $("#pageSize").val();
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            let search = $("#search").val();
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": currentPage,
+                "search": search,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+        }
+
+        function list(jsonParam) {
+            $.ajax({
+                url: 'http://localhost:8080/portfolio/list',//地址
+                dataType: 'json',//數據類型
+                type: 'POST',//類型
+                timeout: 5000,//超時
+                data: jsonParam,
+                contentType: "application/json",
+                //請求成功
+                success: function (data) {
+                    const portfolios = data.rs;
+                    $("#content").empty();
+                    var choices = "";
+                    $.each(portfolios, function (n, value) {
+                        var choice = '<tr><td>' + value.porId + '</td><td>' + value.pgName + '</td><td>' + value.porTitle + '</td>'
+                            + '<td><div style="width: 200px;height: 200px;border-radius: 10px;border: 2px dashed #a2b6df;display: flex;justify-content: center;align-items: center;margin-top: 5px;">'
+                            // + '<span>預覽圖</span>'
+                            + ' <img src="data:image/jpeg;base64,' + value.porPic + '" alt="預覽圖" style="max-width: 100%; max-height: 100%;">'
+                            + '</div></td>'
+                            + '<td>' + value.porText + '</td><td>' + value.porUpload + '</td>'
+                            + '<td><button type="button" onclick="portfolioUpdate(this)" class="btn btn-default" data-url="' + value.porId + '">编辑</button></td>'
+                            + '<td><button type="button" onclick="portfolioDelete(this)" class="btn btn-danger" data-url="' + value.porId + '">删除</button></td></tr>';
+                        choices += choice;
+                    });
+                    $("#content").append(choices);
+                    $("#page").html(data.page);
+                },
+                error: function (e) {
+                    console.log("e:" + e);
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="index.html" style="padding: 10px 0 10px 10px;">
+                    <img src="https://cdn.discordapp.com/attachments/1130403610371555378/1134033566670540880/LOGO3-1.png"
+                        alt="LOGO" style="width: 230px;">
+                </a>
+
+                <ul class="sidebar-nav">
+
+                    <!-- menu -->
+
+                    <div id="sidebar-margin" style="height: 50px;"></div>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="main">
+            <nav class="navbar navbar-expand navbar-light navbar-bg">
+                <a class="sidebar-toggle js-sidebar-toggle">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav navbar-align">
+                        <li class="nav-item dropdown">
+                            <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+                                <div class="position-relative">
+                                    <i class="align-middle" data-feather="bell"></i>
+                                    <span class="indicator">4</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+                                aria-labelledby="alertsDropdown">
+                                <div class="dropdown-menu-header">
+                                    4 New Notifications
+                                </div>
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <i class="text-danger" data-feather="alert-circle"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="text-dark">Update completed</div>
+                                                <div class="text-muted small mt-1">Restart server 12 to complete the
+                                                    update.</div>
+                                                <div class="text-muted small mt-1">30m ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <i class="text-warning" data-feather="bell"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="text-dark">Lorem ipsum</div>
+                                                <div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate
+                                                    hendrerit et.</div>
+                                                <div class="text-muted small mt-1">2h ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <i class="text-primary" data-feather="home"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="text-dark">Login from 192.186.1.8</div>
+                                                <div class="text-muted small mt-1">5h ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <i class="text-success" data-feather="user-plus"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="text-dark">New connection</div>
+                                                <div class="text-muted small mt-1">Christina accepted your request.
+                                                </div>
+                                                <div class="text-muted small mt-1">14h ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="dropdown-menu-footer">
+                                    <a href="#" class="text-muted">Show all notifications</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown"
+                                data-bs-toggle="dropdown">
+                                <div class="position-relative">
+                                    <i class="align-middle" data-feather="message-square"></i>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+                                aria-labelledby="messagesDropdown">
+                                <div class="dropdown-menu-header">
+                                    <div class="position-relative">
+                                        4 New Messages
+                                    </div>
+                                </div>
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <img src="img/avatars/avatar-5.jpg"
+                                                    class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
+                                            </div>
+                                            <div class="col-10 ps-2">
+                                                <div class="text-dark">Vanessa Tucker</div>
+                                                <div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu
+                                                    tortor.</div>
+                                                <div class="text-muted small mt-1">15m ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <img src="img/avatars/avatar-2.jpg"
+                                                    class="avatar img-fluid rounded-circle" alt="William Harris">
+                                            </div>
+                                            <div class="col-10 ps-2">
+                                                <div class="text-dark">William Harris</div>
+                                                <div class="text-muted small mt-1">Curabitur ligula sapien euismod
+                                                    vitae.</div>
+                                                <div class="text-muted small mt-1">2h ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <img src="img/avatars/avatar-4.jpg"
+                                                    class="avatar img-fluid rounded-circle" alt="Christina Mason">
+                                            </div>
+                                            <div class="col-10 ps-2">
+                                                <div class="text-dark">Christina Mason</div>
+                                                <div class="text-muted small mt-1">Pellentesque auctor neque nec urna.
+                                                </div>
+                                                <div class="text-muted small mt-1">4h ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-2">
+                                                <img src="img/avatars/avatar-3.jpg"
+                                                    class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
+                                            </div>
+                                            <div class="col-10 ps-2">
+                                                <div class="text-dark">Sharon Lessman</div>
+                                                <div class="text-muted small mt-1">Aenean tellus metus, bibendum sed,
+                                                    posuere ac, mattis non.</div>
+                                                <div class="text-muted small mt-1">5h ago</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="dropdown-menu-footer">
+                                    <a href="#" class="text-muted">Show all messages</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#"
+                                data-bs-toggle="dropdown">
+                                <i class="align-middle" data-feather="settings"></i>
+                            </a>
+
+                            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+                                data-bs-toggle="dropdown">
+                                <span class="text-dark">Charles Hall</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
+                                        data-feather="user"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
+                                        data-feather="pie-chart"></i> Analytics</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="index.html"><i class="align-middle me-1"
+                                        data-feather="settings"></i> Settings & Privacy</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
+                                        data-feather="help-circle"></i> Help Center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Log out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+
+            <main class="content">
+                <div class="container-fluid p-0" id="mainContent">
+
+
+                    <!-- 主要內容 -->
+
+                    <div>
+                        <div class="container-fluid">
+                            <h2 class="text-dark mb-1" style="color: #2D4472; padding-left: 20px;">聊天室列表
+                            </h2>
+                            <div style="display: flex; justify-content: space-between; margin: 20px 20px;">
+                                <div>
+                                    <span style="display: inline-block; ">顯示</span>
+                                    <select class="form-select"
+                                        style="margin-right: 20px; display: inline-block;width: 80px;border-color: #a2b6df;"
+                                        id="pageSize" @onchange="search">
+                                        <option value="3">3</option>
+                                        <option value="5">5</option>
+                                        <option value="10" selected>10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                    <span style="display: inline-block;">筆</span>
+                                </div>
+                                <div class="AlignRight" id="searchClick">
+                                    <!-- <i class="fas fa-search" style="display: inline-block;"></i> -->
+                                    <button type="button" class="btn btn-primary"
+                                        style="width: 100px;margin-right:10px;" onclick="search(this)">查詢
+                                    </button>
+                                    <input type="text" style="border-color: #e5e5e7;" id="search">
+                                </div>
+                            </div>
+
+
+
+                            <div class="card" style="margin: 20px;">
+                                <div class="card-body" style="box-shadow: 0px 0px 15px 0px rgba(166,124,82,0.13);">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 80px;color: #2D4472;">編號</th>
+                                                    <th style="width: 150px;color: #2D4472;">姓名</th>
+                                                    <th style="width: 150px;color: #2D4472;">時間</th>
+                                                    <th style="width: 150px;color: #2D4472;">性别</th>
+                                                    <th style="width: 150px;color: #2D4472;">信箱</th>
+                                                    <th style="width: 150px;color: #2D4472;">手機</th>
+                                                    <th style="color: #2D4472;">聊天</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="content">
+                                                <tr>
+                                                    <td style="color: #325aab;">7001</td>
+                                                    <td style="color: #325aab;">罐頭特價</td>
+                                                    <td style="color: #325aab;">2023/08/30</td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
+                                                    </td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: #325aab;">7002</td>
+                                                    <td style="color: #325aab;">週五免運日<br></td>
+                                                    <td style="color: #325aab;">2023/08/30</td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
+                                                    </td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: #325aab;">7003</td>
+                                                    <td style="color: #325aab;">毛孩聚餐</td>
+                                                    <td style="color: #325aab;">2023/08/30</td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
+                                                    </td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: #325aab;">7004</td>
+                                                    <td style="color: #325aab;">寵物家具新上市</td>
+                                                    <td style="color: #325aab;">2023/08/30</td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
+                                                    </td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: #325aab;">7005</td>
+                                                    <td style="color: #325aab;">寵物市集</td>
+                                                    <td style="color: #325aab;">2023/08/30</td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
+                                                    </td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: #325aab;">7006</td>
+                                                    <td style="color: #325aab;">宅配免運方案實施中</td>
+                                                    <td style="color: #325aab;">2023/08/30</td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
+                                                    </td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: #325aab;">7007</td>
+                                                    <td style="color: #325aab;">寵物餐廳第一波聚餐</td>
+                                                    <td style="color: #325aab;">2023/08/30</td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #6b8df3;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">修改</button>
+                                                    </td>
+                                                    <td><button class="btn btn-primary" type="button"
+                                                            style="background: #4949be;border-style: none;color: #f1ecd1; width: 60px; height: 30px; font-size: 14px;">刪除</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row" style="height: 65px;">
+                                        <div class="col-md-6 align-self-center"></div>
+                                        <div class="col-md-6">
+                                            <nav class="d-xl-flex justify-content-xl-end">
+                                                <ul class="pagination justify-content-end custom-pagination">
+                                                    <!-- <li class="page-item" style="color: #325aab;" id="lastPage"><span
+                                                            aria-hidden="true">«</span>
+                                                    </li> -->
+                                                    <li class="page-item" style="color: #325aab;">
+                                                        <button type="button" class="btn btn-default"
+                                                            style="width: 100px;margin-right:10px;"
+                                                            onclick="lastPage(this)">上一頁
+                                                        </button>
+                                                    </li>
+                                                    <li class="page-item" style="color: #325aab;">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;<span>
+                                                            第</span><span
+                                                            id="currentPage">1</span><span>頁&nbsp;&nbsp;共</span>
+                                                        <span id="page">3</span><span>頁</span>
+                                                        </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </li>
+                                                    <li class="page-item" style="color: #325aab;">
+                                                        <button type="button" class="btn btn-default"
+                                                            style="width: 100px;margin-right:10px;"
+                                                            onclick="nextPage(this)">下一頁
+                                                        </button>
+                                                    </li>
+                                                    <!-- <li class="page-item"
+                                                        style="color:red;--bs-primary: #325aab;--bs-primary-rgb: 248,197,68;">
+                                                        <a class="page-link" href="javascript:;">2</a>
+                                                    </li>
+                                                    <li class="page-item" style="color: #325aab;"><a class="page-link"
+                                                            href="javascript:;">3</a></li>
+                                                    <li class="page-item" style="color: #325aab;"><a class="page-link"
+                                                            href="javascript:;">4</a></li>
+                                                    <li class="page-item" style="color: #325aab;"><a class="page-link"
+                                                            href="javascript:;">5</a></li>
+                                                    <li class="page-item" style="color: #325aab;" id="nextPage"><a
+                                                            class="page-link" aria-label="Next"
+                                                            href="javascript:;"><span aria-hidden="true">»</span></a>
+                                                    </li> -->
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row text-muted">
+                        <div class="col-6 text-start">
+                            <p class="mb-0">
+                                <a class="text-muted" href="https://adminkit.io/"
+                                    target="_blank"><strong>AdminKit</strong></a> &copy;
+                            </p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/frontend/js/main.js"></script>
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+
+</html>
