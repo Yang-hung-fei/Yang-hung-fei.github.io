@@ -1,7 +1,7 @@
 import config from "../../../../ipconfig.js";
 // import { editNewsByNewsNo } from "./editNewsByNewsNo.js";
 
- 
+
 let token = localStorage.getItem("Authorization_M");
 const mainUrl = config.url;
 const newsUrl = "/manager/homepageManage";
@@ -280,26 +280,24 @@ async function openEditModal(newsNo) {
     modal.show();
 
 
-    let newsTitle;
-    let newsCont;
-    let newsStatus;
+   
 
     let updateData = {
         "newsNo": newsNo,
-        "newsTitle": newsTitle,
-        "newsCont": newsCont,
-        "newsStatus": newsStatus
+        "newsTitle": data.newsTitle,
+        "newsCont": data.newsCont,
+        "newsStatus": data.newsStatus,
+        "newsPic": data.newsPic
 
-    }
-    updateData.newsTitle = data.newsTitle;
-    updateData.newsCont = data.newsCont;
-    updateData.newsStatus = data.newsStatus;
+    } 
+    console.log("data news Pic"+data.newsPic);
 
     const newsTitles = document.querySelectorAll("#newsTitle");
 
     newsTitles.forEach((newsTitle) => {
         newsTitle.addEventListener('input', (e) => {
             let userInput = e.target.value;
+            alert(userInput);
             updateData.newsTitle = userInput;
             console.log(updateData);
         })
@@ -323,13 +321,45 @@ async function openEditModal(newsNo) {
         })
     })
 
-    console.log(updateData);
+    //處理圖片
+    const imgOputs = document.querySelectorAll('#imageOutput');
+    var picInputs = document.querySelectorAll('#newsPic');
+    picInputs.forEach((picInput) => {
+        //預設為之前的圖片
+
+        picInput.addEventListener('change', (e) => {
+            let file = e.target.files[0];
+            if (file) {
+
+                toBase64(file).then((reslut) => {
+                    //轉換成base64字串傳輸資料(這邊要解析格式)
+                    let base64String = (reslut.split(',')[1]);
+                    //建立預覽圖
+                    imgOputs.forEach((imgOput) => {
+                        imgOput.src = reslut;
+                    })
+                    updateData.newsPic = base64String;
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        });
+    })
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+     
 
     const editConfirmBtns = document.querySelectorAll("#editConfirm");
     editConfirmBtns.forEach((editConfirm) => {
         editConfirm.addEventListener('click', async function (e) {
-            let updateResult = await updateNews(updateData);
-
+            let updateResult = await updateNews(updateData); 
+        
             if (updateResult.code === 200) {
                 Swal.fire(
                     {
@@ -387,7 +417,7 @@ async function deleteNews(newsNo) {
 
 // ------------------------- 更新  ------------------------- //
 async function updateNews(updateData) {
-
+    console.log("updateData Pic :"+updateData.newsPic);
     return fetch(updateNewsUrl, {
         method: "PUT",
         headers: {
@@ -405,6 +435,7 @@ async function updateNews(updateData) {
             console.log(err.message);
         });
 }
+// =================================================== //
 
 
 // ------------------------- 查詢單一news  ------------------------- //

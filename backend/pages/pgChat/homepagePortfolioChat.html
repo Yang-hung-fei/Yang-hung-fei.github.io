@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
+
+    <title>AllDogCat Manager</title>
+
+    <link href="../../css/sublist.css" rel="stylesheet">
+    <link href="../../css/app.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../homepage/css/newsList.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+        rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- <script type="module" src="./js/jquery-3.7.0.min.js"></script>
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <script src="js/jquery-3.7.0.min.js"></script> -->
+    <script type="module" src="./js/PortfolioChat.js"></script>
+    <script type="text/javascript">
+        function sendMessage(obj) {
+            var uid = $("#userId").val();
+            var chatText = $("#chatText").val();
+            console.log('sendMessage chatText ' + chatText);
+            const param = {
+                pgId: 1,
+                userId: 1,
+                chatText: chatText,
+                chatStatus: "1"
+            };
+            let objParam = JSON.stringify(param);
+            console.log('sendMessage objParam ' + objParam);
+            $.ajax({
+                url: 'http://localhost:8080/chat/insert',//地址
+                dataType: 'json',//數據類型
+                type: 'POST',//類型
+                timeout: 5000,//超時
+                data: objParam,
+                contentType: "application/json",
+                //請求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    $("#chatText").val("");
+                    getChatList(objParam);
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+        }
+        function chatClick(obj) {
+            var uid = $(obj).attr("data-url");
+            $("#userId").val(uid);
+            console.log('chatClick ' + uid);
+            const param = {
+                pgId: 1,
+                userId: 1
+            };
+            let objParam = JSON.stringify(param);
+            // $('#myModal').modal('show');
+            getChatList(objParam);
+        }
+        function getChatList(objParam) {
+            $.ajax({
+                url: 'http://localhost:8080/chat/list',//地址
+                dataType: 'json',//數據類型
+                type: 'POST',//類型
+                timeout: 5000,//超時
+                data: objParam,
+                contentType: "application/json",
+                //請求成功
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    const chatList = data.rs;
+                    $("#chatContent").empty();
+                    var choices = "";
+                    var choice1 = '<div style="background-color:white;width:600px;height:298px;border:0.5px solid grey;"><div style="overflow-y:scroll;width:100%;height:100%;">';
+                    choices += choice1;
+                    $.each(chatList, function (n, value) {
+                        if (value.chatStatus === '1') {
+                            var choice =
+                                '<div style="margin-top:20px; display: flex; justify-content: flex-end;">' +
+                                '<div style="display:flex;">' +
+                                '<div>' +
+                                '<div style="color:grey;text-align:right;margin-right:10px;font-size:13px;">' + value.pgName + '</div>' +
+                                '<div style="font-size:13px;background-color:#eaeaea;padding:10px;">' + value.chatText + '</div>' +
+                                '</div>' +
+                                '<div style="margin-right:5px;"> <img src="./img/1_PG.png" style="width: 30px; height: 30px; border-radius: 50%;"></div>' +
+                                '</div>' +
+                                '</div>';
+                            choices += choice;
+                        }
+                        if (value.chatStatus === '2') {
+                            var choice = '<div style="display: flex; justify-content: flex-start;">' +
+                                '<div style="display:flex;margin-left:5px;">' +
+                                '<div style="margin-right:5px;"> <img src="./img/1_PG.png" style="width: 30px; height: 30px; border-radius: 50%;"></div>' +
+                                '<div style="font-size:13px;">' +
+                                '<div style="color:grey;text-align:left;">用户 ' + value.userName + '</div>' +
+                                '<div style="background-color:#eaeaea;padding:10px;margin-top:2px;">' + value.chatText + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                            choices += choice;
+                        }
+                    });
+                    $("#chatContent").append(choices);
+                    $("#chatContent").append('</div></div>');
+                },
+                error: function (e) {
+                    console.log(JSON.stringify(e));
+                    console.log("e:" + e);
+                }
+            });
+            $('#myModal').modal('show');
+        }
+
+        function portfolioUpdate(obj) {
+            var uid = $(obj).attr("data-url");
+            console.log('portfolioUpdate ' + uid);
+            window.location.href = "/backend/pages/homepage/homepagePortfolioEdit.html?uid=" + uid;
+        }
+
+        function nextPage(obj) {
+            var pageSize = $("#pageSize").val();
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            let page = $("#page").html();
+            if (currentPage == page) {
+                return;
+            }
+            let search = $("#search").val();
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": Number(currentPage) + 1,
+                "search": search,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+            $("#currentPage").html(Number(currentPage) + 1);
+        }
+
+        function lastPage(obj) {
+            var pageSize = $("#pageSize").val();
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            if (currentPage == "1") {
+                return;
+            }
+            let search = $("#search").val();
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": Number(currentPage) - 1,
+                "search": search,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+            $("#currentPage").html(Number(currentPage) - 1);
+        }
+
+        function search(obj) {
+            var pageSize = $("#pageSize").val();
+            console.log("pageSize " + pageSize);
+            let currentPage = $("#currentPage").html();
+            let search = $("#search").val();
+            let param = {
+                "pageSize": pageSize,
+                "currentPage": currentPage,
+                "search": search,
+            }
+            let jsonParam = JSON.stringify(param);
+            list(jsonParam);
+        }
+
+        function list(jsonParam) {
+            $.ajax({
+                url: 'http://localhost:8080/portfolio/list',//地址
+                dataType: 'json',//數據類型
+                type: 'POST',//類型
+                timeout: 5000,//超時
+                data: jsonParam,
+                contentType: "application/json",
+                //請求成功
+                success: function (data) {
+                    const portfolios = data.rs;
+                    $("#content").empty();
+                    var choices = "";
+                    $.each(portfolios, function (n, value) {
+                        var choice = '<tr><td>' + value.porId + '</td><td>' + value.pgName + '</td><td>' + value.porTitle + '</td>'
+                            + '<td><div style="width: 200px;height: 200px;border-radius: 10px;border: 2px dashed #a2b6df;display: flex;justify-content: center;align-items: center;margin-top: 5px;">'
+                            // + '<span>預覽圖</span>'
+                            + ' <img src="data:image/jpeg;base64,' + value.porPic + '" alt="預覽圖" style="max-width: 100%; max-height: 100%;">'
+                            + '</div></td>'
+                            + '<td>' + value.porText + '</td><td>' + value.porUpload + '</td>'
+                            + '<td><button type="button" onclick="portfolioUpdate(this)" class="btn btn-default" data-url="' + value.porId + '">编辑</button></td>'
+                            + '<td><button type="button" onclick="portfolioDelete(this)" class="btn btn-danger" data-url="' + value.porId + '">删除</button></td></tr>';
+                        choices += choice;
+                    });
+                    $("#content").append(choices);
+                    $("#page").html(data.page);
+                },
+                error: function (e) {
+                    console.log("e:" + e);
+                }
+            });
+        }
+
+    </script>
+    <style type="text/html">
+        .login-container {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-width: auto;
+        z-index: 0;
+        zoom: 1;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-position: center 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal -->
+    <div class="login-container">
+        <div style="margin: 130px auto;margin-left:400px;">
+            <div class="modal-dialog" style="max-width:640px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel" style="text-align: center;">聊天框</h3>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div id="chatContent">
+                                <!-- 聊天信息 -->
+                                <div style="background-color:white;width:600px;height:298px;border:0.5px solid grey;">
+                                    <div style="overflow-y:scroll;width:100%;height:100%;">
+                                        <div style="margin-bottom: 10px;">
+                                            <div>
+                                                <div style="margin-top:20px; display: flex; justify-content: flex-end;">
+                                                    <div style="display:flex;">
+                                                        <div>
+                                                            <div
+                                                                style="color:grey;text-align:right;margin-right:10px;font-size:13px;">
+                                                                用户
+                                                            </div>
+                                                            <div
+                                                                style="font-size:13px;background-color:#eaeaea;padding:10px;">
+                                                                content</div>
+                                                        </div>
+                                                        <div style="margin-right:5px;"> <img src="./img/1_PG.png"
+                                                                style="width: 30px; height: 30px; border-radius: 50%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; justify-content: flex-start;">
+                                                <div style="display:flex;margin-left:5px;">
+                                                    <div style="margin-right:5px;"> <img src="./img/1_PG.png"
+                                                            style="width: 30px; height: 30px; border-radius: 50%;">
+                                                    </div>
+                                                    <div style="font-size:13px;">
+                                                        <div style="color:grey;text-align:left;">美容師 beauticianName
+                                                        </div>
+                                                        <div
+                                                            style="background-color:#eaeaea;padding:10px;margin-top:2px;">
+                                                            content</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; justify-content: flex-start;">
+                                                <div style="display:flex;margin-left:5px;">
+                                                    <div style="margin-right:5px;"> <img src="./img/1_PG.png"
+                                                            style="width: 30px; height: 30px; border-radius: 50%;">
+                                                    </div>
+                                                    <div style="font-size:13px;">
+                                                        <div style="color:grey;text-align:left;">美容師 beauticianName
+                                                        </div>
+                                                        <div
+                                                            style="background-color:#eaeaea;padding:10px;margin-top:2px;">
+                                                            content</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 發送信息 -->
+                            <div style="background-color:white;width:600px;height:198px;border:0.5px solid grey;">
+                                <div style="text-align:left;">
+                                    <div style="display:flex;margin-top:3px;">
+                                        <div style="margin-left:10px;">
+                                            <img src="./img/关注.png" style="width: 25px; height: 25px;">
+                                        </div>
+                                        <div style="margin-left:10px;"> <img src="./img/图片.png"
+                                                style="width: 25px; height: 25px;"></div>
+                                        <div style="margin-left:10px;"> <img src="./img/icon_笑脸-线.png"
+                                                style="width: 25px; height: 25px;"></div>
+                                    </div>
+                                </div>
+                                <div style="margin-top:10px;margin-bottom: 10px;">
+                                    <textarea class="form-control" id="chatText" rows="3"></textarea>
+                                </div>
+                                <div style="display: none;">
+                                    <div>
+                                        <input type="text" id="userId" placeholder="">
+                                    </div>
+                                </div>
+                                <div style="text-align:right;margin-top:10px;">
+                                    <div style="margin-right:10px;"><button type="button" class="btn btn-warning"
+                                            onclick="sendMessage(this)">發送</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/frontend/js/main.js"></script>
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+div {
+    color: #2D4472;
+    border-color: #a2b6df;
+}
+
+input {
+    height: 50px; 
+    border-color: #a2b6df;
+}
+select{
+    height: 40px;
+}

@@ -1,0 +1,43 @@
+
+div {
+    
+    color: #2D4472;
+    border-color: #a2b6df;
+
+}
+
+select{
+    height: 40px;
+}
+
+button {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+
+input {
+    width: 440px;
+    height: 40px;
+    font-size: 16px;
+}
+#fileInput {
+    width: 200px;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  
+/* 自定義深藍色按鈕樣式 */
+.btn.btn-primary {
+    background-color: #2D4472; 
+    border-color: #2D4472; 
+  }
+  
+  /* 自定義深藍色按鈕樣式 - 懸停時 */
+  .btn.btn-primary:hover {
+    background-color: #000088; /* 深藍色的深色 */
+    border-color: #000088; /* 深藍色的深色 */
+  }
