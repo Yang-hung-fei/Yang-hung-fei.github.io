@@ -1,0 +1,62 @@
+* {
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  /* 邊框合併為單一邊框，讓表格變得更美化*/
+  width: 100%;
+  /* 表格寬度設為100%，會隨著螢幕寬度縮放*/
+}
+
+th,
+td {
+  border-bottom: solid 1px #cccccc;
+  /* 邊框底邊，設定為實線、1px、#cccccc灰色細邊炳框*/
+  padding: 10px;
+  /* 內距設為10px*/
+  text-align: left;
+  /* 文字靠左對齊*/
+  vertical-align: top;
+  /* 垂直對齊該行文字的最高位置*/
+}
+
+.custom-pagination {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.custom-pagination .page-item {
+  display: inline-block;
+  margin-right: 5px;
+  /* 調整分頁項目之間的間距 */
+}
+
+.custom-pagination .page-link {
+  text-decoration: none;
+  color: #325aab;
+  /* 可以設置其他樣式，如背景色、邊框等 */
+}
+
+.AlignRight {
+  text-align: right;
+}
+
+.custom-right-button {
+  float: right !important;
+}
+
+
+/* 自定義深藍色按鈕樣式 */
+.btn.btn-primary {
+  background-color: #2D4472; 
+  border-color: #2D4472; 
+}
+
+/* 自定義深藍色按鈕樣式 - 懸停時 */
+.btn.btn-primary:hover {
+  background-color: #000088; /* 深藍色的深色 */
+  border-color: #000088; /* 深藍色的深色 */
+}
