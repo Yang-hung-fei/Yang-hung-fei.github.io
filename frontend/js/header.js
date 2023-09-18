@@ -42,6 +42,7 @@ $(window).on("load", () => {
         break;
       case "Activity":
         redirectUrl = '/frontend/pages/socialMedia/Activity/activity.html';
+        return;
         break;
       case "Groomer":
         redirectUrl = '/frontend/pages/petgroomer/pgListPage/pgListPage.html';
@@ -117,6 +118,10 @@ $(window).on("load", () => {
             let userIcon_el = document.getElementById("userIcon");
             userIcon_el.style.display = "none";
           }
+        }
+        else if(code === 401){
+          localStorage.removeItem("Authorization_U");
+          $("#logoutButtonText").text("登入");
         }
       })
       .catch((error) => {
