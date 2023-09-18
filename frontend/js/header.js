@@ -118,6 +118,9 @@ $(window).on("load", () => {
             userIcon_el.style.display = "none";
           }
         }
+        else if(code === 401){
+          localStorage.removeItem("Authorization_U");
+        }
       })
       .catch((error) => {
         // 处理捕获的错误，包括网络错误等
