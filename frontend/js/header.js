@@ -121,6 +121,7 @@ $(window).on("load", () => {
         }
         else if(code === 401){
           localStorage.removeItem("Authorization_U");
+          $("#logoutButtonText").text("登入");
         }
       })
       .catch((error) => {
