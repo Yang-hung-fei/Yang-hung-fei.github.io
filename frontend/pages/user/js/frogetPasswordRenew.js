@@ -13,6 +13,10 @@ $(".login100-form-btn").on("click", (event) => {
         swal("失敗", "不可輸入空白", "error");
         return;
     }
+    if (newPassword.length<6) {
+        swal("失敗", "長度不可小於6", "error");
+        return;
+    }
     // 獲取當前 URL 的查詢字串
     const queryString = window.location.search;
 

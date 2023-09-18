@@ -8,7 +8,8 @@ nodifyImg.className = "notification-dot";
 // 将新的 div 添加到目标 div 中
 notifyMenu.appendChild(nodifyImg);
 
-$(window).on("load", () => {
+$(window).on("load", () => { 
+  $("#logoutButtonText").text("登入");  
   let token = localStorage.getItem("Authorization_U");
   var notificationDot = document.querySelector(".notification-dot");
   let connectUrl = (config.url).split('//')[1];
@@ -18,6 +19,7 @@ $(window).on("load", () => {
   let webSocket = new WebSocket(url);
   webSocket.onopen = function () {
     console.log('創建連接。。。');
+    $("#logoutButtonText").text("登出");  
     getUserPerfile(token);
     webSocket.send("getHistory");
   }
@@ -40,6 +42,7 @@ $(window).on("load", () => {
         break;
       case "Activity":
         redirectUrl = '/frontend/pages/socialMedia/Activity/activity.html';
+        return;
         break;
       case "Groomer":
         redirectUrl = '/frontend/pages/petgroomer/pgListPage/pgListPage.html';
@@ -79,6 +82,7 @@ $(window).on("load", () => {
   }
   webSocket.onclose = function () {
     console.log('webSocket已斷開。。。');
+    $("#logoutButtonText").text("登入");
     // $('#messageArea').append('websocket已斷開\n');
   };
 
@@ -114,6 +118,10 @@ $(window).on("load", () => {
             let userIcon_el = document.getElementById("userIcon");
             userIcon_el.style.display = "none";
           }
+        }
+        else if(code === 401){
+          localStorage.removeItem("Authorization_U");
+          $("#logoutButtonText").text("登入");
         }
       })
       .catch((error) => {
