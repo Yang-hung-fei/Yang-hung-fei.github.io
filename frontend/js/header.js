@@ -42,6 +42,7 @@ $(window).on("load", () => {
         break;
       case "Activity":
         redirectUrl = '/frontend/pages/socialMedia/Activity/activity.html';
+        return;
         break;
       case "Groomer":
         redirectUrl = '/frontend/pages/petgroomer/pgListPage/pgListPage.html';
