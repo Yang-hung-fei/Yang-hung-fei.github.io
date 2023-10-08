@@ -34,7 +34,8 @@ function fetchUserOrders() {
                 order.recipientPh, // 收件人電話
                 order.ordStatus, // 訂單狀態
                 order.ordPayStatus, // 付款狀態
-                order.paymentUrl //paymentUrl
+                order.paymentUrl, //paymentUrl
+                order.paymentMethod
             ]);
             // 初始化或重新初始化DataTable
             if (dataTable) {
@@ -176,6 +177,18 @@ function fetchUserOrders() {
                             }
                             return null;
                         }
+                    },
+                    {
+                        title: '', // 空字串，因為這個欄位不會顯示標題
+                        data: null,
+                        visible: false,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                // 在這裡處理這個欄位的渲染邏輯
+                                return row[8]; // 因為新增了一個 paymentMethod 欄位，所以這裡用索引 8 取得
+                            }
+                            return null;
+                        }
                     }
                 ],
                 language: {      // 語言設定
@@ -275,8 +288,10 @@ function fetchUserOrders() {
                 const ordNo = rowData[0];
                 const ordPrice=rowData[2];
                 const paymentUrl=rowData[7];
+                const paymentMethod=rowData[8];
+                
                 // 檢查付款狀態是否為 1（已付款）
-                if (paymentUrl && paymentUrl !== 'null') {
+                if (paymentUrl) {
                     // 直接跳轉至相應的 URL
                     window.location.href = paymentUrl;
                 } else {
@@ -290,7 +305,7 @@ function fetchUserOrders() {
                         });
                     } else {
                         // 付款操作
-                        checkIsPay(ordNo, ordPrice);
+                        checkIsPay(ordNo, ordPrice,paymentMethod);
                     }
                 }
                 
@@ -473,7 +488,7 @@ function getFormattedDate() {
 
 
 // 訂單付款(API_1 paymentCreateOrder [建立交易])
-function payForOrder(ordNo,ordPrice) {
+function payForOrder(ordNo,ordPrice,paymentMethod) {
 
     const formattedDate = getFormattedDate();
     
@@ -500,16 +515,32 @@ function payForOrder(ordNo,ordPrice) {
         };
     });
 
+    let headers;
+
+    if (paymentMethod === 0) {
+        headers = {
+            "key": "593833005619", 
+            "secret": "Ln95pHin6gFE2ev3qXff",
+            "merchantCode": "ME10679778",
+            "Content-paymentCancelOrderType": "application/json",
+            "User-Agent": "FONTIKCET_SYSTEM",
+            "X-ignore": "true"
+        };
+    } else if (paymentMethod === 1) {
+        headers = {
+            "key": "852689534957",
+            "secret": "FzGBjuHatXDjY5eHxec7",
+            "merchantCode": "ME10679778",
+            "Content-paymentCancelOrderType": "application/json",
+            "User-Agent": "FONTIKCET_SYSTEM",
+            "X-ignore": "true"
+        };
+    }
+
+
     fetch("https://cors-anywhere.herokuapp.com/https://test-api.fonpay.tw/api/payment/paymentCreateOrder", {
         method: "POST",
-        headers: {
-            "key": "593833005619",  // 在標頭中帶入 Token
-            "secret": "Ln95pHin6gFE2ev3qXff",
-            "merchantCode":"ME10679778",
-            "Content-paymentCancelOrderType":"application/json",
-            "User-Agent":"FONTIKCET_SYSTEM",
-            "X-ignore":"true"
-        },
+        headers: headers,
         body:JSON.stringify( {
              "request":{
                 "note":"Test",
@@ -519,7 +550,8 @@ function payForOrder(ordNo,ordPrice) {
                "paymentDueDate":`${formattedDate}`,
                "itemName":`${ordNo}`,
                 "memberName":"memberNo12",
-               "includeItemList":includeItemList
+               "includeItemList":includeItemList,
+            //    "callbackUrl"
             },
                 "basic": {
                   "appVersion": "0.9",
@@ -544,13 +576,12 @@ function payForOrder(ordNo,ordPrice) {
                 icon: "error",
                 title: res.response.msg
             });
+            fetchUserOrders();
            }
-
-            
             // var newWindow = window.open();
             // newWindow.document.write(res.message); // 插入表單 HTML 內容
             // newWindow.document.close();
-
+            
             
         })
         .catch(error => {
@@ -585,7 +616,9 @@ function saveFonPayId(ordNo,paymentTransactionId,paymentUrl) {
                     icon: "error",
                     title: res.message
                 });
+                
             }else{
+                fetchUserOrders();
                 window.location.href = paymentUrl;
             }
 
@@ -597,7 +630,7 @@ function saveFonPayId(ordNo,paymentTransactionId,paymentUrl) {
 
 
 //確認是否完成付款
-function checkIsPay(ordNo,ordPrice) {
+function checkIsPay(ordNo,ordPrice,paymentMethod) {
     fetch(config.url+"/user/productMall/order?orderId="+ordNo, {
         method: "GET",
         headers: {
@@ -616,7 +649,7 @@ function checkIsPay(ordNo,ordPrice) {
                 // button.textContent = "完成付款"; // 修改按鈕文字為 "完成付款"
                 return true;
             }else if(res.message == "unPay"){
-                payForOrder(ordNo,ordPrice);
+                payForOrder(ordNo,ordPrice,paymentMethod);
             }
 
         })

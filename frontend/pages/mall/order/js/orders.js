@@ -144,6 +144,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const orderAmount = parseFloat(orderAmountEl.textContent.replace('$', '')); // 獲取實付金額
         const discountEl = document.querySelector("#discount-amount");
         const userPoint = parseFloat(discountEl.textContent.replace('$', '')); // 獲取折抵點數
+
+        const selectedValue = document.querySelector('input[name="paymentMethod"]:checked').value;
+        console.log(selectedValue);
          // 創建"orders"對象
          const orders = {
             ordStatus: 0,
@@ -155,7 +158,8 @@ document.addEventListener("DOMContentLoaded", () => {
             recipientName: recipientName,
             recipientAddress: recipientAddress,
             recipientPh: recipientPh,
-            userPoint: userPoint
+            userPoint: userPoint,
+            paymentMethod:selectedValue
         };
 
         // 在此處可以訪問 cartItems 陣列，以及創建 detailList
