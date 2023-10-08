@@ -33,9 +33,8 @@ function fetchUserOrders() {
                 order.recipientName, // 收件人姓名
                 order.recipientPh, // 收件人電話
                 order.ordStatus, // 訂單狀態
-                order.ordPayStatus // 付款狀態
-                // 這些應該根據你的API響應的實際數據結構進行調整
-                
+                order.ordPayStatus, // 付款狀態
+                order.paymentUrl //paymentUrl
             ]);
             // 初始化或重新初始化DataTable
             if (dataTable) {
@@ -165,6 +164,18 @@ function fetchUserOrders() {
                             }
                             return data; // 其他情况返回原始数据
                         }
+                    },
+                    {
+                        title: '', // 空字串，因為這個欄位不會顯示標題
+                        data: null,
+                        visible: false,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                // 在這裡處理這個欄位的渲染邏輯
+                                return row[7]; // 因為新增了一個 paymentUrl 欄位，所以這裡用索引 7 取得
+                            }
+                            return null;
+                        }
                     }
                 ],
                 language: {      // 語言設定
@@ -262,18 +273,25 @@ function fetchUserOrders() {
                 e.preventDefault();
                 const rowData = dataTable.row($(this).closest('tr')).data();
                 const ordNo = rowData[0];
+                const ordPrice=rowData[2];
+                const paymentUrl=rowData[7];
                 // 檢查付款狀態是否為 1（已付款）
-                if (rowData[6] === 1) {
-                    Swal.fire({
-                        title: '無法執行付款操作',
-                        text: '該訂單已付款，無法再次執行付款操作。',
-                        icon: 'warning',
-                        confirmButtonText: '確定'
-                    });
+                if (paymentUrl && paymentUrl !== 'null') {
+                    // 直接跳轉至相應的 URL
+                    window.location.href = paymentUrl;
                 } else {
-                    // 付款操作
-                    checkIsPay(ordNo);
-                    
+                    // 檢查付款狀態是否為 1（已付款）
+                    if (rowData[6] === 1) {
+                        Swal.fire({
+                            title: '無法執行付款操作',
+                            text: '該訂單已付款，無法再次執行付款操作。',
+                            icon: 'warning',
+                            confirmButtonText: '確定'
+                        });
+                    } else {
+                        // 付款操作
+                        checkIsPay(ordNo, ordPrice);
+                    }
                 }
                 
             })
@@ -328,7 +346,7 @@ function getOrderDetailByOrdNo(ordNo) {
         if (data.code === 200) {
             
             const orderDetail = data.message;
-            // console.log("訂單詳情:", orderDetail);
+            console.log("訂單詳情:", orderDetail);
 
            // 假設 orderDetail[0].ordFinish 是包含日期和時間的陣列
             const ordFinishArray = orderDetail[0].ordFinish;
@@ -437,38 +455,149 @@ function getOrderDetailByOrdNo(ordNo) {
     })
 }
 
-// 訂單付款
-function payForOrder(ordNo) {
-    // console.log(ordNo);
-    fetch(config.url+"/user/productMall/order/getPaymentForm?orderId="+ ordNo, {
+
+function getFormattedDate() {
+    const now = new Date();
+    const oneWeekLater = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000));
+
+    const year = oneWeekLater.getFullYear();
+    const month = String(oneWeekLater.getMonth() + 1).padStart(2, '0');
+    const day = String(oneWeekLater.getDate()).padStart(2, '0');
+    const hours = String(oneWeekLater.getHours()).padStart(2, '0');
+    const minutes = String(oneWeekLater.getMinutes()).padStart(2, '0');
+    const seconds = String(oneWeekLater.getSeconds()).padStart(2, '0');
+
+    return `${year}${month}${day}${hours}${minutes}${seconds}`;
+}
+
+
+
+// 訂單付款(API_1 paymentCreateOrder [建立交易])
+function payForOrder(ordNo,ordPrice) {
+
+    const formattedDate = getFormattedDate();
+    
+     fetch(config.url + "/user/order/" + ordNo, {
         method: "GET",
         headers: {
-            "Authorization_U": token,  // 在標頭中帶入 Token
-            "Content-Type": "application/json"   // 如果需要，指定內容類型
-        }
+            'Authorization_U': token,
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 處理api
+        if (data.code === 200) {
+            
+            const orderDetail = data.message;
+            const orderDetailList=orderDetail[0].detailList;
+
+            // 將 orderDetailList 映射成 includeItemList
+       const includeItemList = orderDetailList.map(item => {
+        return {
+            "itemName": item.pdName,
+            "itemQuantity": item.qty
+        };
+    });
+
+    fetch("https://cors-anywhere.herokuapp.com/https://test-api.fonpay.tw/api/payment/paymentCreateOrder", {
+        method: "POST",
+        headers: {
+            "key": "593833005619",  // 在標頭中帶入 Token
+            "secret": "Ln95pHin6gFE2ev3qXff",
+            "merchantCode":"ME10679778",
+            "Content-paymentCancelOrderType":"application/json",
+            "User-Agent":"FONTIKCET_SYSTEM",
+            "X-ignore":"true"
+        },
+        body:JSON.stringify( {
+             "request":{
+                "note":"Test",
+               "paymentNo":ordNo,
+               "legacyId":"TS1234567",
+               "totalPrice":ordPrice,
+               "paymentDueDate":`${formattedDate}`,
+               "itemName":`${ordNo}`,
+                "memberName":"memberNo12",
+               "includeItemList":includeItemList
+            },
+                "basic": {
+                  "appVersion": "0.9",
+                  "os": "IOS",
+                  "appName": "POSTMAN",
+                  "latitude": 24.777678,
+                  "clientIp": "61.216.102.83",
+                  "lang": "zh_TW",
+                  "deviceId": "123456789",
+                  "longitude": 121.043175
+                }
+        })
     }).then(response => response.json())
         .then(res => {
             console.log(res);
-            // if (res.code == 410) {
-            //     button.disabled = true;
-            //     button.textContent = "完成付款"; // 修改按鈕文字為 "完成付款"
-            //     return;
-            // }
-            // if (res.code != 200) {
-            //     swal(res.message);
-            //     return;
-            // }
-            var newWindow = window.open();
-            newWindow.document.write(res.message); // 插入表單 HTML 內容
-            newWindow.document.close();
+           if(res.response.errorCode==0){
+            const paymentTransactionId =res.result.payment.paymentTransactionId;
+            const paymentUrl =res.result.payment.paymentUrl;
+            saveFonPayId(ordNo,paymentTransactionId,paymentUrl);
+           }else{
+            Swal.fire({
+                icon: "error",
+                title: res.response.msg
+            });
+           }
+
+            
+            // var newWindow = window.open();
+            // newWindow.document.write(res.message); // 插入表單 HTML 內容
+            // newWindow.document.close();
+
+            
+        })
+        .catch(error => {
+            console.error("Error fetching form:", error);
+        });
+            
+        } else {
+            console.error("獲取訂單訊息失敗:", data);
+        }
+    });
+
+       
+}
+
+
+//saveFonPayId
+function saveFonPayId(ordNo,paymentTransactionId,paymentUrl) {
+    fetch(config.url+`/user/saveFonPayId/${ordNo}`, {
+        method: "PUT",
+        headers: {
+            "Authorization_U": token,  // 在標頭中帶入 Token
+            "Content-Type": "application/json"   // 如果需要，指定內容類型
+        },
+        body: JSON.stringify({
+            "paymentTransactionId":`${paymentTransactionId}`,
+            "paymentUrl":`${paymentUrl}`
+        })
+    }).then(response => response.json())
+        .then(res => {
+            if (res.code != 200){
+                Swal.fire({
+                    icon: "error",
+                    title: res.message
+                });
+            }else{
+                window.location.href = paymentUrl;
+            }
+
         })
         .catch(error => {
             console.error("Error fetching form:", error);
         });
 }
 
+
 //確認是否完成付款
-function checkIsPay(ordNo) {
+function checkIsPay(ordNo,ordPrice) {
     fetch(config.url+"/user/productMall/order?orderId="+ordNo, {
         method: "GET",
         headers: {
@@ -487,7 +616,7 @@ function checkIsPay(ordNo) {
                 // button.textContent = "完成付款"; // 修改按鈕文字為 "完成付款"
                 return true;
             }else if(res.message == "unPay"){
-                payForOrder(ordNo);
+                payForOrder(ordNo,ordPrice);
             }
 
         })
