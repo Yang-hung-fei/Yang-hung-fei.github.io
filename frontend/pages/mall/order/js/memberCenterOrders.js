@@ -3,7 +3,8 @@ let dataTable; // 將 dataTable 定義在函數之外
 let selectedRow;
 //Header Token
 const token = localStorage.getItem("Authorization_U");
-
+const callbackUrl ="https://0879-111-248-19-109.ngrok-free.app";
+const localhost5500="http://localhost:5500";
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
      // 使用 DataTable 初始化函數
@@ -382,8 +383,9 @@ function paymentQueryOrder(paymentTransactionId,paymentMethod) {
             window.location.href = res.result.payment.paymentUrl;
            }else{
             Swal.fire({
-                icon: "error",
-                title: res.response.msg
+                icon: "scuess",
+                title: "您已經付款完成!"+"付款編號為:",
+                text: res.result.payment.paymentTransactionNumber
             });
             fetchUserOrders();
            }
@@ -415,6 +417,7 @@ function deleteOrder(requestData, selectedRow) {
         if (response.ok) {
             Swal.fire('刪除成功!');
             //dataTable.row(selectedRow).remove(); // 從 DataTable 中移除並重新繪製
+            fetchUserOrders();
             dataTable.row(selectedRow).remove().draw(false);
             fetchUserOrders();
         } else {
@@ -632,7 +635,8 @@ function payForOrder(ordNo,ordPrice,paymentMethod) {
                "itemName":`${ordNo}`,
                 "memberName":"memberNo12",
                "includeItemList":includeItemList,
-            //    "callbackUrl"
+               "callbackUrl":callbackUrl+"/customer/fonPayCallback",
+               "redirectUrl":localhost5500+"/frontend/pages/mall/order/thankPay.html"
             },
                 "basic": {
                   "appVersion": "0.9",
@@ -708,6 +712,7 @@ function saveFonPayId(ordNo,paymentTransactionId,paymentUrl) {
                 
             }else{
                 fetchUserOrders();
+                window.location.href = paymentUrl;
             }
 
         })
