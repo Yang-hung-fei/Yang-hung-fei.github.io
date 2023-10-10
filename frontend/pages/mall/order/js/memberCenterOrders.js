@@ -3,8 +3,8 @@ let dataTable; // 將 dataTable 定義在函數之外
 let selectedRow;
 //Header Token
 const token = localStorage.getItem("Authorization_U");
-const callbackUrl ="https://fb83-111-248-19-109.ngrok-free.app";
-const localhost5500="http://localhost:5502";
+const callbackUrl ="https://14e3-111-248-19-109.ngrok-free.app";
+const localhost5502="http://localhost:5502";
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
      // 使用 DataTable 初始化函數
@@ -46,7 +46,7 @@ function fetchUserOrders() {
             
             // 初始化DataTable
             dataTable = $('#OrdersTable').DataTable({
-                // "scrollX": true, // 启用水平滚动条
+                // "scrollX": true, 
                 "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]],
                 "processing": true,
                 "destroy": true,
@@ -199,7 +199,7 @@ function fetchUserOrders() {
                         render: function (data, type, row) {
                             if (type === 'display') {
                                 // 在這裡處理這個欄位的渲染邏輯
-                                return row[9]; // 因為新增了一個 paymentTransactionId 欄位，所以這裡用索引 8 取得
+                                return row[9]; // 因為新增了一個 paymentTransactionId 欄位，所以這裡用索引 9 取得
                             }
                             return null;
                         }
@@ -252,7 +252,8 @@ function fetchUserOrders() {
                 const rowData = dataTable.row($(this).closest('tr')).data();
                 const ordNo = rowData[0]; // 訂單編號在第一列
                 const ordPayStatus = rowData[6];
-                
+                const paymentTransactionId=rowData[9];
+                const paymentMethod=rowData[8];
                 if(ordPayStatus === 0){
                     // 在這裡處理刪除操作，你可以使用rowData中的數據
                     const requestData = {
@@ -271,7 +272,7 @@ function fetchUserOrders() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // 點擊確定 刪除!
-                            deleteOrder(requestData, selectedRow);
+                            deleteOrder(requestData, selectedRow,paymentTransactionId,paymentMethod);
                         }
                     });
                 }else{
@@ -401,10 +402,75 @@ function paymentQueryOrder(paymentTransactionId,paymentMethod) {
 }
 
 
+// paymentCancelOrder 取消交易
+function paymentCancelOrder(paymentTransactionId,paymentMethod) {
 
+    let headers;
+
+    if (paymentMethod === 0) {
+        headers = {
+            "key": "593833005619", 
+            "secret": "Ln95pHin6gFE2ev3qXff",
+            "merchantCode": "ME10679778",
+            "Content-paymentCancelOrderType": "application/json",
+            "User-Agent": "FONTIKCET_SYSTEM",
+            "X-ignore": "true"
+        };
+    } else if (paymentMethod === 1) {
+        headers = {
+            "key": "852689534957",
+            "secret": "FzGBjuHatXDjY5eHxec7",
+            "merchantCode": "ME10679778",
+            "Content-paymentCancelOrderType": "application/json",
+            "User-Agent": "FONTIKCET_SYSTEM",
+            "X-ignore": "true"
+        };
+    }
+
+    fetch("https://cors-anywhere.herokuapp.com/https://test-api.fonpay.tw/api/payment/paymentCancelOrder", {
+        method: "POST",
+        headers: headers,
+        body:JSON.stringify({
+             "request":{
+                "paymentTransactionId":paymentTransactionId
+                },
+                "basic": {
+                  "appVersion": "0.9",
+                  "os": "IOS",
+                  "appName": "POSTMAN",
+                  "latitude": 24.777678,
+                  "clientIp": "61.216.102.83",
+                  "lang": "zh_TW",
+                  "deviceId": "123456789",
+                  "longitude": 121.043175
+                }
+        })
+    }).then(response => response.json())
+        .then(res => {
+            console.log(res);
+           if(res.response.errorCode==0 && res.result.payment.status=="PROCESSING"){
+            window.location.href = res.result.payment.paymentUrl;
+           }else{
+            Swal.fire({
+                icon: "success",
+                title: "您已經付款完成!"+"付款編號為:",
+                text: res.result.payment.paymentTransactionNumber
+            });
+            fetchUserOrders();
+           }
+            // var newWindow = window.open();
+            // newWindow.document.write(res.message); // 插入表單 HTML 內容
+            // newWindow.document.close();
+            
+            
+        })
+        .catch(error => {
+            console.error("Error fetching form:", error);
+        }); 
+}
 
 // 刪除訂單deleteOrder
-function deleteOrder(requestData, selectedRow) {
+function deleteOrder(requestData, selectedRow,paymentTransactionId,paymentMethod) {
     fetch(config.url + "/user/updateUserOrders", {
         method: 'PATCH',
         headers: {
@@ -636,7 +702,7 @@ function payForOrder(ordNo,ordPrice,paymentMethod) {
                 "memberName":"memberNo12",
                "includeItemList":includeItemList,
                "callbackUrl":callbackUrl+"/customer/fonPayCallback",
-               "redirectUrl":localhost5500+"/frontend/pages/mall/order/thankPay.html"
+               "redirectUrl":localhost5502+"/frontend/pages/mall/order/thankPay.html"
             },
                 "basic": {
                   "appVersion": "0.9",
@@ -663,7 +729,6 @@ function payForOrder(ordNo,ordPrice,paymentMethod) {
                 text: "您的付款交易編號為："+ res.result.payment.paymentTransactionNumber
             });
             
-            fetchUserOrders();
            }else{
             Swal.fire({
                 icon: "error",

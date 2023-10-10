@@ -1,5 +1,39 @@
 import config from "../../../../../ipconfig.js";
 const token = localStorage.getItem("Authorization_U");
+document.addEventListener('DOMContentLoaded', function () {
+  const params = new URLSearchParams(window.location.search);
+  const paymentTransactionId = params.get('paymentTransactionId');
+  const status = params.get('status');
+  fetch(config.url+`/customer/fonPayRedirectUrl`, {
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        "paymentTransactionId":`${paymentTransactionId}`,
+        "status":`${status}`
+    })
+    
+}).then(response => response.json())
+    .then(res => {
+        if (res.code != 200){
+            Swal.fire({
+                icon: "error",
+                title: res.message
+            });
+            console.log("1");
+        }else{
+          console.log("2");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching form:", error);
+    });
+
+
+});
+
+
 var app = new Vue({
     el: '#app',
     data: {
