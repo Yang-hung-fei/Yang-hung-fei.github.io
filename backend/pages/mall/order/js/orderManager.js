@@ -43,25 +43,25 @@ function fetchAndBuildTable() {
 
 //動態填表格
 function buildTable(newData) {
-      
+
     table = $("#OrdersManTable").DataTable({
-            id: "OrdersManTable",
-            "lengthMenu": [[10, 5, 15, 20, -1], [10, 5, 15, 20, "全部"]],
-                "processing": true,
-                "destroy": true,
-                "autoWidth": false
-                , responsive: {
-                    breakpoints: [                        //設定五種螢幕尺寸的type
-                        { name: 'desktop', width: Infinity },
-                        { name: 'tablet-l', width: 1024 },//原本是768~1024不含768
-                        { name: 'tablet-p', width: 767 },//
-                        { name: 'mobile-l', width: 480 },
-                        { name: 'mobile-p', width: 320 },
-                        { name: 'none', width: 100 }     //隱藏
-                    ]
-                },
-            data: newData,
-            columns: [
+        id: "OrdersManTable",
+        "lengthMenu": [[10, 5, 15, 20, -1], [10, 5, 15, 20, "全部"]],
+        "processing": true,
+        "destroy": true,
+        "autoWidth": false
+        , responsive: {
+            breakpoints: [                        //設定五種螢幕尺寸的type
+                { name: 'desktop', width: Infinity },
+                { name: 'tablet-l', width: 1024 },//原本是768~1024不含768
+                { name: 'tablet-p', width: 767 },//
+                { name: 'mobile-l', width: 480 },
+                { name: 'mobile-p', width: 320 },
+                { name: 'none', width: 100 }     //隱藏
+            ]
+        },
+        data: newData,
+        columns: [
             {
                 data: "ordNo",
             },
@@ -71,23 +71,23 @@ function buildTable(newData) {
             {
                 data: "ordCreate",
                 targets: 2,
-                        render: function (data, type, row) {
-                            if (type === 'display' || type === 'filter') {
-                                // 將數組轉換為 Date 對象
-                                const date = new Date(data[0], data[1] - 1, data[2], data[3], data[4], data[5]);
-            
-                                // 使用 Date 對象格式化日期，包括時、分和秒
-                                const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
-                                                      `${date.getDate().toString().padStart(2, '0')}<br>` +
-                                                      `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:` +
-                                                      `${date.getSeconds().toString().padStart(2, '0')}`;
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // 將數組轉換為 Date 對象
+                        const date = new Date(data[0], data[1] - 1, data[2], data[3], data[4], data[5]);
 
-                                return formattedDate;
-                            }
-                    
-                            // 其他情況返回原始日期數據
-                            return data;
-                        }
+                        // 使用 Date 對象格式化日期，包括時、分和秒
+                        const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                            `${date.getDate().toString().padStart(2, '0')}<br>` +
+                            `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:` +
+                            `${date.getSeconds().toString().padStart(2, '0')}`;
+
+                        return formattedDate;
+                    }
+
+                    // 其他情況返回原始日期數據
+                    return data;
+                }
             },
             {
                 data: "orderAmount",
@@ -100,46 +100,46 @@ function buildTable(newData) {
             },
             {
                 data: "ordStatus",
-                targets:6,
+                targets: 6,
                 render: function (data, type, row) {
-                    if(type === "display"){
-                        if(data === 0){
+                    if (type === "display") {
+                        if (data === 0) {
                             return "未出貨";
-                        }else if(data === 1){
+                        } else if (data === 1) {
                             return "已出貨";
-                        }else if(data === 2){
+                        } else if (data === 2) {
                             return "已到貨";
-                        }else if(data === 3){
+                        } else if (data === 3) {
                             return "退貨申請";
-                        }else if(data === 4){
+                        } else if (data === 4) {
                             return "退貨成功";
-                        }else if(data === 5){
+                        } else if (data === 5) {
                             return "訂單完成";
-                        }else if(data === 6){
+                        } else if (data === 6) {
                             return '<span style="background-color: #E8FFC4;">訂單取消</span>';
-                        }else{
+                        } else {
                             return "未知狀態";
                         }
                     }
                     return data;
-                } 
+                }
             },
             {
                 data: "ordPayStatus",
                 targets: 7,
-                        render: function (data, type, row) {
-                            if (type === "display") {
-                                let cellStyle = ''; // 初始化单元格样式
-                    
-                                if (data === 0) {
-                                    cellStyle = 'background-color: #FFD2D2;'; // 未付款
-                                }
-                    
-                                // 使用 style 属性设置单元格样式
-                                return '<span style="' + cellStyle + '">' + (data === 0 ? '未付款' : (data === 1 ? '已付款' : '未知狀態')) + '</span>';
-                            }
-                            return data;
+                render: function (data, type, row) {
+                    if (type === "display") {
+                        let cellStyle = ''; // 初始化单元格样式
+
+                        if (data === 0) {
+                            cellStyle = 'background-color: #FFD2D2;'; // 未付款
                         }
+
+                        // 使用 style 属性设置单元格样式
+                        return '<span style="' + cellStyle + '">' + (data === 0 ? '未付款' : (data === 1 ? '已付款' : '未知狀態')) + '</span>';
+                    }
+                    return data;
+                }
             },
             {
                 data: null, // 明細按钮列
@@ -178,17 +178,17 @@ function buildTable(newData) {
                     return data;
                 }
             }
-            ],
-            language: {      // 語言設定
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
-            },
-            columnDefs:[
-                {
-                    targets: '_all',
-                    className: 'text-center'              
-                }
-            ]
-        });
+        ],
+        language: {      // 語言設定
+            "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
+        },
+        columnDefs: [
+            {
+                targets: '_all',
+                className: 'text-center'
+            }
+        ]
+    });
 
 
     //監聽明細按鈕
@@ -196,8 +196,22 @@ function buildTable(newData) {
         e.preventDefault();
         // 获取所选行的数据
         const rowData = table.row($(this).closest('tr')).data();
-        console.log(rowData.ordNo);
+        // console.log(rowData.ordNo);
         getOrderDetailByOrdNo(rowData.ordNo);
+    });
+
+
+    //監聽FonPay帳戶資訊按鈕
+    $(document).on('click', 'button.custom-btn.paymentAccountSummary0', function (e) {
+        e.preventDefault();
+        const paymentMethod =0;
+        paymentAccountSummary(paymentMethod);
+    });
+    //監聽FonPay帳戶資訊按鈕
+    $(document).on('click', 'button.custom-btn.paymentAccountSummary1', function (e) {
+        e.preventDefault();
+        const paymentMethod =1;
+        paymentAccountSummary(paymentMethod);
     });
 
     //監聽修改按鈕
@@ -222,6 +236,106 @@ function buildTable(newData) {
 }
 
 
+// 查詢帳戶資訊(API_0 paymentAccountSummary [查詢帳戶資訊])
+function paymentAccountSummary(paymentMethod) {
+
+    let headers;
+
+    if (paymentMethod === 0) {
+        headers = {
+            "key": "593833005619",
+            "secret": "Ln95pHin6gFE2ev3qXff",
+            "merchantCode": "ME10679778",
+            "Content-paymentCancelOrderType": "application/json",
+            "User-Agent": "FONTIKCET_SYSTEM",
+            "X-ignore": "true"
+        };
+    } else if (paymentMethod === 1) {
+        headers = {
+            "key": "852689534957",
+            "secret": "FzGBjuHatXDjY5eHxec7",
+            "merchantCode": "ME10679778",
+            "Content-paymentCancelOrderType": "application/json",
+            "User-Agent": "FONTIKCET_SYSTEM",
+            "X-ignore": "true"
+        };
+    }
+
+    fetch("https://cors-anywhere.herokuapp.com/https://test-api.fonpay.tw/api/payment/paymentAccountSummary", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+            "request": {
+            },
+            "basic": {
+                "appVersion": "0.9",
+                "os": "IOS",
+                "appName": "POSTMAN",
+                "latitude": 24.777678,
+                "clientIp": "61.216.102.83",
+                "lang": "zh_TW",
+                "deviceId": "123456789",
+                "longitude": 121.043175
+            }
+        })
+    }).then(response => response.json())
+        .then(res => {
+            if (res.response.errorCode == 0) {
+                getPaymentAccountSummary(res);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: res.response.msg,
+                    text: "查詢失敗，請重試。如有問題請聯繫豐趣"
+                });
+            }
+
+        })
+        .catch(error => {
+            console.error("Error fetching form:", error);
+        });
+}
+
+
+//查詢帳戶資訊顯示
+function getPaymentAccountSummary(res) {
+
+    const paymentSettingData = res.result.paymentSettingData;
+    const result = res.result;
+    let handlingChargeRate = result.handlingChargeRate * 100; // 將手續費率轉換為百分比
+    let formattedPercentage = handlingChargeRate.toFixed(2); // 限制小數位數為兩位
+
+    let htmlString = `
+            <br><br><br><br><br><br>
+            <div class="row d-flex justify-content-center" style="color: black;">
+                <div>
+                    <p style="color: #EA7500;"><strong>金流提供商: <span id="provider">${paymentSettingData.金流提供商}</span></strong></p>
+                    <p><strong>金流模式:</strong> <span id="mode">${paymentSettingData.金流模式}</span></p>
+                    <p><strong>金流類型:</strong> <span id="type">${paymentSettingData.金流類型}</span></p>
+                    <p><strong>請款模式:</strong> <span id="paymentConfirmMode">${paymentSettingData.請款模式}</span></p>
+                    <p><strong>退款模式:</strong> <span id="paymentRefundMode">${paymentSettingData.退款模式}</span></p>
+                    <p style="color: green;"><strong>狀態:</strong> <span id="status">${paymentSettingData.狀態}</span></p>
+                    <p><strong>請款送出時間:</strong> <span id="paymentConfirmRequestTime">${paymentSettingData.請款送出時間}</span></p>
+                    <p><strong>請款確認時間:</strong> <span id="paymentConfirmTime">${paymentSettingData.請款確認時間}</span></p>
+                    <p><strong>手續費率:</strong> <span id="handlingChargeRate">${formattedPercentage} %</span></p>
+                </div>
+                `;
+    Swal.fire({
+        title: "",
+        html: htmlString,
+        width: 600,
+        padding: '3em',
+        // color: '#FFE6D9',
+        background: "url(images/backOrder.png)",
+        backdrop: `
+                  rgba(236, 236, 255, 0.2)
+                  no-repeat
+                `
+    })
+}
+
+
+
 //查看訂單詳情fetch
 function getOrderDetailByOrdNo(ordNo) {
     fetch(config.url + "/manager/getOrders/" + ordNo, {
@@ -231,64 +345,64 @@ function getOrderDetailByOrdNo(ordNo) {
             'Content-Type': 'application/json'
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        // 處理api
-        if (data.code === 200) {
-            
-            const orderDetail = data.message;
-            // console.log("訂單詳情:", orderDetail);
+        .then(response => response.json())
+        .then(data => {
+            // 處理api
+            if (data.code === 200) {
 
-           // 假設 orderDetail[0].ordFinish 是包含日期和時間的陣列
-            const ordFinishArray = orderDetail[0].ordFinish;
-            // 依次取出陣列中的年、月、日、時、分
-            const year = ordFinishArray[0];
-            const month = ordFinishArray[1];
-            const day = ordFinishArray[2];
-            const hour = ordFinishArray[3];
-            const minute = ordFinishArray[4];
-            
-            // 使用 JavaScript 的 Date 類別建立日期物件
-            const ordFinishDate = new Date(year, month - 1, day, hour, minute);
-            let formattedOrdFinish;
-            // 使用 Date 物件的方法取得格式化的日期和時間
-            if(year == 1970){
-                formattedOrdFinish = "此訂單尚未完成付款";
-            }else{
-                formattedOrdFinish = ordFinishDate.toLocaleString();
-            }
+                const orderDetail = data.message;
+                // console.log("訂單詳情:", orderDetail);
 
-            //定義訂單狀態
-            const ordStatusMap = {
-                0 : "未出貨",
-                1 : "已出貨",
-                2 : "已到貨",
-                3 : "退貨申請",
-                4 : "退貨成功",
-                5 : "訂單完成",
-                6 : "訂單取消"
-            }
-            const orderStatus = ordStatusMap[orderDetail[0].ordStatus];
-            //定義付款狀態
-            const ordPayStatusMap = {
-                0 : "未付款",
-                1 : "已付款"
-            }
-            const orderPayStatus = ordPayStatusMap[orderDetail[0].ordPayStatus];
-            //定義取貨方式
-            const ordPickMap ={
-                0 : "店面取貨",
-                1 : "超商取貨",
-                2 : "宅配到府"
-            }
-            const orderPick = ordPickMap[orderDetail[0].ordPick];
-            //定義評價狀態
-            const evaluateStatusMap = {
-                0 : "未評價",
-                1 : "已評價"
-            }
-            const orderEvaluateStatus = evaluateStatusMap[orderDetail[0].evaluateStatus];
-            let htmlString = `
+                // 假設 orderDetail[0].ordFinish 是包含日期和時間的陣列
+                const ordFinishArray = orderDetail[0].ordFinish;
+                // 依次取出陣列中的年、月、日、時、分
+                const year = ordFinishArray[0];
+                const month = ordFinishArray[1];
+                const day = ordFinishArray[2];
+                const hour = ordFinishArray[3];
+                const minute = ordFinishArray[4];
+
+                // 使用 JavaScript 的 Date 類別建立日期物件
+                const ordFinishDate = new Date(year, month - 1, day, hour, minute);
+                let formattedOrdFinish;
+                // 使用 Date 物件的方法取得格式化的日期和時間
+                if (year == 1970) {
+                    formattedOrdFinish = "此訂單尚未完成付款";
+                } else {
+                    formattedOrdFinish = ordFinishDate.toLocaleString();
+                }
+
+                //定義訂單狀態
+                const ordStatusMap = {
+                    0: "未出貨",
+                    1: "已出貨",
+                    2: "已到貨",
+                    3: "退貨申請",
+                    4: "退貨成功",
+                    5: "訂單完成",
+                    6: "訂單取消"
+                }
+                const orderStatus = ordStatusMap[orderDetail[0].ordStatus];
+                //定義付款狀態
+                const ordPayStatusMap = {
+                    0: "未付款",
+                    1: "已付款"
+                }
+                const orderPayStatus = ordPayStatusMap[orderDetail[0].ordPayStatus];
+                //定義取貨方式
+                const ordPickMap = {
+                    0: "店面取貨",
+                    1: "超商取貨",
+                    2: "宅配到府"
+                }
+                const orderPick = ordPickMap[orderDetail[0].ordPick];
+                //定義評價狀態
+                const evaluateStatusMap = {
+                    0: "未評價",
+                    1: "已評價"
+                }
+                const orderEvaluateStatus = evaluateStatusMap[orderDetail[0].evaluateStatus];
+                let htmlString = `
             <br><br><br>
             <div class="row d-flex justify-content-center" style="color: black;">
                 <div>
@@ -308,43 +422,43 @@ function getOrderDetailByOrdNo(ordNo) {
                 </div>
                 `;
 
-            // 填充訂單詳細清單
-            htmlString += `<h4 style="color: #AD5A5A;"><strong>購買商品清單</strong></h4>`;
-            htmlString += `<table border="1">
+                // 填充訂單詳細清單
+                htmlString += `<h4 style="color: #AD5A5A;"><strong>購買商品清單</strong></h4>`;
+                htmlString += `<table border="1">
                 <tr  style="justify-content: center;">
                     <th>商品名稱</th>
                     <th>數量</th>
                     <th>價格</th>
                 </tr>`;
 
-            orderDetail[0].detailList.forEach((item) => {
-            htmlString += `
+                orderDetail[0].detailList.forEach((item) => {
+                    htmlString += `
                 <tr style="justify-content: center;">
                     <td>${item.pdName}</td>
                     <td>${item.qty}</td>
                     <td>${item.price} 元</td>
                 </tr>`;
-            });
-            
-            htmlString += `</table>`;
+                });
 
-            Swal.fire({
-                title: "",
-                html:htmlString,
-                width: 600,
-                padding: '3em',
-                // color: '#FFE6D9',
-                background: "url(images/backOrder.png)",
-                backdrop: `
+                htmlString += `</table>`;
+
+                Swal.fire({
+                    title: "",
+                    html: htmlString,
+                    width: 600,
+                    padding: '3em',
+                    // color: '#FFE6D9',
+                    background: "url(images/backOrder.png)",
+                    backdrop: `
                   rgba(236, 236, 255, 0.2)
                   no-repeat
                 `
-              })
-            // 在这里可以将详细信息显示给用户或执行其他操作
-        } else {
-            console.error("獲取訂單訊息失敗:", data);
-        }
-    })
+                })
+                // 在这里可以将详细信息显示给用户或执行其他操作
+            } else {
+                console.error("獲取訂單訊息失敗:", data);
+            }
+        })
 }
 
 
@@ -361,20 +475,20 @@ function updateOrder(ordNo) {
             'Content-Type': 'application/json'
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        // 在这里处理从后端获取的订单详细信息
-        if (data.code === 200) {
-            const orderDetail = data.message[0]; // 取第一個
-            fillDataInModal(orderDetail);
-        } else {
-            Swal.fire("獲取失敗:" + data);
-            console.error('获取订单详细信息失败:', data);
-        }
-    })
-    .catch(error => {
-        Swal.fire("錯誤:" + error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            // 在这里处理从后端获取的订单详细信息
+            if (data.code === 200) {
+                const orderDetail = data.message[0]; // 取第一個
+                fillDataInModal(orderDetail);
+            } else {
+                Swal.fire("獲取失敗:" + data);
+                console.error('获取订单详细信息失败:', data);
+            }
+        })
+        .catch(error => {
+            Swal.fire("錯誤:" + error);
+        });
 }
 
 // 把詳細資訊填到modal中
@@ -400,7 +514,7 @@ confirmUpdateEl.addEventListener("click", function (params) {
 
     //傳給後端的json
     const requestData = {
-        ordNo: ordNo, 
+        ordNo: ordNo,
         ordStatus: orderStatus,
         recipientName: recipientName,
         recipientAddress: recipientAddress,
@@ -415,22 +529,22 @@ confirmUpdateEl.addEventListener("click", function (params) {
         },
         body: JSON.stringify(requestData)
     })
-    .then(response => response.json())
-    .then(data => {
-        // 处理后端返回的数据
-        if (data.code === 200) {
-            // 更新前端页面上的订单信息，这里可以根据需要刷新整个表格或仅更新某一行
-            // 更新成功的处理逻辑
-            Swal.fire(data.message);
-            updateDataTableWithNewData();
-        } else {
-            // 更新失败的处理逻辑
-            Swal.fire(data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error updating order:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            // 处理后端返回的数据
+            if (data.code === 200) {
+                // 更新前端页面上的订单信息，这里可以根据需要刷新整个表格或仅更新某一行
+                // 更新成功的处理逻辑
+                Swal.fire(data.message);
+                updateDataTableWithNewData();
+            } else {
+                // 更新失败的处理逻辑
+                Swal.fire(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating order:', error);
+        });
 
     // 关闭模态框
     $('#updateModal').modal('hide');
@@ -461,7 +575,7 @@ function deleteOrder(ordNo, ordStatus, clickedButton) {
         if (result.isConfirmed) {
             // 用户点击了"確定刪除"按钮，执行删除操作
             if (ordStatus === 6) {
-                
+
                 fetch(config.url + `/manager/deleteOrders/${ordNo}`, {
                     method: 'DELETE',
                     headers: {
@@ -469,24 +583,24 @@ function deleteOrder(ordNo, ordStatus, clickedButton) {
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(response => {
-                    if (response.ok) {
-                        // 请求成功，处理响应
-                        return response.json();
-                    } else {
-                        throw new Error('刪除失敗');
-                    }
-                })
-                .then(data => {
-                    // 删除成功后的处理逻辑
-                    Swal.fire(data.message);
-                    table.row($(clickedButton).closest('tr')).remove().draw();
-                    
-                })
-                .catch(error => {
-                    // 捕获网络请求错误或处理响应中的错误
-                    console.error('刪除失敗:', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            // 请求成功，处理响应
+                            return response.json();
+                        } else {
+                            throw new Error('刪除失敗');
+                        }
+                    })
+                    .then(data => {
+                        // 删除成功后的处理逻辑
+                        Swal.fire(data.message);
+                        table.row($(clickedButton).closest('tr')).remove().draw();
+
+                    })
+                    .catch(error => {
+                        // 捕获网络请求错误或处理响应中的错误
+                        console.error('刪除失敗:', error);
+                    });
             } else {
                 // 订单状态不是6，无法删除
                 Swal.fire({

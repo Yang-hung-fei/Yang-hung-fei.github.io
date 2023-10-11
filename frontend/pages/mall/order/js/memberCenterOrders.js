@@ -3,7 +3,7 @@ let dataTable; // 將 dataTable 定義在函數之外
 let selectedRow;
 //Header Token
 const token = localStorage.getItem("Authorization_U");
-const callbackUrl = "https://3a71-111-248-19-109.ngrok-free.app";
+const callbackUrl = "https://aa8e-111-248-19-109.ngrok-free.app";
 const localhost5502 = "http://localhost:5502";
 // 在頁面載入時調用此函數
 document.addEventListener('DOMContentLoaded', function () {
@@ -169,7 +169,7 @@ function fetchUserOrders() {
                             }
                         },
                         {
-                            title: '刪除訂單',
+                            title: '取消訂單',
                             data: null, // 这里我们使用 null，因为这一列不需要从数据源中获取数据
                             render: function (data, type, row) {
                                 if (type === 'display') {
@@ -276,12 +276,12 @@ function fetchUserOrders() {
 
                         Swal.fire({
                             title: '請確認',
-                            text: '刪除這筆訂單嗎!?',
+                            text: '取消並刪除這筆訂單嗎!?',
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#d33',
                             cancelButtonColor: '#3085d6',
-                            confirmButtonText: '確定刪除'
+                            confirmButtonText: '確定取消'
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 // 點擊確定 刪除!
@@ -335,8 +335,8 @@ function fetchUserOrders() {
                         });
                     } else {
                         Swal.fire({
-                            title: '無法刪除',
-                            text: '此訂單已付款完成，無法刪除，若要刪除請聯絡管理員',
+                            title: '無法取消',
+                            text: '此訂單已付款完成，無法取消，若要刪除請聯絡管理員',
                             icon: 'error',
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: '了解'
